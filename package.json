@@ -4,18 +4,23 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build --turbopack",
+    "build": "prisma generate && next build",
     "start": "next start",
     "lint": "eslint",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "create-admin": "tsx scripts/create-admin.ts"
+    "create-admin": "tsx scripts/create-admin.ts",
+    "postinstall": "prisma generate",
+    "db:migrate": "prisma migrate deploy",
+    "db:push": "prisma db push",
+    "db:studio": "prisma studio"
   },
   "dependencies": {
     "@anthropic-ai/claude-code": "^2.0.1",
     "@anthropic-ai/sdk": "^0.65.0",
     "@prisma/client": "^6.16.3",
+    "@stripe/stripe-js": "^8.0.0",
     "bcryptjs": "^3.0.2",
     "express": "^5.1.0",
     "jspdf": "^3.0.3",
@@ -26,7 +31,8 @@
     "prisma": "^6.16.3",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "recharts": "^3.2.1"
+    "recharts": "^3.2.1",
+    "stripe": "^19.0.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

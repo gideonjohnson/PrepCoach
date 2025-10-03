@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Anthropic from '@anthropic-ai/sdk';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '../auth/[...nextauth]/route';
 
 // Check if API key is configured
 if (!process.env.ANTHROPIC_API_KEY || process.env.ANTHROPIC_API_KEY === 'your_anthropic_api_key_here') {
@@ -14,6 +16,43 @@ const anthropic = new Anthropic({
 
 export async function POST(request: NextRequest) {
   try {
+    // Check authentication
+    const session = await getServerSession(authOptions);
+
+    if (!session?.user?.id) {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401 }
+      );
+    }
+
+    // Check subscription limits
+    try {
+      const baseUrl = process.env.NEXTAUTH_URL || 'http://localhost:3000';
+      const limitsResponse = await fetch(`${baseUrl}/api/user/check-limits?feature=feedback`, {
+        headers: {
+          'Cookie': request.headers.get('cookie') || '',
+        },
+      });
+
+      if (limitsResponse.ok) {
+        const limitsData = await limitsResponse.json();
+        if (!limitsData.allowed) {
+          return NextResponse.json(
+            {
+              error: 'Subscription limit reached',
+              message: limitsData.reason || 'You have reached your feedback limit for this month. Please upgrade to continue.',
+              code: 'limit_reached'
+            },
+            { status: 403 }
+          );
+        }
+      }
+    } catch (error) {
+      console.error('Error checking limits:', error);
+      // Continue even if limit check fails to avoid blocking users
+    }
+
     // Check API key
     if (!process.env.ANTHROPIC_API_KEY || process.env.ANTHROPIC_API_KEY === 'your_anthropic_api_key_here') {
       return NextResponse.json(
@@ -74,6 +113,22 @@ Be constructive, specific, and actionable. Focus on helping the candidate improv
     });
 
     const feedback = message.content[0].type === 'text' ? message.content[0].text : '';
+
+    // Increment feedback usage counter
+    try {
+      const baseUrl = process.env.NEXTAUTH_URL || 'http://localhost:3000';
+      await fetch(`${baseUrl}/api/user/increment-usage`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Cookie': request.headers.get('cookie') || '',
+        },
+        body: JSON.stringify({ feature: 'feedback' })
+      });
+    } catch (error) {
+      console.error('Error incrementing feedback usage:', error);
+      // Don't block the response if usage tracking fails
+    }
 
     return NextResponse.json({ feedback });
   } catch (error: any) {

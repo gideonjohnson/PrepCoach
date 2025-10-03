@@ -1,12 +1,13 @@
 'use client';
 
 import { useState, useEffect, Suspense } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { useAudioRecorder } from './useAudioRecorder';
 import { useTextToSpeech } from './useTextToSpeech';
 import AIAvatar from './AIAvatar';
 import { roles, categories, type Role } from './roles';
 import { getQuestionsForRole } from './questions';
+import Link from 'next/link';
 
 type Step = 'role-selection' | 'interview';
 
@@ -19,6 +20,7 @@ interface ResumeSession {
 
 function PracticeContent() {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const resumeSessionId = searchParams.get('resume');
 
   const [step, setStep] = useState<Step>('role-selection');
@@ -27,6 +29,8 @@ function PracticeContent() {
   const [selectedLevel, setSelectedLevel] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [resumeData, setResumeData] = useState<ResumeSession | null>(null);
+  const [showLimitModal, setShowLimitModal] = useState(false);
+  const [limitMessage, setLimitMessage] = useState('');
 
   // Check if we need to resume a session
   useEffect(() => {
@@ -70,10 +74,36 @@ function PracticeContent() {
     }
   }, [resumeSessionId]);
 
-  const handleRoleSelect = (role: Role) => {
+  const handleRoleSelect = async (role: Role) => {
+    // Check if user can start a new interview
+    try {
+      const response = await fetch('/api/user/check-limits?feature=interview');
+      if (response.ok) {
+        const data = await response.json();
+        if (!data.allowed) {
+          setLimitMessage(data.reason || 'You have reached your interview limit for this month.');
+          setShowLimitModal(true);
+          return;
+        }
+      }
+    } catch (error) {
+      console.error('Error checking limits:', error);
+    }
+
     setSelectedRole(role);
     setResumeData(null); // Clear resume data when starting fresh
     setStep('interview');
+
+    // Increment interview counter
+    try {
+      await fetch('/api/user/increment-usage', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ feature: 'interview' })
+      });
+    } catch (error) {
+      console.error('Error incrementing usage:', error);
+    }
   };
 
   // Get unique levels from roles
@@ -320,6 +350,37 @@ function PracticeContent() {
             </div>
           )}
         </div>
+
+        {/* Limit Reached Modal */}
+        {showLimitModal && (
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 animate-slideUp">
+              <div className="text-center mb-6">
+                <div className="w-16 h-16 bg-gradient-to-r from-orange-500 to-red-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                  </svg>
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">Limit Reached</h3>
+                <p className="text-gray-600 mb-6">{limitMessage}</p>
+              </div>
+
+              <div className="space-y-3">
+                <Link href="/pricing">
+                  <button className="w-full px-6 py-3 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-lg font-semibold hover:shadow-lg transition transform hover:scale-105">
+                    Upgrade to Pro
+                  </button>
+                </Link>
+                <button
+                  onClick={() => setShowLimitModal(false)}
+                  className="w-full px-6 py-3 bg-gray-200 text-gray-800 rounded-lg font-semibold hover:bg-gray-300 transition"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     );
   }
@@ -427,7 +488,13 @@ function InterviewSession({
       if (!response.ok) {
         let errorMessage = 'Failed to analyze response. Please try again.';
 
-        if (data.code === 'quota_exceeded') {
+        if (data.code === 'limit_reached') {
+          // Show upgrade modal for subscription limits
+          if (confirm(data.message + '\n\nWould you like to upgrade to Pro for unlimited feedback?')) {
+            window.location.href = '/pricing';
+          }
+          return;
+        } else if (data.code === 'quota_exceeded') {
           errorMessage = `API Quota Exceeded\n\n${data.message}`;
         } else if (data.code === 'rate_limit') {
           errorMessage = `Rate Limit Exceeded\n\n${data.message}`;

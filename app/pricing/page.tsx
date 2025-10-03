@@ -2,12 +2,46 @@
 
 import { useState } from 'react';
 import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { PRICING_TIERS } from '@/lib/pricing';
 
 export default function PricingPage() {
   const { data: session } = useSession();
+  const router = useRouter();
   const [billingInterval, setBillingInterval] = useState<'month' | 'year'>('month');
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleUpgrade = async (tier: 'pro' | 'enterprise') => {
+    if (!session) {
+      router.push('/auth/signin');
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const response = await fetch('/api/stripe/create-checkout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ tier }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.url) {
+        window.location.href = data.url;
+      } else {
+        alert(data.message || 'Failed to create checkout session. Please try again.');
+        setIsLoading(false);
+      }
+    } catch (error) {
+      console.error('Upgrade error:', error);
+      alert('An error occurred. Please try again.');
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-purple-50 via-white to-blue-50">
@@ -99,11 +133,13 @@ export default function PricingPage() {
                 </li>
               ))}
             </ul>
-            <Link href="/auth/signup">
-              <button className="w-full px-6 py-3 bg-white text-orange-600 rounded-lg font-semibold hover:bg-orange-50 transition">
-                Start Pro Trial
-              </button>
-            </Link>
+            <button
+              onClick={() => handleUpgrade('pro')}
+              disabled={isLoading}
+              className="w-full px-6 py-3 bg-white text-orange-600 rounded-lg font-semibold hover:bg-orange-50 transition disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isLoading ? 'Processing...' : session ? 'Upgrade to Pro' : 'Start Pro Trial'}
+            </button>
           </div>
 
           {/* Enterprise Tier */}
@@ -125,11 +161,13 @@ export default function PricingPage() {
                 </li>
               ))}
             </ul>
-            <Link href="/auth/signup">
-              <button className="w-full px-6 py-3 bg-gradient-to-r from-purple-600 to-purple-700 text-white rounded-lg font-semibold hover:from-purple-700 hover:to-purple-800 transition">
-                Contact Sales
-              </button>
-            </Link>
+            <button
+              onClick={() => handleUpgrade('enterprise')}
+              disabled={isLoading}
+              className="w-full px-6 py-3 bg-gradient-to-r from-purple-600 to-purple-700 text-white rounded-lg font-semibold hover:from-purple-700 hover:to-purple-800 transition disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isLoading ? 'Processing...' : session ? 'Upgrade to Enterprise' : 'Get Enterprise'}
+            </button>
           </div>
         </div>
 
