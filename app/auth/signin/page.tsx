@@ -40,6 +40,17 @@ export default function SignInPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-purple-50 via-white to-blue-50 flex items-center justify-center px-4">
       <div className="max-w-md w-full">
+        {/* Back to Home Button */}
+        <Link
+          href="/"
+          className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-6 font-medium transition-colors"
+        >
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </svg>
+          Back to Home
+        </Link>
+
         {/* Logo/Header */}
         <div className="text-center mb-8">
           <Link href="/">
@@ -47,7 +58,7 @@ export default function SignInPage() {
               PrepCoach
             </h1>
           </Link>
-          <p className="text-gray-600">Sign in to your account</p>
+          <p className="text-gray-600">Welcome back! Sign in to continue</p>
         </div>
 
         {/* Sign In Form */}

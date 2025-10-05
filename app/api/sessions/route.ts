@@ -89,7 +89,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const answeredQuestions = responses?.filter((r: any) => r.audioURL).length || 0;
+    const answeredQuestions = responses?.filter((r: any) => r && r.audioURL).length || 0;
     const completionRate = Math.round((answeredQuestions / totalQuestions) * 100);
 
     const interviewSession = await prisma.interviewSession.create({
