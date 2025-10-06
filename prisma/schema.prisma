@@ -38,6 +38,7 @@ model User {
 
   sessions      InterviewSession[]
   accounts      Account[]
+  resumes       Resume[]
 }
 
 model Account {
@@ -95,3 +96,51 @@ model Response {
 
   @@index([sessionId])
 }
+
+model Resume {
+  id        String   @id @default(cuid())
+  userId    String
+  title     String   @default("My Resume")
+  template  String   @default("modern") // modern, professional, creative, minimal
+
+  // Personal Information
+  fullName     String
+  email        String
+  phone        String?
+  location     String?
+  linkedin     String?
+  github       String?
+  website      String?
+  summary      String?
+
+  // Experience (JSON array)
+  experience   String   @default("[]") // JSON array of work experiences
+
+  // Education (JSON array)
+  education    String   @default("[]") // JSON array of education entries
+
+  // Skills (JSON array)
+  skills       String   @default("[]") // JSON array of skills
+
+  // Projects (JSON array)
+  projects     String   @default("[]") // JSON array of projects
+
+  // Certifications (JSON array)
+  certifications String @default("[]") // JSON array of certifications
+
+  // AI-generated content
+  aiOptimized  Boolean  @default(false)
+  aiSuggestions String? // JSON array of AI suggestions
+
+  // Metadata
+  isPublic     Boolean  @default(false)
+  isPrimary    Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([isPrimary])
+}
+

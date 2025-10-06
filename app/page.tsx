@@ -25,6 +25,7 @@ export default function Home() {
             <div className="hidden md:flex items-center space-x-8">
               <a href="#features" className="text-gray-600 hover:text-gray-900 transition">Features</a>
               <a href="#how-it-works" className="text-gray-600 hover:text-gray-900 transition">How It Works</a>
+              <Link href="/resume-builder" className="text-gray-600 hover:text-gray-900 transition">Resume Builder</Link>
               <Link href="/pricing" className="text-gray-600 hover:text-gray-900 transition">Pricing</Link>
               <Link href="/dashboard" className="text-gray-600 hover:text-gray-900 transition">Dashboard</Link>
               {session ? (
