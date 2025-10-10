@@ -5,6 +5,8 @@ import { useSession, signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { PRICING_TIERS } from '@/lib/pricing';
+import Header from '../components/Header';
+import Breadcrumbs from '../components/Breadcrumbs';
 
 interface UserProfile {
   name: string;
@@ -99,30 +101,23 @@ export default function ProfilePage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-purple-50 via-white to-blue-50">
-      {/* Header */}
-      <div className="bg-white/80 backdrop-blur-sm border-b border-gray-200 shadow-md">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex items-center justify-between">
-            <Link
-              href="/dashboard"
-              className="flex items-center gap-2 text-gray-600 hover:text-gray-900 font-semibold transition-colors"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-              </svg>
-              Back to Dashboard
-            </Link>
-            <button
-              onClick={() => signOut()}
-              className="px-4 py-2 bg-gray-200 text-gray-800 rounded-full text-sm font-semibold hover:bg-gray-300 transition"
-            >
-              Sign Out
-            </button>
-          </div>
-        </div>
-      </div>
+      <Header />
 
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <Breadcrumbs />
+
+        {/* Quick Navigation Links */}
+        <div className="mb-6">
+          <Link
+            href="/dashboard"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-white border-2 border-gray-200 text-gray-700 rounded-lg text-sm font-semibold hover:bg-gray-50 transition-all"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+            Back to Dashboard
+          </Link>
+        </div>
         {/* Profile Header */}
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-600 via-orange-500 to-red-500 bg-clip-text text-transparent mb-2">
@@ -151,31 +146,37 @@ export default function ProfilePage() {
               <div>
                 <p className="text-orange-100 text-sm mb-1">Interviews This Month</p>
                 <p className="text-3xl font-bold">
-                  {profile.interviewsThisMonth}
-                  {profile.subscriptionTier !== 'free' && ' / Unlimited'}
-                  {profile.subscriptionTier === 'free' && ` / ${PRICING_TIERS.free.limits.interviewsPerMonth}`}
+                  {profile.interviewsThisMonth} / Unlimited
                 </p>
               </div>
               <div>
                 <p className="text-orange-100 text-sm mb-1">AI Feedback This Month</p>
                 <p className="text-3xl font-bold">
-                  {profile.feedbackThisMonth}
-                  {profile.subscriptionTier !== 'free' && ' / Unlimited'}
-                  {profile.subscriptionTier === 'free' && ` / ${PRICING_TIERS.free.limits.feedbackPerMonth}`}
+                  {profile.feedbackThisMonth} / Unlimited
                 </p>
               </div>
             </div>
-            {profile.subscriptionTier === 'free' && (
-              <Link href="/pricing">
-                <button className="w-full px-6 py-3 bg-white text-orange-600 rounded-lg font-semibold hover:bg-orange-50 transition">
-                  Upgrade to Pro for Unlimited Access
-                </button>
-              </Link>
+            {profile.subscriptionTier !== 'free' && profile.subscriptionTier !== 'lifetime' && (
+              <div className="space-y-3">
+                {profile.subscriptionEnd && (
+                  <p className="text-orange-100 text-sm">
+                    Renews on {new Date(profile.subscriptionEnd).toLocaleDateString()}
+                  </p>
+                )}
+                <Link href="/pricing">
+                  <button className="w-full px-6 py-3 bg-white/20 backdrop-blur-sm text-white rounded-lg font-semibold hover:bg-white/30 transition">
+                    Manage Subscription
+                  </button>
+                </Link>
+              </div>
             )}
-            {profile.subscriptionEnd && (
-              <p className="text-orange-100 text-sm mt-4">
-                Renews on {new Date(profile.subscriptionEnd).toLocaleDateString()}
-              </p>
+            {profile.subscriptionTier === 'lifetime' && (
+              <div className="mt-4 flex items-center gap-2 text-orange-100">
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                </svg>
+                <span className="text-sm font-semibold">Lifetime Access - No billing</span>
+              </div>
             )}
           </div>
         )}

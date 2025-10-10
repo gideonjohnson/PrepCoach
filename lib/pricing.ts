@@ -2,18 +2,17 @@ export const PRICING_TIERS = {
   free: {
     name: 'Free',
     price: 0,
-    interval: 'forever',
+    interval: 'month',
     features: [
-      '5 interview sessions per month',
-      '10 AI feedback requests per month',
-      'Access to all 350+ roles',
+      '3 interview sessions per month',
+      '5 AI feedback requests per month',
+      'Access to all 500+ roles',
       'Audio recording & transcription',
-      'Basic analytics dashboard',
-      'Export results to CSV'
+      'Basic analytics',
     ],
     limits: {
-      interviewsPerMonth: 5,
-      feedbackPerMonth: 10,
+      interviewsPerMonth: 3,
+      feedbackPerMonth: 5,
     }
   },
   pro: {
@@ -23,16 +22,17 @@ export const PRICING_TIERS = {
     features: [
       'Unlimited interview sessions',
       'Unlimited AI feedback',
-      'Access to all 350+ roles',
+      'Access to all 500+ roles',
       'Audio recording & transcription',
       'Advanced analytics & insights',
       'Export to PDF & CSV',
       'Priority support',
+      'AI Resume Builder',
       'Custom role creation (coming soon)'
     ],
     limits: {
       interviewsPerMonth: -1, // unlimited
-      feedbackPerMonth: -1, // unlimited
+      feedbackPerMonth: -1, // unlimited,
     }
   },
   enterprise: {
@@ -54,6 +54,29 @@ export const PRICING_TIERS = {
       feedbackPerMonth: -1, // unlimited
       teamMembers: 10
     }
+  },
+  lifetime: {
+    name: 'Lifetime Pro',
+    price: 0,
+    interval: 'lifetime',
+    features: [
+      '🎉 LIFETIME ACCESS - No expiration!',
+      'Unlimited interview sessions forever',
+      'Unlimited AI feedback forever',
+      'Access to all 350+ roles',
+      'Audio recording & transcription',
+      'Advanced analytics & insights',
+      'Export to PDF & CSV',
+      'Priority support',
+      'All future features included',
+      'Celebrity AI interviewers',
+      'ATS resume optimization',
+      'Resume builder with AI'
+    ],
+    limits: {
+      interviewsPerMonth: -1, // unlimited
+      feedbackPerMonth: -1, // unlimited
+    }
   }
 } as const;
 
@@ -65,7 +88,9 @@ export function canUseFeature(
   feedbackThisMonth: number,
   feature: 'interview' | 'feedback'
 ): { allowed: boolean; reason?: string } {
-  const limits = PRICING_TIERS[tier].limits;
+  // Default to pro if tier is undefined or invalid
+  const validTier = PRICING_TIERS[tier as keyof typeof PRICING_TIERS] ? tier : 'pro';
+  const limits = PRICING_TIERS[validTier].limits;
 
   if (feature === 'interview') {
     if (limits.interviewsPerMonth === -1) {

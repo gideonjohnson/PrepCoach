@@ -2880,6 +2880,1722 @@ export const roles: Role[] = [
     level: 'Senior',
     description: 'Lead M&A strategy, evaluate acquisition targets, negotiate deals, and integrate acquired companies.',
     category: 'Finance'
+  },
+  // Additional Technology Roles
+  {
+    id: '342',
+    title: 'iOS Engineer',
+    company: 'Apple',
+    level: 'Mid-Level',
+    description: 'Develop native iOS applications using Swift and SwiftUI, implement new features, optimize performance, and collaborate with design teams to create exceptional user experiences.',
+    category: 'Technology'
+  },
+  {
+    id: '343',
+    title: 'Android Engineer',
+    company: 'Google',
+    level: 'Mid-Level',
+    description: 'Build Android applications using Kotlin and Jetpack Compose, implement Material Design principles, and ensure compatibility across diverse devices and Android versions.',
+    category: 'Technology'
+  },
+  {
+    id: '344',
+    title: 'QA Engineer',
+    company: 'Netflix',
+    level: 'Entry-Level',
+    description: 'Create automated test suites, perform manual testing, identify bugs, write detailed test cases, and ensure quality standards across web and mobile applications.',
+    category: 'Technology'
+  },
+  {
+    id: '345',
+    title: 'Engineering Manager',
+    company: 'Stripe',
+    level: 'Lead',
+    description: 'Lead a team of 8-12 engineers, drive technical strategy, conduct performance reviews, remove blockers, and ensure timely delivery of critical payment infrastructure features.',
+    category: 'Technology'
+  },
+  {
+    id: '346',
+    title: 'Chief Technology Officer',
+    company: 'SpaceX',
+    level: 'Executive',
+    description: 'Define technology vision and strategy, oversee engineering operations, lead innovation in aerospace software systems, and build world-class engineering teams.',
+    category: 'Technology'
+  },
+  {
+    id: '347',
+    title: 'Technical Writer',
+    company: 'Microsoft',
+    level: 'Mid-Level',
+    description: 'Create comprehensive technical documentation, API references, developer guides, tutorials, and ensure documentation quality for enterprise software products.',
+    category: 'Technology'
+  },
+  {
+    id: '348',
+    title: 'Solutions Architect',
+    company: 'Amazon Web Services',
+    level: 'Senior',
+    description: 'Design cloud architecture solutions for enterprise clients, provide technical guidance, conduct workshops, and help customers optimize their AWS infrastructure.',
+    category: 'Technology'
+  },
+  {
+    id: '349',
+    title: 'Data Engineer',
+    company: 'Airbnb',
+    level: 'Mid-Level',
+    description: 'Build and maintain data pipelines, optimize data warehouse performance, implement ETL processes, and ensure data quality for analytics and machine learning teams.',
+    category: 'Technology'
+  },
+  {
+    id: '350',
+    title: 'Site Reliability Engineer',
+    company: 'Google',
+    level: 'Senior',
+    description: 'Maintain system reliability and uptime, automate infrastructure operations, implement monitoring and alerting, and lead incident response for critical production systems.',
+    category: 'Technology'
+  },
+  {
+    id: '351',
+    title: 'DevOps Engineer',
+    company: 'GitLab',
+    level: 'Mid-Level',
+    description: 'Build CI/CD pipelines, manage Kubernetes clusters, automate deployment processes, implement infrastructure as code, and improve developer productivity.',
+    category: 'Technology'
+  },
+  // Data Science Roles
+  {
+    id: '352',
+    title: 'ML Ops Engineer',
+    company: 'Meta',
+    level: 'Senior',
+    description: 'Deploy machine learning models to production, build ML infrastructure, implement model monitoring and retraining pipelines, and ensure scalability of ML systems.',
+    category: 'Data Science'
+  },
+  {
+    id: '353',
+    title: 'Research Scientist',
+    company: 'OpenAI',
+    level: 'Senior',
+    description: 'Conduct cutting-edge AI research, publish papers, develop novel algorithms, collaborate with engineering teams to productionize research, and advance the field of artificial intelligence.',
+    category: 'Data Science'
+  },
+  {
+    id: '354',
+    title: 'Analytics Manager',
+    company: 'Spotify',
+    level: 'Lead',
+    description: 'Lead analytics team, define KPIs and metrics strategy, provide data-driven insights to leadership, mentor analysts, and drive data culture across the organization.',
+    category: 'Data Science'
+  },
+  {
+    id: '355',
+    title: 'Business Intelligence Analyst',
+    company: 'Salesforce',
+    level: 'Mid-Level',
+    description: 'Create dashboards and reports, analyze business metrics, identify trends and insights, work with stakeholders to define reporting requirements, and present findings to leadership.',
+    category: 'Data Science'
+  },
+  {
+    id: '356',
+    title: 'Data Scientist',
+    company: 'Uber',
+    level: 'Entry-Level',
+    description: 'Analyze user behavior data, build predictive models, conduct A/B tests, create visualizations, and support data-driven decision making for product and business teams.',
+    category: 'Data Science'
+  },
+  {
+    id: '357',
+    title: 'Computer Vision Engineer',
+    company: 'Tesla',
+    level: 'Senior',
+    description: 'Develop computer vision algorithms for autonomous driving, train neural networks for object detection and segmentation, optimize model performance, and work with sensor fusion teams.',
+    category: 'Data Science'
+  },
+  {
+    id: '358',
+    title: 'NLP Engineer',
+    company: 'Amazon',
+    level: 'Mid-Level',
+    description: 'Build natural language processing models, implement text classification and entity recognition systems, improve Alexa conversation understanding, and optimize model accuracy.',
+    category: 'Data Science'
+  },
+  // Product Roles
+  {
+    id: '359',
+    title: 'Product Designer',
+    company: 'Figma',
+    level: 'Mid-Level',
+    description: 'Design end-to-end user experiences, create high-fidelity mockups and prototypes, conduct user research, collaborate with engineers and PMs, and maintain design systems.',
+    category: 'Product'
+  },
+  {
+    id: '360',
+    title: 'Growth Product Manager',
+    company: 'Dropbox',
+    level: 'Senior',
+    description: 'Drive user acquisition and retention, run growth experiments, analyze funnel metrics, optimize conversion rates, and develop viral growth features.',
+    category: 'Product'
+  },
+  {
+    id: '361',
+    title: 'Platform Product Manager',
+    company: 'Stripe',
+    level: 'Senior',
+    description: 'Define API strategy and roadmap, work with developer ecosystem, gather feedback from external developers, prioritize platform features, and drive API adoption.',
+    category: 'Product'
+  },
+  {
+    id: '362',
+    title: 'VP of Product',
+    company: 'Notion',
+    level: 'Executive',
+    description: 'Lead product organization, define product vision and strategy, manage product leadership team, align roadmaps with business goals, and drive execution across multiple product lines.',
+    category: 'Product'
+  },
+  {
+    id: '363',
+    title: 'Chief Product Officer',
+    company: 'LinkedIn',
+    level: 'Executive',
+    description: 'Own overall product strategy, lead product and design organizations, collaborate with CEO and board, drive innovation, and ensure products meet user needs and business objectives.',
+    category: 'Product'
+  },
+  {
+    id: '364',
+    title: 'Associate Product Manager',
+    company: 'Google',
+    level: 'Entry-Level',
+    description: 'Support product initiatives, conduct market research, gather user feedback, write product requirements, coordinate with engineering teams, and learn product management fundamentals.',
+    category: 'Product'
+  },
+  {
+    id: '365',
+    title: 'Technical Product Manager',
+    company: 'Atlassian',
+    level: 'Senior',
+    description: 'Manage technical products, work closely with engineering on architecture decisions, define API specifications, balance technical debt with new features, and drive technical roadmap.',
+    category: 'Product'
+  },
+  // Design Roles
+  {
+    id: '366',
+    title: 'UX Researcher',
+    company: 'Airbnb',
+    level: 'Mid-Level',
+    description: 'Conduct user interviews and usability studies, analyze research findings, create user personas and journey maps, present insights to product teams, and inform design decisions.',
+    category: 'Design'
+  },
+  {
+    id: '367',
+    title: 'Design Systems Lead',
+    company: 'Adobe',
+    level: 'Lead',
+    description: 'Build and maintain design system, create component libraries, establish design standards, collaborate with designers and engineers, and ensure consistency across products.',
+    category: 'Design'
+  },
+  {
+    id: '368',
+    title: 'Brand Designer',
+    company: 'Nike',
+    level: 'Senior',
+    description: 'Develop brand identity and visual language, create marketing materials, design brand guidelines, collaborate with marketing teams, and ensure brand consistency across channels.',
+    category: 'Design'
+  },
+  {
+    id: '369',
+    title: 'Interaction Designer',
+    company: 'Meta',
+    level: 'Mid-Level',
+    description: 'Design user interactions and micro-animations, create prototypes, conduct usability testing, collaborate with engineers on implementation, and refine interaction patterns.',
+    category: 'Design'
+  },
+  {
+    id: '370',
+    title: 'Senior Product Designer',
+    company: 'Shopify',
+    level: 'Senior',
+    description: 'Lead design projects end-to-end, mentor junior designers, conduct user research, create high-fidelity designs, collaborate with cross-functional teams, and drive design quality.',
+    category: 'Design'
+  },
+  {
+    id: '371',
+    title: 'Motion Designer',
+    company: 'Netflix',
+    level: 'Mid-Level',
+    description: 'Create animations and motion graphics for product interfaces, design loading states and transitions, collaborate with product designers, and enhance user experience through motion.',
+    category: 'Design'
+  },
+  // Marketing Roles
+  {
+    id: '372',
+    title: 'Growth Marketer',
+    company: 'Uber',
+    level: 'Mid-Level',
+    description: 'Run growth experiments, optimize marketing funnels, analyze campaign performance, implement referral programs, and drive user acquisition through data-driven strategies.',
+    category: 'Marketing'
+  },
+  {
+    id: '373',
+    title: 'Content Marketing Manager',
+    company: 'HubSpot',
+    level: 'Senior',
+    description: 'Develop content strategy, manage editorial calendar, create blog posts and whitepapers, optimize content for SEO, measure content performance, and build thought leadership.',
+    category: 'Marketing'
+  },
+  {
+    id: '374',
+    title: 'SEO Specialist',
+    company: 'Zillow',
+    level: 'Mid-Level',
+    description: 'Optimize website for search engines, conduct keyword research, implement technical SEO improvements, track rankings and organic traffic, and collaborate with content teams.',
+    category: 'Marketing'
+  },
+  {
+    id: '375',
+    title: 'Demand Generation Manager',
+    company: 'Salesforce',
+    level: 'Senior',
+    description: 'Create demand gen campaigns, manage marketing automation, generate qualified leads, analyze campaign ROI, collaborate with sales teams, and optimize lead nurturing programs.',
+    category: 'Marketing'
+  },
+  {
+    id: '376',
+    title: 'Chief Marketing Officer',
+    company: 'Airbnb',
+    level: 'Executive',
+    description: 'Lead marketing organization, define brand strategy, oversee all marketing channels, manage marketing budget, drive customer acquisition and retention, and report to executive team.',
+    category: 'Marketing'
+  },
+  {
+    id: '377',
+    title: 'Product Marketing Manager',
+    company: 'Atlassian',
+    level: 'Senior',
+    description: 'Develop go-to-market strategies, create product positioning and messaging, enable sales teams, conduct competitive analysis, launch new products, and drive product adoption.',
+    category: 'Marketing'
+  },
+  {
+    id: '378',
+    title: 'Social Media Manager',
+    company: 'Twitter',
+    level: 'Mid-Level',
+    description: 'Manage social media presence, create engaging content, develop social strategy, monitor brand mentions, analyze social metrics, and build community engagement.',
+    category: 'Marketing'
+  },
+  {
+    id: '379',
+    title: 'Email Marketing Specialist',
+    company: 'Mailchimp',
+    level: 'Entry-Level',
+    description: 'Create email campaigns, segment audiences, write compelling copy, A/B test subject lines and content, analyze email metrics, and optimize email performance.',
+    category: 'Marketing'
+  },
+  // Sales Roles
+  {
+    id: '380',
+    title: 'Account Executive',
+    company: 'Salesforce',
+    level: 'Mid-Level',
+    description: 'Manage sales pipeline, conduct product demos, negotiate contracts, close enterprise deals, build client relationships, and achieve quarterly revenue targets.',
+    category: 'Sales'
+  },
+  {
+    id: '381',
+    title: 'Sales Development Representative',
+    company: 'Zoom',
+    level: 'Entry-Level',
+    description: 'Generate qualified leads, conduct cold outreach, schedule meetings for account executives, research prospects, meet activity targets, and learn sales fundamentals.',
+    category: 'Sales'
+  },
+  {
+    id: '382',
+    title: 'VP of Sales',
+    company: 'Snowflake',
+    level: 'Executive',
+    description: 'Lead sales organization, develop sales strategy, manage sales leadership team, set revenue targets, optimize sales processes, and drive growth across regions.',
+    category: 'Sales'
+  },
+  {
+    id: '383',
+    title: 'Customer Success Manager',
+    company: 'Stripe',
+    level: 'Senior',
+    description: 'Manage enterprise client relationships, drive product adoption, identify expansion opportunities, resolve customer issues, conduct business reviews, and ensure customer retention.',
+    category: 'Sales'
+  },
+  {
+    id: '384',
+    title: 'Enterprise Account Executive',
+    company: 'Microsoft',
+    level: 'Senior',
+    description: 'Sell enterprise software solutions to Fortune 500 companies, manage complex sales cycles, coordinate with technical teams, negotiate multi-million dollar contracts, and exceed quotas.',
+    category: 'Sales'
+  },
+  {
+    id: '385',
+    title: 'Sales Engineer',
+    company: 'AWS',
+    level: 'Senior',
+    description: 'Provide technical expertise in sales process, conduct product demonstrations, design solution architectures, support proof-of-concepts, and help close technical deals.',
+    category: 'Sales'
+  },
+  {
+    id: '386',
+    title: 'Business Development Manager',
+    company: 'LinkedIn',
+    level: 'Senior',
+    description: 'Identify partnership opportunities, negotiate strategic deals, build relationships with partners, create business cases, and drive revenue through channel partnerships.',
+    category: 'Sales'
+  },
+  // Finance Roles
+  {
+    id: '387',
+    title: 'Financial Analyst',
+    company: 'Goldman Sachs',
+    level: 'Entry-Level',
+    description: 'Build financial models, prepare earnings reports, conduct variance analysis, support budgeting process, analyze financial performance, and present findings to leadership.',
+    category: 'Finance'
+  },
+  {
+    id: '388',
+    title: 'Investment Banker',
+    company: 'JP Morgan',
+    level: 'Mid-Level',
+    description: 'Execute M&A transactions, prepare pitch books, conduct due diligence, negotiate deal terms, manage client relationships, and support IPO processes.',
+    category: 'Finance'
+  },
+  {
+    id: '389',
+    title: 'Chief Financial Officer',
+    company: 'Tesla',
+    level: 'Executive',
+    description: 'Lead finance organization, oversee financial planning and analysis, manage investor relations, ensure regulatory compliance, present to board of directors, and drive financial strategy.',
+    category: 'Finance'
+  },
+  {
+    id: '390',
+    title: 'Controller',
+    company: 'Uber',
+    level: 'Senior',
+    description: 'Manage accounting operations, oversee financial reporting, ensure GAAP compliance, lead month-end close process, supervise accounting team, and support external audits.',
+    category: 'Finance'
+  },
+  {
+    id: '391',
+    title: 'FP&A Manager',
+    company: 'Airbnb',
+    level: 'Senior',
+    description: 'Lead financial planning and analysis, manage budgeting process, create financial forecasts, provide business insights, support strategic initiatives, and present to executives.',
+    category: 'Finance'
+  },
+  {
+    id: '392',
+    title: 'Treasury Analyst',
+    company: 'Apple',
+    level: 'Mid-Level',
+    description: 'Manage cash flow, optimize liquidity, execute foreign exchange transactions, monitor investment portfolios, assess financial risks, and ensure efficient capital management.',
+    category: 'Finance'
+  },
+  {
+    id: '393',
+    title: 'Corporate Finance Manager',
+    company: 'Amazon',
+    level: 'Senior',
+    description: 'Evaluate investment opportunities, conduct financial modeling for new initiatives, support M&A activities, analyze business cases, and provide strategic financial guidance.',
+    category: 'Finance'
+  },
+  {
+    id: '394',
+    title: 'Risk Manager',
+    company: 'PayPal',
+    level: 'Senior',
+    description: 'Identify and assess financial risks, develop risk mitigation strategies, implement risk frameworks, monitor risk metrics, and ensure compliance with risk policies.',
+    category: 'Finance'
+  },
+  // Consulting Roles
+  {
+    id: '395',
+    title: 'Strategy Consultant',
+    company: 'McKinsey & Company',
+    level: 'Mid-Level',
+    description: 'Develop corporate strategies, conduct market analysis, solve complex business problems, create presentations for C-suite clients, and provide strategic recommendations.',
+    category: 'Consulting'
+  },
+  {
+    id: '396',
+    title: 'Management Consultant',
+    company: 'Boston Consulting Group',
+    level: 'Senior',
+    description: 'Lead consulting engagements, manage client relationships, design organizational transformations, analyze business operations, and deliver actionable insights to executives.',
+    category: 'Consulting'
+  },
+  {
+    id: '397',
+    title: 'Technology Consultant',
+    company: 'Deloitte',
+    level: 'Mid-Level',
+    description: 'Advise clients on technology strategy, implement enterprise systems, manage digital transformation projects, assess IT infrastructure, and recommend technology solutions.',
+    category: 'Consulting'
+  },
+  {
+    id: '398',
+    title: 'Partner',
+    company: 'Bain & Company',
+    level: 'Executive',
+    description: 'Lead consulting practice, develop client relationships, oversee multiple engagements, drive firm growth, mentor consultants, and provide senior counsel to CEO-level clients.',
+    category: 'Consulting'
+  },
+  {
+    id: '399',
+    title: 'Business Analyst',
+    company: 'Accenture',
+    level: 'Entry-Level',
+    description: 'Support consulting projects, gather requirements, analyze data, create presentations, conduct research, assist in client workshops, and learn consulting methodologies.',
+    category: 'Consulting'
+  },
+  {
+    id: '400',
+    title: 'Change Management Consultant',
+    company: 'KPMG',
+    level: 'Senior',
+    description: 'Lead organizational change initiatives, design change strategies, conduct stakeholder analysis, develop communication plans, and ensure successful adoption of business transformations.',
+    category: 'Consulting'
+  },
+  // Operations Roles
+  {
+    id: '401',
+    title: 'Supply Chain Manager',
+    company: 'Apple',
+    level: 'Senior',
+    description: 'Optimize supply chain operations, manage vendor relationships, forecast demand, reduce costs, ensure product availability, and coordinate logistics across global operations.',
+    category: 'Operations'
+  },
+  {
+    id: '402',
+    title: 'Logistics Coordinator',
+    company: 'Amazon',
+    level: 'Entry-Level',
+    description: 'Coordinate shipments, track inventory, manage warehouse operations, optimize delivery routes, resolve logistics issues, and ensure timely fulfillment of customer orders.',
+    category: 'Operations'
+  },
+  {
+    id: '403',
+    title: 'Operations Director',
+    company: 'Tesla',
+    level: 'Lead',
+    description: 'Lead manufacturing operations, drive operational excellence, manage production teams, optimize processes, ensure quality standards, and achieve production targets.',
+    category: 'Operations'
+  },
+  {
+    id: '404',
+    title: 'Chief Operating Officer',
+    company: 'Airbnb',
+    level: 'Executive',
+    description: 'Oversee all operational functions, drive operational strategy, manage cross-functional teams, optimize business processes, ensure scalability, and partner with CEO on execution.',
+    category: 'Operations'
+  },
+  {
+    id: '405',
+    title: 'Process Improvement Manager',
+    company: 'Toyota',
+    level: 'Senior',
+    description: 'Lead continuous improvement initiatives, implement lean methodologies, analyze process inefficiencies, drive cost reduction, train teams on best practices, and measure improvement impact.',
+    category: 'Operations'
+  },
+  {
+    id: '406',
+    title: 'Operations Analyst',
+    company: 'Uber',
+    level: 'Mid-Level',
+    description: 'Analyze operational metrics, identify efficiency opportunities, create dashboards, support decision-making with data insights, and optimize city-level operations.',
+    category: 'Operations'
+  },
+  {
+    id: '407',
+    title: 'Warehouse Manager',
+    company: 'Walmart',
+    level: 'Mid-Level',
+    description: 'Manage warehouse staff, optimize inventory management, ensure safety compliance, coordinate receiving and shipping, implement warehouse management systems, and meet productivity targets.',
+    category: 'Operations'
+  },
+  // Human Resources Roles
+  {
+    id: '408',
+    title: 'Recruiter',
+    company: 'Google',
+    level: 'Mid-Level',
+    description: 'Source and screen candidates, conduct interviews, manage hiring pipeline, partner with hiring managers, improve candidate experience, and achieve hiring goals.',
+    category: 'Human Resources'
+  },
+  {
+    id: '409',
+    title: 'Talent Acquisition Manager',
+    company: 'Meta',
+    level: 'Senior',
+    description: 'Lead recruiting team, develop talent strategies, manage university recruiting, build employer brand, optimize hiring processes, and attract top talent.',
+    category: 'Human Resources'
+  },
+  {
+    id: '410',
+    title: 'HR Business Partner',
+    company: 'Microsoft',
+    level: 'Senior',
+    description: 'Partner with business leaders, provide HR guidance, manage employee relations, support organizational design, drive talent development, and ensure HR policy compliance.',
+    category: 'Human Resources'
+  },
+  {
+    id: '411',
+    title: 'Chief People Officer',
+    company: 'Netflix',
+    level: 'Executive',
+    description: 'Lead people organization, define culture and values, develop talent strategy, oversee compensation and benefits, drive diversity initiatives, and report to executive team.',
+    category: 'Human Resources'
+  },
+  {
+    id: '412',
+    title: 'Compensation Analyst',
+    company: 'Salesforce',
+    level: 'Mid-Level',
+    description: 'Analyze compensation data, conduct market research, design salary structures, manage equity programs, ensure pay equity, and support annual compensation planning.',
+    category: 'Human Resources'
+  },
+  {
+    id: '413',
+    title: 'Learning and Development Manager',
+    company: 'LinkedIn',
+    level: 'Senior',
+    description: 'Design training programs, develop leadership curriculum, manage learning platforms, assess training effectiveness, build internal capabilities, and drive employee development.',
+    category: 'Human Resources'
+  },
+  {
+    id: '414',
+    title: 'People Operations Specialist',
+    company: 'Stripe',
+    level: 'Entry-Level',
+    description: 'Support HR operations, manage HRIS systems, process employee data, coordinate onboarding, assist with benefits administration, and ensure HR process efficiency.',
+    category: 'Human Resources'
+  },
+  // Healthcare Roles
+  {
+    id: '415',
+    title: 'Nurse Practitioner',
+    company: 'Mayo Clinic',
+    level: 'Senior',
+    description: 'Provide primary care, diagnose and treat illnesses, prescribe medications, order diagnostic tests, educate patients on health management, and collaborate with physicians.',
+    category: 'Healthcare'
+  },
+  {
+    id: '416',
+    title: 'Healthcare Administrator',
+    company: 'Kaiser Permanente',
+    level: 'Senior',
+    description: 'Manage hospital operations, oversee department budgets, ensure regulatory compliance, improve patient care quality, lead staff, and optimize healthcare delivery processes.',
+    category: 'Healthcare'
+  },
+  {
+    id: '417',
+    title: 'Clinical Research Coordinator',
+    company: 'Johns Hopkins Hospital',
+    level: 'Mid-Level',
+    description: 'Coordinate clinical trials, recruit study participants, collect research data, ensure protocol compliance, manage regulatory documentation, and support research investigators.',
+    category: 'Healthcare'
+  },
+  {
+    id: '418',
+    title: 'Medical Director',
+    company: 'Cleveland Clinic',
+    level: 'Executive',
+    description: 'Lead medical staff, ensure quality of care, develop clinical protocols, oversee patient safety programs, collaborate with administration, and maintain medical standards.',
+    category: 'Healthcare'
+  },
+  {
+    id: '419',
+    title: 'Health Informatics Specialist',
+    company: 'Epic Systems',
+    level: 'Mid-Level',
+    description: 'Implement electronic health records, analyze healthcare data, optimize clinical workflows, train medical staff on systems, ensure data security, and improve health IT systems.',
+    category: 'Healthcare'
+  },
+  {
+    id: '420',
+    title: 'Pharmacist',
+    company: 'CVS Health',
+    level: 'Senior',
+    description: 'Dispense medications, provide patient counseling, review prescriptions, manage pharmacy operations, ensure medication safety, and collaborate with healthcare providers.',
+    category: 'Healthcare'
+  },
+  {
+    id: '421',
+    title: 'Healthcare Consultant',
+    company: 'McKinsey & Company',
+    level: 'Senior',
+    description: 'Advise healthcare organizations on strategy, analyze healthcare systems, improve operational efficiency, support mergers and acquisitions, and drive healthcare transformation.',
+    category: 'Healthcare'
+  },
+  // Legal Roles
+  {
+    id: '422',
+    title: 'Corporate Counsel',
+    company: 'Meta',
+    level: 'Senior',
+    description: 'Advise on corporate matters, draft and negotiate contracts, manage legal risks, support M&A transactions, ensure regulatory compliance, and provide legal guidance to business teams.',
+    category: 'Legal'
+  },
+  {
+    id: '423',
+    title: 'Intellectual Property Attorney',
+    company: 'Apple',
+    level: 'Senior',
+    description: 'Manage patent portfolio, file trademark applications, conduct IP due diligence, negotiate licensing agreements, defend against infringement claims, and protect company IP assets.',
+    category: 'Legal'
+  },
+  {
+    id: '424',
+    title: 'Compliance Manager',
+    company: 'Goldman Sachs',
+    level: 'Senior',
+    description: 'Develop compliance programs, ensure regulatory adherence, conduct risk assessments, manage compliance audits, train employees on policies, and report to regulators.',
+    category: 'Legal'
+  },
+  {
+    id: '425',
+    title: 'General Counsel',
+    company: 'Tesla',
+    level: 'Executive',
+    description: 'Lead legal department, provide strategic legal counsel to CEO and board, oversee litigation, manage outside counsel, ensure corporate governance, and mitigate legal risks.',
+    category: 'Legal'
+  },
+  {
+    id: '426',
+    title: 'Privacy Attorney',
+    company: 'Google',
+    level: 'Senior',
+    description: 'Advise on privacy laws and regulations, ensure GDPR and CCPA compliance, review data practices, draft privacy policies, handle data breach responses, and manage privacy programs.',
+    category: 'Legal'
+  },
+  {
+    id: '427',
+    title: 'Employment Attorney',
+    company: 'Amazon',
+    level: 'Senior',
+    description: 'Handle employment law matters, defend against employee claims, advise on HR policies, manage investigations, ensure labor law compliance, and support employee relations.',
+    category: 'Legal'
+  },
+  {
+    id: '428',
+    title: 'Contract Manager',
+    company: 'Microsoft',
+    level: 'Mid-Level',
+    description: 'Negotiate commercial contracts, review vendor agreements, manage contract lifecycle, ensure contract compliance, mitigate contractual risks, and support procurement teams.',
+    category: 'Legal'
+  },
+  // Creative Roles
+  {
+    id: '429',
+    title: 'Art Director',
+    company: 'Pixar',
+    level: 'Lead',
+    description: 'Lead visual design direction, manage creative team, develop artistic concepts, oversee production design, collaborate with directors, and ensure visual consistency across projects.',
+    category: 'Creative'
+  },
+  {
+    id: '430',
+    title: 'Copywriter',
+    company: 'Nike',
+    level: 'Mid-Level',
+    description: 'Write compelling marketing copy, create brand messaging, develop campaign concepts, collaborate with design teams, write for various channels, and maintain brand voice.',
+    category: 'Creative'
+  },
+  {
+    id: '431',
+    title: 'Creative Director',
+    company: 'Apple',
+    level: 'Executive',
+    description: 'Lead creative vision, oversee design and copy teams, develop brand campaigns, present to executives, manage creative budgets, and ensure creative excellence across all touchpoints.',
+    category: 'Creative'
+  },
+  {
+    id: '432',
+    title: 'Content Creator',
+    company: 'YouTube',
+    level: 'Mid-Level',
+    description: 'Produce video content, write scripts, edit footage, manage social media presence, engage with audience, analyze content performance, and create engaging multimedia experiences.',
+    category: 'Creative'
+  },
+  {
+    id: '433',
+    title: 'Brand Manager',
+    company: 'Coca-Cola',
+    level: 'Senior',
+    description: 'Develop brand strategy, manage brand portfolio, launch new products, conduct market research, oversee marketing campaigns, protect brand equity, and drive brand growth.',
+    category: 'Creative'
+  },
+  {
+    id: '434',
+    title: 'Video Producer',
+    company: 'Netflix',
+    level: 'Senior',
+    description: 'Produce video content, manage production schedules, coordinate with creative teams, oversee budgets, handle post-production, and ensure quality delivery of video projects.',
+    category: 'Creative'
+  },
+  {
+    id: '435',
+    title: 'Graphic Designer',
+    company: 'Adobe',
+    level: 'Mid-Level',
+    description: 'Create visual designs for marketing materials, design digital assets, develop brand identities, collaborate with marketing teams, maintain design standards, and produce creative deliverables.',
+    category: 'Creative'
+  },
+  // Engineering (Non-Software) Roles
+  {
+    id: '436',
+    title: 'Mechanical Engineer',
+    company: 'Tesla',
+    level: 'Mid-Level',
+    description: 'Design mechanical systems, create CAD models, conduct stress analysis, prototype components, test designs, collaborate with manufacturing teams, and optimize vehicle performance.',
+    category: 'Engineering'
+  },
+  {
+    id: '437',
+    title: 'Electrical Engineer',
+    company: 'SpaceX',
+    level: 'Senior',
+    description: 'Design electrical systems, develop circuit boards, test electrical components, ensure safety standards, troubleshoot electrical issues, and support rocket propulsion systems.',
+    category: 'Engineering'
+  },
+  {
+    id: '438',
+    title: 'Manufacturing Engineer',
+    company: 'Boeing',
+    level: 'Senior',
+    description: 'Optimize manufacturing processes, implement automation, improve production efficiency, reduce costs, ensure quality standards, and support new product introductions.',
+    category: 'Engineering'
+  },
+  {
+    id: '439',
+    title: 'Quality Engineer',
+    company: 'Toyota',
+    level: 'Mid-Level',
+    description: 'Develop quality control processes, conduct inspections, analyze defects, implement quality improvements, manage quality metrics, and ensure manufacturing standards.',
+    category: 'Engineering'
+  },
+  {
+    id: '440',
+    title: 'Aerospace Engineer',
+    company: 'Lockheed Martin',
+    level: 'Senior',
+    description: 'Design aircraft and spacecraft systems, conduct aerodynamic analysis, run simulations, test prototypes, ensure safety compliance, and innovate aerospace technologies.',
+    category: 'Engineering'
+  },
+  {
+    id: '441',
+    title: 'Civil Engineer',
+    company: 'Bechtel',
+    level: 'Senior',
+    description: 'Design infrastructure projects, conduct structural analysis, manage construction projects, ensure code compliance, coordinate with contractors, and oversee project execution.',
+    category: 'Engineering'
+  },
+  {
+    id: '442',
+    title: 'Chemical Engineer',
+    company: 'DuPont',
+    level: 'Mid-Level',
+    description: 'Design chemical processes, optimize production methods, ensure safety protocols, conduct experiments, scale lab processes to production, and improve product formulations.',
+    category: 'Engineering'
+  },
+  {
+    id: '443',
+    title: 'Biomedical Engineer',
+    company: 'Medtronic',
+    level: 'Senior',
+    description: 'Design medical devices, conduct clinical testing, ensure FDA compliance, collaborate with medical professionals, develop innovative healthcare solutions, and improve patient outcomes.',
+    category: 'Engineering'
+  },
+  // Cybersecurity Roles
+  {
+    id: '444',
+    title: 'Security Analyst',
+    company: 'Palo Alto Networks',
+    level: 'Mid-Level',
+    description: 'Monitor security threats, analyze security logs, respond to incidents, conduct vulnerability assessments, implement security controls, and protect organizational assets.',
+    category: 'Cybersecurity'
+  },
+  {
+    id: '445',
+    title: 'Penetration Tester',
+    company: 'CrowdStrike',
+    level: 'Senior',
+    description: 'Conduct ethical hacking, identify security vulnerabilities, perform security assessments, write penetration test reports, recommend remediation, and improve security posture.',
+    category: 'Cybersecurity'
+  },
+  {
+    id: '446',
+    title: 'Security Architect',
+    company: 'Microsoft',
+    level: 'Lead',
+    description: 'Design security architectures, establish security standards, evaluate security technologies, lead security initiatives, ensure compliance, and protect enterprise infrastructure.',
+    category: 'Cybersecurity'
+  },
+  {
+    id: '447',
+    title: 'Chief Information Security Officer',
+    company: 'Meta',
+    level: 'Executive',
+    description: 'Lead cybersecurity strategy, manage security organization, oversee incident response, ensure regulatory compliance, report to board, and protect company from cyber threats.',
+    category: 'Cybersecurity'
+  },
+  {
+    id: '448',
+    title: 'Threat Intelligence Analyst',
+    company: 'Google',
+    level: 'Senior',
+    description: 'Research cyber threats, analyze attack patterns, track threat actors, produce intelligence reports, share threat data, and inform security strategies.',
+    category: 'Cybersecurity'
+  },
+  {
+    id: '449',
+    title: 'Security Operations Center Analyst',
+    company: 'Amazon',
+    level: 'Entry-Level',
+    description: 'Monitor security events, triage alerts, investigate incidents, document security issues, escalate threats, and maintain security monitoring tools.',
+    category: 'Cybersecurity'
+  },
+  {
+    id: '450',
+    title: 'Application Security Engineer',
+    company: 'Netflix',
+    level: 'Senior',
+    description: 'Review code for security flaws, conduct security testing, implement secure coding practices, build security tools, remediate vulnerabilities, and train developers on security.',
+    category: 'Cybersecurity'
+  },
+  // Hospitality Roles
+  {
+    id: '451',
+    title: 'Event Planner',
+    company: 'Marriott International',
+    level: 'Mid-Level',
+    description: 'Plan and coordinate events, manage budgets, coordinate vendors, oversee event logistics, ensure client satisfaction, and execute successful conferences and weddings.',
+    category: 'Hospitality'
+  },
+  {
+    id: '452',
+    title: 'Hotel Manager',
+    company: 'Hilton',
+    level: 'Senior',
+    description: 'Manage hotel operations, oversee staff, ensure guest satisfaction, manage budgets, implement service standards, handle escalations, and drive revenue growth.',
+    category: 'Hospitality'
+  },
+  {
+    id: '453',
+    title: 'Concierge',
+    company: 'Four Seasons',
+    level: 'Mid-Level',
+    description: 'Assist guests with reservations and recommendations, arrange transportation, handle special requests, provide local expertise, ensure exceptional service, and create memorable experiences.',
+    category: 'Hospitality'
+  },
+  {
+    id: '454',
+    title: 'Catering Manager',
+    company: 'Hyatt',
+    level: 'Senior',
+    description: 'Manage catering operations, coordinate events, design menus, oversee kitchen and service staff, ensure food quality, manage budgets, and exceed client expectations.',
+    category: 'Hospitality'
+  },
+  {
+    id: '455',
+    title: 'Revenue Manager',
+    company: 'Airbnb',
+    level: 'Senior',
+    description: 'Optimize pricing strategies, forecast demand, analyze market trends, manage inventory, maximize revenue, implement yield management, and report on revenue performance.',
+    category: 'Hospitality'
+  },
+  {
+    id: '456',
+    title: 'Restaurant Manager',
+    company: 'Shake Shack',
+    level: 'Mid-Level',
+    description: 'Manage restaurant operations, supervise staff, ensure food quality, maintain health standards, handle customer complaints, control costs, and drive sales growth.',
+    category: 'Hospitality'
+  },
+  // Public Sector Roles
+  {
+    id: '457',
+    title: 'Policy Analyst',
+    company: 'RAND Corporation',
+    level: 'Mid-Level',
+    description: 'Analyze public policies, conduct research, write policy briefs, present findings to policymakers, evaluate policy impact, and provide evidence-based recommendations.',
+    category: 'Public Sector'
+  },
+  {
+    id: '458',
+    title: 'Program Manager',
+    company: 'United Nations',
+    level: 'Senior',
+    description: 'Manage international programs, coordinate with stakeholders, oversee budgets, monitor program outcomes, ensure compliance, report to donors, and achieve development goals.',
+    category: 'Public Sector'
+  },
+  {
+    id: '459',
+    title: 'Grant Writer',
+    company: 'American Red Cross',
+    level: 'Mid-Level',
+    description: 'Write grant proposals, research funding opportunities, manage grant reporting, coordinate with program teams, track deadlines, and secure funding for nonprofit programs.',
+    category: 'Public Sector'
+  },
+  {
+    id: '460',
+    title: 'City Planner',
+    company: 'City of San Francisco',
+    level: 'Senior',
+    description: 'Develop urban plans, review development proposals, conduct community engagement, ensure zoning compliance, manage planning projects, and shape sustainable urban development.',
+    category: 'Public Sector'
+  },
+  {
+    id: '461',
+    title: 'Economic Development Specialist',
+    company: 'World Bank',
+    level: 'Senior',
+    description: 'Analyze economic development, design development programs, conduct economic research, advise governments, manage projects, and promote sustainable economic growth.',
+    category: 'Public Sector'
+  },
+  {
+    id: '462',
+    title: 'Public Affairs Manager',
+    company: 'Bill & Melinda Gates Foundation',
+    level: 'Senior',
+    description: 'Manage external communications, develop advocacy strategies, engage with policymakers, coordinate media relations, build coalitions, and advance public policy goals.',
+    category: 'Public Sector'
+  },
+  // Sustainability Roles
+  {
+    id: '463',
+    title: 'Sustainability Manager',
+    company: 'Patagonia',
+    level: 'Senior',
+    description: 'Develop sustainability strategies, manage environmental programs, track sustainability metrics, engage stakeholders, reduce environmental impact, and drive corporate responsibility.',
+    category: 'Sustainability'
+  },
+  {
+    id: '464',
+    title: 'ESG Analyst',
+    company: 'BlackRock',
+    level: 'Mid-Level',
+    description: 'Analyze ESG performance, conduct company research, evaluate sustainability risks, create ESG reports, support investment decisions, and assess environmental and social impacts.',
+    category: 'Sustainability'
+  },
+  {
+    id: '465',
+    title: 'Environmental Consultant',
+    company: 'ERM',
+    level: 'Senior',
+    description: 'Conduct environmental assessments, ensure regulatory compliance, develop remediation plans, advise clients on environmental risks, manage consulting projects, and support sustainability initiatives.',
+    category: 'Sustainability'
+  },
+  {
+    id: '466',
+    title: 'Chief Sustainability Officer',
+    company: 'Unilever',
+    level: 'Executive',
+    description: 'Lead sustainability strategy, oversee ESG programs, set carbon reduction goals, engage with stakeholders, ensure corporate accountability, and drive sustainable business practices.',
+    category: 'Sustainability'
+  },
+  {
+    id: '467',
+    title: 'Climate Analyst',
+    company: 'Environmental Defense Fund',
+    level: 'Mid-Level',
+    description: 'Analyze climate data, model climate scenarios, research mitigation strategies, produce climate reports, support policy advocacy, and contribute to climate solutions.',
+    category: 'Sustainability'
+  },
+  {
+    id: '468',
+    title: 'Renewable Energy Project Manager',
+    company: 'Tesla Energy',
+    level: 'Senior',
+    description: 'Manage solar and battery projects, coordinate installations, oversee budgets and timelines, ensure safety compliance, work with utilities, and drive clean energy adoption.',
+    category: 'Sustainability'
+  },
+  // Real Estate Roles
+  {
+    id: '469',
+    title: 'Real Estate Agent',
+    company: 'Coldwell Banker',
+    level: 'Mid-Level',
+    description: 'List and sell properties, conduct property showings, negotiate contracts, advise clients on market conditions, manage transactions, and build client relationships.',
+    category: 'Real Estate'
+  },
+  {
+    id: '470',
+    title: 'Property Manager',
+    company: 'CBRE',
+    level: 'Senior',
+    description: 'Manage commercial properties, oversee building operations, coordinate maintenance, handle tenant relations, manage budgets, ensure compliance, and maximize property value.',
+    category: 'Real Estate'
+  },
+  {
+    id: '471',
+    title: 'Real Estate Developer',
+    company: 'Related Companies',
+    level: 'Executive',
+    description: 'Identify development opportunities, secure financing, manage construction projects, coordinate with architects and contractors, navigate zoning, and deliver real estate projects.',
+    category: 'Real Estate'
+  },
+  {
+    id: '472',
+    title: 'Asset Manager',
+    company: 'Blackstone',
+    level: 'Senior',
+    description: 'Manage real estate portfolios, optimize asset performance, develop business plans, monitor financial performance, execute value-add strategies, and maximize investment returns.',
+    category: 'Real Estate'
+  },
+  {
+    id: '473',
+    title: 'Commercial Leasing Manager',
+    company: 'JLL',
+    level: 'Senior',
+    description: 'Negotiate commercial leases, attract tenants, conduct property tours, analyze market trends, manage lease administration, and achieve occupancy targets.',
+    category: 'Real Estate'
+  },
+  {
+    id: '474',
+    title: 'Real Estate Analyst',
+    company: 'Goldman Sachs',
+    level: 'Entry-Level',
+    description: 'Analyze real estate investments, build financial models, conduct market research, prepare investment memos, support acquisitions, and evaluate property performance.',
+    category: 'Real Estate'
+  },
+  // Additional Technology Roles
+  {
+    id: '475',
+    title: 'Frontend Architect',
+    company: 'Shopify',
+    level: 'Lead',
+    description: 'Define frontend architecture standards, evaluate frameworks and libraries, lead technical design reviews, mentor senior engineers, and ensure scalability of frontend systems.',
+    category: 'Technology'
+  },
+  {
+    id: '476',
+    title: 'Backend Engineer',
+    company: 'Twitter',
+    level: 'Senior',
+    description: 'Design and build scalable backend services, optimize database performance, implement APIs, ensure system reliability, and support high-traffic distributed systems.',
+    category: 'Technology'
+  },
+  {
+    id: '477',
+    title: 'Cloud Engineer',
+    company: 'Snowflake',
+    level: 'Mid-Level',
+    description: 'Design cloud infrastructure, automate cloud deployments, optimize cloud costs, implement security best practices, manage multi-cloud environments, and ensure high availability.',
+    category: 'Technology'
+  },
+  {
+    id: '478',
+    title: 'Database Administrator',
+    company: 'Oracle',
+    level: 'Senior',
+    description: 'Manage database systems, optimize query performance, ensure data integrity, implement backup and recovery, monitor database health, and support application teams.',
+    category: 'Technology'
+  },
+  {
+    id: '479',
+    title: 'Security Engineer',
+    company: 'Cloudflare',
+    level: 'Senior',
+    description: 'Build security tools, implement authentication systems, conduct security reviews, respond to security incidents, harden infrastructure, and protect customer data.',
+    category: 'Technology'
+  },
+  {
+    id: '480',
+    title: 'Embedded Systems Engineer',
+    company: 'Apple',
+    level: 'Senior',
+    description: 'Develop embedded software for hardware products, optimize firmware performance, work with hardware teams, implement device drivers, and ensure system stability.',
+    category: 'Technology'
+  },
+  {
+    id: '481',
+    title: 'Full Stack Engineer',
+    company: 'Dropbox',
+    level: 'Mid-Level',
+    description: 'Build end-to-end features, develop frontend and backend components, design APIs, optimize application performance, and collaborate across the full technology stack.',
+    category: 'Technology'
+  },
+  {
+    id: '482',
+    title: 'Staff Software Engineer',
+    company: 'Uber',
+    level: 'Lead',
+    description: 'Lead large-scale technical projects, mentor engineers across teams, drive architectural decisions, solve complex technical challenges, and influence engineering culture.',
+    category: 'Technology'
+  },
+  // Additional Data Science Roles
+  {
+    id: '483',
+    title: 'Quantitative Researcher',
+    company: 'Two Sigma',
+    level: 'Senior',
+    description: 'Develop trading algorithms, conduct statistical analysis, research market patterns, build predictive models, backtest strategies, and contribute to quantitative investment strategies.',
+    category: 'Data Science'
+  },
+  {
+    id: '484',
+    title: 'Data Architect',
+    company: 'Databricks',
+    level: 'Lead',
+    description: 'Design data architectures, establish data governance, define data standards, evaluate data technologies, ensure data quality, and enable analytics at scale.',
+    category: 'Data Science'
+  },
+  {
+    id: '485',
+    title: 'Applied Scientist',
+    company: 'Amazon',
+    level: 'Senior',
+    description: 'Apply machine learning to business problems, conduct research, build recommendation systems, develop forecasting models, and translate research into production systems.',
+    category: 'Data Science'
+  },
+  {
+    id: '486',
+    title: 'Analytics Engineer',
+    company: 'dbt Labs',
+    level: 'Mid-Level',
+    description: 'Build data models, create dbt pipelines, develop analytics infrastructure, ensure data quality, collaborate with analysts, and enable self-service analytics.',
+    category: 'Data Science'
+  },
+  {
+    id: '487',
+    title: 'Experimentation Scientist',
+    company: 'Netflix',
+    level: 'Senior',
+    description: 'Design A/B tests, analyze experiment results, develop experimentation frameworks, provide statistical guidance, measure product impact, and drive data-driven decision making.',
+    category: 'Data Science'
+  },
+  // Additional Product Roles
+  {
+    id: '488',
+    title: 'Principal Product Manager',
+    company: 'Amazon',
+    level: 'Lead',
+    description: 'Drive product strategy for major initiatives, influence company direction, lead cross-functional teams, mentor PMs, define long-term vision, and deliver business impact.',
+    category: 'Product'
+  },
+  {
+    id: '489',
+    title: 'AI Product Manager',
+    company: 'OpenAI',
+    level: 'Senior',
+    description: 'Define AI product roadmap, work with ML researchers, translate research into products, evaluate AI capabilities, manage ethical considerations, and drive AI product adoption.',
+    category: 'Product'
+  },
+  {
+    id: '490',
+    title: 'Hardware Product Manager',
+    company: 'Apple',
+    level: 'Senior',
+    description: 'Manage hardware product lifecycle, work with industrial design and engineering, define product specifications, coordinate manufacturing, and launch consumer electronics.',
+    category: 'Product'
+  },
+  {
+    id: '491',
+    title: 'Product Operations Manager',
+    company: 'Meta',
+    level: 'Senior',
+    description: 'Optimize product development processes, implement product tools, manage product analytics, coordinate launches, improve PM effectiveness, and scale product operations.',
+    category: 'Product'
+  },
+  // Additional Design Roles
+  {
+    id: '492',
+    title: 'Head of Design',
+    company: 'Spotify',
+    level: 'Executive',
+    description: 'Lead design organization, define design vision, manage design leaders, build design culture, partner with product and engineering, and ensure design excellence.',
+    category: 'Design'
+  },
+  {
+    id: '493',
+    title: 'Visual Designer',
+    company: 'Instagram',
+    level: 'Mid-Level',
+    description: 'Create visual designs for marketing and product, design social media assets, develop brand visuals, maintain visual consistency, and collaborate with creative teams.',
+    category: 'Design'
+  },
+  {
+    id: '494',
+    title: 'Design Manager',
+    company: 'Adobe',
+    level: 'Lead',
+    description: 'Manage design team, guide design projects, conduct design reviews, mentor designers, collaborate with product and engineering, and ensure quality of design work.',
+    category: 'Design'
+  },
+  {
+    id: '495',
+    title: 'Accessibility Designer',
+    company: 'Microsoft',
+    level: 'Senior',
+    description: 'Design accessible experiences, ensure WCAG compliance, conduct accessibility audits, advocate for inclusive design, train teams on accessibility, and improve product accessibility.',
+    category: 'Design'
+  },
+  // Additional Marketing Roles
+  {
+    id: '496',
+    title: 'Performance Marketing Manager',
+    company: 'Meta',
+    level: 'Senior',
+    description: 'Manage paid advertising campaigns, optimize ad performance, analyze ROI, test creative variations, manage marketing budgets, and drive customer acquisition.',
+    category: 'Marketing'
+  },
+  {
+    id: '497',
+    title: 'Brand Strategist',
+    company: 'Disney',
+    level: 'Senior',
+    description: 'Develop brand positioning, conduct brand research, create brand guidelines, define brand architecture, guide creative development, and strengthen brand equity.',
+    category: 'Marketing'
+  },
+  {
+    id: '498',
+    title: 'Marketing Analytics Manager',
+    company: 'Google',
+    level: 'Senior',
+    description: 'Analyze marketing performance, build attribution models, measure campaign effectiveness, provide insights to marketing teams, optimize marketing spend, and drive data-driven marketing.',
+    category: 'Marketing'
+  },
+  {
+    id: '499',
+    title: 'Lifecycle Marketing Manager',
+    company: 'Spotify',
+    level: 'Mid-Level',
+    description: 'Develop retention strategies, create email nurture campaigns, optimize user journeys, reduce churn, increase engagement, and maximize customer lifetime value.',
+    category: 'Marketing'
+  },
+  {
+    id: '500',
+    title: 'Influencer Marketing Manager',
+    company: 'TikTok',
+    level: 'Mid-Level',
+    description: 'Manage influencer partnerships, develop creator programs, negotiate contracts, track campaign performance, build influencer network, and drive brand awareness.',
+    category: 'Marketing'
+  },
+  // Additional Sales Roles
+  {
+    id: '501',
+    title: 'Solutions Consultant',
+    company: 'Salesforce',
+    level: 'Senior',
+    description: 'Support enterprise sales, deliver product demos, design solutions, conduct discovery, address technical objections, and help close complex deals.',
+    category: 'Sales'
+  },
+  {
+    id: '502',
+    title: 'Channel Sales Manager',
+    company: 'Cisco',
+    level: 'Senior',
+    description: 'Manage partner ecosystem, recruit resellers, enable channel partners, drive indirect sales, develop partner programs, and achieve channel revenue targets.',
+    category: 'Sales'
+  },
+  {
+    id: '503',
+    title: 'Inside Sales Representative',
+    company: 'HubSpot',
+    level: 'Entry-Level',
+    description: 'Sell software via phone and video, qualify inbound leads, conduct product demos, manage sales pipeline, close deals, and exceed monthly quotas.',
+    category: 'Sales'
+  },
+  {
+    id: '504',
+    title: 'Strategic Account Manager',
+    company: 'Oracle',
+    level: 'Senior',
+    description: 'Manage Fortune 500 accounts, develop account strategies, identify expansion opportunities, coordinate with executive stakeholders, and drive multi-year contracts.',
+    category: 'Sales'
+  },
+  {
+    id: '505',
+    title: 'Revenue Operations Manager',
+    company: 'Zoom',
+    level: 'Senior',
+    description: 'Optimize sales processes, manage sales tools, analyze revenue metrics, forecast revenue, implement sales automation, and improve sales efficiency.',
+    category: 'Sales'
+  },
+  // Additional Finance Roles
+  {
+    id: '506',
+    title: 'Private Equity Analyst',
+    company: 'KKR',
+    level: 'Mid-Level',
+    description: 'Evaluate investment opportunities, conduct due diligence, build financial models, support deal execution, monitor portfolio companies, and analyze market trends.',
+    category: 'Finance'
+  },
+  {
+    id: '507',
+    title: 'Venture Capital Associate',
+    company: 'Sequoia Capital',
+    level: 'Mid-Level',
+    description: 'Source investment opportunities, conduct company diligence, analyze markets, support portfolio companies, attend board meetings, and help make investment decisions.',
+    category: 'Finance'
+  },
+  {
+    id: '508',
+    title: 'Corporate Treasurer',
+    company: 'Netflix',
+    level: 'Executive',
+    description: 'Manage corporate treasury, oversee cash management, execute debt financing, manage foreign exchange risk, ensure liquidity, and optimize capital structure.',
+    category: 'Finance'
+  },
+  {
+    id: '509',
+    title: 'Tax Manager',
+    company: 'Amazon',
+    level: 'Senior',
+    description: 'Manage tax compliance, develop tax strategies, prepare tax returns, conduct tax planning, support audits, ensure regulatory compliance, and minimize tax liability.',
+    category: 'Finance'
+  },
+  {
+    id: '510',
+    title: 'Investor Relations Manager',
+    company: 'Tesla',
+    level: 'Senior',
+    description: 'Manage investor communications, prepare earnings materials, coordinate investor meetings, analyze shareholder base, maintain investor website, and support financial disclosures.',
+    category: 'Finance'
+  },
+  // Additional Consulting Roles
+  {
+    id: '511',
+    title: 'Operations Consultant',
+    company: 'McKinsey & Company',
+    level: 'Senior',
+    description: 'Improve client operations, optimize supply chains, implement lean methodologies, reduce costs, conduct process analysis, and drive operational excellence.',
+    category: 'Consulting'
+  },
+  {
+    id: '512',
+    title: 'Digital Transformation Consultant',
+    company: 'BCG',
+    level: 'Senior',
+    description: 'Lead digital transformation initiatives, assess digital maturity, design digital strategies, implement technology solutions, and help clients modernize their businesses.',
+    category: 'Consulting'
+  },
+  {
+    id: '513',
+    title: 'Healthcare Consultant',
+    company: 'Deloitte',
+    level: 'Senior',
+    description: 'Advise healthcare organizations, optimize clinical operations, improve patient outcomes, support mergers, implement health IT systems, and navigate healthcare regulations.',
+    category: 'Consulting'
+  },
+  {
+    id: '514',
+    title: 'Supply Chain Consultant',
+    company: 'Bain & Company',
+    level: 'Mid-Level',
+    description: 'Optimize supply chain networks, reduce logistics costs, improve procurement, implement supply chain technology, and enhance supply chain resilience.',
+    category: 'Consulting'
+  },
+  // Additional Operations Roles
+  {
+    id: '515',
+    title: 'Procurement Manager',
+    company: 'Microsoft',
+    level: 'Senior',
+    description: 'Manage vendor relationships, negotiate contracts, optimize procurement processes, reduce costs, ensure supplier compliance, and drive procurement strategy.',
+    category: 'Operations'
+  },
+  {
+    id: '516',
+    title: 'Quality Assurance Manager',
+    company: 'Ford',
+    level: 'Senior',
+    description: 'Lead quality assurance programs, implement quality standards, conduct audits, drive continuous improvement, manage quality teams, and ensure product quality.',
+    category: 'Operations'
+  },
+  {
+    id: '517',
+    title: 'Inventory Manager',
+    company: 'Target',
+    level: 'Mid-Level',
+    description: 'Manage inventory levels, optimize stock replenishment, reduce inventory costs, implement inventory systems, forecast demand, and ensure product availability.',
+    category: 'Operations'
+  },
+  {
+    id: '518',
+    title: 'Facilities Manager',
+    company: 'Google',
+    level: 'Senior',
+    description: 'Manage office facilities, coordinate maintenance, ensure workplace safety, manage vendors, optimize space utilization, and create positive work environments.',
+    category: 'Operations'
+  },
+  // Additional HR Roles
+  {
+    id: '519',
+    title: 'Diversity and Inclusion Manager',
+    company: 'Salesforce',
+    level: 'Senior',
+    description: 'Develop D&I strategies, implement inclusion programs, track diversity metrics, conduct bias training, build inclusive culture, and drive equitable hiring practices.',
+    category: 'Human Resources'
+  },
+  {
+    id: '520',
+    title: 'Benefits Manager',
+    company: 'Apple',
+    level: 'Senior',
+    description: 'Manage employee benefits programs, negotiate with vendors, ensure compliance, communicate benefits, analyze benefits utilization, and optimize benefits offerings.',
+    category: 'Human Resources'
+  },
+  {
+    id: '521',
+    title: 'Employee Relations Specialist',
+    company: 'Amazon',
+    level: 'Mid-Level',
+    description: 'Handle employee relations issues, conduct investigations, mediate conflicts, ensure policy compliance, provide coaching to managers, and maintain positive workplace culture.',
+    category: 'Human Resources'
+  },
+  {
+    id: '522',
+    title: 'Organizational Development Consultant',
+    company: 'McKinsey & Company',
+    level: 'Senior',
+    description: 'Design organizational structures, lead change management, develop leadership programs, assess organizational culture, facilitate team effectiveness, and drive organizational transformation.',
+    category: 'Human Resources'
+  },
+  // Additional Healthcare Roles
+  {
+    id: '523',
+    title: 'Physician Assistant',
+    company: 'Stanford Health Care',
+    level: 'Mid-Level',
+    description: 'Provide patient care, diagnose illnesses, prescribe treatments, assist in surgeries, order tests, educate patients, and collaborate with physicians.',
+    category: 'Healthcare'
+  },
+  {
+    id: '524',
+    title: 'Public Health Analyst',
+    company: 'Centers for Disease Control',
+    level: 'Mid-Level',
+    description: 'Analyze health data, track disease outbreaks, conduct epidemiological research, develop public health programs, create health reports, and support policy development.',
+    category: 'Healthcare'
+  },
+  {
+    id: '525',
+    title: 'Medical Science Liaison',
+    company: 'Pfizer',
+    level: 'Senior',
+    description: 'Engage with healthcare professionals, provide scientific information, support clinical research, present medical data, build relationships with key opinion leaders, and educate on products.',
+    category: 'Healthcare'
+  },
+  {
+    id: '526',
+    title: 'Healthcare Data Analyst',
+    company: 'UnitedHealth Group',
+    level: 'Mid-Level',
+    description: 'Analyze healthcare data, identify trends, improve patient outcomes, reduce costs, create dashboards, support value-based care, and inform healthcare decisions.',
+    category: 'Healthcare'
+  },
+  // Additional Legal Roles
+  {
+    id: '527',
+    title: 'Litigation Attorney',
+    company: 'Skadden Arps',
+    level: 'Senior',
+    description: 'Handle complex litigation, conduct depositions, draft legal briefs, argue in court, manage discovery, advise clients on legal strategy, and represent clients in trials.',
+    category: 'Legal'
+  },
+  {
+    id: '528',
+    title: 'Regulatory Counsel',
+    company: 'Johnson & Johnson',
+    level: 'Senior',
+    description: 'Ensure regulatory compliance, advise on FDA regulations, support product approvals, manage regulatory filings, interpret healthcare laws, and mitigate regulatory risks.',
+    category: 'Legal'
+  },
+  {
+    id: '529',
+    title: 'Commercial Lawyer',
+    company: 'Baker McKenzie',
+    level: 'Senior',
+    description: 'Negotiate commercial agreements, advise on transactions, draft contracts, manage legal risks, support business development, and provide strategic legal counsel.',
+    category: 'Legal'
+  },
+  {
+    id: '530',
+    title: 'Paralegal',
+    company: 'Latham & Watkins',
+    level: 'Mid-Level',
+    description: 'Support attorneys, conduct legal research, draft documents, manage case files, coordinate with clients, organize evidence, and assist with trial preparation.',
+    category: 'Legal'
+  },
+  // Additional Creative Roles
+  {
+    id: '531',
+    title: 'Social Media Content Creator',
+    company: 'TikTok',
+    level: 'Mid-Level',
+    description: 'Create engaging social content, produce videos, write captions, manage content calendar, analyze engagement metrics, stay current on trends, and build online community.',
+    category: 'Creative'
+  },
+  {
+    id: '532',
+    title: 'User Experience Writer',
+    company: 'Google',
+    level: 'Mid-Level',
+    description: 'Write product copy, create microcopy, develop voice and tone, collaborate with designers, conduct content testing, ensure clarity, and improve user experience through words.',
+    category: 'Creative'
+  },
+  {
+    id: '533',
+    title: 'Podcast Producer',
+    company: 'Spotify',
+    level: 'Mid-Level',
+    description: 'Produce podcast episodes, coordinate guests, edit audio, manage production schedules, develop content strategy, grow audience, and ensure high production quality.',
+    category: 'Creative'
+  },
+  {
+    id: '534',
+    title: 'Illustrator',
+    company: 'Pixar',
+    level: 'Senior',
+    description: 'Create illustrations for films and marketing, develop character designs, produce storyboards, collaborate with directors, maintain artistic style, and bring stories to visual life.',
+    category: 'Creative'
+  },
+  // Additional Engineering Roles
+  {
+    id: '535',
+    title: 'Systems Engineer',
+    company: 'Raytheon',
+    level: 'Senior',
+    description: 'Design complex systems, integrate subsystems, conduct systems analysis, manage technical requirements, coordinate across engineering disciplines, and ensure system performance.',
+    category: 'Engineering'
+  },
+  {
+    id: '536',
+    title: 'Reliability Engineer',
+    company: 'General Electric',
+    level: 'Senior',
+    description: 'Improve equipment reliability, conduct failure analysis, implement preventive maintenance, analyze reliability data, reduce downtime, and optimize asset performance.',
+    category: 'Engineering'
+  },
+  {
+    id: '537',
+    title: 'Process Engineer',
+    company: 'Intel',
+    level: 'Mid-Level',
+    description: 'Optimize manufacturing processes, improve yield, reduce costs, implement process controls, troubleshoot production issues, and drive continuous improvement.',
+    category: 'Engineering'
+  },
+  {
+    id: '538',
+    title: 'Robotics Engineer',
+    company: 'Boston Dynamics',
+    level: 'Senior',
+    description: 'Design robotic systems, develop control algorithms, integrate sensors, program robot behaviors, test prototypes, and advance robotics technology.',
+    category: 'Engineering'
+  },
+  {
+    id: '539',
+    title: 'Materials Engineer',
+    company: '3M',
+    level: 'Senior',
+    description: 'Develop new materials, test material properties, optimize material performance, support product development, conduct research, and innovate material solutions.',
+    category: 'Engineering'
+  },
+  // Additional Cybersecurity Roles
+  {
+    id: '540',
+    title: 'Incident Response Manager',
+    company: 'Mandiant',
+    level: 'Lead',
+    description: 'Lead incident response team, manage security breaches, coordinate forensic investigations, develop response playbooks, communicate with stakeholders, and improve security posture.',
+    category: 'Cybersecurity'
+  },
+  {
+    id: '541',
+    title: 'Cloud Security Engineer',
+    company: 'AWS',
+    level: 'Senior',
+    description: 'Secure cloud infrastructure, implement security controls, conduct cloud audits, automate security processes, ensure compliance, and protect cloud workloads.',
+    category: 'Cybersecurity'
+  },
+  {
+    id: '542',
+    title: 'Identity and Access Management Engineer',
+    company: 'Okta',
+    level: 'Mid-Level',
+    description: 'Manage IAM systems, implement access controls, configure SSO, ensure least privilege, conduct access reviews, and protect identity infrastructure.',
+    category: 'Cybersecurity'
+  },
+  {
+    id: '543',
+    title: 'Security Compliance Analyst',
+    company: 'IBM',
+    level: 'Mid-Level',
+    description: 'Ensure security compliance, conduct audits, manage certifications, assess controls, document policies, support SOC 2 and ISO audits, and maintain compliance frameworks.',
+    category: 'Cybersecurity'
+  },
+  // Additional Sustainability Roles
+  {
+    id: '544',
+    title: 'Carbon Accounting Specialist',
+    company: 'Microsoft',
+    level: 'Mid-Level',
+    description: 'Measure carbon emissions, calculate carbon footprint, track sustainability metrics, support carbon reduction goals, ensure accurate reporting, and implement carbon accounting systems.',
+    category: 'Sustainability'
+  },
+  {
+    id: '545',
+    title: 'Circular Economy Manager',
+    company: 'IKEA',
+    level: 'Senior',
+    description: 'Develop circular business models, reduce waste, implement recycling programs, design for sustainability, promote product reuse, and drive circular economy initiatives.',
+    category: 'Sustainability'
+  },
+  {
+    id: '546',
+    title: 'Sustainability Consultant',
+    company: 'Accenture',
+    level: 'Senior',
+    description: 'Advise clients on sustainability, develop ESG strategies, conduct sustainability assessments, support net-zero goals, implement sustainable practices, and drive corporate responsibility.',
+    category: 'Sustainability'
+  },
+  {
+    id: '547',
+    title: 'Green Building Consultant',
+    company: 'Gensler',
+    level: 'Senior',
+    description: 'Design sustainable buildings, ensure LEED certification, optimize energy efficiency, specify green materials, conduct sustainability assessments, and promote sustainable architecture.',
+    category: 'Sustainability'
+  },
+  // Additional Real Estate Roles
+  {
+    id: '548',
+    title: 'Real Estate Investment Analyst',
+    company: 'Brookfield Asset Management',
+    level: 'Mid-Level',
+    description: 'Analyze real estate deals, build investment models, conduct market research, evaluate risk-return profiles, support acquisitions, and make investment recommendations.',
+    category: 'Real Estate'
+  },
+  {
+    id: '549',
+    title: 'Construction Project Manager',
+    company: 'Turner Construction',
+    level: 'Senior',
+    description: 'Manage construction projects, coordinate subcontractors, oversee budgets and schedules, ensure safety compliance, manage quality control, and deliver projects on time.',
+    category: 'Real Estate'
+  },
+  {
+    id: '550',
+    title: 'Real Estate Portfolio Manager',
+    company: 'Prologis',
+    level: 'Senior',
+    description: 'Manage property portfolios, develop investment strategies, optimize asset performance, coordinate with property managers, analyze market trends, and maximize portfolio returns.',
+    category: 'Real Estate'
+  },
+  {
+    id: '551',
+    title: 'Acquisitions Manager',
+    company: 'Hines',
+    level: 'Senior',
+    description: 'Source acquisition opportunities, conduct due diligence, negotiate purchase agreements, coordinate financing, evaluate development sites, and execute real estate investments.',
+    category: 'Real Estate'
   }
 ];
 

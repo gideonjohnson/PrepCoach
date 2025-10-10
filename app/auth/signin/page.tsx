@@ -1,16 +1,28 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { signIn } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 
 export default function SignInPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    // Check for success messages from URL params
+    if (searchParams.get('verified') === 'true') {
+      setSuccess('Email verified successfully! You can now sign in.');
+    }
+    if (searchParams.get('reset') === 'success') {
+      setSuccess('Password reset successfully! You can now sign in with your new password.');
+    }
+  }, [searchParams]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -64,6 +76,11 @@ export default function SignInPage() {
         {/* Sign In Form */}
         <div className="bg-white rounded-2xl shadow-lg p-8 border-2 border-gray-100">
           <form onSubmit={handleSubmit} className="space-y-6">
+            {success && (
+              <div className="bg-green-50 border-2 border-green-200 rounded-lg p-4 text-green-700 text-sm">
+                {success}
+              </div>
+            )}
             {error && (
               <div className="bg-red-50 border-2 border-red-200 rounded-lg p-4 text-red-700 text-sm">
                 {error}
@@ -86,9 +103,17 @@ export default function SignInPage() {
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-semibold text-gray-700 mb-2">
-                Password
-              </label>
+              <div className="flex items-center justify-between mb-2">
+                <label htmlFor="password" className="block text-sm font-semibold text-gray-700">
+                  Password
+                </label>
+                <Link
+                  href="/auth/forgot-password"
+                  className="text-xs text-orange-600 hover:text-orange-700 font-medium"
+                >
+                  Forgot password?
+                </Link>
+              </div>
               <input
                 id="password"
                 type="password"

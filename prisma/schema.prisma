@@ -23,7 +23,7 @@ model User {
   isAdmin       Boolean   @default(false)
 
   // Subscription fields
-  subscriptionTier  String   @default("free") // free, pro, enterprise
+  subscriptionTier  String   @default("pro") // pro, enterprise, lifetime
   subscriptionStatus String  @default("active") // active, cancelled, expired
   subscriptionStart DateTime?
   subscriptionEnd   DateTime?
@@ -39,6 +39,34 @@ model User {
   sessions      InterviewSession[]
   accounts      Account[]
   resumes       Resume[]
+  verificationTokens VerificationToken[]
+  passwordResetTokens PasswordResetToken[]
+}
+
+model VerificationToken {
+  id        String   @id @default(cuid())
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([token])
+}
+
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([token])
 }
 
 model Account {

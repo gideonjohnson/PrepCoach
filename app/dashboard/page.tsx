@@ -1,8 +1,10 @@
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
-import { useSession, signOut } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 import Link from 'next/link';
+import Header from '../components/Header';
+import Breadcrumbs from '../components/Breadcrumbs';
 import {
   LineChart,
   Line,
@@ -47,6 +49,25 @@ export default function DashboardPage() {
   const [filter, setFilter] = useState<'all' | 'completed' | 'in-progress'>('all');
   const [loading, setLoading] = useState(true);
 
+  // Get category emoji
+  const getCategoryEmoji = (category: string) => {
+    const emojiMap: Record<string, string> = {
+      'Technology': '💻',
+      'Product': '📱',
+      'Design': '🎨',
+      'Marketing': '📢',
+      'Sales': '💼',
+      'Finance': '💰',
+      'Operations': '⚙️',
+      'Data': '📊',
+      'Healthcare': '🏥',
+      'Education': '📚',
+      'Legal': '⚖️',
+      'HR': '👥',
+    };
+    return emojiMap[category] || '🎯';
+  };
+
   useEffect(() => {
     // Load interview sessions from database
     const loadSessions = async () => {
@@ -80,6 +101,12 @@ export default function DashboardPage() {
   const avgCompletionRate = sessions.length > 0
     ? Math.round(sessions.reduce((sum, s) => sum + s.completionRate, 0) / sessions.length)
     : 0;
+
+  // Get in-progress sessions for the "Continue Interview" section
+  const inProgressSessions = sessions
+    .filter(s => s.completionRate < 100)
+    .sort((a, b) => b.date - a.date)
+    .slice(0, 3);
 
   // Analytics data processing
   const analyticsData = useMemo(() => {
@@ -142,108 +169,181 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-purple-50 via-white to-blue-50">
-      {/* Header */}
-      <div className="bg-white/80 backdrop-blur-sm border-b border-gray-200 shadow-md">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-            <div className="animate-fadeIn">
-              <h1 className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-purple-600 via-orange-500 to-red-500 bg-clip-text text-transparent mb-2">
-                Interview Dashboard
-              </h1>
-              <p className="text-gray-600 text-base sm:text-lg">Track your interview preparation progress</p>
-            </div>
-            <div className="flex flex-wrap items-center gap-2 sm:gap-3 w-full sm:w-auto">
-              {session && (
-                <Link href="/profile" className="text-sm text-gray-600 hover:text-gray-900 transition flex items-center gap-1">
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                  </svg>
-                  {session.user?.email}
-                </Link>
-              )}
-              {sessions.length > 0 && (
-                <button
-                  onClick={() => exportAllSessionsToCSV(sessions)}
-                  className="flex-1 sm:flex-none px-4 sm:px-6 py-2 sm:py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-full text-sm sm:text-base font-semibold hover:shadow-xl transition-all transform hover:scale-105 shadow-md flex items-center justify-center gap-2"
-                  title="Export all sessions to CSV"
-                >
-                  <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                  </svg>
-                  <span className="hidden sm:inline">Export CSV</span>
-                  <span className="sm:hidden">Export</span>
-                </button>
-              )}
-              <Link
-                href="/practice"
-                className="flex-1 sm:flex-none px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-orange-500 via-orange-600 to-red-500 text-white rounded-full text-sm sm:text-base font-bold hover:shadow-2xl transition-all transform hover:scale-105 shadow-lg flex items-center justify-center gap-2"
-              >
-                <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                </svg>
-                <span className="hidden sm:inline">New Interview</span>
-                <span className="sm:hidden">New</span>
-              </Link>
-              <button
-                onClick={() => signOut()}
-                className="flex-1 sm:flex-none px-4 sm:px-6 py-2 sm:py-3 bg-gray-200 text-gray-800 rounded-full text-sm sm:text-base font-semibold hover:bg-gray-300 transition"
-              >
-                Sign Out
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <Header />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Stats Overview */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mb-8">
-          <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-lg border-2 border-blue-100 hover:shadow-xl transition-shadow animate-fadeIn">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-2 sm:mb-3">
-              <h3 className="text-xs sm:text-sm font-semibold text-gray-600 uppercase tracking-wide mb-2 sm:mb-0">Total Interviews</h3>
-              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-blue-100 to-blue-50 rounded-xl flex items-center justify-center shadow-sm">
-                <svg className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <Breadcrumbs />
+
+        {/* Page Title and Quick Actions */}
+        <div className="mb-8">
+          <h1 className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-purple-600 via-orange-500 to-red-500 bg-clip-text text-transparent mb-2">
+            Interview Dashboard
+          </h1>
+          <p className="text-gray-600 text-base sm:text-lg mb-4">Track your interview preparation progress</p>
+
+          {/* Quick Navigation Links */}
+          <div className="flex flex-wrap gap-3">
+            <Link
+              href="/practice"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-lg text-sm font-semibold hover:shadow-lg transition-all transform hover:scale-105"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              Start Interview
+            </Link>
+            <Link
+              href="/resume-builder"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-white border-2 border-purple-200 text-purple-700 rounded-lg text-sm font-semibold hover:bg-purple-50 transition-all"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+              Resume Builder
+            </Link>
+            <Link
+              href="/pricing"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-white border-2 border-gray-200 text-gray-700 rounded-lg text-sm font-semibold hover:bg-gray-50 transition-all"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              Pricing
+            </Link>
+            {sessions.length > 0 && (
+              <button
+                onClick={() => exportAllSessionsToCSV(sessions)}
+                className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-lg text-sm font-semibold hover:shadow-lg transition-all transform hover:scale-105"
+                title="Export all sessions to CSV"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                Export CSV
+              </button>
+            )}
+          </div>
+        </div>
+        {/* Continue Interview Section */}
+        {sessions.length > 0 && (
+          <div className="mb-8">
+            <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+              <span className="text-2xl">🚀</span>
+              {inProgressSessions.length > 0 ? 'Continue Your Interviews' : 'Ready to Start?'}
+            </h2>
+
+            {inProgressSessions.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+                {inProgressSessions.map((session, index) => (
+                  <div
+                    key={session.id}
+                    className="bg-gradient-to-br from-orange-50 to-red-50 rounded-2xl p-6 shadow-lg border-2 border-orange-200 hover:shadow-xl hover:border-orange-300 transition-all animate-fadeIn transform hover:scale-105"
+                    style={{ animationDelay: `${index * 50}ms` }}
+                  >
+                    <div className="flex items-start gap-3 mb-4">
+                      <span className="text-4xl">{getCategoryEmoji(session.roleCategory)}</span>
+                      <div className="flex-1">
+                        <h3 className="text-lg font-bold text-gray-900 mb-1 line-clamp-1">{session.roleTitle}</h3>
+                        <p className="text-sm text-gray-600 font-semibold">{session.company}</p>
+                      </div>
+                    </div>
+
+                    <div className="mb-4">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-xs font-semibold text-gray-700">
+                          {session.answeredQuestions}/{session.totalQuestions} questions
+                        </span>
+                        <span className="text-xs font-bold text-orange-600">{session.completionRate}%</span>
+                      </div>
+                      <div className="w-full bg-white/50 rounded-full h-2 shadow-inner">
+                        <div
+                          className="bg-gradient-to-r from-orange-500 to-red-500 h-2 rounded-full transition-all duration-500"
+                          style={{ width: `${session.completionRate}%` }}
+                        ></div>
+                      </div>
+                    </div>
+
+                    <Link
+                      href={`/practice?resume=${session.id}`}
+                      className="block w-full px-4 py-3 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-xl font-bold hover:from-orange-600 hover:to-red-600 transition-all shadow-md hover:shadow-lg text-center"
+                    >
+                      Continue Interview
+                    </Link>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="bg-gradient-to-br from-purple-50 to-blue-50 rounded-2xl p-8 shadow-lg border-2 border-purple-200 text-center">
+                <div className="w-16 h-16 bg-gradient-to-br from-purple-100 to-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-sm">
+                  <svg className="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">All interviews completed!</h3>
+                <p className="text-gray-600 mb-6">Great job! Ready for your next challenge?</p>
+                <Link
+                  href="/practice"
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-full font-bold hover:shadow-xl transition-all transform hover:scale-105 shadow-lg"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                  </svg>
+                  Start New Interview
+                </Link>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Stats Overview - More Compact */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-8">
+          <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl p-4 shadow-lg hover:shadow-xl transition-all animate-fadeIn transform hover:scale-105">
+            <div className="flex items-center justify-between mb-2">
+              <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center">
+                <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
               </div>
+              <p className="text-3xl font-bold text-white">{totalSessions}</p>
             </div>
-            <p className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent">{totalSessions}</p>
+            <h3 className="text-xs font-semibold text-white/90 uppercase tracking-wide">Total Interviews</h3>
           </div>
 
-          <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-lg border-2 border-green-100 hover:shadow-xl transition-shadow animate-fadeIn" style={{ animationDelay: '50ms' }}>
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-2 sm:mb-3">
-              <h3 className="text-xs sm:text-sm font-semibold text-gray-600 uppercase tracking-wide mb-2 sm:mb-0">Completed</h3>
-              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-green-100 to-green-50 rounded-xl flex items-center justify-center shadow-sm">
-                <svg className="w-5 h-5 sm:w-6 sm:h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-xl p-4 shadow-lg hover:shadow-xl transition-all animate-fadeIn transform hover:scale-105" style={{ animationDelay: '50ms' }}>
+            <div className="flex items-center justify-between mb-2">
+              <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center">
+                <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </div>
+              <p className="text-3xl font-bold text-white">{completedSessions}</p>
             </div>
-            <p className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-green-600 to-green-400 bg-clip-text text-transparent">{completedSessions}</p>
+            <h3 className="text-xs font-semibold text-white/90 uppercase tracking-wide">Completed</h3>
           </div>
 
-          <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-lg border-2 border-purple-100 hover:shadow-xl transition-shadow animate-fadeIn" style={{ animationDelay: '100ms' }}>
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-2 sm:mb-3">
-              <h3 className="text-xs sm:text-sm font-semibold text-gray-600 uppercase tracking-wide mb-2 sm:mb-0">Questions</h3>
-              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-purple-100 to-purple-50 rounded-xl flex items-center justify-center shadow-sm">
-                <svg className="w-5 h-5 sm:w-6 sm:h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl p-4 shadow-lg hover:shadow-xl transition-all animate-fadeIn transform hover:scale-105" style={{ animationDelay: '100ms' }}>
+            <div className="flex items-center justify-between mb-2">
+              <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center">
+                <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
                 </svg>
               </div>
+              <p className="text-3xl font-bold text-white">{totalQuestionsAnswered}</p>
             </div>
-            <p className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-purple-600 to-purple-400 bg-clip-text text-transparent">{totalQuestionsAnswered}</p>
+            <h3 className="text-xs font-semibold text-white/90 uppercase tracking-wide">Questions Answered</h3>
           </div>
 
-          <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-lg border-2 border-orange-100 hover:shadow-xl transition-shadow animate-fadeIn" style={{ animationDelay: '150ms' }}>
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-2 sm:mb-3">
-              <h3 className="text-xs sm:text-sm font-semibold text-gray-600 uppercase tracking-wide mb-2 sm:mb-0">Avg Rate</h3>
-              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-orange-100 to-orange-50 rounded-xl flex items-center justify-center shadow-sm">
-                <svg className="w-5 h-5 sm:w-6 sm:h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="bg-gradient-to-br from-orange-500 to-red-500 rounded-xl p-4 shadow-lg hover:shadow-xl transition-all animate-fadeIn transform hover:scale-105" style={{ animationDelay: '150ms' }}>
+            <div className="flex items-center justify-between mb-2">
+              <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center">
+                <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
                 </svg>
               </div>
+              <p className="text-3xl font-bold text-white">{avgCompletionRate}%</p>
             </div>
-            <p className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-orange-600 to-orange-400 bg-clip-text text-transparent">{avgCompletionRate}%</p>
+            <h3 className="text-xs font-semibold text-white/90 uppercase tracking-wide">Avg Completion</h3>
           </div>
         </div>
 
@@ -476,108 +576,176 @@ export default function DashboardPage() {
 
         {/* Interview Sessions List */}
         {filteredSessions.length === 0 ? (
-          <div className="bg-white rounded-2xl p-16 text-center shadow-lg border-2 border-gray-100 animate-fadeIn">
-            <div className="w-20 h-20 bg-gradient-to-br from-gray-100 to-gray-50 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-sm">
-              <svg className="w-10 h-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          <div className="bg-gradient-to-br from-purple-50 to-blue-50 rounded-2xl p-12 sm:p-16 text-center shadow-lg border-2 border-purple-200 animate-fadeIn">
+            <div className="w-24 h-24 bg-gradient-to-br from-purple-100 to-blue-100 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-md">
+              <svg className="w-12 h-12 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
               </svg>
             </div>
-            <h3 className="text-2xl font-bold text-gray-900 mb-3">No interviews yet</h3>
-            <p className="text-gray-600 mb-8 text-lg">Start practicing to see your progress here</p>
-            <Link
-              href="/practice"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-orange-500 via-orange-600 to-red-500 text-white rounded-full font-bold hover:shadow-2xl transition-all transform hover:scale-105 shadow-lg"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-              </svg>
-              Start Your First Interview
-            </Link>
+            <h3 className="text-3xl font-bold text-gray-900 mb-3">
+              {sessions.length === 0 ? 'Start Your Interview Journey' : 'No matching interviews'}
+            </h3>
+            <p className="text-gray-600 mb-4 text-lg max-w-md mx-auto">
+              {sessions.length === 0
+                ? 'Practice makes perfect! Begin your first AI-powered mock interview and get instant feedback.'
+                : `Try adjusting your filters to see ${filter === 'completed' ? 'in-progress' : 'completed'} interviews.`
+              }
+            </p>
+            {sessions.length === 0 && (
+              <>
+                <div className="flex flex-wrap justify-center gap-4 mb-8 text-sm">
+                  <div className="flex items-center gap-2 text-gray-700">
+                    <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    Real-time feedback
+                  </div>
+                  <div className="flex items-center gap-2 text-gray-700">
+                    <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    Track your progress
+                  </div>
+                  <div className="flex items-center gap-2 text-gray-700">
+                    <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    Build confidence
+                  </div>
+                </div>
+                <Link
+                  href="/practice"
+                  className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-orange-500 via-orange-600 to-red-500 text-white rounded-full font-bold hover:shadow-2xl transition-all transform hover:scale-105 shadow-lg"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                  </svg>
+                  Start Your First Interview
+                </Link>
+              </>
+            )}
           </div>
         ) : (
-          <div className="space-y-4">
+          <div className="space-y-3">
             {filteredSessions.map((session, index) => (
               <div
                 key={session.id}
-                className="bg-white rounded-2xl p-6 shadow-lg border-2 border-gray-100 hover:shadow-xl hover:border-orange-200 transition-all animate-fadeIn"
-                style={{ animationDelay: `${index * 50}ms` }}
+                className="bg-white rounded-xl p-4 sm:p-5 shadow-md border border-gray-200 hover:shadow-lg hover:border-orange-300 transition-all animate-fadeIn"
+                style={{ animationDelay: `${index * 30}ms` }}
               >
-                <div className="flex items-start justify-between mb-5">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-3 mb-3">
-                      <h3 className="text-xl font-bold text-gray-900">{session.roleTitle}</h3>
-                      <span className={`px-3 py-1 rounded-full text-xs font-bold shadow-sm ${
-                        session.completionRate === 100
-                          ? 'bg-gradient-to-r from-green-100 to-green-50 text-green-700'
-                          : 'bg-gradient-to-r from-blue-100 to-blue-50 text-blue-700'
-                      }`}>
-                        {session.completionRate === 100 ? 'Completed' : 'In Progress'}
-                      </span>
-                    </div>
-                    <div className="flex flex-wrap gap-2 mb-3">
-                      <span className="px-3 py-1.5 bg-gradient-to-r from-orange-100 to-orange-50 text-orange-700 rounded-full text-sm font-semibold shadow-sm">
-                        {session.company}
-                      </span>
-                      <span className="px-3 py-1.5 bg-gradient-to-r from-purple-100 to-purple-50 text-purple-700 rounded-full text-sm font-semibold shadow-sm">
-                        {session.roleLevel}
-                      </span>
-                      <span className="px-3 py-1.5 bg-gradient-to-r from-gray-100 to-gray-50 text-gray-700 rounded-full text-sm font-semibold shadow-sm">
-                        {session.roleCategory}
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-2 text-sm text-gray-500">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                      {new Date(session.date).toLocaleDateString('en-US', {
-                        month: 'long',
-                        day: 'numeric',
-                        year: 'numeric',
-                        hour: '2-digit',
-                        minute: '2-digit'
-                      })}
+                <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+                  {/* Category Emoji & Info */}
+                  <div className="flex items-start gap-3 flex-1 min-w-0">
+                    <span className="text-3xl flex-shrink-0">{getCategoryEmoji(session.roleCategory)}</span>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-1 flex-wrap">
+                        <h3 className="text-base sm:text-lg font-bold text-gray-900 truncate">{session.roleTitle}</h3>
+                        <span className={`px-2 py-0.5 rounded-full text-xs font-bold flex-shrink-0 ${
+                          session.completionRate === 100
+                            ? 'bg-green-100 text-green-700'
+                            : 'bg-blue-100 text-blue-700'
+                        }`}>
+                          {session.completionRate === 100 ? '✓ Completed' : 'In Progress'}
+                        </span>
+                      </div>
+                      <div className="flex flex-wrap gap-2 mb-2">
+                        <span className="text-xs sm:text-sm text-gray-600 font-medium">{session.company}</span>
+                        <span className="text-xs text-gray-400">•</span>
+                        <span className="text-xs sm:text-sm text-gray-600">{session.roleLevel}</span>
+                        <span className="text-xs text-gray-400">•</span>
+                        <span className="text-xs sm:text-sm text-gray-600">{session.roleCategory}</span>
+                      </div>
+                      <div className="flex items-center gap-4 text-xs text-gray-500">
+                        <span className="flex items-center gap-1">
+                          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                          {new Date(session.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                        </span>
+                        <span>{session.answeredQuestions}/{session.totalQuestions} questions</span>
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                {/* Progress Bar */}
-                <div className="mb-5">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm font-semibold text-gray-700">
-                      {session.answeredQuestions} of {session.totalQuestions} questions answered
-                    </span>
-                    <span className="text-sm font-bold text-orange-600">{session.completionRate}%</span>
-                  </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2.5 shadow-inner">
-                    <div
-                      className="bg-gradient-to-r from-orange-500 via-orange-400 to-red-500 h-2.5 rounded-full transition-all duration-500 shadow-sm"
-                      style={{ width: `${session.completionRate}%` }}
-                    ></div>
-                  </div>
-                </div>
+                  {/* Progress & Actions */}
+                  <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:w-auto">
+                    {/* Progress Circle */}
+                    <div className="flex items-center gap-2 sm:flex-col sm:gap-1">
+                      <div className="relative w-12 h-12 flex-shrink-0">
+                        <svg className="w-12 h-12 transform -rotate-90">
+                          <circle
+                            cx="24"
+                            cy="24"
+                            r="20"
+                            stroke="#e5e7eb"
+                            strokeWidth="4"
+                            fill="none"
+                          />
+                          <circle
+                            cx="24"
+                            cy="24"
+                            r="20"
+                            stroke={session.completionRate === 100 ? "#10b981" : "#f97316"}
+                            strokeWidth="4"
+                            fill="none"
+                            strokeDasharray={`${2 * Math.PI * 20}`}
+                            strokeDashoffset={`${2 * Math.PI * 20 * (1 - session.completionRate / 100)}`}
+                            strokeLinecap="round"
+                          />
+                        </svg>
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <span className="text-xs font-bold text-gray-900">{session.completionRate}%</span>
+                        </div>
+                      </div>
+                    </div>
 
-                {/* Action Buttons */}
-                <div className="flex gap-3">
-                  <Link
-                    href={`/dashboard/session/${session.id}`}
-                    className="flex-1 px-5 py-2.5 bg-gradient-to-r from-gray-100 to-gray-50 text-gray-700 rounded-lg font-semibold hover:from-gray-200 hover:to-gray-100 transition-all shadow-sm hover:shadow-md text-center"
-                  >
-                    View Details
-                  </Link>
-                  {session.completionRate < 100 && (
-                    <Link
-                      href={`/practice?resume=${session.id}`}
-                      className="flex-1 px-5 py-2.5 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-lg font-semibold hover:from-orange-600 hover:to-red-600 transition-all shadow-md hover:shadow-lg text-center"
-                    >
-                      Continue Interview
-                    </Link>
-                  )}
+                    {/* Action Buttons */}
+                    <div className="flex gap-2">
+                      <Link
+                        href={`/dashboard/session/${session.id}`}
+                        className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-semibold hover:bg-gray-200 transition-all flex items-center gap-1 flex-1 sm:flex-none justify-center"
+                      >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                        </svg>
+                        <span className="hidden sm:inline">Details</span>
+                      </Link>
+                      {session.completionRate < 100 && (
+                        <Link
+                          href={`/practice?resume=${session.id}`}
+                          className="px-4 py-2 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-lg text-sm font-bold hover:from-orange-600 hover:to-red-600 transition-all flex items-center gap-1 flex-1 sm:flex-none justify-center shadow-md"
+                        >
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                          Resume
+                        </Link>
+                      )}
+                    </div>
+                  </div>
                 </div>
               </div>
             ))}
           </div>
         )}
       </div>
+
+      {/* Floating Quick Actions */}
+      {sessions.length > 0 && (
+        <div className="fixed bottom-6 right-6 flex flex-col gap-3 z-50">
+          <Link
+            href="/practice"
+            className="group w-14 h-14 bg-gradient-to-r from-orange-500 to-red-500 rounded-full shadow-2xl hover:shadow-3xl transition-all transform hover:scale-110 flex items-center justify-center"
+            title="Start New Interview"
+          >
+            <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+            </svg>
+          </Link>
+        </div>
+      )}
     </div>
   );
 }

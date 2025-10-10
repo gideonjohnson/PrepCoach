@@ -11,11 +11,13 @@ export default function SignUpPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    setSuccess('');
     setIsLoading(true);
 
     try {
@@ -36,23 +38,19 @@ export default function SignUpPage() {
         return;
       }
 
-      // Sign in the user automatically
-      const result = await signIn('credentials', {
-        email,
-        password,
-        redirect: false,
-      });
+      // Show success message
+      setSuccess(data.message || 'Account created successfully!');
 
-      if (result?.error) {
-        setError('Account created but failed to sign in. Please sign in manually.');
-        setTimeout(() => router.push('/auth/signin'), 2000);
-      } else {
-        router.push('/dashboard');
-        router.refresh();
-      }
+      // If auto-verified (no email service), redirect faster
+      const redirectDelay = data.autoVerified ? 2000 : 5000;
+
+      // Wait then redirect to welcome page
+      setTimeout(() => {
+        router.push('/auth/welcome');
+      }, redirectDelay);
+
     } catch (error) {
       setError('An error occurred. Please try again.');
-    } finally {
       setIsLoading(false);
     }
   };
@@ -83,12 +81,30 @@ export default function SignUpPage() {
 
         {/* Sign Up Form */}
         <div className="bg-white rounded-2xl shadow-lg p-8 border-2 border-gray-100">
-          <form onSubmit={handleSubmit} className="space-y-6">
-            {error && (
-              <div className="bg-red-50 border-2 border-red-200 rounded-lg p-4 text-red-700 text-sm">
-                {error}
+          {success ? (
+            <div className="text-center py-8">
+              <div className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-green-100 mb-4">
+                <svg className="h-8 w-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                </svg>
               </div>
-            )}
+              <h2 className="text-2xl font-bold text-gray-800 mb-2">Account Created!</h2>
+              <p className="text-gray-600 mb-4">{success}</p>
+              <p className="text-sm text-gray-500 mb-6">Taking you to choose your plan...</p>
+              <Link
+                href="/auth/welcome"
+                className="inline-block bg-gradient-to-r from-orange-500 to-red-500 text-white font-semibold py-3 px-6 rounded-lg hover:from-orange-600 hover:to-red-600 transition-all"
+              >
+                Continue
+              </Link>
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit} className="space-y-6">
+              {error && (
+                <div className="bg-red-50 border-2 border-red-200 rounded-lg p-4 text-red-700 text-sm">
+                  {error}
+                </div>
+              )}
 
             <div>
               <label htmlFor="name" className="block text-sm font-semibold text-gray-700 mb-2">
@@ -130,11 +146,11 @@ export default function SignUpPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                minLength={6}
+                minLength={8}
                 className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-orange-500 focus:ring-0 transition-colors"
                 placeholder="••••••••"
               />
-              <p className="text-xs text-gray-500 mt-1">At least 6 characters</p>
+              <p className="text-xs text-gray-500 mt-1">At least 8 characters</p>
             </div>
 
             <button
@@ -145,6 +161,7 @@ export default function SignUpPage() {
               {isLoading ? 'Creating account...' : 'Sign Up'}
             </button>
           </form>
+          )}
 
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-600">

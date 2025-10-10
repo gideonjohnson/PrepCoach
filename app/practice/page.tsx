@@ -8,8 +8,10 @@ import AIAvatar from './AIAvatar';
 import { roles, categories, type Role } from './roles';
 import { getQuestionsForRole } from './questions';
 import Link from 'next/link';
+import InterviewerConfig, { InterviewerSettings } from '../components/InterviewerConfig';
+import VideoInterviewer from '../components/VideoInterviewer';
 
-type Step = 'role-selection' | 'interview';
+type Step = 'role-selection' | 'interviewer-config' | 'interview';
 
 interface ResumeSession {
   sessionId: string;
@@ -31,6 +33,15 @@ function PracticeContent() {
   const [resumeData, setResumeData] = useState<ResumeSession | null>(null);
   const [showLimitModal, setShowLimitModal] = useState(false);
   const [limitMessage, setLimitMessage] = useState('');
+  const [interviewerSettings, setInterviewerSettings] = useState<InterviewerSettings>({
+    type: 'animated',
+    gender: 'female',
+    accent: 'american',
+    tone: 'friendly',
+  });
+
+  // Removed payment gate - free tier users now get 3 interviews/month
+  // Limits are enforced by /api/user/check-limits endpoint
 
   // Check if we need to resume a session
   useEffect(() => {
@@ -74,7 +85,7 @@ function PracticeContent() {
     }
   }, [resumeSessionId]);
 
-  const handleRoleSelect = async (role: Role) => {
+  const handleRoleSelect = async (role: Role, skipConfig: boolean = true) => {
     // Check if user can start a new interview
     try {
       const response = await fetch('/api/user/check-limits?feature=interview');
@@ -92,7 +103,13 @@ function PracticeContent() {
 
     setSelectedRole(role);
     setResumeData(null); // Clear resume data when starting fresh
-    setStep('interview');
+
+    // Skip interviewer config by default to reduce friction
+    if (!skipConfig && !resumeSessionId) {
+      setStep('interviewer-config');
+    } else {
+      setStep('interview');
+    }
 
     // Increment interview counter
     try {
@@ -118,25 +135,87 @@ function PracticeContent() {
     return matchesCategory && matchesLevel && matchesSearch;
   });
 
-  if (step === 'role-selection') {
-    // Group roles by category for organized display
-    const groupedRoles = filteredRoles.reduce((acc, role) => {
-      if (!acc[role.category]) {
-        acc[role.category] = [];
-      }
-      acc[role.category].push(role);
-      return acc;
-    }, {} as Record<string, typeof filteredRoles>);
+  // Group roles by category for organized display
+  const groupedRoles = filteredRoles.reduce((acc, role) => {
+    if (!acc[role.category]) {
+      acc[role.category] = [];
+    }
+    acc[role.category].push(role);
+    return acc;
+  }, {} as Record<string, typeof filteredRoles>);
 
+  // Interviewer configuration step
+  if (step === 'interviewer-config') {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-purple-50 via-white to-blue-50 py-12 px-4 sm:px-6 lg:px-8 animate-fadeIn">
+      <div className="min-h-screen bg-gradient-to-b from-purple-50 via-white to-blue-50 flex items-center justify-center">
+        <InterviewerConfig
+          currentSettings={interviewerSettings}
+          onSave={(settings) => {
+            setInterviewerSettings(settings);
+            setStep('interview');
+          }}
+          onClose={() => {
+            // Use default settings
+            setStep('interview');
+          }}
+        />
+      </div>
+    );
+  }
+
+  // Quick start roles - most popular positions
+  const quickStartRoles = [
+    roles.find(r => r.title.includes('Software Engineer') && r.company === 'Google'),
+    roles.find(r => r.title.includes('Product Manager') && r.company === 'Meta'),
+    roles.find(r => r.title.includes('Data Scientist') && r.company === 'Netflix'),
+    roles.find(r => r.title.includes('UX Designer') && r.company === 'Apple'),
+    roles.find(r => r.title.includes('Marketing Manager') && r.company === 'Amazon'),
+    roles.find(r => r.title.includes('Sales') && r.company === 'Salesforce'),
+    roles.find(r => r.title.includes('DevOps') && r.company === 'Microsoft'),
+    roles.find(r => r.title.includes('Business Analyst') && r.company === 'Google'),
+  ].filter(Boolean) as Role[];
+
+  // Get category emoji
+  const getCategoryEmoji = (category: string) => {
+    const emojiMap: Record<string, string> = {
+      'Technology': '💻',
+      'Product': '📱',
+      'Design': '🎨',
+      'Marketing': '📢',
+      'Sales': '💼',
+      'Finance': '💰',
+      'Operations': '⚙️',
+      'Data': '📊',
+      'Healthcare': '🏥',
+      'Education': '📚',
+      'Legal': '⚖️',
+      'HR': '👥',
+    };
+    return emojiMap[category] || '🎯';
+  };
+
+  const [showFilters, setShowFilters] = useState(false);
+
+  if (step === 'role-selection') {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-purple-50 via-white to-blue-50 py-8 px-4 sm:px-6 lg:px-8 animate-fadeIn">
         <div className="max-w-7xl mx-auto">
+          {/* Back to Dashboard Link */}
+          <div className="mb-6">
+            <Link href="/dashboard" className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 font-medium transition-colors">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+              Back to Dashboard
+            </Link>
+          </div>
+
           {/* Header */}
-          <div className="text-center mb-12 animate-slideDown">
-            <h1 className="text-5xl font-bold bg-gradient-to-r from-purple-600 via-orange-500 to-red-500 bg-clip-text text-transparent mb-4 leading-tight">
+          <div className="text-center mb-10 animate-slideDown">
+            <h1 className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-purple-600 via-orange-500 to-red-500 bg-clip-text text-transparent mb-3 leading-tight">
               Choose Your Interview Role
             </h1>
-            <p className="text-xl text-gray-600 mb-4">
+            <p className="text-lg sm:text-xl text-gray-600 mb-3">
               Select from <span className="font-bold text-orange-600">{roles.length} positions</span> across <span className="font-bold text-purple-600">{categories.length - 1} industries</span>
             </p>
             <div className="flex items-center justify-center gap-2 text-sm text-gray-500">
@@ -147,10 +226,56 @@ function PracticeContent() {
             </div>
           </div>
 
-            {/* Search Bar */}
-            <div className="max-w-2xl mx-auto mb-10">
+          {/* Quick Start Section */}
+          <div className="mb-12">
+            <h2 className="text-2xl font-bold text-gray-900 mb-4 text-center">Quick Start</h2>
+            <p className="text-gray-600 text-center mb-6">Jump right into the most popular interview roles</p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+              {quickStartRoles.map((role, index) => (
+                <div
+                  key={role.id}
+                  onClick={() => handleRoleSelect(role)}
+                  className="group bg-gradient-to-br from-white to-gray-50 rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer border-2 border-gray-200 hover:border-orange-500 hover:-translate-y-1 animate-fadeIn"
+                  style={{ animationDelay: `${index * 100}ms` }}
+                >
+                  <div className="text-4xl mb-3 transform group-hover:scale-110 transition-transform">
+                    {getCategoryEmoji(role.category)}
+                  </div>
+                  <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-orange-600 transition-colors leading-tight">
+                    {role.title}
+                  </h3>
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-sm font-semibold text-orange-600">{role.company}</span>
+                    <span className="text-xs text-gray-400">•</span>
+                    <span className="text-xs text-purple-600 font-medium">{role.level}</span>
+                  </div>
+                  <div className="flex items-center text-orange-500 text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity mt-3">
+                    <span>Start now</span>
+                    <svg className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Divider */}
+            <div className="relative mb-10">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-gray-300"></div>
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="px-4 bg-gradient-to-b from-purple-50 via-white to-blue-50 text-gray-500">
+                  Or browse all {roles.length} roles below
+                </span>
+              </div>
+            </div>
+          </div>
+
+            {/* Search Bar - Sticky on mobile */}
+            <div className="max-w-2xl mx-auto mb-6 sticky top-0 z-10 bg-gradient-to-b from-purple-50 via-white to-blue-50 py-3 sm:static sm:py-0">
               <div className="relative group">
-                <svg className="absolute left-6 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within:text-orange-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="absolute left-4 sm:left-6 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within:text-orange-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
                 <input
@@ -158,7 +283,7 @@ function PracticeContent() {
                   placeholder="Search roles, companies, or keywords..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-14 pr-6 py-4 rounded-full border-2 border-gray-200 focus:border-orange-500 focus:ring-4 focus:ring-orange-100 focus:outline-none text-lg shadow-sm hover:shadow-md transition-all duration-200"
+                  className="w-full pl-12 sm:pl-14 pr-6 py-3 sm:py-4 rounded-full border-2 border-gray-200 focus:border-orange-500 focus:ring-4 focus:ring-orange-100 focus:outline-none text-base sm:text-lg shadow-sm hover:shadow-md transition-all duration-200 bg-white"
                 />
                 {searchQuery && (
                   <button
@@ -173,33 +298,53 @@ function PracticeContent() {
               </div>
             </div>
 
-            {/* Category Filter */}
-            <div className="mb-6">
-              <h3 className="text-sm font-semibold text-gray-700 mb-3 text-left max-w-5xl mx-auto">Filter by Industry</h3>
-              <div className="flex flex-wrap justify-center gap-2 max-w-5xl mx-auto">
-                {categories.map((category) => {
-                  const count = category === 'All' ? roles.length : roles.filter(r => r.category === category).length;
-                  return (
-                    <button
-                      key={category}
-                      onClick={() => setSelectedCategory(category)}
-                      className={`px-4 py-2 rounded-full font-medium transition ${
-                        selectedCategory === category
-                          ? 'bg-gradient-to-r from-orange-500 to-red-500 text-white shadow-lg'
-                          : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200'
-                      }`}
-                    >
-                      {category} ({count})
-                    </button>
-                  );
-                })}
-              </div>
+            {/* Filter Toggle Button (Mobile) */}
+            <div className="mb-4 flex justify-center sm:hidden">
+              <button
+                onClick={() => setShowFilters(!showFilters)}
+                className="inline-flex items-center gap-2 px-4 py-2 bg-white border-2 border-gray-200 rounded-full text-sm font-medium text-gray-700 hover:bg-gray-50 transition-all shadow-sm"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+                </svg>
+                {showFilters ? 'Hide Filters' : 'Show Filters'}
+                <span className="px-2 py-0.5 bg-orange-100 text-orange-700 rounded-full text-xs">
+                  {filteredRoles.length}
+                </span>
+              </button>
             </div>
 
-            {/* Level Filter */}
-            <div className="mb-8">
-              <h3 className="text-sm font-semibold text-gray-700 mb-3 text-left max-w-5xl mx-auto">Filter by Experience Level</h3>
-              <div className="flex flex-wrap justify-center gap-3 max-w-5xl mx-auto">
+            {/* Filters Section */}
+            <div className={`mb-6 transition-all duration-300 ${showFilters ? 'block' : 'hidden sm:block'}`}>
+              {/* Category Filter */}
+              <div className="mb-4">
+                <h3 className="text-xs sm:text-sm font-semibold text-gray-600 mb-2 text-center sm:text-left max-w-5xl mx-auto">Filter by Industry</h3>
+                <div className="overflow-x-auto sm:overflow-visible -mx-4 px-4 sm:mx-0 sm:px-0">
+                  <div className="flex sm:flex-wrap gap-2 max-w-5xl mx-auto sm:justify-center min-w-max sm:min-w-0">
+                    {categories.map((category) => {
+                      const count = category === 'All' ? roles.length : roles.filter(r => r.category === category).length;
+                      return (
+                        <button
+                          key={category}
+                          onClick={() => setSelectedCategory(category)}
+                          className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-sm font-medium transition whitespace-nowrap ${
+                            selectedCategory === category
+                              ? 'bg-gradient-to-r from-orange-500 to-red-500 text-white shadow-md'
+                              : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200'
+                          }`}
+                        >
+                          {category} ({count})
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+
+              {/* Level Filter */}
+              <div className="mb-6">
+                <h3 className="text-xs sm:text-sm font-semibold text-gray-600 mb-2 text-center sm:text-left max-w-5xl mx-auto">Filter by Experience Level</h3>
+                <div className="flex flex-wrap justify-center gap-2 max-w-5xl mx-auto">
                 {levels.map((level) => {
                   const count = level === 'All'
                     ? filteredRoles.length
@@ -208,20 +353,16 @@ function PracticeContent() {
                         return matchesCategory && r.level === level;
                       }).length;
 
-                  // Different styling for each level
+                  // Different styling for each level - more subtle
                   const getLevelStyle = () => {
                     if (selectedLevel === level) {
-                      if (level === 'Entry-Level') return 'bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-lg scale-105';
-                      if (level === 'Mid-Level') return 'bg-gradient-to-r from-blue-500 to-cyan-600 text-white shadow-lg scale-105';
-                      if (level === 'Senior') return 'bg-gradient-to-r from-purple-500 to-violet-600 text-white shadow-lg scale-105';
-                      if (level === 'Executive') return 'bg-gradient-to-r from-amber-500 to-orange-600 text-white shadow-lg scale-105';
-                      return 'bg-gradient-to-r from-gray-700 to-gray-800 text-white shadow-lg scale-105';
+                      if (level === 'Entry-Level') return 'bg-green-500 text-white shadow-md';
+                      if (level === 'Mid-Level') return 'bg-blue-500 text-white shadow-md';
+                      if (level === 'Senior') return 'bg-purple-500 text-white shadow-md';
+                      if (level === 'Executive') return 'bg-amber-500 text-white shadow-md';
+                      return 'bg-gray-700 text-white shadow-md';
                     }
-                    if (level === 'Entry-Level') return 'bg-green-50 text-green-700 hover:bg-green-100 border-2 border-green-200';
-                    if (level === 'Mid-Level') return 'bg-blue-50 text-blue-700 hover:bg-blue-100 border-2 border-blue-200';
-                    if (level === 'Senior') return 'bg-purple-50 text-purple-700 hover:bg-purple-100 border-2 border-purple-200';
-                    if (level === 'Executive') return 'bg-amber-50 text-amber-700 hover:bg-amber-100 border-2 border-amber-200';
-                    return 'bg-gray-50 text-gray-700 hover:bg-gray-100 border-2 border-gray-200';
+                    return 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-200';
                   };
 
                   // Icons for each level
@@ -237,19 +378,20 @@ function PracticeContent() {
                     <button
                       key={level}
                       onClick={() => setSelectedLevel(level)}
-                      className={`px-5 py-2.5 rounded-full font-semibold transition-all duration-200 ${getLevelStyle()}`}
+                      className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-sm font-medium transition-all duration-200 ${getLevelStyle()}`}
                     >
-                      <span className="mr-1">{getLevelIcon()}</span>
+                      <span className="mr-1 text-xs sm:text-base">{getLevelIcon()}</span>
                       {level} ({count})
                     </button>
                   );
                 })}
               </div>
+              </div>
             </div>
 
           {/* Results count and Clear Filters */}
           <div className="flex items-center justify-center gap-4 mb-6">
-            <p className="text-gray-600">
+            <p className="text-sm sm:text-base text-gray-600">
               Showing {filteredRoles.length} {filteredRoles.length === 1 ? 'role' : 'roles'}
             </p>
             {(selectedCategory !== 'All' || selectedLevel !== 'All' || searchQuery) && (
@@ -272,40 +414,46 @@ function PracticeContent() {
           {/* Grouped Role Display */}
           {selectedCategory === 'All' ? (
             // Show grouped by category when "All" is selected
-            <div className="space-y-12">
+            <div className="space-y-10">
               {Object.entries(groupedRoles).map(([category, categoryRoles]) => (
                 <div key={category}>
-                  <div className="flex items-center mb-6">
-                    <h2 className="text-2xl font-bold text-gray-900">{category}</h2>
-                    <span className="ml-3 px-3 py-1 bg-orange-100 text-orange-700 rounded-full text-sm font-medium">
-                      {categoryRoles.length} {categoryRoles.length === 1 ? 'role' : 'roles'}
+                  <div className="flex items-center mb-5">
+                    <span className="text-2xl mr-2">{getCategoryEmoji(category)}</span>
+                    <h2 className="text-xl sm:text-2xl font-bold text-gray-900">{category}</h2>
+                    <span className="ml-3 px-2.5 py-1 bg-orange-100 text-orange-700 rounded-full text-xs font-medium">
+                      {categoryRoles.length}
                     </span>
                   </div>
-                  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                     {categoryRoles.map((role, index) => (
                       <div
                         key={role.id}
                         onClick={() => handleRoleSelect(role)}
-                        className="group bg-white rounded-2xl p-6 shadow-md hover:shadow-2xl transition-all duration-300 cursor-pointer border-2 border-gray-100 hover:border-orange-500 hover:-translate-y-2 animate-fadeIn"
-                        style={{ animationDelay: `${index * 50}ms` }}
+                        className="group bg-white rounded-xl p-4 shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer border border-gray-200 hover:border-orange-500 hover:-translate-y-1 animate-fadeIn"
+                        style={{ animationDelay: `${index * 30}ms` }}
                       >
-                        <div className="mb-4">
-                          <h3 className="text-lg font-bold text-gray-900 mb-3 group-hover:text-orange-600 transition-colors">
-                            {role.title}
-                          </h3>
-                          <div className="flex flex-wrap gap-2 mb-3">
-                            <span className="px-3 py-1 bg-gradient-to-r from-orange-100 to-orange-50 text-orange-700 rounded-full text-xs font-medium shadow-sm">
-                              {role.company}
-                            </span>
-                            <span className="px-3 py-1 bg-gradient-to-r from-purple-100 to-purple-50 text-purple-700 rounded-full text-xs font-medium shadow-sm">
-                              {role.level}
-                            </span>
+                        <div className="flex items-start gap-3 mb-3">
+                          <div className="text-2xl flex-shrink-0 transform group-hover:scale-110 transition-transform">
+                            {getCategoryEmoji(role.category)}
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <h3 className="text-base font-bold text-gray-900 mb-2 group-hover:text-orange-600 transition-colors leading-tight line-clamp-2">
+                              {role.title}
+                            </h3>
+                            <div className="flex flex-wrap gap-1.5 mb-2">
+                              <span className="px-2 py-0.5 bg-orange-50 text-orange-700 rounded-md text-xs font-medium">
+                                {role.company}
+                              </span>
+                              <span className="px-2 py-0.5 bg-purple-50 text-purple-700 rounded-md text-xs font-medium">
+                                {role.level}
+                              </span>
+                            </div>
                           </div>
                         </div>
-                        <p className="text-gray-600 text-sm line-clamp-2 mb-4">{role.description}</p>
-                        <div className="flex items-center text-orange-500 text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity">
+                        <p className="text-gray-600 text-xs line-clamp-2 mb-3">{role.description}</p>
+                        <div className="flex items-center text-orange-500 text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity">
                           <span>Start Interview</span>
-                          <svg className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <svg className="w-3 h-3 ml-1 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                           </svg>
                         </div>
@@ -317,31 +465,36 @@ function PracticeContent() {
             </div>
           ) : (
             // Show single category grid when specific category is selected
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
               {filteredRoles.map((role, index) => (
                 <div
                   key={role.id}
                   onClick={() => handleRoleSelect(role)}
-                  className="group bg-white rounded-2xl p-6 shadow-md hover:shadow-2xl transition-all duration-300 cursor-pointer border-2 border-gray-100 hover:border-orange-500 hover:-translate-y-2 animate-fadeIn"
-                  style={{ animationDelay: `${index * 50}ms` }}
+                  className="group bg-white rounded-xl p-4 shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer border border-gray-200 hover:border-orange-500 hover:-translate-y-1 animate-fadeIn"
+                  style={{ animationDelay: `${index * 30}ms` }}
                 >
-                  <div className="mb-4">
-                    <h3 className="text-lg font-bold text-gray-900 mb-3 group-hover:text-orange-600 transition-colors">
-                      {role.title}
-                    </h3>
-                    <div className="flex flex-wrap gap-2 mb-3">
-                      <span className="px-3 py-1 bg-gradient-to-r from-orange-100 to-orange-50 text-orange-700 rounded-full text-xs font-medium shadow-sm">
-                        {role.company}
-                      </span>
-                      <span className="px-3 py-1 bg-gradient-to-r from-purple-100 to-purple-50 text-purple-700 rounded-full text-xs font-medium shadow-sm">
-                        {role.level}
-                      </span>
+                  <div className="flex items-start gap-3 mb-3">
+                    <div className="text-2xl flex-shrink-0 transform group-hover:scale-110 transition-transform">
+                      {getCategoryEmoji(role.category)}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="text-base font-bold text-gray-900 mb-2 group-hover:text-orange-600 transition-colors leading-tight line-clamp-2">
+                        {role.title}
+                      </h3>
+                      <div className="flex flex-wrap gap-1.5 mb-2">
+                        <span className="px-2 py-0.5 bg-orange-50 text-orange-700 rounded-md text-xs font-medium">
+                          {role.company}
+                        </span>
+                        <span className="px-2 py-0.5 bg-purple-50 text-purple-700 rounded-md text-xs font-medium">
+                          {role.level}
+                        </span>
+                      </div>
                     </div>
                   </div>
-                  <p className="text-gray-600 text-sm line-clamp-2 mb-4">{role.description}</p>
-                  <div className="flex items-center text-orange-500 text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity">
+                  <p className="text-gray-600 text-xs line-clamp-2 mb-3">{role.description}</p>
+                  <div className="flex items-center text-orange-500 text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity">
                     <span>Start Interview</span>
-                    <svg className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-3 h-3 ml-1 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
                   </div>
@@ -381,6 +534,7 @@ function PracticeContent() {
             </div>
           </div>
         )}
+
       </div>
     );
   }
@@ -394,6 +548,8 @@ function PracticeContent() {
           setResumeData(null);
         }}
         resumeData={resumeData}
+        interviewerSettings={interviewerSettings}
+        onConfigureInterviewer={() => setStep('interviewer-config')}
       />
     </div>
   );
@@ -402,11 +558,15 @@ function PracticeContent() {
 function InterviewSession({
   role,
   onBack,
-  resumeData
+  resumeData,
+  interviewerSettings,
+  onConfigureInterviewer
 }: {
   role: Role;
   onBack: () => void;
   resumeData: ResumeSession | null;
+  interviewerSettings: InterviewerSettings;
+  onConfigureInterviewer: () => void;
 }) {
   const [currentQuestion, setCurrentQuestion] = useState(resumeData?.currentQuestion || 0);
   const [responses, setResponses] = useState<Array<{ audioURL: string | null; duration: number; feedback?: string }>>(
@@ -415,6 +575,7 @@ function InterviewSession({
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [showFeedback, setShowFeedback] = useState(false);
   const [sessionId] = useState(() => resumeData?.sessionId || `session-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`);
+  const [isSpeaking, setIsSpeaking] = useState(false);
 
   const {
     isRecording,
@@ -427,18 +588,8 @@ function InterviewSession({
     getTranscript
   } = useAudioRecorder();
 
-  const { speak, stop, isSpeaking } = useTextToSpeech();
-
   // Get role-specific questions
   const [questions] = useState(() => getQuestionsForRole(role.category));
-
-  // Auto-play question when it changes
-  useEffect(() => {
-    speak(questions[currentQuestion]);
-    return () => {
-      stop();
-    };
-  }, [currentQuestion]);
 
   const handleStartRecording = async () => {
     await startRecording();
@@ -652,27 +803,19 @@ function InterviewSession({
           {/* Question Card */}
           <div className="bg-white rounded-3xl p-12 mb-8 shadow-xl border-2 border-gray-100 animate-fadeIn">
             <div className="text-center">
-              {/* AI Avatar */}
+              {/* Video Interviewer - Now supports both animated and realistic */}
               <div className="mb-6">
-                <AIAvatar isSpeaking={isSpeaking} />
+                <VideoInterviewer
+                  question={questions[currentQuestion]}
+                  settings={interviewerSettings}
+                  onSpeakingChange={setIsSpeaking}
+                  autoPlay={true}
+                />
               </div>
 
               <h3 className="text-3xl font-bold text-gray-900 mb-6 leading-tight">
                 {questions[currentQuestion]}
               </h3>
-
-              <div className="flex items-center justify-center gap-3 mb-6">
-                <button
-                  onClick={() => speak(questions[currentQuestion])}
-                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-orange-100 to-orange-50 text-orange-700 hover:from-orange-200 hover:to-orange-100 font-medium rounded-full transition-all shadow-sm hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
-                  disabled={isSpeaking}
-                >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
-                  </svg>
-                  {isSpeaking ? 'Speaking...' : 'Replay Question'}
-                </button>
-              </div>
 
               <p className="text-gray-600 text-lg">
                 Take your time to think about your answer before recording
