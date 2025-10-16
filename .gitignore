@@ -71,3 +71,5 @@ __tests__/__snapshots__/
 
 # Keep this for example
 !.env.example
+
+.vercel
