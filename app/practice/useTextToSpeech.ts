@@ -42,8 +42,9 @@ export function useTextToSpeech(): UseTextToSpeechReturn {
     utteranceRef.current = utterance;
 
     // Configure voice settings for a professional female interviewer
-    utterance.rate = 0.9; // Slightly slower for clarity
-    utterance.pitch = 1.0; // Natural pitch for female voice
+    // Use normal rate (1.0) for natural, clear speech across all devices
+    utterance.rate = 1.0; // Normal speed - sounds natural on all devices
+    utterance.pitch = 1.05; // Slightly higher pitch for female voice
     utterance.volume = 1.0;
 
     // Try to use a natural-sounding female voice

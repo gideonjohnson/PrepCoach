@@ -8,8 +8,9 @@ import { generateSkillRecommendations, optimizeSkillsOrder, generateSkillsGapSum
 import { scoreProfile, generateProfileAssessment } from './profileScorer';
 import { getConnectionTemplates, customizeTemplate, scoreConnectionMessage } from './connectionTemplates';
 import { generate4WeekPlan, getPostingBestPractices, getEngagementStrategy, getWeeklyChecklist } from './visibilityPlanner';
+import PaymentGate from '../components/PaymentGate';
 
-export default function LinkedInOptimizerPage() {
+function LinkedInOptimizerContent() {
   const [activeTab, setActiveTab] = useState<'input' | 'optimize' | 'skills' | 'connect' | 'visibility'>('input');
   const [profile, setProfile] = useState<Partial<LinkedInProfile>>({
     headline: '',
@@ -822,5 +823,13 @@ function VisibilityTab({ targetRole }: { targetRole: string }) {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function LinkedInOptimizerPage() {
+  return (
+    <PaymentGate feature="LinkedIn Optimizer">
+      <LinkedInOptimizerContent />
+    </PaymentGate>
   );
 }

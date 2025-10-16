@@ -30,8 +30,9 @@ import {
   getRecommendedScripts,
   getScriptsByDifficulty,
 } from './negotiationScripts';
+import PaymentGate from '../components/PaymentGate';
 
-export default function SalaryNegotiationPage() {
+function SalaryNegotiationContent() {
   const { data: session, status } = useSession();
   const router = useRouter();
 
@@ -695,5 +696,13 @@ export default function SalaryNegotiationPage() {
         </div>
       </main>
     </div>
+  );
+}
+
+export default function SalaryNegotiationPage() {
+  return (
+    <PaymentGate feature="Salary Negotiation Hub">
+      <SalaryNegotiationContent />
+    </PaymentGate>
   );
 }

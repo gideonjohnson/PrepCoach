@@ -23,8 +23,8 @@ model User {
   isAdmin       Boolean   @default(false)
 
   // Subscription fields
-  subscriptionTier  String   @default("pro") // pro, enterprise, lifetime
-  subscriptionStatus String  @default("active") // active, cancelled, expired
+  subscriptionTier  String   @default("free") // free, pro, enterprise, lifetime
+  subscriptionStatus String  @default("inactive") // inactive, active, cancelled, expired
   subscriptionStart DateTime?
   subscriptionEnd   DateTime?
 

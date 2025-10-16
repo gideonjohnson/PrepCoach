@@ -14,6 +14,7 @@ import toast from 'react-hot-toast';
 import ErrorBoundary from '../components/ErrorBoundary';
 import MicrophonePermissionBanner from '../components/MicrophonePermissionBanner';
 import BiometricsPanel from '../components/BiometricsPanel';
+import PaymentGate from '../components/PaymentGate';
 import { useMediaStream } from './biometrics/useMediaStream';
 import { VocalAnalyzer } from './biometrics/vocalAnalytics';
 import { VisualAnalyzer } from './biometrics/visualAnalytics';
@@ -1273,17 +1274,19 @@ function InterviewSession({
 
 export default function PracticePage() {
   return (
-    <ErrorBoundary>
-      <Suspense fallback={
-        <div className="min-h-screen bg-gradient-to-b from-purple-50 via-white to-blue-50 flex items-center justify-center">
-          <div className="text-center">
-            <div className="w-16 h-16 border-4 border-orange-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-            <p className="text-gray-600 text-lg">Loading...</p>
+    <PaymentGate feature="Interview Practice">
+      <ErrorBoundary>
+        <Suspense fallback={
+          <div className="min-h-screen bg-gradient-to-b from-purple-50 via-white to-blue-50 flex items-center justify-center">
+            <div className="text-center">
+              <div className="w-16 h-16 border-4 border-orange-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+              <p className="text-gray-600 text-lg">Loading...</p>
+            </div>
           </div>
-        </div>
-      }>
-        <PracticeContent />
-      </Suspense>
-    </ErrorBoundary>
+        }>
+          <PracticeContent />
+        </Suspense>
+      </ErrorBoundary>
+    </PaymentGate>
   );
 }

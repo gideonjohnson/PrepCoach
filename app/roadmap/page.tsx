@@ -15,8 +15,9 @@ import { analyzeSkillsGap, getSkillDevelopmentRecommendations } from './skillsGa
 import { generateLearningPaths } from './learningPathGenerator';
 import { generateCareerTimeline, generateMilestones } from './timelineCalculator';
 import { generateCertificationRecommendations, getCertificationPreparationTips, calculateCertificationROI } from './certificationRecommender';
+import PaymentGate from '../components/PaymentGate';
 
-export default function CareerRoadmapPage() {
+function CareerRoadmapContent() {
   const [activeTab, setActiveTab] = useState<'input' | 'gap-analysis' | 'learning-paths' | 'timeline' | 'certifications'>('input');
 
   // Input state
@@ -863,5 +864,13 @@ export default function CareerRoadmapPage() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function CareerRoadmapPage() {
+  return (
+    <PaymentGate feature="Career Roadmap">
+      <CareerRoadmapContent />
+    </PaymentGate>
   );
 }
