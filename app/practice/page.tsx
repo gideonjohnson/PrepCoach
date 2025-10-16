@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, Suspense } from 'react';
+import { useState, useEffect, Suspense, useRef } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { useAudioRecorder } from './useAudioRecorder';
 import { useTextToSpeech } from './useTextToSpeech';
@@ -10,6 +10,15 @@ import { getQuestionsForRole } from './questions';
 import Link from 'next/link';
 import InterviewerConfig, { InterviewerSettings } from '../components/InterviewerConfig';
 import VideoInterviewer from '../components/VideoInterviewer';
+import toast from 'react-hot-toast';
+import ErrorBoundary from '../components/ErrorBoundary';
+import MicrophonePermissionBanner from '../components/MicrophonePermissionBanner';
+import BiometricsPanel from '../components/BiometricsPanel';
+import { useMediaStream } from './biometrics/useMediaStream';
+import { VocalAnalyzer } from './biometrics/vocalAnalytics';
+import { VisualAnalyzer } from './biometrics/visualAnalytics';
+import { useTensorFlowVision } from './biometrics/useTensorFlowVision';
+import { VocalMetrics, VisualMetrics } from './biometrics/types';
 
 type Step = 'role-selection' | 'interviewer-config' | 'interview';
 
@@ -31,6 +40,8 @@ function PracticeContent() {
   const [selectedLevel, setSelectedLevel] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [resumeData, setResumeData] = useState<ResumeSession | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 24;
   const [showLimitModal, setShowLimitModal] = useState(false);
   const [limitMessage, setLimitMessage] = useState('');
   const [interviewerSettings, setInterviewerSettings] = useState<InterviewerSettings>({
@@ -135,14 +146,25 @@ function PracticeContent() {
     return matchesCategory && matchesLevel && matchesSearch;
   });
 
-  // Group roles by category for organized display
-  const groupedRoles = filteredRoles.reduce((acc, role) => {
+  // Reset to page 1 when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedCategory, selectedLevel, searchQuery]);
+
+  // Calculate pagination
+  const totalPages = Math.ceil(filteredRoles.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedRoles = filteredRoles.slice(startIndex, endIndex);
+
+  // Group roles by category for organized display (paginated)
+  const groupedRoles = paginatedRoles.reduce((acc, role) => {
     if (!acc[role.category]) {
       acc[role.category] = [];
     }
     acc[role.category].push(role);
     return acc;
-  }, {} as Record<string, typeof filteredRoles>);
+  }, {} as Record<string, typeof paginatedRoles>);
 
   // Interviewer configuration step
   if (step === 'interviewer-config') {
@@ -230,12 +252,12 @@ function PracticeContent() {
           <div className="mb-12">
             <h2 className="text-2xl font-bold text-gray-900 mb-4 text-center">Quick Start</h2>
             <p className="text-gray-600 text-center mb-6">Jump right into the most popular interview roles</p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8 transform-3d">
               {quickStartRoles.map((role, index) => (
                 <div
                   key={role.id}
                   onClick={() => handleRoleSelect(role)}
-                  className="group bg-gradient-to-br from-white to-gray-50 rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer border-2 border-gray-200 hover:border-orange-500 hover:-translate-y-1 animate-fadeIn"
+                  className="group bg-gradient-to-br from-white to-gray-50 rounded-2xl p-6 cursor-pointer border-2 border-gray-200 hover:border-orange-500 animate-pop-3d hover-lift-3d [box-shadow:0_4px_8px_rgba(0,0,0,0.12),0_8px_16px_rgba(0,0,0,0.08)]"
                   style={{ animationDelay: `${index * 100}ms` }}
                 >
                   <div className="text-4xl mb-3 transform group-hover:scale-110 transition-transform">
@@ -424,12 +446,12 @@ function PracticeContent() {
                       {categoryRoles.length}
                     </span>
                   </div>
-                  <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                  <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 transform-3d">
                     {categoryRoles.map((role, index) => (
                       <div
                         key={role.id}
                         onClick={() => handleRoleSelect(role)}
-                        className="group bg-white rounded-xl p-4 shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer border border-gray-200 hover:border-orange-500 hover:-translate-y-1 animate-fadeIn"
+                        className="group bg-white rounded-xl p-4 cursor-pointer border border-gray-200 hover:border-orange-500 animate-pop-3d hover-lift-3d [box-shadow:0_2px_4px_rgba(0,0,0,0.1),0_4px_8px_rgba(0,0,0,0.05)]"
                         style={{ animationDelay: `${index * 30}ms` }}
                       >
                         <div className="flex items-start gap-3 mb-3">
@@ -465,12 +487,12 @@ function PracticeContent() {
             </div>
           ) : (
             // Show single category grid when specific category is selected
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-              {filteredRoles.map((role, index) => (
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 transform-3d">
+              {paginatedRoles.map((role, index) => (
                 <div
                   key={role.id}
                   onClick={() => handleRoleSelect(role)}
-                  className="group bg-white rounded-xl p-4 shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer border border-gray-200 hover:border-orange-500 hover:-translate-y-1 animate-fadeIn"
+                  className="group bg-white rounded-xl p-4 cursor-pointer border border-gray-200 hover:border-orange-500 animate-pop-3d hover-lift-3d [box-shadow:0_2px_4px_rgba(0,0,0,0.1),0_4px_8px_rgba(0,0,0,0.05)]"
                   style={{ animationDelay: `${index * 30}ms` }}
                 >
                   <div className="flex items-start gap-3 mb-3">
@@ -500,6 +522,41 @@ function PracticeContent() {
                   </div>
                 </div>
               ))}
+            </div>
+          )}
+
+          {/* Pagination Controls */}
+          {filteredRoles.length > itemsPerPage && (
+            <div className="mt-10 flex items-center justify-center gap-4">
+              <button
+                onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                disabled={currentPage === 1}
+                className="group flex items-center gap-2 px-4 py-2 rounded-lg bg-white border-2 border-gray-200 text-gray-700 font-medium hover:border-orange-500 hover:text-orange-600 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:border-gray-200 disabled:hover:text-gray-700 transition-all shadow-sm hover:shadow-md"
+              >
+                <svg className="w-5 h-5 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+                Previous
+              </button>
+
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-gray-600">Page</span>
+                <span className="px-4 py-2 bg-gradient-to-r from-orange-500 to-red-500 text-white font-bold rounded-lg shadow-md">
+                  {currentPage}
+                </span>
+                <span className="text-sm text-gray-600">of {totalPages}</span>
+              </div>
+
+              <button
+                onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+                disabled={currentPage === totalPages}
+                className="group flex items-center gap-2 px-4 py-2 rounded-lg bg-white border-2 border-gray-200 text-gray-700 font-medium hover:border-orange-500 hover:text-orange-600 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:border-gray-200 disabled:hover:text-gray-700 transition-all shadow-sm hover:shadow-md"
+              >
+                Next
+                <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
             </div>
           )}
         </div>
@@ -577,6 +634,22 @@ function InterviewSession({
   const [sessionId] = useState(() => resumeData?.sessionId || `session-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`);
   const [isSpeaking, setIsSpeaking] = useState(false);
 
+  // Biometric tracking state
+  const [biometricsEnabled, setBiometricsEnabled] = useState(false);
+  const [vocalMetrics, setVocalMetrics] = useState<Partial<VocalMetrics> | null>(null);
+  const [visualMetrics, setVisualMetrics] = useState<Partial<VisualMetrics> | null>(null);
+  const [currentTranscript, setCurrentTranscript] = useState('');
+  const vocalAnalyzerRef = useRef<VocalAnalyzer | null>(null);
+  const visualAnalyzerRef = useRef<VisualAnalyzer | null>(null);
+  const analysisIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const visualAnalysisIntervalRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Media stream for biometric analysis
+  const mediaStream = useMediaStream();
+  // Temporarily disable visual analytics due to compatibility issues
+  // const tfVision = useTensorFlowVision();
+  const tfVision = { isLoaded: false, error: 'Visual analytics temporarily disabled - vocal analysis only', analyzeFace: async () => null, analyzePose: async () => null, cleanup: () => {} };
+
   const {
     isRecording,
     recordingTime,
@@ -585,18 +658,118 @@ function InterviewSession({
     startRecording,
     stopRecording,
     clearRecording,
-    getTranscript
+    getTranscript,
+    isSupported,
+    permissionStatus
   } = useAudioRecorder();
 
   // Get role-specific questions
   const [questions] = useState(() => getQuestionsForRole(role.category));
 
+  // Initialize analyzers
+  useEffect(() => {
+    if (biometricsEnabled) {
+      if (!vocalAnalyzerRef.current) {
+        vocalAnalyzerRef.current = new VocalAnalyzer();
+      }
+      if (!visualAnalyzerRef.current) {
+        visualAnalyzerRef.current = new VisualAnalyzer();
+      }
+    }
+  }, [biometricsEnabled]);
+
   const handleStartRecording = async () => {
     await startRecording();
+
+    // Start biometric tracking if enabled
+    if (biometricsEnabled && mediaStream) {
+      try {
+        // Request both video and audio for full biometric analysis
+        await mediaStream.startStream({ video: true, audio: true });
+
+        // Reset analyzers for new recording
+        if (vocalAnalyzerRef.current) {
+          vocalAnalyzerRef.current.reset();
+        }
+        if (visualAnalyzerRef.current) {
+          visualAnalyzerRef.current.reset();
+        }
+
+        // Start collecting audio data for vocal analysis
+        analysisIntervalRef.current = setInterval(() => {
+          if (vocalAnalyzerRef.current && mediaStream.hasAudio) {
+            const audioData = mediaStream.getAudioData();
+            const freqData = mediaStream.getFrequencyData();
+            vocalAnalyzerRef.current.addAudioFrame(audioData, freqData);
+
+            // Update vocal metrics every second
+            const metrics = vocalAnalyzerRef.current.getMetrics();
+            setVocalMetrics(metrics);
+          }
+        }, 1000); // Update every second
+
+        // Start collecting video data for visual analysis
+        if (tfVision.isLoaded) {
+          visualAnalysisIntervalRef.current = setInterval(async () => {
+            if (visualAnalyzerRef.current && mediaStream.hasVideo) {
+              try {
+                const frameData = mediaStream.captureFrame();
+                if (frameData) {
+                  // Analyze face and pose
+                  const [faceResult, poseResult] = await Promise.all([
+                    tfVision.analyzeFace(frameData),
+                    tfVision.analyzePose(frameData),
+                  ]);
+
+                  visualAnalyzerRef.current.analyzeFrame(faceResult, poseResult);
+
+                  // Update visual metrics
+                  const visualMetrics = visualAnalyzerRef.current.getMetrics();
+                  setVisualMetrics(visualMetrics);
+                }
+              } catch (err) {
+                console.error('Error during visual analysis:', err);
+              }
+            }
+          }, 2000); // Update every 2 seconds (less frequent to save CPU)
+        } else {
+          console.warn('TensorFlow.js not loaded, skipping visual analysis');
+        }
+      } catch (error) {
+        console.error('Failed to start biometric tracking:', error);
+        toast.error('Biometric tracking unavailable. Recording will continue without it.');
+      }
+    }
   };
 
   const handleStopRecording = () => {
     stopRecording();
+
+    // Stop biometric tracking
+    if (analysisIntervalRef.current) {
+      clearInterval(analysisIntervalRef.current);
+      analysisIntervalRef.current = null;
+    }
+
+    if (visualAnalysisIntervalRef.current) {
+      clearInterval(visualAnalysisIntervalRef.current);
+      visualAnalysisIntervalRef.current = null;
+    }
+
+    if (mediaStream.isStreaming) {
+      mediaStream.stopStream();
+    }
+
+    // Get final metrics
+    if (vocalAnalyzerRef.current) {
+      const finalMetrics = vocalAnalyzerRef.current.getMetrics();
+      setVocalMetrics(finalMetrics);
+    }
+
+    if (visualAnalyzerRef.current) {
+      const finalVisualMetrics = visualAnalyzerRef.current.getMetrics();
+      setVisualMetrics(finalVisualMetrics);
+    }
   };
 
   // Save response when audioURL becomes available
@@ -615,9 +788,21 @@ function InterviewSession({
     if (!audioBlob) return;
 
     setIsAnalyzing(true);
+    const transcribeToast = toast.loading('Transcribing your audio...');
+
     try {
       // Get transcript from audio
       const transcript = await getTranscript();
+
+      // Update vocal analyzer with transcript for better analysis
+      if (biometricsEnabled && vocalAnalyzerRef.current && transcript) {
+        vocalAnalyzerRef.current.setTranscript(transcript);
+        const updatedMetrics = vocalAnalyzerRef.current.getMetrics();
+        setVocalMetrics(updatedMetrics);
+      }
+
+      // Update toast for analysis phase
+      toast.loading('Analyzing your response with AI...', { id: transcribeToast });
 
       // Call AI feedback API
       const response = await fetch('/api/analyze-response', {
@@ -637,25 +822,52 @@ function InterviewSession({
 
       // Handle error responses
       if (!response.ok) {
-        let errorMessage = 'Failed to analyze response. Please try again.';
-
         if (data.code === 'limit_reached') {
-          // Show upgrade modal for subscription limits
-          if (confirm(data.message + '\n\nWould you like to upgrade to Pro for unlimited feedback?')) {
-            window.location.href = '/pricing';
-          }
+          // Show upgrade modal for subscription limits with custom toast
+          toast.error(
+            (t) => (
+              <div className="flex flex-col gap-3">
+                <div>
+                  <div className="font-semibold mb-1">Subscription Limit Reached</div>
+                  <div className="text-sm">{data.message}</div>
+                </div>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => {
+                      toast.dismiss(t.id);
+                      window.location.href = '/pricing';
+                    }}
+                    className="px-3 py-1 bg-white text-red-600 rounded font-semibold text-sm hover:bg-red-50"
+                  >
+                    Upgrade to Pro
+                  </button>
+                  <button
+                    onClick={() => toast.dismiss(t.id)}
+                    className="px-3 py-1 bg-red-600 text-white rounded font-semibold text-sm hover:bg-red-700"
+                  >
+                    Dismiss
+                  </button>
+                </div>
+              </div>
+            ),
+            { duration: 8000 }
+          );
           return;
         } else if (data.code === 'quota_exceeded') {
-          errorMessage = `API Quota Exceeded\n\n${data.message}`;
+          toast.error(`API Quota Exceeded: ${data.message}`, { duration: 6000 });
+          return;
         } else if (data.code === 'rate_limit') {
-          errorMessage = `Rate Limit Exceeded\n\n${data.message}`;
+          toast.error(`Rate Limit: ${data.message}`, { duration: 5000 });
+          return;
         } else if (data.code === 'auth_error') {
-          errorMessage = `Authentication Error\n\n${data.message}`;
+          toast.error(`Authentication Error: ${data.message}`, { duration: 6000 });
+          return;
         } else if (data.message) {
-          errorMessage = data.message;
+          toast.error(data.message);
+          return;
         }
 
-        alert(errorMessage);
+        toast.error('Failed to analyze response. Please try again.');
         return;
       }
 
@@ -667,15 +879,24 @@ function InterviewSession({
         };
         setResponses(newResponses);
         setShowFeedback(true);
+        toast.success('Feedback received! Review your AI analysis below.', {
+          id: transcribeToast,
+          duration: 3000,
+        });
       }
     } catch (error: any) {
       console.error('Error getting feedback:', error);
+      toast.dismiss(transcribeToast);
 
       // Check if it's a transcription error
       if (error?.message?.includes('transcribe')) {
-        alert('Failed to transcribe audio. Please ensure your microphone is working and try recording again.');
+        toast.error('Failed to transcribe audio. Please ensure your microphone is working and try recording again.', {
+          duration: 5000,
+        });
       } else {
-        alert('Failed to analyze response. Please check your internet connection and try again.');
+        toast.error('Failed to analyze response. Please check your internet connection and try again.', {
+          duration: 5000,
+        });
       }
     } finally {
       setIsAnalyzing(false);
@@ -800,6 +1021,89 @@ function InterviewSession({
       {/* Main Content */}
       <div className="flex-1 flex items-center justify-center px-6 py-12">
         <div className="max-w-3xl w-full">
+          {/* Microphone Permission Banner */}
+          <MicrophonePermissionBanner
+            isSupported={isSupported}
+            permissionStatus={permissionStatus}
+            onRequestPermission={handleStartRecording}
+          />
+
+          {/* Biometric Toggle */}
+          <div className="mb-6 flex justify-end">
+            <button
+              onClick={() => setBiometricsEnabled(!biometricsEnabled)}
+              className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all shadow-sm hover:shadow-md ${
+                biometricsEnabled
+                  ? 'bg-gradient-to-r from-purple-500 to-blue-500 text-white'
+                  : 'bg-white text-gray-700 border-2 border-gray-200 hover:border-purple-500'
+              }`}
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+              </svg>
+              {biometricsEnabled ? 'Biometrics: ON' : 'Enable Biometrics'}
+            </button>
+          </div>
+
+          {/* Biometrics Panel */}
+          {biometricsEnabled && (isRecording || vocalMetrics || visualMetrics) && (
+            <div className="mb-8">
+              <BiometricsPanel
+                vocalMetrics={vocalMetrics}
+                visualMetrics={visualMetrics}
+                isActive={biometricsEnabled}
+              />
+            </div>
+          )}
+
+          {/* TensorFlow.js Loading Status */}
+          {biometricsEnabled && !tfVision.isLoaded && !tfVision.error && (
+            <div className="mb-6 p-4 bg-blue-50 border-2 border-blue-200 rounded-lg text-center animate-fadeIn">
+              <div className="flex items-center justify-center gap-3">
+                <div className="w-5 h-5 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
+                <span className="text-blue-700 font-medium">Loading AI vision models...</span>
+              </div>
+              <p className="text-xs text-blue-600 mt-2">Powered by TensorFlow.js - First load may take a moment</p>
+            </div>
+          )}
+
+          {/* TensorFlow.js Error */}
+          {biometricsEnabled && tfVision.error && (
+            <div className="mb-6 p-4 bg-yellow-50 border-2 border-yellow-200 rounded-lg animate-fadeIn">
+              <div className="flex items-center gap-3">
+                <svg className="w-5 h-5 text-yellow-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+                <div className="flex-1">
+                  <h4 className="text-sm font-semibold text-yellow-900 mb-1">Visual Analysis Temporarily Unavailable</h4>
+                  <p className="text-xs text-yellow-700 mb-2">
+                    Visual analytics (eye contact, posture) are currently disabled.
+                  </p>
+                  <p className="text-xs text-yellow-700">
+                    <strong>Good news:</strong> Vocal analysis (pace, clarity, filler words) is fully functional and will provide comprehensive feedback.
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Visual Analytics Success Message */}
+          {biometricsEnabled && tfVision.isLoaded && (
+            <div className="mb-6 p-4 bg-green-50 border-2 border-green-200 rounded-lg animate-fadeIn">
+              <div className="flex items-center gap-3">
+                <svg className="w-5 h-5 text-green-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <div className="flex-1">
+                  <h4 className="text-sm font-semibold text-green-900 mb-1">Full Biometric Analysis Active</h4>
+                  <p className="text-xs text-green-700">
+                    Tracking vocal delivery + eye contact + posture in real-time
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* Question Card */}
           <div className="bg-white rounded-3xl p-12 mb-8 shadow-xl border-2 border-gray-100 animate-fadeIn">
             <div className="text-center">
@@ -969,15 +1273,17 @@ function InterviewSession({
 
 export default function PracticePage() {
   return (
-    <Suspense fallback={
-      <div className="min-h-screen bg-gradient-to-b from-purple-50 via-white to-blue-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="w-16 h-16 border-4 border-orange-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-600 text-lg">Loading...</p>
+    <ErrorBoundary>
+      <Suspense fallback={
+        <div className="min-h-screen bg-gradient-to-b from-purple-50 via-white to-blue-50 flex items-center justify-center">
+          <div className="text-center">
+            <div className="w-16 h-16 border-4 border-orange-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+            <p className="text-gray-600 text-lg">Loading...</p>
+          </div>
         </div>
-      </div>
-    }>
-      <PracticeContent />
-    </Suspense>
+      }>
+        <PracticeContent />
+      </Suspense>
+    </ErrorBoundary>
   );
 }

@@ -103,7 +103,7 @@ export async function POST(request: NextRequest) {
         answeredQuestions,
         completionRate,
         responses: {
-          create: responses?.map((r: any) => ({
+          create: responses?.filter((r: any) => r && r.question).map((r: any) => ({
             question: r.question,
             audioURL: r.audioURL,
             duration: r.duration || 0,

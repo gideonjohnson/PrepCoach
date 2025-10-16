@@ -23,9 +23,6 @@ export default function Home() {
             </div>
             {/* Desktop menu */}
             <div className="hidden md:flex items-center space-x-8">
-              <a href="#features" className="text-gray-600 hover:text-gray-900 transition">Features</a>
-              <a href="#how-it-works" className="text-gray-600 hover:text-gray-900 transition">How It Works</a>
-              <Link href="/resume-builder" className="text-gray-600 hover:text-gray-900 transition">Resume Builder</Link>
               <Link href="/pricing" className="text-gray-600 hover:text-gray-900 transition">Pricing</Link>
               <Link href="/dashboard" className="text-gray-600 hover:text-gray-900 transition">Dashboard</Link>
               {session ? (
@@ -69,8 +66,6 @@ export default function Home() {
           {mobileMenuOpen && (
             <div className="md:hidden py-4 border-t border-gray-100">
               <div className="flex flex-col space-y-4">
-                <a href="#features" onClick={() => setMobileMenuOpen(false)} className="text-gray-600 hover:text-gray-900 transition">Features</a>
-                <a href="#how-it-works" onClick={() => setMobileMenuOpen(false)} className="text-gray-600 hover:text-gray-900 transition">How It Works</a>
                 <Link href="/pricing" onClick={() => setMobileMenuOpen(false)} className="text-gray-600 hover:text-gray-900 transition">Pricing</Link>
                 <Link href="/dashboard" onClick={() => setMobileMenuOpen(false)} className="text-gray-600 hover:text-gray-900 transition">Dashboard</Link>
                 {session ? (
@@ -154,6 +149,120 @@ export default function Home() {
             </div>
           </div>
 
+          {/* 3D Feature Buttons Section */}
+          <div className="mt-20 mb-12">
+            <div className="text-center mb-8">
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
+                Explore Our Features
+              </h2>
+              <p className="text-lg text-gray-600">
+                Everything you need to succeed in your career journey
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 max-w-7xl mx-auto">
+              {/* Interview Prep Button */}
+              <Link href="/practice">
+                <div className="group relative bg-gradient-to-br from-orange-500 to-red-600 rounded-2xl p-6 shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-2 cursor-pointer"
+                     style={{
+                       transformStyle: 'preserve-3d',
+                       boxShadow: '0 20px 60px rgba(249, 115, 22, 0.4), 0 10px 20px rgba(0, 0, 0, 0.15)'
+                     }}>
+                  <div className="absolute inset-0 bg-gradient-to-br from-orange-400 to-red-500 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity blur-xl"></div>
+                  <div className="relative z-10 flex flex-col items-center text-center">
+                    <div className="w-16 h-16 bg-white/20 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform backdrop-blur-sm">
+                      <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                      </svg>
+                    </div>
+                    <h3 className="text-xl font-bold text-white mb-2">Interview Prep</h3>
+                    <p className="text-white/90 text-sm">45+ Questions</p>
+                  </div>
+                </div>
+              </Link>
+
+              {/* LinkedIn Optimizer Button */}
+              <Link href="/linkedin">
+                <div className="group relative bg-gradient-to-br from-blue-600 to-purple-700 rounded-2xl p-6 shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-2 cursor-pointer"
+                     style={{
+                       transformStyle: 'preserve-3d',
+                       boxShadow: '0 20px 60px rgba(37, 99, 235, 0.4), 0 10px 20px rgba(0, 0, 0, 0.15)'
+                     }}>
+                  <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity blur-xl"></div>
+                  <div className="relative z-10 flex flex-col items-center text-center">
+                    <div className="w-16 h-16 bg-white/20 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform backdrop-blur-sm">
+                      <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                      </svg>
+                    </div>
+                    <h3 className="text-xl font-bold text-white mb-2">LinkedIn Optimizer</h3>
+                    <p className="text-white/90 text-sm">3x Profile Views</p>
+                  </div>
+                </div>
+              </Link>
+
+              {/* Career Roadmap Button */}
+              <Link href="/roadmap">
+                <div className="group relative bg-gradient-to-br from-indigo-600 to-purple-700 rounded-2xl p-6 shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-2 cursor-pointer"
+                     style={{
+                       transformStyle: 'preserve-3d',
+                       boxShadow: '0 20px 60px rgba(99, 102, 241, 0.4), 0 10px 20px rgba(0, 0, 0, 0.15)'
+                     }}>
+                  <div className="absolute inset-0 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity blur-xl"></div>
+                  <div className="relative z-10 flex flex-col items-center text-center">
+                    <div className="w-16 h-16 bg-white/20 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform backdrop-blur-sm">
+                      <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+                      </svg>
+                    </div>
+                    <h3 className="text-xl font-bold text-white mb-2">Career Roadmap</h3>
+                    <p className="text-white/90 text-sm">Skills & Timeline</p>
+                  </div>
+                </div>
+              </Link>
+
+              {/* Salary Hub Button */}
+              <Link href="/salary">
+                <div className="group relative bg-gradient-to-br from-green-500 to-emerald-700 rounded-2xl p-6 shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-2 cursor-pointer"
+                     style={{
+                       transformStyle: 'preserve-3d',
+                       boxShadow: '0 20px 60px rgba(34, 197, 94, 0.4), 0 10px 20px rgba(0, 0, 0, 0.15)'
+                     }}>
+                  <div className="absolute inset-0 bg-gradient-to-br from-green-400 to-emerald-600 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity blur-xl"></div>
+                  <div className="relative z-10 flex flex-col items-center text-center">
+                    <div className="w-16 h-16 bg-white/20 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform backdrop-blur-sm">
+                      <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </div>
+                    <h3 className="text-xl font-bold text-white mb-2">Salary Hub</h3>
+                    <p className="text-white/90 text-sm">$15K+ Increase</p>
+                  </div>
+                </div>
+              </Link>
+
+              {/* Resume Builder Button */}
+              <Link href="/resume-builder">
+                <div className="group relative bg-gradient-to-br from-gray-700 to-slate-900 rounded-2xl p-6 shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-2 cursor-pointer"
+                     style={{
+                       transformStyle: 'preserve-3d',
+                       boxShadow: '0 20px 60px rgba(71, 85, 105, 0.4), 0 10px 20px rgba(0, 0, 0, 0.15)'
+                     }}>
+                  <div className="absolute inset-0 bg-gradient-to-br from-gray-600 to-slate-800 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity blur-xl"></div>
+                  <div className="relative z-10 flex flex-col items-center text-center">
+                    <div className="w-16 h-16 bg-white/20 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform backdrop-blur-sm">
+                      <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                      </svg>
+                    </div>
+                    <h3 className="text-xl font-bold text-white mb-2">Resume Builder</h3>
+                    <p className="text-white/90 text-sm">ATS-Optimized</p>
+                  </div>
+                </div>
+              </Link>
+            </div>
+          </div>
+
             {/* Stats Section */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto mt-8 mb-8">
               <div className="text-center">
@@ -184,6 +293,296 @@ export default function Home() {
               <div className="text-3xl font-bold text-gray-800">Amazon</div>
               <div className="text-3xl font-bold text-gray-800">Netflix</div>
               <div className="text-3xl font-bold text-gray-800">Apple</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Feature Showcase - Interview & Salary Negotiation */}
+      <section className="py-20 bg-gradient-to-b from-white to-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+              Your Complete Career Success Platform
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              From interview prep to salary negotiation - everything you need to land your dream job at the right compensation
+            </p>
+          </div>
+
+          <div className="grid lg:grid-cols-2 xl:grid-cols-4 gap-8">
+            {/* Interview Practice Card */}
+            <Link href="/practice">
+              <div className="group bg-gradient-to-br from-orange-50 via-red-50 to-pink-50 rounded-3xl p-8 lg:p-10 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 border-2 border-orange-200 hover:border-orange-400 cursor-pointer h-full">
+                <div className="flex items-start gap-6 mb-6">
+                  <div className="flex-shrink-0 w-20 h-20 bg-gradient-to-r from-orange-500 to-red-500 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                    <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                    </svg>
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-2xl font-bold text-gray-900 mb-2">AI Interview Practice</h3>
+                    <p className="text-orange-600 font-semibold text-lg mb-4">Start preparing now →</p>
+                  </div>
+                </div>
+
+                <p className="text-gray-700 text-base mb-6 leading-relaxed">
+                  Master your interview skills with <strong>45+ role-specific questions</strong> tailored to current standards. Get real-time AI feedback, audio recording, and detailed analytics.
+                </p>
+
+                <div className="grid grid-cols-2 gap-3 mb-6">
+                  <div className="flex items-center gap-2">
+                    <div className="w-6 h-6 rounded-full bg-gradient-to-r from-orange-500 to-red-500 flex items-center justify-center flex-shrink-0">
+                      <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                    <span className="text-xs text-gray-700">45+ Questions</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-6 h-6 rounded-full bg-gradient-to-r from-orange-500 to-red-500 flex items-center justify-center flex-shrink-0">
+                      <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                    <span className="text-xs text-gray-700">AI Feedback</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-6 h-6 rounded-full bg-gradient-to-r from-orange-500 to-red-500 flex items-center justify-center flex-shrink-0">
+                      <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                    <span className="text-xs text-gray-700">Audio Recording</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-6 h-6 rounded-full bg-gradient-to-r from-orange-500 to-red-500 flex items-center justify-center flex-shrink-0">
+                      <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                    <span className="text-xs text-gray-700">Analytics</span>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between pt-4 border-t-2 border-orange-200">
+                  <span className="text-gray-600 text-xs font-medium">500+ Roles</span>
+                  <span className="text-orange-600 font-bold text-base group-hover:translate-x-2 transition-transform">Try It Free →</span>
+                </div>
+              </div>
+            </Link>
+
+            {/* LinkedIn Profile Optimizer Card */}
+            <Link href="/linkedin">
+              <div className="group bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 rounded-3xl p-8 lg:p-10 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 border-2 border-blue-200 hover:border-blue-400 cursor-pointer h-full">
+                <div className="flex items-start gap-6 mb-6">
+                  <div className="flex-shrink-0 w-20 h-20 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                    <svg className="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                    </svg>
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-2xl font-bold text-gray-900 mb-2">LinkedIn Optimizer</h3>
+                    <p className="text-blue-600 font-semibold text-lg mb-4">Get noticed →</p>
+                  </div>
+                </div>
+
+                <p className="text-gray-700 text-base mb-6 leading-relaxed">
+                  Optimize your LinkedIn profile to attract recruiters. Get keyword analysis, AI-powered headline & About generators, and a <strong>4-week visibility plan</strong>.
+                </p>
+
+                <div className="grid grid-cols-2 gap-3 mb-6">
+                  <div className="flex items-center gap-2">
+                    <div className="w-6 h-6 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 flex items-center justify-center flex-shrink-0">
+                      <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                    <span className="text-xs text-gray-700">Keyword Analysis</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-6 h-6 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 flex items-center justify-center flex-shrink-0">
+                      <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                    <span className="text-xs text-gray-700">Profile Scoring</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-6 h-6 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 flex items-center justify-center flex-shrink-0">
+                      <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                    <span className="text-xs text-gray-700">10+ Templates</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-6 h-6 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 flex items-center justify-center flex-shrink-0">
+                      <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                    <span className="text-xs text-gray-700">Visibility Plan</span>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between pt-4 border-t-2 border-blue-200">
+                  <span className="text-gray-600 text-xs font-medium">Get 3x more views</span>
+                  <span className="text-blue-600 font-bold text-base group-hover:translate-x-2 transition-transform">Optimize →</span>
+                </div>
+              </div>
+            </Link>
+
+            {/* Career Roadmap Planner Card */}
+            <Link href="/roadmap">
+              <div className="group bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 rounded-3xl p-8 lg:p-10 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 border-2 border-indigo-200 hover:border-indigo-400 cursor-pointer h-full">
+                <div className="flex items-start gap-6 mb-6">
+                  <div className="flex-shrink-0 w-20 h-20 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                    <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+                    </svg>
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-2xl font-bold text-gray-900 mb-2">Career Roadmap</h3>
+                    <p className="text-indigo-600 font-semibold text-lg mb-4">Plan your growth →</p>
+                  </div>
+                </div>
+
+                <p className="text-gray-700 text-base mb-6 leading-relaxed">
+                  Get a personalized career development plan with <strong>skills gap analysis</strong>, learning paths, timeline projections, and certification recommendations.
+                </p>
+
+                <div className="grid grid-cols-2 gap-3 mb-6">
+                  <div className="flex items-center gap-2">
+                    <div className="w-6 h-6 rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 flex items-center justify-center flex-shrink-0">
+                      <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                    <span className="text-xs text-gray-700">Skills Gap Analysis</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-6 h-6 rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 flex items-center justify-center flex-shrink-0">
+                      <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                    <span className="text-xs text-gray-700">Learning Paths</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-6 h-6 rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 flex items-center justify-center flex-shrink-0">
+                      <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                    <span className="text-xs text-gray-700">Timeline Plan</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-6 h-6 rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 flex items-center justify-center flex-shrink-0">
+                      <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                    <span className="text-xs text-gray-700">Certifications</span>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between pt-4 border-t-2 border-indigo-200">
+                  <span className="text-gray-600 text-xs font-medium">Chart your path</span>
+                  <span className="text-indigo-600 font-bold text-base group-hover:translate-x-2 transition-transform">Get Started →</span>
+                </div>
+              </div>
+            </Link>
+
+            {/* Salary Negotiation Card */}
+            <Link href="/salary">
+              <div className="group bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 rounded-3xl p-8 lg:p-10 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 border-2 border-green-200 hover:border-green-400 cursor-pointer h-full">
+                <div className="flex items-start gap-6 mb-6">
+                  <div className="flex-shrink-0 w-20 h-20 bg-gradient-to-r from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                    <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-2xl font-bold text-gray-900 mb-2">Salary Negotiation</h3>
+                    <p className="text-green-600 font-semibold text-lg mb-4">Maximize your offer →</p>
+                  </div>
+                </div>
+
+                <p className="text-gray-700 text-base mb-6 leading-relaxed">
+                  Get market data, professional negotiation scripts, and compensation calculators. <strong>Average $15K+ increase</strong> with data-driven strategies.
+                </p>
+
+                <div className="grid grid-cols-2 gap-3 mb-6">
+                  <div className="flex items-center gap-2">
+                    <div className="w-6 h-6 rounded-full bg-gradient-to-r from-green-500 to-emerald-600 flex items-center justify-center flex-shrink-0">
+                      <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                    <span className="text-xs text-gray-700">Market Data</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-6 h-6 rounded-full bg-gradient-to-r from-green-500 to-emerald-600 flex items-center justify-center flex-shrink-0">
+                      <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                    <span className="text-xs text-gray-700">12+ Scripts</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-6 h-6 rounded-full bg-gradient-to-r from-green-500 to-emerald-600 flex items-center justify-center flex-shrink-0">
+                      <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                    <span className="text-xs text-gray-700">Calculator</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-6 h-6 rounded-full bg-gradient-to-r from-green-500 to-emerald-600 flex items-center justify-center flex-shrink-0">
+                      <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                    <span className="text-xs text-gray-700">Comparison</span>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between pt-4 border-t-2 border-green-200">
+                  <span className="text-gray-600 text-xs font-medium">$15K+ Average</span>
+                  <span className="text-green-600 font-bold text-base group-hover:translate-x-2 transition-transform">Start Now →</span>
+                </div>
+              </div>
+            </Link>
+          </div>
+
+          {/* Value Prop Banner */}
+          <div className="mt-12 bg-gradient-to-r from-purple-100 via-blue-100 to-indigo-100 rounded-2xl p-8 text-center border-2 border-purple-200">
+            <h3 className="text-2xl font-bold text-gray-900 mb-3">
+              🎯 Complete Career Success Package
+            </h3>
+            <p className="text-gray-700 text-lg mb-4">
+              Ace your interview <strong>AND</strong> negotiate like a pro. Most candidates leave $10K-50K on the table. Don't be one of them.
+            </p>
+            <div className="flex flex-wrap justify-center gap-6 text-sm font-semibold text-gray-600">
+              <span className="flex items-center gap-2">
+                <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+                95% Interview Success Rate
+              </span>
+              <span className="flex items-center gap-2">
+                <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+                $15K+ Avg Salary Increase
+              </span>
+              <span className="flex items-center gap-2">
+                <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+                500K+ Happy Users
+              </span>
             </div>
           </div>
         </div>

@@ -61,8 +61,9 @@ export default function Header() {
   return (
     <nav
       className={`sticky top-0 w-full bg-white/95 backdrop-blur-md z-50 border-b transition-all duration-300 ${
-        scrolled ? 'border-gray-200 shadow-md' : 'border-gray-100 shadow-sm'
+        scrolled ? 'border-gray-200 shadow-lg' : 'border-gray-100 shadow-sm'
       }`}
+      aria-label="Main navigation"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
@@ -157,9 +158,11 @@ export default function Header() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 text-gray-600 hover:text-gray-900 transition-colors"
+            className="md:hidden p-2 rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition-all focus:outline-none focus:ring-2 focus:ring-orange-500"
+            aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={mobileMenuOpen}
           >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               {mobileMenuOpen ? (
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               ) : (
@@ -172,7 +175,7 @@ export default function Header() {
         {/* Mobile Menu */}
         <div
           className={`md:hidden border-t border-gray-100 overflow-hidden transition-all duration-300 ease-in-out ${
-            mobileMenuOpen ? 'max-h-96 py-4' : 'max-h-0 py-0'
+            mobileMenuOpen ? 'max-h-screen opacity-100 py-4' : 'max-h-0 opacity-0 py-0'
           }`}
         >
           <div className="flex flex-col space-y-2">
