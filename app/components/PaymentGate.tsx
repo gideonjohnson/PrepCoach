@@ -14,9 +14,19 @@ export default function PaymentGate({ children, feature = 'this feature' }: Paym
   const [hasAccess, setHasAccess] = useState<boolean | null>(null);
   const [loading, setLoading] = useState(true);
 
+  // TEMPORARY: Disable payment gates for demo/testing
+  // Set NEXT_PUBLIC_DISABLE_PAYMENT_GATES=true in Vercel env to disable gates
+  const paymentGatesDisabled = process.env.NEXT_PUBLIC_DISABLE_PAYMENT_GATES === 'true';
+
   useEffect(() => {
+    if (paymentGatesDisabled) {
+      // Payment gates disabled - grant access to everyone
+      setHasAccess(true);
+      setLoading(false);
+      return;
+    }
     checkSubscription();
-  }, []);
+  }, [paymentGatesDisabled]);
 
   const checkSubscription = async () => {
     try {
