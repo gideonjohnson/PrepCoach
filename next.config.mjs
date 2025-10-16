@@ -7,9 +7,6 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  experimental: {
-    dynamicIO: true,
-  },
   webpack: (config, { isServer }) => {
     // Disable WebAssembly warnings for MediaPipe
     config.module = config.module || {};
