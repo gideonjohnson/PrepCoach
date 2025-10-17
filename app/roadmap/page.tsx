@@ -868,9 +868,5 @@ function CareerRoadmapContent() {
 }
 
 export default function CareerRoadmapPage() {
-  return (
-    <PaymentGate feature="Career Roadmap">
-      <CareerRoadmapContent />
-    </PaymentGate>
-  );
+  return <CareerRoadmapContent />;
 }

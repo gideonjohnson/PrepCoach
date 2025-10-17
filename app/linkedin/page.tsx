@@ -827,9 +827,5 @@ function VisibilityTab({ targetRole }: { targetRole: string }) {
 }
 
 export default function LinkedInOptimizerPage() {
-  return (
-    <PaymentGate feature="LinkedIn Optimizer">
-      <LinkedInOptimizerContent />
-    </PaymentGate>
-  );
+  return <LinkedInOptimizerContent />;
 }

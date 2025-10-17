@@ -700,9 +700,5 @@ function SalaryNegotiationContent() {
 }
 
 export default function SalaryNegotiationPage() {
-  return (
-    <PaymentGate feature="Salary Negotiation Hub">
-      <SalaryNegotiationContent />
-    </PaymentGate>
-  );
+  return <SalaryNegotiationContent />;
 }
