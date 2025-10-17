@@ -73,7 +73,7 @@ export default function Header() {
               PrepCoach
             </span>
             <span className="text-xs font-bold text-gray-400 group-hover:text-orange-500 transition-colors" style={{ fontSize: '0.65rem', verticalAlign: 'super', marginLeft: '-0.1rem' }}>
-              GJ™
+              GJ
             </span>
           </Link>
 

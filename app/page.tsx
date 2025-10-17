@@ -20,7 +20,7 @@ export default function Home() {
                   PrepCoach
                 </span>
                 <span className="text-xs font-bold text-gray-400 group-hover:text-orange-500 transition-colors" style={{ fontSize: '0.65rem', verticalAlign: 'super', marginLeft: '-0.1rem' }}>
-                  GJ™
+                  GJ
                 </span>
               </Link>
             </div>
@@ -990,7 +990,7 @@ export default function Home() {
                   PrepCoach
                 </span>
                 <span className="text-sm font-bold text-gray-500 group-hover:text-orange-400 transition-colors" style={{ fontSize: '0.75rem', verticalAlign: 'super', marginLeft: '-0.15rem' }}>
-                  GJ™
+                  GJ
                 </span>
               </Link>
               <p className="text-gray-400 mt-4 leading-relaxed">
@@ -1046,7 +1046,7 @@ export default function Home() {
           <div className="border-t border-gray-800 pt-8">
             <div className="flex flex-col md:flex-row justify-between items-center gap-4">
               <p className="text-gray-400 text-sm">
-                &copy; 2025 PrepCoach<sup className="text-xs">GJ™</sup>. All rights reserved.
+                &copy; 2025 PrepCoach<sup className="text-xs">GJ</sup>. All rights reserved.
               </p>
               <div className="flex gap-6 text-sm text-gray-400">
                 <a href="#" className="hover:text-orange-500 transition">Privacy Policy</a>
