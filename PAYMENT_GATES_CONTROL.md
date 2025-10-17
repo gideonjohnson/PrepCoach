@@ -8,39 +8,84 @@ Payment gates are currently **DISABLED** for your test group demo.
 
 ## How It Works
 
-The payment gates can be toggled on/off using the environment variable:
-- **Variable**: `NEXT_PUBLIC_DISABLE_PAYMENT_GATES`
-- **Value**: `true` (disabled) or `false` (enabled)
+Payment gates have been directly removed from all feature pages:
+- **Interview Practice** (`app/practice/page.tsx`)
+- **LinkedIn Optimizer** (`app/linkedin/page.tsx`)
+- **Career Roadmap** (`app/roadmap/page.tsx`)
+- **Salary Negotiation Hub** (`app/salary/page.tsx`)
 
-When disabled, ALL users get access to ALL features without needing a subscription.
+All users now have **FREE ACCESS** to all features, regardless of subscription tier.
 
 ---
 
 ## To Re-Enable Payment Gates (After Demo)
 
-### Option 1: Via Vercel CLI
-```bash
-vercel env rm NEXT_PUBLIC_DISABLE_PAYMENT_GATES production
-# Then redeploy
-git commit --allow-empty -m "Re-enable payment gates"
-git push origin master
+When you're ready to add live Stripe keys and start monetizing:
+
+### Step 1: Re-add PaymentGate Wrappers
+
+Edit each page file to wrap the content with the PaymentGate component:
+
+**app/linkedin/page.tsx** (line 829-831):
+```typescript
+export default function LinkedInOptimizerPage() {
+  return (
+    <PaymentGate feature="LinkedIn Optimizer">
+      <LinkedInOptimizerContent />
+    </PaymentGate>
+  );
+}
 ```
 
-### Option 2: Via Vercel Dashboard
-1. Go to https://vercel.com
-2. Select your **prepcoach** project
-3. Go to **Settings** → **Environment Variables**
-4. Find `NEXT_PUBLIC_DISABLE_PAYMENT_GATES`
-5. Either:
-   - Delete the variable completely, OR
-   - Change value from `true` to `false`
-6. Redeploy from the **Deployments** tab
+**app/roadmap/page.tsx** (line 870-872):
+```typescript
+export default function CareerRoadmapPage() {
+  return (
+    <PaymentGate feature="Career Roadmap">
+      <CareerRoadmapContent />
+    </PaymentGate>
+  );
+}
+```
+
+**app/salary/page.tsx** (line 702-704):
+```typescript
+export default function SalaryNegotiationPage() {
+  return (
+    <PaymentGate feature="Salary Negotiation">
+      <SalaryNegotiationContent />
+    </PaymentGate>
+  );
+}
+```
+
+**app/practice/page.tsx** (line 1275-1290):
+```typescript
+export default function PracticePage() {
+  return (
+    <PaymentGate feature="Interview Practice">
+      <ErrorBoundary>
+        <Suspense fallback={...}>
+          <PracticeContent />
+        </Suspense>
+      </ErrorBoundary>
+    </PaymentGate>
+  );
+}
+```
+
+### Step 2: Commit and Deploy
+```bash
+git add .
+git commit -m "Re-enable payment gates for production"
+git push origin master
+```
 
 ---
 
 ## What's Affected When Disabled
 
-When payment gates are disabled:
+Current free access:
 - ✅ Interview Practice - Full access
 - ✅ LinkedIn Optimizer - Full access
 - ✅ Career Roadmap - Full access
@@ -72,6 +117,6 @@ Re-enable payment gates when:
 
 ---
 
-**Status Last Updated**: 2025-10-16
-**Deployment**: In progress (ETA 1-2 minutes)
-# Payment gates disabled for demo - Fri Oct 17 00:31:28 EAST 2025
+**Last Commit**: fd7db3c - "Remove payment gates - allow free access for demo"
+**Deployed To**: https://aiprep.work
+**Status**: Live and accessible for your test group
