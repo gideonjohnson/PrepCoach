@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import OpenAI from 'openai';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '../auth/[...nextauth]/route';
+import { checkApiRateLimit } from '@/lib/rate-limit';
 
 // Check if API key is configured
 if (!process.env.OPENAI_API_KEY || process.env.OPENAI_API_KEY === 'your_openai_api_key_here') {
@@ -14,6 +17,34 @@ const openai = new OpenAI({
 
 export async function POST(request: NextRequest) {
   try {
+    // Check authentication
+    const session = await getServerSession(authOptions);
+
+    // Apply rate limiting
+    const identifier = session?.user?.email || request.ip || 'anonymous';
+    const rateLimitResult = await checkApiRateLimit('transcription', identifier);
+
+    if (!rateLimitResult.success) {
+      const resetDate = new Date(rateLimitResult.reset);
+      return NextResponse.json(
+        {
+          error: 'Rate limit exceeded',
+          message: `Too many transcription requests. Please try again after ${resetDate.toLocaleTimeString()}.`,
+          limit: rateLimitResult.limit,
+          remaining: 0,
+          reset: rateLimitResult.reset,
+        },
+        {
+          status: 429,
+          headers: {
+            'X-RateLimit-Limit': rateLimitResult.limit.toString(),
+            'X-RateLimit-Remaining': '0',
+            'X-RateLimit-Reset': rateLimitResult.reset.toString(),
+          },
+        }
+      );
+    }
+
     // Check API key
     if (!process.env.OPENAI_API_KEY || process.env.OPENAI_API_KEY === 'your_openai_api_key_here') {
       return NextResponse.json(

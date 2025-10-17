@@ -3,25 +3,42 @@ import { prisma } from '@/lib/prisma';
 import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
 import { sendVerificationEmail } from '@/lib/email';
+import { checkApiRateLimit } from '@/lib/rate-limit';
+import { signupSchema, safeValidateData, formatZodError } from '@/lib/validation';
 
 export async function POST(request: NextRequest) {
   try {
-    const { name, email, password } = await request.json();
+    // Apply rate limiting to prevent brute force attacks
+    const identifier = request.ip || 'anonymous';
+    const rateLimitResult = await checkApiRateLimit('auth', identifier);
 
-    if (!email || !password) {
+    if (!rateLimitResult.success) {
+      const resetDate = new Date(rateLimitResult.reset);
       return NextResponse.json(
-        { error: 'Email and password are required' },
+        {
+          error: 'Too many attempts',
+          message: `Too many signup attempts. Please try again after ${resetDate.toLocaleTimeString()}.`,
+        },
+        { status: 429 }
+      );
+    }
+
+    const body = await request.json();
+
+    // Validate input with Zod
+    const validation = safeValidateData(signupSchema, body);
+
+    if (!validation.success) {
+      return NextResponse.json(
+        {
+          error: 'Validation failed',
+          details: formatZodError(validation.error),
+        },
         { status: 400 }
       );
     }
 
-    // Validate password strength
-    if (password.length < 8) {
-      return NextResponse.json(
-        { error: 'Password must be at least 8 characters long' },
-        { status: 400 }
-      );
-    }
+    const { name, email, password } = validation.data;
 
     // Check if user already exists
     const existingUser = await prisma.user.findUnique({

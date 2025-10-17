@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import Anthropic from '@anthropic-ai/sdk';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../auth/[...nextauth]/route';
+import { checkApiRateLimit } from '@/lib/rate-limit';
+import { aiFeedbackSchema, safeValidateData, formatZodError } from '@/lib/validation';
 
 // Check if API key is configured
 if (!process.env.ANTHROPIC_API_KEY || process.env.ANTHROPIC_API_KEY === 'your_anthropic_api_key_here') {
@@ -23,6 +25,34 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         { error: 'Unauthorized' },
         { status: 401 }
+      );
+    }
+
+    // Apply rate limiting
+    const rateLimitResult = await checkApiRateLimit(
+      'aiFeedback',
+      session.user.email || request.ip || 'anonymous'
+    );
+
+    if (!rateLimitResult.success) {
+      const resetDate = new Date(rateLimitResult.reset);
+      return NextResponse.json(
+        {
+          error: 'Rate limit exceeded',
+          message: `Too many AI feedback requests. Please try again after ${resetDate.toLocaleTimeString()}.`,
+          limit: rateLimitResult.limit,
+          remaining: 0,
+          reset: rateLimitResult.reset,
+        },
+        {
+          status: 429,
+          headers: {
+            'X-RateLimit-Limit': rateLimitResult.limit.toString(),
+            'X-RateLimit-Remaining': '0',
+            'X-RateLimit-Reset': rateLimitResult.reset.toString(),
+            'Retry-After': Math.ceil((rateLimitResult.reset - Date.now()) / 1000).toString(),
+          },
+        }
       );
     }
 
@@ -65,14 +95,22 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { transcript, question, role, category } = await request.json();
+    const body = await request.json();
 
-    if (!transcript || !question) {
+    // Validate input with Zod
+    const validation = safeValidateData(aiFeedbackSchema, body);
+
+    if (!validation.success) {
       return NextResponse.json(
-        { error: 'Missing transcript or question' },
+        {
+          error: 'Validation failed',
+          details: formatZodError(validation.error),
+        },
         { status: 400 }
       );
     }
+
+    const { transcript, question, role, category } = validation.data;
 
     const prompt = `You are an expert interview coach providing constructive feedback on interview responses.
 
