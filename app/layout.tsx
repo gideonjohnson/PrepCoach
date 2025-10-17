@@ -17,6 +17,13 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "PrepCoach - AI-Powered Interview Practice",
   description: "Practice interviews with AI, get instant feedback, and land your dream job",
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+    maximumScale: 5,
+    userScalable: true,
+  },
+  themeColor: "#f97316",
 };
 
 export default function RootLayout({

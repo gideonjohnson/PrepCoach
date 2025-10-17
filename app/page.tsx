@@ -111,25 +111,25 @@ export default function Home() {
             <div className="inline-block mb-6 px-4 py-2 bg-gradient-to-r from-orange-100 to-red-100 rounded-full">
               <span className="text-orange-600 font-semibold text-sm">✨ Master Your Next Interview with AI</span>
             </div>
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-gray-900 mb-6 leading-tight">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 mb-6 leading-tight">
               Land Your Dream Job with{" "}
               <span className="bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">
                 AI-Powered Interview Coaching
               </span>
             </h1>
-            <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-base sm:text-lg md:text-xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed">
               PrepCoach delivers professional interview preparation with <strong>45+ role-specific questions</strong> tailored to match what current interviewers ask,
               real-time AI feedback, audio recording, and advanced analytics. Transform your interview skills and
               land positions at top companies like Microsoft, Netflix, and OpenAI.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start items-center mb-8">
-              <Link href="/auth/signup">
-                <button className="px-8 py-4 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-full text-lg font-semibold hover:shadow-2xl transition transform hover:scale-105">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start items-stretch sm:items-center mb-8">
+              <Link href="/auth/signup" className="w-full sm:w-auto">
+                <button className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-full text-base sm:text-lg font-semibold hover:shadow-2xl transition transform hover:scale-105 min-h-[48px]">
                   Start Your Journey Today
                 </button>
               </Link>
-              <Link href="/pricing">
-                <button className="px-8 py-4 bg-white text-gray-800 border-2 border-gray-300 rounded-full text-lg font-semibold hover:border-orange-500 hover:text-orange-500 transition">
+              <Link href="/pricing" className="w-full sm:w-auto">
+                <button className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-white text-gray-800 border-2 border-gray-300 rounded-full text-base sm:text-lg font-semibold hover:border-orange-500 hover:text-orange-500 transition min-h-[48px]">
                   View Pricing
                 </button>
               </Link>
@@ -163,7 +163,7 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 max-w-7xl mx-auto">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6 max-w-7xl mx-auto">
               {/* Interview Prep Button */}
               <Link href="/practice">
                 <div className="group relative bg-gradient-to-br from-orange-500 to-red-600 rounded-2xl p-6 shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-2 cursor-pointer"
@@ -267,35 +267,35 @@ export default function Home() {
           </div>
 
             {/* Stats Section */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto mt-8 mb-8">
-              <div className="text-center">
-                <div className="text-4xl font-bold bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent mb-2">500+</div>
-                <div className="text-gray-600 text-sm">Professional Roles</div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 max-w-4xl mx-auto mt-8 mb-8">
+              <div className="text-center p-4 rounded-xl bg-white/50 backdrop-blur-sm">
+                <div className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent mb-2">500+</div>
+                <div className="text-gray-600 text-xs sm:text-sm">Professional Roles</div>
               </div>
-              <div className="text-center">
-                <div className="text-4xl font-bold bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent mb-2">45+</div>
-                <div className="text-gray-600 text-sm">Questions Per Role</div>
+              <div className="text-center p-4 rounded-xl bg-white/50 backdrop-blur-sm">
+                <div className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent mb-2">45+</div>
+                <div className="text-gray-600 text-xs sm:text-sm">Questions Per Role</div>
               </div>
-              <div className="text-center">
-                <div className="text-4xl font-bold bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent mb-2">95%</div>
-                <div className="text-gray-600 text-sm">Success Rate</div>
+              <div className="text-center p-4 rounded-xl bg-white/50 backdrop-blur-sm">
+                <div className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent mb-2">95%</div>
+                <div className="text-gray-600 text-xs sm:text-sm">Success Rate</div>
               </div>
-              <div className="text-center">
-                <div className="text-4xl font-bold bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent mb-2">24/7</div>
-                <div className="text-gray-600 text-sm">AI Availability</div>
+              <div className="text-center p-4 rounded-xl bg-white/50 backdrop-blur-sm">
+                <div className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent mb-2">24/7</div>
+                <div className="text-gray-600 text-xs sm:text-sm">AI Availability</div>
               </div>
             </div>
 
           {/* Company Logos */}
-          <div className="mt-16">
-            <p className="text-center text-gray-500 mb-8 font-medium">Trusted by candidates aiming for top companies</p>
-            <div className="flex flex-wrap justify-center items-center gap-12 opacity-60">
-              <div className="text-3xl font-bold text-gray-800">Meta</div>
-              <div className="text-3xl font-bold text-gray-800">Google</div>
-              <div className="text-3xl font-bold text-gray-800">Microsoft</div>
-              <div className="text-3xl font-bold text-gray-800">Amazon</div>
-              <div className="text-3xl font-bold text-gray-800">Netflix</div>
-              <div className="text-3xl font-bold text-gray-800">Apple</div>
+          <div className="mt-12 sm:mt-16">
+            <p className="text-center text-gray-500 mb-6 sm:mb-8 font-medium text-sm sm:text-base">Trusted by candidates aiming for top companies</p>
+            <div className="flex flex-wrap justify-center items-center gap-6 sm:gap-8 md:gap-12 opacity-60">
+              <div className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800">Meta</div>
+              <div className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800">Google</div>
+              <div className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800">Microsoft</div>
+              <div className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800">Amazon</div>
+              <div className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800">Netflix</div>
+              <div className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800">Apple</div>
             </div>
           </div>
         </div>
