@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import toast from 'react-hot-toast';
 import Header from '../components/Header';
 import Breadcrumbs from '../components/Breadcrumbs';
 
@@ -193,13 +194,13 @@ export default function ResumeBuilder() {
     if (file && (file.type === 'application/pdf' || file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' || file.type === 'text/plain')) {
       setUploadedResume(file);
     } else {
-      alert('Please upload a PDF, DOCX, or TXT file');
+      toast.error('Please upload a PDF, DOCX, or TXT file', { duration: 4000 });
     }
   };
 
   const handleTransformResume = async () => {
     if (!uploadedResume) {
-      alert('Please upload your resume first');
+      toast.error('Please upload your resume first', { duration: 3000 });
       return;
     }
 
@@ -241,15 +242,15 @@ export default function ResumeBuilder() {
 
         // Show optimized versions
         if (data.transformedSections) {
-          alert(`Resume transformed successfully! ATS Score: ${data.atsScore}%\n\nYour form has been populated with the optimized content.`);
+          toast.success(`Resume transformed successfully! ATS Score: ${data.atsScore}%\n\nYour form has been populated with the optimized content.`, { duration: 6000 });
         }
       } else {
         const error = await response.json();
-        alert(`Failed to transform resume: ${error.error}`);
+        toast.error(`Failed to transform resume: ${error.error}`, { duration: 5000 });
       }
     } catch (error) {
       console.error('Transform error:', error);
-      alert('Failed to transform resume');
+      toast.error('Failed to transform resume. Please check your connection and try again.', { duration: 5000 });
     } finally {
       setIsTransforming(false);
     }
@@ -257,11 +258,11 @@ export default function ResumeBuilder() {
 
   const handleATSTailor = async () => {
     if (!uploadedResume && !fullName) {
-      alert('Please upload a resume or fill in your information');
+      toast.error('Please upload a resume or fill in your information', { duration: 4000 });
       return;
     }
     if (!jobDescription.trim()) {
-      alert('Please enter a job description');
+      toast.error('Please enter a job description', { duration: 3000 });
       return;
     }
 
@@ -304,7 +305,7 @@ export default function ResumeBuilder() {
           if (data.optimizedResume.experience) setExperience(data.optimizedResume.experience);
         }
       } else {
-        alert('Failed to analyze resume');
+        toast.error('Failed to analyze resume. Please try again.', { duration: 4000 });
       }
     } catch (error) {
       console.error('ATS tailoring error:', error);
@@ -318,7 +319,10 @@ export default function ResumeBuilder() {
     setIsGenerating(true);
     try {
       // TODO: Implement AI optimization
-      alert('AI optimization will be implemented!');
+      toast('AI optimization feature coming soon!', {
+        icon: '✨',
+        duration: 4000
+      });
     } catch (error) {
       console.error('AI optimization error:', error);
     } finally {
@@ -352,9 +356,9 @@ export default function ResumeBuilder() {
       });
 
       if (response.ok) {
-        alert('Resume saved successfully!');
+        toast.success('Resume saved successfully!', { duration: 3000 });
       } else {
-        alert('Failed to save resume');
+        toast.error('Failed to save resume. Please try again.', { duration: 4000 });
       }
     } catch (error) {
       console.error('Save error:', error);

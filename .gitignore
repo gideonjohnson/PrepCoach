@@ -35,6 +35,13 @@ pnpm-debug.log*
 .env.development.local
 .env.test.local
 .env.production.local
+.env.production
+
+# Credentials and test files - DO NOT COMMIT
+YOUR_CREDENTIALS.md
+PRODUCTION_CREDENTIALS.md
+test-login.js
+test-*.js
 
 # Database files - DO NOT COMMIT
 prisma/*.db
