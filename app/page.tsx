@@ -15,9 +15,12 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
-              <Link href="/">
+              <Link href="/" className="flex items-center gap-2 group">
                 <span className="text-2xl font-bold bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent cursor-pointer">
                   PrepCoach
+                </span>
+                <span className="text-xs font-bold text-gray-400 group-hover:text-orange-500 transition-colors" style={{ fontSize: '0.65rem', verticalAlign: 'super', marginLeft: '-0.1rem' }}>
+                  GJ™
                 </span>
               </Link>
             </div>
@@ -982,9 +985,12 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-5 gap-8 mb-12">
             <div className="md:col-span-2">
-              <Link href="/">
+              <Link href="/" className="flex items-center gap-2 group">
                 <span className="text-3xl font-bold bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent cursor-pointer">
                   PrepCoach
+                </span>
+                <span className="text-sm font-bold text-gray-500 group-hover:text-orange-400 transition-colors" style={{ fontSize: '0.75rem', verticalAlign: 'super', marginLeft: '-0.15rem' }}>
+                  GJ™
                 </span>
               </Link>
               <p className="text-gray-400 mt-4 leading-relaxed">
@@ -1040,7 +1046,7 @@ export default function Home() {
           <div className="border-t border-gray-800 pt-8">
             <div className="flex flex-col md:flex-row justify-between items-center gap-4">
               <p className="text-gray-400 text-sm">
-                &copy; 2025 PrepCoach. All rights reserved.
+                &copy; 2025 PrepCoach<sup className="text-xs">GJ™</sup>. All rights reserved.
               </p>
               <div className="flex gap-6 text-sm text-gray-400">
                 <a href="#" className="hover:text-orange-500 transition">Privacy Policy</a>
