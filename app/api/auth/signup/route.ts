@@ -40,9 +40,12 @@ export async function POST(request: NextRequest) {
 
     const { name, email, password } = validation.data;
 
+    // Normalize email to lowercase to prevent duplicates
+    const normalizedEmail = email.toLowerCase().trim();
+
     // Check if user already exists
     const existingUser = await prisma.user.findUnique({
-      where: { email }
+      where: { email: normalizedEmail }
     });
 
     if (existingUser) {
@@ -62,7 +65,7 @@ export async function POST(request: NextRequest) {
     const user = await prisma.user.create({
       data: {
         name,
-        email,
+        email: normalizedEmail,
         password: hashedPassword,
         emailVerified: emailServiceConfigured ? null : new Date(), // Auto-verify if no email service
       }
@@ -84,7 +87,7 @@ export async function POST(request: NextRequest) {
       });
 
       // Send verification email
-      const emailResult = await sendVerificationEmail(email, token);
+      const emailResult = await sendVerificationEmail(normalizedEmail, token);
 
       if (!emailResult.success) {
         console.error('Failed to send verification email:', emailResult.error);
