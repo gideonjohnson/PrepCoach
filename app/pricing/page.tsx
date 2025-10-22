@@ -26,7 +26,7 @@ export default function PricingPage() {
 
     setLoadingTier(tier);
     try {
-      const response = await fetch('/api/stripe/create-checkout-session', {
+      const response = await fetch('/api/paystack/checkout', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -36,9 +36,9 @@ export default function PricingPage() {
 
       const data = await response.json();
 
-      if (response.ok && data.url) {
-        // Redirect to Stripe Checkout
-        window.location.href = data.url;
+      if (response.ok && data.authorization_url) {
+        // Redirect to Paystack Checkout
+        window.location.href = data.authorization_url;
       } else {
         alert(data.error || 'Failed to create checkout session. Please try again.');
         setLoadingTier(null);
