@@ -1049,8 +1049,8 @@ export default function Home() {
                 &copy; 2025 PrepCoach<sup className="text-xs">GJ</sup>. All rights reserved.
               </p>
               <div className="flex gap-6 text-sm text-gray-400">
-                <a href="#" className="hover:text-orange-500 transition">Privacy Policy</a>
-                <a href="#" className="hover:text-orange-500 transition">Terms of Service</a>
+                <Link href="/privacy" className="hover:text-orange-500 transition">Privacy Policy</Link>
+                <Link href="/terms" className="hover:text-orange-500 transition">Terms of Service</Link>
                 <a href="#" className="hover:text-orange-500 transition">Cookie Policy</a>
               </div>
             </div>
