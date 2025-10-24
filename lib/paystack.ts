@@ -55,17 +55,22 @@ export async function initializeTransaction(
   metadata: Record<string, any>
 ) {
   try {
-    const response = await paystackAPI.post('/transaction/initialize', {
+    const payload = {
       email,
       amount: amount * 100, // Paystack uses kobo (cents)
-      plan: planCode,
       callback_url: `${process.env.NEXTAUTH_URL}/payment/success`,
       metadata,
-    });
+    };
+
+    console.log('[PAYSTACK] Initializing transaction with payload:', JSON.stringify(payload, null, 2));
+
+    const response = await paystackAPI.post('/transaction/initialize', payload);
 
     return response.data;
   } catch (error: any) {
-    console.error('Paystack initialization error:', error.response?.data || error.message);
+    console.error('[PAYSTACK] Initialization error - Full response:', JSON.stringify(error.response?.data || {}, null, 2));
+    console.error('[PAYSTACK] Initialization error - Status:', error.response?.status);
+    console.error('[PAYSTACK] Initialization error - Message:', error.message);
     throw error;
   }
 }
