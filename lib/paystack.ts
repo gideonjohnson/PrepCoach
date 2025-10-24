@@ -84,14 +84,14 @@ export function verifyWebhookSignature(payload: string, signature: string): bool
   return hash === signature;
 }
 
-// Get pricing for tiers (in Naira)
+// Get pricing for tiers (in USD)
 export const PAYSTACK_PRICING = {
   pro: {
-    amount: 5000, // ₦5,000/month
-    currency: 'NGN',
+    amount: 19, // $19/month
+    currency: 'USD',
   },
   enterprise: {
-    amount: 15000, // ₦15,000/month
-    currency: 'NGN',
+    amount: 49, // $49/month
+    currency: 'USD',
   },
 };

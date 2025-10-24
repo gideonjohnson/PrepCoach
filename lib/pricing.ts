@@ -17,9 +17,9 @@ export const PRICING_TIERS = {
   },
   pro: {
     name: 'Pro',
-    price: 5000,
+    price: 19,
     interval: 'month',
-    currency: 'NGN',
+    currency: 'USD',
     features: [
       'Unlimited interview sessions',
       'Unlimited AI feedback',
@@ -38,9 +38,9 @@ export const PRICING_TIERS = {
   },
   enterprise: {
     name: 'Enterprise',
-    price: 15000,
+    price: 49,
     interval: 'month',
-    currency: 'NGN',
+    currency: 'USD',
     features: [
       'Everything in Pro',
       'Team management (up to 10 users)',

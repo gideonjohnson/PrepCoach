@@ -215,8 +215,8 @@ export default function PricingPage() {
                 What payment methods do you accept?
               </h3>
               <p className="text-gray-600 ml-8">
-                We accept all major credit cards (Visa, Mastercard, American Express, Discover) through our secure payment processor Stripe.
-                All payments are encrypted and secure. We do not store your credit card information on our servers.
+                We accept all major credit cards (Visa, Mastercard, American Express) through our secure payment processor Paystack.
+                All payments are encrypted and secure. We do not store your payment information on our servers.
               </p>
             </div>
 

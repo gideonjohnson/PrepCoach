@@ -112,11 +112,25 @@ The following still work normally:
 
 Re-enable payment gates when:
 1. You've shown your test group the demo
-2. You're ready to add your live Stripe keys
+2. You're ready to add your live Paystack keys (see docs/PAYSTACK_SETUP.md)
 3. You want to start monetizing
 
 ---
 
-**Last Commit**: fd7db3c - "Remove payment gates - allow free access for demo"
+## Payment Provider: Paystack
+
+PrepCoach now uses **Paystack** for payment processing (migrated from Stripe):
+- ✅ Supports Nigerian Naira (NGN)
+- ✅ Local payment methods (cards, bank transfers, USSD)
+- ✅ Better success rates for African users
+- ✅ Lower transaction fees
+
+**Pricing**: Pro (₦5,000/mo) | Enterprise (₦15,000/mo)
+
+**Setup Guide**: See `docs/PAYSTACK_SETUP.md` for complete configuration instructions.
+
+---
+
+**Last Commit**: 30ebe57 - "Switch payment provider from Stripe to Paystack"
 **Deployed To**: https://aiprep.work
 **Status**: Live and accessible for your test group

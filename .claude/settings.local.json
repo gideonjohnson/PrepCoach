@@ -4,7 +4,10 @@
       "Bash(git add:*)",
       "Bash(git commit:*)",
       "Bash(git push:*)",
-      "Bash(vercel:*)"
+      "Bash(vercel:*)",
+      "Bash(cat:*)",
+      "WebFetch(domain:aiprep.work)",
+      "Bash(npm uninstall:*)"
     ],
     "deny": [],
     "ask": []
