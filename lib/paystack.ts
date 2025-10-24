@@ -22,9 +22,17 @@ export const PAYSTACK_PLAN_CODES = {
 export const paystackAPI = axios.create({
   baseURL: paystackConfig.baseURL,
   headers: {
-    Authorization: `Bearer ${paystackConfig.secretKey}`,
     'Content-Type': 'application/json',
   },
+});
+
+// Add auth header dynamically for each request
+paystackAPI.interceptors.request.use((config) => {
+  const secretKey = process.env.PAYSTACK_SECRET_KEY;
+  if (secretKey && secretKey !== 'your_paystack_secret_key_here') {
+    config.headers.Authorization = `Bearer ${secretKey}`;
+  }
+  return config;
 });
 
 // Helper to check if Paystack is configured
