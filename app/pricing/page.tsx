@@ -26,7 +26,7 @@ export default function PricingPage() {
 
     setLoadingTier(tier);
     try {
-      const response = await fetch('/api/paystack/checkout', {
+      const response = await fetch('/api/stripe/checkout', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -36,9 +36,9 @@ export default function PricingPage() {
 
       const data = await response.json();
 
-      if (response.ok && data.authorization_url) {
-        // Redirect to Paystack Checkout
-        window.location.href = data.authorization_url;
+      if (response.ok && data.url) {
+        // Redirect to Stripe Checkout
+        window.location.href = data.url;
       } else {
         alert(data.error || 'Failed to create checkout session. Please try again.');
         setLoadingTier(null);
@@ -215,7 +215,7 @@ export default function PricingPage() {
                 What payment methods do you accept?
               </h3>
               <p className="text-gray-600 ml-8">
-                We accept all major credit cards (Visa, Mastercard, American Express) through our secure payment processor Paystack.
+                We accept all major credit cards (Visa, Mastercard, American Express) through our secure payment processor Stripe.
                 All payments are encrypted and secure. We do not store your payment information on our servers.
               </p>
             </div>
