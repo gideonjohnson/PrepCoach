@@ -7,6 +7,7 @@ import { useTextToSpeech } from './useTextToSpeech';
 import AIAvatar from './AIAvatar';
 import { roles, categories, type Role } from './roles';
 import { getQuestionsForRole } from './questions';
+import { getQuestionsForRoleAndLevel, type ExperienceLevel } from './questions-by-level';
 import Link from 'next/link';
 import InterviewerConfig, { InterviewerSettings } from '../components/InterviewerConfig';
 import VideoInterviewer from '../components/VideoInterviewer';
@@ -52,6 +53,8 @@ function PracticeContent() {
     tone: 'friendly',
   });
   const [showFilters, setShowFilters] = useState(false);
+  const [showLevelModal, setShowLevelModal] = useState(false);
+  const [selectedExperienceLevel, setSelectedExperienceLevel] = useState<ExperienceLevel>('entry');
 
   // Removed payment gate - free tier users now get 3 interviews/month
   // Limits are enforced by /api/user/check-limits endpoint
@@ -117,6 +120,11 @@ function PracticeContent() {
     setSelectedRole(role);
     setResumeData(null); // Clear resume data when starting fresh
 
+    // Show level selection modal before starting interview
+    setShowLevelModal(true);
+  };
+
+  const handleStartInterview = async (skipConfig: boolean = true) => {
     // Skip interviewer config by default to reduce friction
     if (!skipConfig && !resumeSessionId) {
       setStep('interviewer-config');
@@ -561,6 +569,119 @@ function PracticeContent() {
           )}
         </div>
 
+        {/* Experience Level Selection Modal */}
+        {showLevelModal && selectedRole && (
+          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fadeIn">
+            <div className="bg-white rounded-3xl shadow-2xl w-full sm:max-w-2xl p-8 animate-slideUp">
+              <div className="text-center mb-8">
+                <div className="w-20 h-20 bg-gradient-to-r from-purple-500 via-orange-500 to-red-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                  <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                  </svg>
+                </div>
+                <h3 className="text-3xl font-bold text-gray-900 mb-2">Select Your Experience Level</h3>
+                <p className="text-gray-600 text-lg">For {selectedRole.title}</p>
+                <p className="text-sm text-gray-500 mt-2">Questions will be tailored to your selected level</p>
+              </div>
+
+              <div className="grid grid-cols-1 gap-4 mb-8">
+                {/* Entry Level */}
+                <button
+                  onClick={() => setSelectedExperienceLevel('entry')}
+                  className={`group relative p-6 rounded-2xl border-2 transition-all text-left ${
+                    selectedExperienceLevel === 'entry'
+                      ? 'border-green-500 bg-gradient-to-br from-green-50 to-emerald-50 shadow-lg'
+                      : 'border-gray-200 bg-white hover:border-green-300 hover:shadow-md'
+                  }`}
+                >
+                  <div className="flex items-start gap-4">
+                    <div className="text-4xl">🌱</div>
+                    <div className="flex-1">
+                      <h4 className="text-xl font-bold text-gray-900 mb-2">Entry Level</h4>
+                      <p className="text-sm text-gray-600 mb-2">0-2 years of experience</p>
+                      <p className="text-xs text-gray-500">Focus on foundational knowledge, learning experiences, and basic problem-solving</p>
+                    </div>
+                    {selectedExperienceLevel === 'entry' && (
+                      <svg className="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    )}
+                  </div>
+                </button>
+
+                {/* Mid Level */}
+                <button
+                  onClick={() => setSelectedExperienceLevel('mid')}
+                  className={`group relative p-6 rounded-2xl border-2 transition-all text-left ${
+                    selectedExperienceLevel === 'mid'
+                      ? 'border-blue-500 bg-gradient-to-br from-blue-50 to-cyan-50 shadow-lg'
+                      : 'border-gray-200 bg-white hover:border-blue-300 hover:shadow-md'
+                  }`}
+                >
+                  <div className="flex items-start gap-4">
+                    <div className="text-4xl">📈</div>
+                    <div className="flex-1">
+                      <h4 className="text-xl font-bold text-gray-900 mb-2">Mid Level</h4>
+                      <p className="text-sm text-gray-600 mb-2">3-5 years of experience</p>
+                      <p className="text-xs text-gray-500">Focus on complex scenarios, proven track record, and intermediate problem-solving</p>
+                    </div>
+                    {selectedExperienceLevel === 'mid' && (
+                      <svg className="w-6 h-6 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    )}
+                  </div>
+                </button>
+
+                {/* Senior Level */}
+                <button
+                  onClick={() => setSelectedExperienceLevel('senior')}
+                  className={`group relative p-6 rounded-2xl border-2 transition-all text-left ${
+                    selectedExperienceLevel === 'senior'
+                      ? 'border-purple-500 bg-gradient-to-br from-purple-50 to-indigo-50 shadow-lg'
+                      : 'border-gray-200 bg-white hover:border-purple-300 hover:shadow-md'
+                  }`}
+                >
+                  <div className="flex items-start gap-4">
+                    <div className="text-4xl">⭐</div>
+                    <div className="flex-1">
+                      <h4 className="text-xl font-bold text-gray-900 mb-2">Senior Level</h4>
+                      <p className="text-sm text-gray-600 mb-2">7+ years of experience</p>
+                      <p className="text-xs text-gray-500">Focus on leadership, strategy, organizational impact, and team building</p>
+                    </div>
+                    {selectedExperienceLevel === 'senior' && (
+                      <svg className="w-6 h-6 text-purple-600" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    )}
+                  </div>
+                </button>
+              </div>
+
+              <div className="flex gap-3">
+                <button
+                  onClick={() => {
+                    setShowLevelModal(false);
+                    setSelectedRole(null);
+                  }}
+                  className="flex-1 px-6 py-3 bg-gray-200 text-gray-800 rounded-xl font-semibold hover:bg-gray-300 transition"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={() => {
+                    setShowLevelModal(false);
+                    handleStartInterview();
+                  }}
+                  className="flex-1 px-6 py-3 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-xl font-semibold hover:shadow-lg transition transform hover:scale-105"
+                >
+                  Start Interview
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Limit Reached Modal */}
         {showLimitModal && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
@@ -600,6 +721,7 @@ function PracticeContent() {
     <div className="min-h-screen bg-white">
       <InterviewSession
         role={selectedRole!}
+        experienceLevel={selectedExperienceLevel}
         onBack={() => {
           setStep('role-selection');
           setResumeData(null);
@@ -614,12 +736,14 @@ function PracticeContent() {
 
 function InterviewSession({
   role,
+  experienceLevel,
   onBack,
   resumeData,
   interviewerSettings,
   onConfigureInterviewer
 }: {
   role: Role;
+  experienceLevel: ExperienceLevel;
   onBack: () => void;
   resumeData: ResumeSession | null;
   interviewerSettings: InterviewerSettings;
@@ -648,7 +772,7 @@ function InterviewSession({
   const mediaStream = useMediaStream();
   // Temporarily disable visual analytics due to compatibility issues
   // const tfVision = useTensorFlowVision();
-  const tfVision = { isLoaded: false, error: 'Visual analytics temporarily disabled - vocal analysis only', analyzeFace: async () => null, analyzePose: async () => null, cleanup: () => {} };
+  const tfVision = { isLoaded: false, error: 'Visual analytics temporarily disabled - vocal analysis only', analyzeFace: async (_frameData: any) => null, analyzePose: async (_frameData: any) => null, cleanup: () => {} };
 
   const {
     isRecording,
@@ -663,8 +787,8 @@ function InterviewSession({
     permissionStatus
   } = useAudioRecorder();
 
-  // Get role-specific questions
-  const [questions] = useState(() => getQuestionsForRole(role.category));
+  // Get role-specific questions based on experience level
+  const [questions] = useState(() => getQuestionsForRoleAndLevel(role.category, experienceLevel));
 
   // Initialize analyzers
   useEffect(() => {
