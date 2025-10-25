@@ -435,7 +435,7 @@ function CareerRoadmapContent() {
             <div className="bg-white rounded-xl shadow-lg p-8">
               <h2 className="text-2xl font-bold text-gray-900 mb-4">Personalized Learning Paths</h2>
               <p className="text-gray-600 mb-6">
-                We've created {learningPaths.length} customized learning paths based on your skill gaps and learning preferences.
+                We&apos;ve created {learningPaths.length} customized learning paths based on your skill gaps and learning preferences.
               </p>
 
               <div className="space-y-8">
@@ -852,7 +852,7 @@ function CareerRoadmapContent() {
             <div className="text-6xl mb-4">📊</div>
             <h3 className="text-2xl font-bold text-gray-900 mb-2">No Analysis Yet</h3>
             <p className="text-gray-600 mb-6">
-              Complete the Profile & Goals section and click "Generate My Career Roadmap" to see your personalized analysis.
+              Complete the Profile & Goals section and click &quot;Generate My Career Roadmap&quot; to see your personalized analysis.
             </p>
             <button
               onClick={() => setActiveTab('input')}
@@ -868,5 +868,9 @@ function CareerRoadmapContent() {
 }
 
 export default function CareerRoadmapPage() {
-  return <CareerRoadmapContent />;
+  return (
+    <PaymentGate feature="Career Roadmap">
+      <CareerRoadmapContent />
+    </PaymentGate>
+  );
 }

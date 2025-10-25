@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 interface PaymentGateProps {
@@ -10,7 +9,6 @@ interface PaymentGateProps {
 }
 
 export default function PaymentGate({ children, feature = 'this feature' }: PaymentGateProps) {
-  const router = useRouter();
   const [hasAccess, setHasAccess] = useState<boolean | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -84,7 +82,7 @@ export default function PaymentGate({ children, feature = 'this feature' }: Paym
             <div className="bg-gradient-to-br from-purple-50 to-blue-50 rounded-2xl p-6 mb-8 border border-purple-200">
               <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
                 <span className="text-2xl">🚀</span>
-                What You'll Get
+                What You&apos;ll Get
               </h3>
               <div className="grid md:grid-cols-2 gap-4">
                 <div className="flex items-start gap-3">

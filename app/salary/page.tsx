@@ -25,12 +25,12 @@ import {
   compareToMarket,
   analyzeNegotiationLeverage,
 } from './marketData';
+import PaymentGate from '../components/PaymentGate';
 import {
   NEGOTIATION_SCRIPTS,
   getRecommendedScripts,
   getScriptsByDifficulty,
 } from './negotiationScripts';
-import PaymentGate from '../components/PaymentGate';
 
 function SalaryNegotiationContent() {
   const { data: session, status } = useSession();
@@ -182,7 +182,7 @@ function SalaryNegotiationContent() {
               <h3 className="text-lg font-bold text-green-900 mb-1">💰 Average Salary Increase from Negotiation: $15,000+</h3>
               <p className="text-sm text-green-700 mb-3">
                 Studies show that 84% of employers expect candidates to negotiate, yet 68% of people accept the first offer.
-                Don't leave money on the table - use our data-driven tools to negotiate confidently.
+                Don&apos;t leave money on the table - use our data-driven tools to negotiate confidently.
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div className="bg-white bg-opacity-60 rounded-lg p-3">
@@ -486,7 +486,7 @@ function SalaryNegotiationContent() {
               {!marketData && (
                 <div className="p-4 bg-yellow-50 border-2 border-yellow-200 rounded-xl">
                   <p className="text-sm text-yellow-800">
-                    💡 <strong>Tip:</strong> Load market data first from the "Market Research" tab to compare your offer against industry standards.
+                    💡 <strong>Tip:</strong> Load market data first from the &quot;Market Research&quot; tab to compare your offer against industry standards.
                   </p>
                 </div>
               )}
@@ -567,7 +567,7 @@ function SalaryNegotiationContent() {
                       <ul className="space-y-2">
                         {negotiationLeverage.talkingPoints.map((point: string, idx: number) => (
                           <li key={idx} className="text-sm text-gray-700 pl-4 border-l-2 border-blue-500">
-                            "{point}"
+                            &quot;{point}&quot;
                           </li>
                         ))}
                       </ul>
@@ -685,7 +685,7 @@ function SalaryNegotiationContent() {
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-2">Feature In Development</h3>
                 <p className="text-gray-600 mb-6 max-w-md mx-auto">
-                  We're building an advanced offer comparison tool that will help you evaluate multiple offers side-by-side with total comp breakdowns, benefits scoring, and AI-powered recommendations.
+                  We&apos;re building an advanced offer comparison tool that will help you evaluate multiple offers side-by-side with total comp breakdowns, benefits scoring, and AI-powered recommendations.
                 </p>
                 <button className="px-6 py-3 bg-gray-300 text-gray-600 rounded-xl font-semibold cursor-not-allowed">
                   Coming Soon
@@ -700,5 +700,9 @@ function SalaryNegotiationContent() {
 }
 
 export default function SalaryNegotiationPage() {
-  return <SalaryNegotiationContent />;
+  return (
+    <PaymentGate feature="Salary Negotiation Hub">
+      <SalaryNegotiationContent />
+    </PaymentGate>
+  );
 }

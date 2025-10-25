@@ -252,7 +252,7 @@ function LinkedInOptimizerContent() {
             {/* Target Jobs */}
             <div className="bg-white rounded-2xl shadow-lg p-8">
               <h2 className="text-2xl font-bold text-gray-900 mb-4">Target Job Descriptions</h2>
-              <p className="text-gray-600 mb-6">Paste 3-5 job descriptions you're interested in (or URLs - we'll analyze the keywords)</p>
+              <p className="text-gray-600 mb-6">Paste 3-5 job descriptions you&apos;re interested in (or URLs - we&apos;ll analyze the keywords)</p>
 
               {targetJobs.map((job, index) => (
                 <div key={index} className="mb-4">
@@ -827,5 +827,9 @@ function VisibilityTab({ targetRole }: { targetRole: string }) {
 }
 
 export default function LinkedInOptimizerPage() {
-  return <LinkedInOptimizerContent />;
+  return (
+    <PaymentGate feature="LinkedIn Optimizer">
+      <LinkedInOptimizerContent />
+    </PaymentGate>
+  );
 }

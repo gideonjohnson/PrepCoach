@@ -51,6 +51,7 @@ function PracticeContent() {
     accent: 'american',
     tone: 'friendly',
   });
+  const [showFilters, setShowFilters] = useState(false);
 
   // Removed payment gate - free tier users now get 3 interviews/month
   // Limits are enforced by /api/user/check-limits endpoint
@@ -216,8 +217,6 @@ function PracticeContent() {
     };
     return emojiMap[category] || '🎯';
   };
-
-  const [showFilters, setShowFilters] = useState(false);
 
   if (step === 'role-selection') {
     return (
@@ -1274,17 +1273,19 @@ function InterviewSession({
 
 export default function PracticePage() {
   return (
-    <ErrorBoundary>
-      <Suspense fallback={
-        <div className="min-h-screen bg-gradient-to-b from-purple-50 via-white to-blue-50 flex items-center justify-center">
-          <div className="text-center">
-            <div className="w-16 h-16 border-4 border-orange-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-            <p className="text-gray-600 text-lg">Loading...</p>
+    <PaymentGate feature="Interview Practice">
+      <ErrorBoundary>
+        <Suspense fallback={
+          <div className="min-h-screen bg-gradient-to-b from-purple-50 via-white to-blue-50 flex items-center justify-center">
+            <div className="text-center">
+              <div className="w-16 h-16 border-4 border-orange-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+              <p className="text-gray-600 text-lg">Loading...</p>
+            </div>
           </div>
-        </div>
-      }>
-        <PracticeContent />
-      </Suspense>
-    </ErrorBoundary>
+        }>
+          <PracticeContent />
+        </Suspense>
+      </ErrorBoundary>
+    </PaymentGate>
   );
 }
