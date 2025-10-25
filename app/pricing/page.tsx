@@ -57,14 +57,14 @@ export default function PricingPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <Breadcrumbs />
         {/* Header */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-12 sm:mb-16">
           <div className="inline-block mb-4 px-4 py-2 bg-gradient-to-r from-orange-100 to-red-100 rounded-full">
             <span className="text-orange-600 font-semibold text-sm">💰 Transparent Pricing</span>
           </div>
-          <h1 className="text-5xl font-bold text-gray-900 mb-4">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4 px-4">
             Choose Your <span className="bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">Perfect Plan</span>
           </h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-8">
+          <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto mb-8 px-4">
             Simple, transparent pricing. Start practicing today with our free tier, upgrade when you're ready.
           </p>
 
@@ -89,7 +89,7 @@ export default function PricingPage() {
         {/* Pricing Cards */}
         <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto mb-20">
           {/* Pro Tier - Most Popular */}
-          <div className="bg-gradient-to-br from-orange-500 to-red-500 rounded-2xl shadow-2xl p-8 border-2 border-orange-600 transform scale-105 relative transition-all duration-300 hover:scale-110">
+          <div className="bg-gradient-to-br from-orange-500 to-red-500 rounded-2xl shadow-2xl p-6 sm:p-8 border-2 border-orange-600 md:transform md:scale-105 relative transition-all duration-300 hover:shadow-3xl md:hover:scale-110">
             <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-yellow-400 text-gray-900 px-4 py-1 rounded-full text-sm font-bold shadow-lg">
               MOST POPULAR
             </div>
@@ -113,7 +113,7 @@ export default function PricingPage() {
             <button
               onClick={() => handleUpgrade('pro')}
               disabled={loadingTier === 'pro' || status === 'loading'}
-              className="w-full px-6 py-3 bg-white text-orange-600 rounded-lg font-semibold hover:bg-orange-50 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="w-full px-6 py-3 sm:py-4 bg-white text-orange-600 rounded-lg font-semibold hover:bg-orange-50 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 min-h-[48px] text-base sm:text-lg"
             >
               {loadingTier === 'pro' ? (
                 <>
@@ -130,7 +130,7 @@ export default function PricingPage() {
           </div>
 
           {/* Enterprise Tier */}
-          <div className="bg-white rounded-2xl shadow-lg p-8 border-2 border-purple-200 hover:border-purple-400 transition-all duration-300 hover:shadow-xl">
+          <div className="bg-white rounded-2xl shadow-lg p-6 sm:p-8 border-2 border-purple-200 hover:border-purple-400 transition-all duration-300 hover:shadow-xl">
             <div className="mb-6">
               <h3 className="text-2xl font-bold text-gray-900 mb-2">{PRICING_TIERS.enterprise.name}</h3>
               <div className="flex items-baseline gap-2">
@@ -151,7 +151,7 @@ export default function PricingPage() {
             <button
               onClick={() => handleUpgrade('enterprise')}
               disabled={loadingTier === 'enterprise' || status === 'loading'}
-              className="w-full px-6 py-3 bg-gradient-to-r from-purple-600 to-purple-700 text-white rounded-lg font-semibold hover:from-purple-700 hover:to-purple-800 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="w-full px-6 py-3 sm:py-4 bg-gradient-to-r from-purple-600 to-purple-700 text-white rounded-lg font-semibold hover:from-purple-700 hover:to-purple-800 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 min-h-[48px] text-base sm:text-lg"
             >
               {loadingTier === 'enterprise' ? (
                 <>
@@ -169,11 +169,11 @@ export default function PricingPage() {
         </div>
 
         {/* FAQ Section */}
-        <div className="mt-20 max-w-4xl mx-auto">
-          <h2 className="text-4xl font-bold text-center text-gray-900 mb-4">
+        <div className="mt-16 sm:mt-20 max-w-4xl mx-auto">
+          <h2 className="text-3xl sm:text-4xl font-bold text-center text-gray-900 mb-4 px-4">
             Frequently Asked <span className="bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">Questions</span>
           </h2>
-          <p className="text-center text-gray-600 mb-12">Everything you need to know about our pricing and plans</p>
+          <p className="text-center text-gray-600 mb-8 sm:mb-12 px-4">Everything you need to know about our pricing and plans</p>
 
           <div className="space-y-6">
             <div className="bg-white rounded-xl p-6 shadow-md border border-gray-100 hover:shadow-lg transition-shadow duration-300">
