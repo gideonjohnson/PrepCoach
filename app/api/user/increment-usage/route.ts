@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../../auth/[...nextauth]/route';
 import { prisma } from '@/lib/prisma';
+import { incrementUsageSchema, safeValidateData, formatZodError } from '@/lib/validation';
 
 // POST /api/user/increment-usage - Increment usage counter
 export async function POST(request: NextRequest) {
@@ -15,18 +16,38 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { feature } = await request.json();
+    const body = await request.json();
 
-    if (!feature || !['interview', 'feedback'].includes(feature)) {
+    // Validate input with Zod
+    const validation = safeValidateData(incrementUsageSchema, body);
+
+    if (!validation.success) {
       return NextResponse.json(
-        { error: 'Invalid feature parameter' },
+        {
+          error: 'Validation failed',
+          details: formatZodError(validation.error),
+        },
         { status: 400 }
       );
     }
 
-    const updateField = feature === 'interview'
-      ? { interviewsThisMonth: { increment: 1 } }
-      : { feedbackThisMonth: { increment: 1 } };
+    const { feature, amount } = validation.data;
+
+    // Map feature names to database fields
+    const featureFieldMap: Record<string, string> = {
+      'ai_feedback': 'feedbackThisMonth',
+      'transcription': 'feedbackThisMonth',
+      'resume_transform': 'interviewsThisMonth', // Using interviews as general usage counter
+      'interview_session': 'interviewsThisMonth',
+      'linkedin_optimization': 'interviewsThisMonth',
+      'career_roadmap': 'interviewsThisMonth',
+    };
+
+    const fieldToIncrement = featureFieldMap[feature] || 'interviewsThisMonth';
+
+    const updateField = {
+      [fieldToIncrement]: { increment: amount },
+    };
 
     const user = await prisma.user.update({
       where: { id: session.user.id },

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { checkApiRateLimit } from '@/lib/rate-limit';
+import { resetPasswordSchema, safeValidateData, formatZodError } from '@/lib/validation';
 import bcrypt from 'bcryptjs';
 
 export async function POST(req: NextRequest) {
@@ -20,22 +21,22 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { token, password } = await req.json();
+    const body = await req.json();
 
-    if (!token || !password) {
+    // Validate input with Zod
+    const validation = safeValidateData(resetPasswordSchema, body);
+
+    if (!validation.success) {
       return NextResponse.json(
-        { error: 'Token and password are required' },
+        {
+          error: 'Validation failed',
+          details: formatZodError(validation.error),
+        },
         { status: 400 }
       );
     }
 
-    // Validate password strength
-    if (password.length < 8) {
-      return NextResponse.json(
-        { error: 'Password must be at least 8 characters long' },
-        { status: 400 }
-      );
-    }
+    const { token, password } = validation.data;
 
     // Find the password reset token
     const resetToken = await prisma.passwordResetToken.findUnique({

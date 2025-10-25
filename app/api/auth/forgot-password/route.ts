@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { sendPasswordResetEmail } from '@/lib/email';
 import { checkApiRateLimit } from '@/lib/rate-limit';
+import { forgotPasswordSchema, safeValidateData, formatZodError } from '@/lib/validation';
 import crypto from 'crypto';
 
 export async function POST(req: NextRequest) {
@@ -21,14 +22,22 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { email } = await req.json();
+    const body = await req.json();
 
-    if (!email) {
+    // Validate input with Zod
+    const validation = safeValidateData(forgotPasswordSchema, body);
+
+    if (!validation.success) {
       return NextResponse.json(
-        { error: 'Email is required' },
+        {
+          error: 'Validation failed',
+          details: formatZodError(validation.error),
+        },
         { status: 400 }
       );
     }
+
+    const { email } = validation.data;
 
     // Find user
     const user = await prisma.user.findUnique({

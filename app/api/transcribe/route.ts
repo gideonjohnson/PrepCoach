@@ -3,6 +3,7 @@ import OpenAI from 'openai';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../auth/[...nextauth]/route';
 import { checkApiRateLimit } from '@/lib/rate-limit';
+import { transcriptionSchema, safeValidateData, formatZodError } from '@/lib/validation';
 
 // Check if API key is configured
 if (!process.env.OPENAI_API_KEY || process.env.OPENAI_API_KEY === 'your_openai_api_key_here') {
@@ -63,6 +64,19 @@ export async function POST(request: NextRequest) {
     if (!audioFile) {
       return NextResponse.json(
         { error: 'No audio file provided' },
+        { status: 400 }
+      );
+    }
+
+    // Validate audio file with Zod
+    const validation = safeValidateData(transcriptionSchema, { audio: audioFile });
+
+    if (!validation.success) {
+      return NextResponse.json(
+        {
+          error: 'Validation failed',
+          details: formatZodError(validation.error),
+        },
         { status: 400 }
       );
     }

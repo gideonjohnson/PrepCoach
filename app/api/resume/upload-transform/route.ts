@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { checkApiRateLimit } from '@/lib/rate-limit';
+import { resumeContentTransformSchema, safeValidateData, formatZodError } from '@/lib/validation';
 import OpenAI from 'openai';
 
 const openai = new OpenAI({
@@ -52,17 +53,46 @@ export async function POST(req: NextRequest) {
 
     const formData = await req.formData();
     const resumeFile = formData.get('resume') as File | null;
-    const targetRole = formData.get('targetRole') as string || '';
-    const targetCompany = formData.get('targetCompany') as string || '';
-    const jobDescription = formData.get('jobDescription') as string || '';
+    const targetRole = (formData.get('targetRole') as string) || '';
+    const targetCompany = (formData.get('targetCompany') as string) || '';
+    const jobDescription = (formData.get('jobDescription') as string) || '';
 
     if (!resumeFile) {
       return NextResponse.json({ error: 'Resume file is required' }, { status: 400 });
     }
 
+    // Validate file size and type
+    const maxSize = 10 * 1024 * 1024; // 10MB
+    if (resumeFile.size > maxSize) {
+      return NextResponse.json({ error: 'Resume file too large (max 10MB)' }, { status: 400 });
+    }
+
+    const allowedTypes = ['text/plain', 'application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+    if (!allowedTypes.includes(resumeFile.type) && resumeFile.type !== '') {
+      return NextResponse.json({ error: 'Invalid file type (must be TXT, PDF, DOC, or DOCX)' }, { status: 400 });
+    }
+
     // Read file content
     const fileBuffer = await resumeFile.arrayBuffer();
     const fileContent = Buffer.from(fileBuffer).toString('utf-8');
+
+    // Validate content with Zod
+    const validation = safeValidateData(resumeContentTransformSchema, {
+      resumeContent: fileContent,
+      targetRole: targetRole || undefined,
+      targetCompany: targetCompany || undefined,
+      jobDescription: jobDescription || undefined,
+    });
+
+    if (!validation.success) {
+      return NextResponse.json(
+        {
+          error: 'Validation failed',
+          details: formatZodError(validation.error),
+        },
+        { status: 400 }
+      );
+    }
 
     // Use OpenAI to parse and transform the resume
     const completion = await openai.chat.completions.create({
