@@ -119,6 +119,16 @@ export default function Header() {
             >
               Pricing
             </Link>
+            <Link
+              href="/help"
+              className={`px-4 py-2 rounded-lg font-medium transition-all ${
+                isActive('/help') || pathname?.startsWith('/help/')
+                  ? 'bg-orange-50 text-orange-600'
+                  : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+              }`}
+            >
+              Help
+            </Link>
 
             {session ? (
               <div className="flex items-center space-x-3 ml-4">
@@ -225,6 +235,17 @@ export default function Header() {
                 }`}
               >
                 Pricing
+              </Link>
+              <Link
+                href="/help"
+                onClick={() => setMobileMenuOpen(false)}
+                className={`px-4 py-2 rounded-lg font-medium transition-all ${
+                  isActive('/help') || pathname?.startsWith('/help/')
+                    ? 'bg-orange-50 text-orange-600'
+                    : 'text-gray-600 hover:bg-gray-50'
+                }`}
+              >
+                Help
               </Link>
 
               {session ? (
