@@ -914,7 +914,7 @@ export default function ResumeBuilder() {
       {/* Upgrade Required Modal */}
       {showUpgradeModal && (
         <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4 backdrop-blur-sm">
-          <div className="bg-white rounded-3xl shadow-2xl max-w-lg w-full p-10 animate-slideUp">
+          <div className="bg-white rounded-3xl shadow-2xl w-full sm:max-w-lg p-6 sm:p-10 animate-slideUp">
             <div className="text-center mb-8">
               <div className="w-20 h-20 bg-gradient-to-r from-purple-500 via-orange-500 to-red-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
                 <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">

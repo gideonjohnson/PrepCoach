@@ -564,7 +564,7 @@ function PracticeContent() {
         {/* Limit Reached Modal */}
         {showLimitModal && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 animate-slideUp">
+            <div className="bg-white rounded-2xl shadow-2xl w-full sm:max-w-md p-6 sm:p-8 animate-slideUp">
               <div className="text-center mb-6">
                 <div className="w-16 h-16 bg-gradient-to-r from-orange-500 to-red-500 rounded-full flex items-center justify-center mx-auto mb-4">
                   <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">

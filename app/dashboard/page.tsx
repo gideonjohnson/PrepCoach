@@ -265,7 +265,7 @@ export default function DashboardPage() {
                 {inProgressSessions.map((session, index) => (
                   <div
                     key={session.id}
-                    className="bg-gradient-to-br from-orange-50 to-red-50 rounded-2xl p-6 shadow-lg border-2 border-orange-200 hover:shadow-xl hover:border-orange-300 transition-all animate-fadeIn transform hover:scale-105"
+                    className="bg-gradient-to-br from-orange-50 to-red-50 rounded-2xl p-6 shadow-lg border-2 border-orange-200 hover:shadow-xl hover:border-orange-300 transition-all animate-fadeIn md:transform md:hover:scale-105"
                     style={{ animationDelay: `${index * 50}ms` }}
                   >
                     <div className="flex items-start gap-3 mb-4">
@@ -325,7 +325,7 @@ export default function DashboardPage() {
 
         {/* Stats Overview - More Compact */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-8">
-          <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl p-4 shadow-lg hover:shadow-xl transition-all animate-fadeIn transform hover:scale-105">
+          <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl p-4 shadow-lg hover:shadow-xl transition-all animate-fadeIn md:transform md:hover:scale-105">
             <div className="flex items-center justify-between mb-2">
               <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center">
                 <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -337,7 +337,7 @@ export default function DashboardPage() {
             <h3 className="text-xs font-semibold text-white/90 uppercase tracking-wide">Total Interviews</h3>
           </div>
 
-          <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-xl p-4 shadow-lg hover:shadow-xl transition-all animate-fadeIn transform hover:scale-105" style={{ animationDelay: '50ms' }}>
+          <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-xl p-4 shadow-lg hover:shadow-xl transition-all animate-fadeIn md:transform md:hover:scale-105" style={{ animationDelay: '50ms' }}>
             <div className="flex items-center justify-between mb-2">
               <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center">
                 <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -349,7 +349,7 @@ export default function DashboardPage() {
             <h3 className="text-xs font-semibold text-white/90 uppercase tracking-wide">Completed</h3>
           </div>
 
-          <div className="bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl p-4 shadow-lg hover:shadow-xl transition-all animate-fadeIn transform hover:scale-105" style={{ animationDelay: '100ms' }}>
+          <div className="bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl p-4 shadow-lg hover:shadow-xl transition-all animate-fadeIn md:transform md:hover:scale-105" style={{ animationDelay: '100ms' }}>
             <div className="flex items-center justify-between mb-2">
               <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center">
                 <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -361,7 +361,7 @@ export default function DashboardPage() {
             <h3 className="text-xs font-semibold text-white/90 uppercase tracking-wide">Questions Answered</h3>
           </div>
 
-          <div className="bg-gradient-to-br from-orange-500 to-red-500 rounded-xl p-4 shadow-lg hover:shadow-xl transition-all animate-fadeIn transform hover:scale-105" style={{ animationDelay: '150ms' }}>
+          <div className="bg-gradient-to-br from-orange-500 to-red-500 rounded-xl p-4 shadow-lg hover:shadow-xl transition-all animate-fadeIn md:transform md:hover:scale-105" style={{ animationDelay: '150ms' }}>
             <div className="flex items-center justify-between mb-2">
               <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center">
                 <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -387,8 +387,9 @@ export default function DashboardPage() {
                   Completion Rate Trend
                 </h3>
                 {analyticsData.progressData.length > 0 ? (
-                  <ResponsiveContainer width="100%" height={250}>
-                    <LineChart data={analyticsData.progressData}>
+                  <div className="h-48 sm:h-64">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <LineChart data={analyticsData.progressData}>
                       <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
                       <XAxis
                         dataKey="date"
@@ -418,7 +419,8 @@ export default function DashboardPage() {
                         name="Completion %"
                       />
                     </LineChart>
-                  </ResponsiveContainer>
+                    </ResponsiveContainer>
+                  </div>
                 ) : (
                   <p className="text-gray-500 text-center py-8">No data available</p>
                 )}
@@ -431,8 +433,9 @@ export default function DashboardPage() {
                   Questions Answered
                 </h3>
                 {analyticsData.progressData.length > 0 ? (
-                  <ResponsiveContainer width="100%" height={250}>
-                    <BarChart data={analyticsData.progressData}>
+                  <div className="h-48 sm:h-64">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <BarChart data={analyticsData.progressData}>
                       <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
                       <XAxis
                         dataKey="date"
@@ -458,7 +461,8 @@ export default function DashboardPage() {
                         name="Questions"
                       />
                     </BarChart>
-                  </ResponsiveContainer>
+                    </ResponsiveContainer>
+                  </div>
                 ) : (
                   <p className="text-gray-500 text-center py-8">No data available</p>
                 )}
@@ -471,8 +475,9 @@ export default function DashboardPage() {
                   Performance by Category
                 </h3>
                 {analyticsData.categoryData.length > 0 ? (
-                  <ResponsiveContainer width="100%" height={250}>
-                    <BarChart data={analyticsData.categoryData} layout="vertical">
+                  <div className="h-48 sm:h-64">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <BarChart data={analyticsData.categoryData} layout="vertical">
                       <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
                       <XAxis
                         type="number"
@@ -516,7 +521,8 @@ export default function DashboardPage() {
                         name="Avg Completion %"
                       />
                     </BarChart>
-                  </ResponsiveContainer>
+                    </ResponsiveContainer>
+                  </div>
                 ) : (
                   <p className="text-gray-500 text-center py-8">No data available</p>
                 )}
@@ -529,8 +535,8 @@ export default function DashboardPage() {
                   Experience Level Distribution
                 </h3>
                 {analyticsData.levelData.length > 0 ? (
-                  <div className="flex items-center justify-center">
-                    <ResponsiveContainer width="100%" height={250}>
+                  <div className="flex items-center justify-center h-48 sm:h-64">
+                    <ResponsiveContainer width="100%" height="100%">
                       <PieChart>
                         <Pie
                           data={analyticsData.levelData}

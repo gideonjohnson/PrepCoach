@@ -45,7 +45,7 @@ export default function KeyboardShortcuts() {
       {/* Modal */}
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
         <div
-          className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[80vh] overflow-auto animate-scale-in"
+          className="bg-white rounded-2xl shadow-2xl w-full sm:max-w-2xl max-h-[90vh] sm:max-h-[80vh] overflow-auto animate-scale-in"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Header */}
