@@ -70,20 +70,24 @@ export default function TestSentryPage() {
   const testPerformance = async () => {
     addResult('Testing performance tracking...');
 
-    const transaction = Sentry.startTransaction({
-      name: 'test-transaction',
-      op: 'test',
-    });
-
-    // Simulate some work
-    const span = transaction.startChild({
-      op: 'test-operation',
-      description: 'Simulating slow operation',
-    });
-
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    span.finish();
-    transaction.finish();
+    await Sentry.startSpan(
+      {
+        name: 'test-transaction',
+        op: 'test',
+      },
+      async (span) => {
+        // Simulate some work with a child span
+        await Sentry.startSpan(
+          {
+            op: 'test-operation',
+            name: 'Simulating slow operation',
+          },
+          async () => {
+            await new Promise(resolve => setTimeout(resolve, 1000));
+          }
+        );
+      }
+    );
 
     addResult('✅ Performance transaction sent to Sentry');
   };
