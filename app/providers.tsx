@@ -4,11 +4,17 @@ import { SessionProvider } from 'next-auth/react';
 import { ReactNode } from 'react';
 import { Toaster } from 'react-hot-toast';
 import SentryUser from './components/SentryUser';
+import GoogleAnalytics from './components/GoogleAnalytics';
+import AnalyticsPageViews from './components/AnalyticsPageViews';
+import AnalyticsUser from './components/AnalyticsUser';
 
 export function Providers({ children }: { children: ReactNode }) {
   return (
     <SessionProvider>
+      <GoogleAnalytics />
+      <AnalyticsPageViews />
       <SentryUser />
+      <AnalyticsUser />
       {children}
       <Toaster
         position="top-right"
