@@ -1,10 +1,26 @@
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { sendPasswordResetEmail } from '@/lib/email';
+import { checkApiRateLimit } from '@/lib/rate-limit';
 import crypto from 'crypto';
 
 export async function POST(req: NextRequest) {
   try {
+    // Apply rate limiting to prevent brute force attacks
+    const identifier = req.ip || 'anonymous';
+    const rateLimitResult = await checkApiRateLimit('auth', identifier);
+
+    if (!rateLimitResult.success) {
+      const resetDate = new Date(rateLimitResult.reset);
+      return NextResponse.json(
+        {
+          error: 'Too many attempts',
+          message: `Too many password reset attempts. Please try again after ${resetDate.toLocaleTimeString()}.`,
+        },
+        { status: 429 }
+      );
+    }
+
     const { email } = await req.json();
 
     if (!email) {

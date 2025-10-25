@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { checkApiRateLimit } from '@/lib/rate-limit';
 import OpenAI from 'openai';
 
 const openai = new OpenAI({
@@ -20,6 +21,33 @@ export async function POST(req: NextRequest) {
     const session = await getServerSession(authOptions);
     if (!session?.user?.email) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    // Apply rate limiting for resume transformation (expensive operation)
+    const rateLimitResult = await checkApiRateLimit(
+      'resumeTransform',
+      session.user.email || 'anonymous'
+    );
+
+    if (!rateLimitResult.success) {
+      const resetDate = new Date(rateLimitResult.reset);
+      return NextResponse.json(
+        {
+          error: 'Rate limit exceeded',
+          message: `Too many resume transformation requests. Please try again after ${resetDate.toLocaleTimeString()}.`,
+          limit: rateLimitResult.limit,
+          remaining: 0,
+          reset: rateLimitResult.reset,
+        },
+        {
+          status: 429,
+          headers: {
+            'X-RateLimit-Limit': rateLimitResult.limit.toString(),
+            'X-RateLimit-Remaining': '0',
+            'X-RateLimit-Reset': rateLimitResult.reset.toString(),
+          },
+        }
+      );
     }
 
     const formData = await req.formData();
