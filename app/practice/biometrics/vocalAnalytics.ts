@@ -174,7 +174,7 @@ export class VocalAnalyzer {
 
     const silenceThreshold = 0.05;
     let pauseCount = 0;
-    let pauseLengths: number[] = [];
+    const pauseLengths: number[] = [];
     let currentPauseLength = 0;
     let inPause = false;
 

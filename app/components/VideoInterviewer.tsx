@@ -76,7 +76,7 @@ export default function VideoInterviewer({
       console.error('Media generation error:', err);
       setError('Failed to generate interviewer media');
       // Fallback to browser TTS
-      useBrowserTTS();
+      playWithBrowserTTS();
     } finally {
       setIsLoading(false);
     }
@@ -101,13 +101,13 @@ export default function VideoInterviewer({
       const url = URL.createObjectURL(audioBlob);
       setAudioUrl(url);
     } else if (data.mode === 'browser-tts') {
-      useBrowserTTS();
+      playWithBrowserTTS();
     } else {
       throw new Error(data.error || 'Failed to generate audio');
     }
   };
 
-  const useBrowserTTS = () => {
+  const playWithBrowserTTS = () => {
     // Fallback to browser text-to-speech
     if ('speechSynthesis' in window) {
       const utterance = new SpeechSynthesisUtterance(question);
@@ -228,7 +228,7 @@ export default function VideoInterviewer({
       audioRef.current.currentTime = 0;
       audioRef.current.play();
     } else {
-      useBrowserTTS();
+      playWithBrowserTTS();
     }
   };
 

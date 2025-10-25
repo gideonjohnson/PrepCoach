@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 export const metadata = {
   title: 'Privacy Policy - PrepCoach',
   description: 'Privacy Policy for PrepCoach AI-Powered Interview Practice Platform'
@@ -105,9 +107,9 @@ export default function PrivacyPage() {
         </div>
 
         <div className="mt-8 text-center">
-          <a href="/" className="text-orange-600 hover:text-orange-700 font-semibold">
+          <Link href="/" className="text-orange-600 hover:text-orange-700 font-semibold">
             ← Back to Home
-          </a>
+          </Link>
         </div>
       </div>
     </div>
