@@ -3,10 +3,12 @@
 import { SessionProvider } from 'next-auth/react';
 import { ReactNode } from 'react';
 import { Toaster } from 'react-hot-toast';
+import SentryUser from './components/SentryUser';
 
 export function Providers({ children }: { children: ReactNode }) {
   return (
     <SessionProvider>
+      <SentryUser />
       {children}
       <Toaster
         position="top-right"
