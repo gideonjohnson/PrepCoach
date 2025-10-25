@@ -584,98 +584,83 @@ function PracticeContent() {
                 <p className="text-sm text-gray-500 mt-2">Questions will be tailored to your selected level</p>
               </div>
 
-              <div className="grid grid-cols-1 gap-4 mb-8">
+              <div className="grid grid-cols-1 gap-4 mb-6">
                 {/* Entry Level */}
                 <button
-                  onClick={() => setSelectedExperienceLevel('entry')}
-                  className={`group relative p-6 rounded-2xl border-2 transition-all text-left ${
-                    selectedExperienceLevel === 'entry'
-                      ? 'border-green-500 bg-gradient-to-br from-green-50 to-emerald-50 shadow-lg'
-                      : 'border-gray-200 bg-white hover:border-green-300 hover:shadow-md'
-                  }`}
+                  onClick={() => {
+                    setSelectedExperienceLevel('entry');
+                    setShowLevelModal(false);
+                    handleStartInterview();
+                  }}
+                  className="group relative p-6 rounded-2xl border-2 border-gray-200 bg-white hover:border-green-500 hover:bg-gradient-to-br hover:from-green-50 hover:to-emerald-50 transition-all text-left hover:shadow-xl transform hover:scale-[1.02]"
                 >
                   <div className="flex items-start gap-4">
-                    <div className="text-4xl">🌱</div>
+                    <div className="text-4xl group-hover:scale-110 transition-transform">🌱</div>
                     <div className="flex-1">
-                      <h4 className="text-xl font-bold text-gray-900 mb-2">Entry Level</h4>
+                      <h4 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-green-700">Entry Level</h4>
                       <p className="text-sm text-gray-600 mb-2">0-2 years of experience</p>
                       <p className="text-xs text-gray-500">Focus on foundational knowledge, learning experiences, and basic problem-solving</p>
                     </div>
-                    {selectedExperienceLevel === 'entry' && (
-                      <svg className="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                    )}
+                    <svg className="w-6 h-6 text-gray-300 group-hover:text-green-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
                   </div>
                 </button>
 
                 {/* Mid Level */}
                 <button
-                  onClick={() => setSelectedExperienceLevel('mid')}
-                  className={`group relative p-6 rounded-2xl border-2 transition-all text-left ${
-                    selectedExperienceLevel === 'mid'
-                      ? 'border-blue-500 bg-gradient-to-br from-blue-50 to-cyan-50 shadow-lg'
-                      : 'border-gray-200 bg-white hover:border-blue-300 hover:shadow-md'
-                  }`}
+                  onClick={() => {
+                    setSelectedExperienceLevel('mid');
+                    setShowLevelModal(false);
+                    handleStartInterview();
+                  }}
+                  className="group relative p-6 rounded-2xl border-2 border-gray-200 bg-white hover:border-blue-500 hover:bg-gradient-to-br hover:from-blue-50 hover:to-cyan-50 transition-all text-left hover:shadow-xl transform hover:scale-[1.02]"
                 >
                   <div className="flex items-start gap-4">
-                    <div className="text-4xl">📈</div>
+                    <div className="text-4xl group-hover:scale-110 transition-transform">📈</div>
                     <div className="flex-1">
-                      <h4 className="text-xl font-bold text-gray-900 mb-2">Mid Level</h4>
+                      <h4 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-700">Mid Level</h4>
                       <p className="text-sm text-gray-600 mb-2">3-5 years of experience</p>
                       <p className="text-xs text-gray-500">Focus on complex scenarios, proven track record, and intermediate problem-solving</p>
                     </div>
-                    {selectedExperienceLevel === 'mid' && (
-                      <svg className="w-6 h-6 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                    )}
+                    <svg className="w-6 h-6 text-gray-300 group-hover:text-blue-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
                   </div>
                 </button>
 
                 {/* Senior Level */}
                 <button
-                  onClick={() => setSelectedExperienceLevel('senior')}
-                  className={`group relative p-6 rounded-2xl border-2 transition-all text-left ${
-                    selectedExperienceLevel === 'senior'
-                      ? 'border-purple-500 bg-gradient-to-br from-purple-50 to-indigo-50 shadow-lg'
-                      : 'border-gray-200 bg-white hover:border-purple-300 hover:shadow-md'
-                  }`}
+                  onClick={() => {
+                    setSelectedExperienceLevel('senior');
+                    setShowLevelModal(false);
+                    handleStartInterview();
+                  }}
+                  className="group relative p-6 rounded-2xl border-2 border-gray-200 bg-white hover:border-purple-500 hover:bg-gradient-to-br hover:from-purple-50 hover:to-indigo-50 transition-all text-left hover:shadow-xl transform hover:scale-[1.02]"
                 >
                   <div className="flex items-start gap-4">
-                    <div className="text-4xl">⭐</div>
+                    <div className="text-4xl group-hover:scale-110 transition-transform">⭐</div>
                     <div className="flex-1">
-                      <h4 className="text-xl font-bold text-gray-900 mb-2">Senior Level</h4>
+                      <h4 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-purple-700">Senior Level</h4>
                       <p className="text-sm text-gray-600 mb-2">7+ years of experience</p>
                       <p className="text-xs text-gray-500">Focus on leadership, strategy, organizational impact, and team building</p>
                     </div>
-                    {selectedExperienceLevel === 'senior' && (
-                      <svg className="w-6 h-6 text-purple-600" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                    )}
+                    <svg className="w-6 h-6 text-gray-300 group-hover:text-purple-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
                   </div>
                 </button>
               </div>
 
-              <div className="flex gap-3">
+              <div className="flex justify-center">
                 <button
                   onClick={() => {
                     setShowLevelModal(false);
                     setSelectedRole(null);
                   }}
-                  className="flex-1 px-6 py-3 bg-gray-200 text-gray-800 rounded-xl font-semibold hover:bg-gray-300 transition"
+                  className="px-6 py-2 text-gray-600 hover:text-gray-900 font-medium transition-colors text-sm"
                 >
                   Cancel
-                </button>
-                <button
-                  onClick={() => {
-                    setShowLevelModal(false);
-                    handleStartInterview();
-                  }}
-                  className="flex-1 px-6 py-3 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-xl font-semibold hover:shadow-lg transition transform hover:scale-105"
-                >
-                  Start Interview
                 </button>
               </div>
             </div>
