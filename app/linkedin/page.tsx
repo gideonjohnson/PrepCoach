@@ -294,23 +294,63 @@ function LinkedInOptimizerContent() {
         )}
 
         {/* Optimization Tab */}
-        {activeTab === 'optimize' && optimizedProfile && profileScore && keywordAnalysis && (
-          <OptimizationTab
-            profile={profile as LinkedInProfile}
-            optimizedProfile={optimizedProfile}
-            profileScore={profileScore}
-            keywordAnalysis={keywordAnalysis}
-          />
+        {activeTab === 'optimize' && (
+          <>
+            {optimizedProfile && profileScore && keywordAnalysis ? (
+              <OptimizationTab
+                profile={profile as LinkedInProfile}
+                optimizedProfile={optimizedProfile}
+                profileScore={profileScore}
+                keywordAnalysis={keywordAnalysis}
+              />
+            ) : (
+              <div className="max-w-2xl mx-auto text-center py-16">
+                <div className="bg-white rounded-3xl shadow-xl p-12">
+                  <div className="text-6xl mb-6">📊</div>
+                  <h2 className="text-3xl font-bold text-gray-900 mb-4">No Analysis Yet</h2>
+                  <p className="text-gray-600 mb-8 text-lg">
+                    To see your optimized profile and recommendations, please fill in your profile information in the <strong>Profile Input</strong> tab and click the <strong>"🚀 Analyze & Optimize My Profile"</strong> button.
+                  </p>
+                  <button
+                    onClick={() => setActiveTab('input')}
+                    className="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 transition-all transform hover:scale-105 shadow-lg"
+                  >
+                    Go to Profile Input
+                  </button>
+                </div>
+              </div>
+            )}
+          </>
         )}
 
         {/* Skills Tab */}
-        {activeTab === 'skills' && keywordAnalysis && (
-          <SkillsTab
-            profile={profile as LinkedInProfile}
-            skillRecommendations={skillRecommendations}
-            keywordAnalysis={keywordAnalysis}
-            targetRole={targetRole}
-          />
+        {activeTab === 'skills' && (
+          <>
+            {keywordAnalysis && skillRecommendations.length > 0 ? (
+              <SkillsTab
+                profile={profile as LinkedInProfile}
+                skillRecommendations={skillRecommendations}
+                keywordAnalysis={keywordAnalysis}
+                targetRole={targetRole}
+              />
+            ) : (
+              <div className="max-w-2xl mx-auto text-center py-16">
+                <div className="bg-white rounded-3xl shadow-xl p-12">
+                  <div className="text-6xl mb-6">💡</div>
+                  <h2 className="text-3xl font-bold text-gray-900 mb-4">No Skills Analysis Yet</h2>
+                  <p className="text-gray-600 mb-8 text-lg">
+                    To get personalized skill recommendations, please fill in your profile information in the <strong>Profile Input</strong> tab and click the <strong>"🚀 Analyze & Optimize My Profile"</strong> button.
+                  </p>
+                  <button
+                    onClick={() => setActiveTab('input')}
+                    className="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 transition-all transform hover:scale-105 shadow-lg"
+                  >
+                    Go to Profile Input
+                  </button>
+                </div>
+              </div>
+            )}
+          </>
         )}
 
         {/* Connection Tab */}
