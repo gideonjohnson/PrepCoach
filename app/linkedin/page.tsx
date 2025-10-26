@@ -519,7 +519,7 @@ function SkillsTab({ profile, skillRecommendations, keywordAnalysis, targetRole 
       <div className="bg-white rounded-2xl shadow-lg p-8">
         <h2 className="text-2xl font-bold text-gray-900 mb-6">Recommended Skills to Add</h2>
         <div className="space-y-4">
-          {skillRecommendations.slice(0, 15).map((rec, index) => (
+          {skillRecommendations.slice(0, 15).map((rec: SkillRecommendation, index: number) => (
             <div key={index} className="p-4 border border-gray-200 rounded-lg hover:border-blue-300 transition">
               <div className="flex items-start justify-between">
                 <div className="flex-1">

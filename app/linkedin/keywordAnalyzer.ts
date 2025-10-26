@@ -291,7 +291,7 @@ function extractRequirements(description: string): string[] {
 
   // If no bullets found, look for "requirements" section
   if (requirements.length === 0) {
-    const reqSection = description.match(/requirements?:(.+?)(?:\n\n|qualifications|$)/is);
+    const reqSection = description.match(/requirements?:(.+?)(?:\n\n|qualifications|$)/i);
     if (reqSection) {
       const lines = reqSection[1].split('\n').filter(line => line.trim().length > 0);
       requirements.push(...lines.map(line => line.trim()));
