@@ -5,6 +5,19 @@ import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 /**
  * D-ID API Integration for realistic AI video generation
  * Generates lip-synced video of AI interviewer asking questions
+ *
+ * Voice Providers (auto-selected):
+ * 1. Microsoft Azure (default) - Included with D-ID, excellent quality
+ *    - en-US-JennyNeural (professional female, default)
+ *    - en-US-GuyNeural (professional male)
+ *    - en-US-AriaNeural (friendly female)
+ *
+ * 2. ElevenLabs (premium) - Best quality, requires ELEVENLABS_API_KEY
+ *    - EXAVITQu4vr4xnSDxMaL (Bella - professional female)
+ *    - 21m00Tcm4TlvDq8ikWAM (Rachel - calm female)
+ *    - ErXwobaYiN019PkySvjV (Antoni - professional male)
+ *
+ * Setup: Only D_ID_API_KEY required. ElevenLabs is optional upgrade.
  */
 
 const D_ID_API_KEY = process.env.D_ID_API_KEY;
@@ -34,6 +47,10 @@ export async function POST(req: NextRequest) {
     // Prepare tone-specific SSML adjustments
     const ssmlText = applyToneToText(text, tone);
 
+    // Determine TTS provider (use ElevenLabs if configured, otherwise use D-ID's built-in Azure)
+    const ELEVENLABS_API_KEY = process.env.ELEVENLABS_API_KEY;
+    const useElevenLabs = ELEVENLABS_API_KEY && ELEVENLABS_API_KEY !== 'your_elevenlabs_api_key_here';
+
     // Create D-ID talk stream
     const createTalkResponse = await fetch(`${D_ID_API_URL}/talks`, {
       method: 'POST',
@@ -45,9 +62,14 @@ export async function POST(req: NextRequest) {
         script: {
           type: 'text',
           input: ssmlText,
-          provider: {
+          provider: useElevenLabs ? {
+            // Premium option: ElevenLabs (best quality, requires separate API key)
             type: 'elevenlabs',
-            voice_id: voiceId || 'EXAVITQu4vr4xnSDxMaL', // Default to Bella
+            voice_id: voiceId || 'EXAVITQu4vr4xnSDxMaL', // Bella - professional female
+          } : {
+            // Default: Microsoft Azure (included with D-ID, very good quality)
+            type: 'microsoft',
+            voice_id: voiceId || 'en-US-JennyNeural', // Professional female voice
           },
         },
         config: {
