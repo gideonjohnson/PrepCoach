@@ -17,7 +17,7 @@ export const PRICING_TIERS = {
   },
   pro: {
     name: 'Pro',
-    price: 19,
+    price: 25,
     interval: 'month',
     currency: 'USD',
     features: [
@@ -38,7 +38,7 @@ export const PRICING_TIERS = {
   },
   enterprise: {
     name: 'Enterprise',
-    price: 49,
+    price: 99,
     interval: 'month',
     currency: 'USD',
     features: [
