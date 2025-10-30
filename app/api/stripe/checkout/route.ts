@@ -70,8 +70,19 @@ export async function POST(req: NextRequest) {
     });
   } catch (error: any) {
     console.error('Stripe checkout error:', error);
+
+    // Provide more specific error messages
+    let errorMessage = 'Failed to create checkout session';
+    if (error.type === 'StripeAuthenticationError') {
+      errorMessage = 'Invalid Stripe API key. Please contact support.';
+    } else if (error.type === 'StripeAPIError') {
+      errorMessage = 'Stripe service temporarily unavailable. Please try again.';
+    } else if (error.message) {
+      errorMessage = error.message;
+    }
+
     return NextResponse.json(
-      { error: error.message || 'Failed to create checkout session' },
+      { error: errorMessage, details: error.type || 'unknown' },
       { status: 500 }
     );
   }
