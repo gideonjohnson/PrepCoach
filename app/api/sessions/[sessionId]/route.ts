@@ -6,7 +6,7 @@ import { prisma } from '@/lib/prisma';
 // GET /api/sessions/[sessionId] - Get a specific session
 export async function GET(
   request: NextRequest,
-  { params }: { params: { sessionId: string } }
+  { params }: { params: Promise<{ sessionId: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -18,9 +18,11 @@ export async function GET(
       );
     }
 
+    const { sessionId } = await params;
+
     const interviewSession = await prisma.interviewSession.findFirst({
       where: {
-        id: params.sessionId,
+        id: sessionId,
         userId: session.user.id
       },
       include: {
@@ -71,7 +73,7 @@ export async function GET(
 // PATCH /api/sessions/[sessionId] - Update a session
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { sessionId: string } }
+  { params }: { params: Promise<{ sessionId: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -83,12 +85,13 @@ export async function PATCH(
       );
     }
 
+    const { sessionId } = await params;
     const { responses } = await request.json();
 
     // Verify session belongs to user
     const existingSession = await prisma.interviewSession.findFirst({
       where: {
-        id: params.sessionId,
+        id: sessionId,
         userId: session.user.id
       }
     });
@@ -107,13 +110,13 @@ export async function PATCH(
     // Delete existing responses and create new ones
     await prisma.response.deleteMany({
       where: {
-        sessionId: params.sessionId
+        sessionId: sessionId
       }
     });
 
     const updatedSession = await prisma.interviewSession.update({
       where: {
-        id: params.sessionId
+        id: sessionId
       },
       data: {
         answeredQuestions,

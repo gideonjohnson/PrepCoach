@@ -33,7 +33,7 @@ export default withSentryConfig(nextConfig, {
   tunnelRoute: "/monitoring",
 
   // Hides source maps from generated client bundles
-  hideSourceMaps: true,
+  // hideSourceMaps: true, // Removed - not a valid option in this version
 
   // Automatically tree-shake Sentry logger statements to reduce bundle size
   disableLogger: true,

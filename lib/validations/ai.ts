@@ -165,7 +165,7 @@ export function validateAIInput<T>(
     return { success: true, data: result.data };
   }
 
-  const errors = result.error.errors.map((err) => {
+  const errors = result.error.issues.map((err: any) => {
     const field = err.path.join('.');
     return field ? `${field}: ${err.message}` : err.message;
   });

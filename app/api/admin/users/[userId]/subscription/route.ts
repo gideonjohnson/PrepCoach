@@ -6,7 +6,7 @@ import { prisma } from '@/lib/prisma';
 // PATCH /api/admin/users/[userId]/subscription - Update user subscription (admin only)
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { userId: string } }
+  { params }: { params: Promise<{ userId: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -17,6 +17,8 @@ export async function PATCH(
         { status: 401 }
       );
     }
+
+    const { userId } = await params;
 
     // Verify admin status
     const adminUser = await prisma.user.findUnique({
@@ -42,7 +44,7 @@ export async function PATCH(
 
     // Update user subscription
     const updatedUser = await prisma.user.update({
-      where: { id: params.userId },
+      where: { id: userId },
       data: {
         subscriptionTier: tier,
         subscriptionStatus: 'active',

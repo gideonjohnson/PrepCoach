@@ -4,6 +4,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '../auth/[...nextauth]/route';
 import { checkApiRateLimit } from '@/lib/rate-limit';
 import { aiFeedbackSchema, safeValidateData, formatZodError } from '@/lib/validation';
+import { getClientIP } from '@/lib/api-middleware';
 
 // Check if API key is configured
 if (!process.env.ANTHROPIC_API_KEY || process.env.ANTHROPIC_API_KEY === 'your_anthropic_api_key_here') {
@@ -31,7 +32,7 @@ export async function POST(request: NextRequest) {
     // Apply rate limiting
     const rateLimitResult = await checkApiRateLimit(
       'aiFeedback',
-      session.user.email || request.ip || 'anonymous'
+      session.user.email || getClientIP(request)
     );
 
     if (!rateLimitResult.success) {

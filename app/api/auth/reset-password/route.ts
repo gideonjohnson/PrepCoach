@@ -3,11 +3,12 @@ import prisma from '@/lib/prisma';
 import { checkApiRateLimit } from '@/lib/rate-limit';
 import { resetPasswordSchema, safeValidateData, formatZodError } from '@/lib/validation';
 import bcrypt from 'bcryptjs';
+import { getClientIP } from '@/lib/api-middleware';
 
 export async function POST(req: NextRequest) {
   try {
     // Apply rate limiting to prevent brute force attacks
-    const identifier = req.ip || 'anonymous';
+    const identifier = getClientIP(req);
     const rateLimitResult = await checkApiRateLimit('auth', identifier);
 
     if (!rateLimitResult.success) {

@@ -19,7 +19,7 @@ export async function GET() {
 
     // Initialize Stripe with the exact key
     const stripe = new Stripe(secretKey, {
-      apiVersion: '2024-11-20.acacia',
+      apiVersion: '2025-09-30.clover',
       typescript: true,
     });
 

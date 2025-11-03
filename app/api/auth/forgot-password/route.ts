@@ -4,11 +4,12 @@ import { sendPasswordResetEmail } from '@/lib/email';
 import { checkApiRateLimit } from '@/lib/rate-limit';
 import { forgotPasswordSchema, safeValidateData, formatZodError } from '@/lib/validation';
 import crypto from 'crypto';
+import { getClientIP } from '@/lib/api-middleware';
 
 export async function POST(req: NextRequest) {
   try {
     // Apply rate limiting to prevent brute force attacks
-    const identifier = req.ip || 'anonymous';
+    const identifier = getClientIP(req);
     const rateLimitResult = await checkApiRateLimit('auth', identifier);
 
     if (!rateLimitResult.success) {

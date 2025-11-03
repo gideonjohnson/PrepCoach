@@ -10,6 +10,24 @@ export interface RateLimitConfig {
 }
 
 /**
+ * Get client IP address from request headers
+ */
+export function getClientIP(req: NextRequest): string {
+  const forwarded = req.headers.get('x-forwarded-for');
+  const realIp = req.headers.get('x-real-ip');
+
+  if (forwarded) {
+    return forwarded.split(',')[0].trim();
+  }
+
+  if (realIp) {
+    return realIp;
+  }
+
+  return 'anonymous';
+}
+
+/**
  * Middleware to apply rate limiting to API routes
  */
 export async function withRateLimit(
@@ -36,7 +54,7 @@ export async function withRateLimit(
     }
 
     // Use IP address as identifier for non-authenticated requests
-    const identifier = userEmail || req.ip || 'anonymous';
+    const identifier = userEmail || getClientIP(req);
 
     // Check rate limit
     const rateLimitResult = config.apiName

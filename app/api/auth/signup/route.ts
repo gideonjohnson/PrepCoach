@@ -5,11 +5,12 @@ import crypto from 'crypto';
 import { sendVerificationEmail } from '@/lib/email';
 import { checkApiRateLimit } from '@/lib/rate-limit';
 import { signupSchema, safeValidateData, formatZodError } from '@/lib/validation';
+import { getClientIP } from '@/lib/api-middleware';
 
 export async function POST(request: NextRequest) {
   try {
     // Apply rate limiting to prevent brute force attacks
-    const identifier = request.ip || 'anonymous';
+    const identifier = getClientIP(request);
     const rateLimitResult = await checkApiRateLimit('auth', identifier);
 
     if (!rateLimitResult.success) {

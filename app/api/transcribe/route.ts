@@ -3,6 +3,7 @@ import OpenAI from 'openai';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../auth/[...nextauth]/route';
 import { checkApiRateLimit } from '@/lib/rate-limit';
+import { getClientIP } from '@/lib/api-middleware';
 import { transcriptionSchema, safeValidateData, formatZodError } from '@/lib/validation';
 
 // Check if API key is configured
@@ -22,7 +23,7 @@ export async function POST(request: NextRequest) {
     const session = await getServerSession(authOptions);
 
     // Apply rate limiting
-    const identifier = session?.user?.email || request.ip || 'anonymous';
+    const identifier = session?.user?.email || getClientIP(request);
     const rateLimitResult = await checkApiRateLimit('transcription', identifier);
 
     if (!rateLimitResult.success) {
