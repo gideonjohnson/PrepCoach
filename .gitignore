@@ -42,6 +42,9 @@ YOUR_CREDENTIALS.md
 PRODUCTION_CREDENTIALS.md
 test-login.js
 test-*.js
+create-test-*.js
+.env.production.check*
+.env.production.verify
 
 # Database files - DO NOT COMMIT
 prisma/*.db
