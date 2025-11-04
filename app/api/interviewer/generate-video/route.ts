@@ -22,6 +22,7 @@ import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 
 const D_ID_API_KEY = process.env.D_ID_API_KEY;
 const D_ID_API_URL = 'https://api.d-id.com';
+const USE_CLIPS_API = true; // Use Clips API for better trial account compatibility
 
 export async function POST(req: NextRequest) {
   try {
@@ -54,22 +55,36 @@ export async function POST(req: NextRequest) {
     // Base64 encode the API key for Basic authentication
     const encodedApiKey = Buffer.from(D_ID_API_KEY).toString('base64');
 
-    // Create D-ID talk stream
-    const createTalkResponse = await fetch(`${D_ID_API_URL}/talks`, {
+    // Try Clips API first (better for trial accounts), fallback to Talks API
+    const apiEndpoint = USE_CLIPS_API ? `${D_ID_API_URL}/clips` : `${D_ID_API_URL}/talks`;
+    const requestBody = USE_CLIPS_API ? {
+      presenter_id: 'amy-Aq6OmGZnMt', // Use built-in presenter
+      script: {
+        type: 'text',
+        input: scriptText,
+      },
+    } : {
+      source_url: getAvatarUrl(avatarId),
+      script: {
+        type: 'text',
+        input: scriptText,
+      },
+    };
+
+    console.log('D-ID API Request:', {
+      endpoint: apiEndpoint,
+      useClips: USE_CLIPS_API,
+      textLength: scriptText.length
+    });
+
+    // Create D-ID talk/clip
+    const createTalkResponse = await fetch(apiEndpoint, {
       method: 'POST',
       headers: {
         'Authorization': `Basic ${encodedApiKey}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        source_url: getAvatarUrl(avatarId),
-        script: {
-          type: 'text',
-          input: scriptText,
-          // Let D-ID use default voice for now to ensure compatibility
-          // Provider can be added later once basic functionality works
-        },
-      }),
+      body: JSON.stringify(requestBody),
     });
 
     if (!createTalkResponse.ok) {
@@ -109,7 +124,8 @@ export async function POST(req: NextRequest) {
     while (!videoUrl && attempts < maxAttempts) {
       await new Promise(resolve => setTimeout(resolve, 1000)); // Wait 1 second
 
-      const statusResponse = await fetch(`${D_ID_API_URL}/talks/${talkId}`, {
+      const statusEndpoint = USE_CLIPS_API ? `${D_ID_API_URL}/clips/${talkId}` : `${D_ID_API_URL}/talks/${talkId}`;
+      const statusResponse = await fetch(statusEndpoint, {
         headers: {
           'Authorization': `Basic ${encodedApiKey}`,
         },
