@@ -60,21 +60,30 @@ export default function VideoInterviewer({
 
         const data = await response.json();
 
+        console.log('D-ID API Response:', {
+          ok: response.ok,
+          status: response.status,
+          data
+        });
+
         if (response.ok && data.videoUrl) {
           setVideoUrl(data.videoUrl);
         } else if (data.mode === 'audio-only') {
           // Fallback to audio if video generation fails
           await generateAudioOnly();
         } else {
-          throw new Error(data.error || 'Failed to generate video');
+          const errorMsg = `Failed to generate video: ${data.error || 'Unknown error'}. Status: ${response.status}. Details: ${JSON.stringify(data.details || {})}`;
+          console.error(errorMsg);
+          throw new Error(errorMsg);
         }
       } else {
         // Use animated avatar with audio
         await generateAudioOnly();
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error('Media generation error:', err);
-      setError('Failed to generate interviewer media');
+      const errorMessage = err.message || 'Failed to generate interviewer media';
+      setError(errorMessage);
       // Fallback to browser TTS
       playWithBrowserTTS();
     } finally {
@@ -262,12 +271,14 @@ export default function VideoInterviewer({
       {/* Error State */}
       {error && !isLoading && (
         <div className="bg-red-50 border-2 border-red-200 rounded-xl p-4 mb-4">
-          <p className="text-red-700 text-sm">{error}</p>
+          <p className="text-red-700 font-semibold mb-2">⚠️ Video Generation Error</p>
+          <p className="text-red-700 text-sm mb-2">{error}</p>
+          <p className="text-red-600 text-xs mb-2">Using browser voice as fallback. Check browser console for details.</p>
           <button
             onClick={generateInterviewerMedia}
-            className="mt-2 text-sm text-red-600 hover:text-red-800 font-semibold"
+            className="mt-2 px-4 py-2 text-sm bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg"
           >
-            Try again
+            Try Again
           </button>
         </div>
       )}

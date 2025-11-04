@@ -74,21 +74,32 @@ export async function POST(req: NextRequest) {
 
     if (!createTalkResponse.ok) {
       const error = await createTalkResponse.json().catch(() => ({ message: 'Unknown error' }));
-      console.error('D-ID API Error:', {
+      console.error('D-ID API Error - Create Talk Failed:', {
         status: createTalkResponse.status,
         statusText: createTalkResponse.statusText,
         error,
+        requestPayload: {
+          source_url: getAvatarUrl(avatarId),
+          scriptText: scriptText.substring(0, 50) + '...',
+          avatarId,
+        },
         apiKeyLength: D_ID_API_KEY?.length,
         hasApiKey: !!D_ID_API_KEY
       });
       return NextResponse.json(
-        { error: 'Failed to generate video', details: error },
+        { error: 'Failed to generate video', details: error, status: createTalkResponse.status },
         { status: createTalkResponse.status }
       );
     }
 
     const talkData = await createTalkResponse.json();
     const talkId = talkData.id;
+
+    console.log('D-ID Talk Created:', {
+      talkId: talkData.id,
+      status: talkData.status,
+      created_at: talkData.created_at
+    });
 
     // Poll for video generation completion
     let videoUrl = null;
@@ -107,26 +118,50 @@ export async function POST(req: NextRequest) {
       if (statusResponse.ok) {
         const statusData = await statusResponse.json();
 
+        console.log(`D-ID Poll attempt ${attempts + 1}:`, {
+          status: statusData.status,
+          hasResultUrl: !!statusData.result_url
+        });
+
         if (statusData.status === 'done') {
           videoUrl = statusData.result_url;
+          console.log('D-ID Video Ready:', { videoUrl, talkId });
           break;
         } else if (statusData.status === 'error') {
+          console.error('D-ID Video Generation Error:', statusData);
           return NextResponse.json(
             { error: 'Video generation failed', details: statusData },
             { status: 500 }
           );
         }
+      } else {
+        console.error('D-ID Status Poll Failed:', {
+          status: statusResponse.status,
+          attempt: attempts + 1
+        });
       }
 
       attempts++;
     }
 
     if (!videoUrl) {
+      console.error('D-ID Video Generation Timeout:', {
+        talkId,
+        attempts,
+        maxAttempts
+      });
       return NextResponse.json(
-        { error: 'Video generation timeout' },
+        { error: 'Video generation timeout', talkId, attempts },
         { status: 408 }
       );
     }
+
+    console.log('D-ID Video Generation Success:', {
+      videoUrl,
+      talkId,
+      attempts,
+      duration: talkData.duration
+    });
 
     return NextResponse.json({
       videoUrl,
