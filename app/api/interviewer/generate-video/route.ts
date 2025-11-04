@@ -44,8 +44,8 @@ export async function POST(req: NextRequest) {
       }, { status: 200 });
     }
 
-    // Prepare tone-specific SSML adjustments
-    const ssmlText = applyToneToText(text, tone);
+    // Use plain text for now - SSML can cause issues with D-ID
+    const scriptText = text;
 
     // Determine TTS provider (use ElevenLabs if configured, otherwise use D-ID's built-in Azure)
     const ELEVENLABS_API_KEY = process.env.ELEVENLABS_API_KEY;
@@ -62,25 +62,13 @@ export async function POST(req: NextRequest) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
+        source_url: getAvatarUrl(avatarId),
         script: {
           type: 'text',
-          input: ssmlText,
-          provider: useElevenLabs ? {
-            // Premium option: ElevenLabs (best quality, requires separate API key)
-            type: 'elevenlabs',
-            voice_id: voiceId || 'EXAVITQu4vr4xnSDxMaL', // Bella - professional female
-          } : {
-            // Default: Microsoft Azure (included with D-ID, very good quality)
-            type: 'microsoft',
-            voice_id: voiceId || 'en-US-JennyNeural', // Professional female voice
-          },
+          input: scriptText,
+          // Let D-ID use default voice for now to ensure compatibility
+          // Provider can be added later once basic functionality works
         },
-        config: {
-          fluent: true,
-          pad_audio: 0,
-          stitch: true,
-        },
-        source_url: getAvatarUrl(avatarId),
       }),
     });
 
@@ -171,27 +159,27 @@ function applyToneToText(text: string, tone?: string): string {
 }
 
 function getAvatarUrl(avatarId?: string): string {
-  // D-ID avatar URLs - Celebrity-style business leader avatars
+  // D-ID avatar URLs - Use D-ID's public demo images for now
   const avatarMap: Record<string, string> = {
-    // Male Celebrity-Style Avatars
-    'elon-musk-tech-ceo': 'https://create-images-results.d-id.com/DefaultPresenters/Tyler_f/image.jpeg',
-    'steve-jobs-visionary': 'https://create-images-results.d-id.com/DefaultPresenters/Eric_f/image.jpeg',
-    'mark-zuckerberg-founder': 'https://create-images-results.d-id.com/DefaultPresenters/Alex_f/image.jpeg',
-    'jeff-bezos-ceo': 'https://create-images-results.d-id.com/DefaultPresenters/Matt_f/image.jpeg',
-    'bill-gates-tech': 'https://create-images-results.d-id.com/DefaultPresenters/Dylan_f/image.jpeg',
-    'professional-male-1': 'https://create-images-results.d-id.com/DefaultPresenters/James_f/image.jpeg',
+    // Male avatars
+    'elon-musk-tech-ceo': 'https://d-id-public-bucket.s3.amazonaws.com/alice.jpg',
+    'steve-jobs-visionary': 'https://d-id-public-bucket.s3.amazonaws.com/alice.jpg',
+    'mark-zuckerberg-founder': 'https://d-id-public-bucket.s3.amazonaws.com/alice.jpg',
+    'jeff-bezos-ceo': 'https://d-id-public-bucket.s3.amazonaws.com/alice.jpg',
+    'bill-gates-tech': 'https://d-id-public-bucket.s3.amazonaws.com/alice.jpg',
+    'professional-male-1': 'https://d-id-public-bucket.s3.amazonaws.com/alice.jpg',
 
-    // Female Celebrity-Style Avatars
-    'sheryl-sandberg-coo': 'https://create-images-results.d-id.com/DefaultPresenters/Noelle_f/image.jpeg',
-    'marissa-mayer-ceo': 'https://create-images-results.d-id.com/DefaultPresenters/Amy_f/image.jpeg',
-    'ginni-rometty-ibm': 'https://create-images-results.d-id.com/DefaultPresenters/Jess_f/image.jpeg',
-    'susan-wojcicki-youtube': 'https://create-images-results.d-id.com/DefaultPresenters/Anna_f/image.jpeg',
-    'professional-female-1': 'https://create-images-results.d-id.com/DefaultPresenters/Sara_f/image.jpeg',
+    // Female avatars
+    'sheryl-sandberg-coo': 'https://d-id-public-bucket.s3.amazonaws.com/alice.jpg',
+    'marissa-mayer-ceo': 'https://d-id-public-bucket.s3.amazonaws.com/alice.jpg',
+    'ginni-rometty-ibm': 'https://d-id-public-bucket.s3.amazonaws.com/alice.jpg',
+    'susan-wojcicki-youtube': 'https://d-id-public-bucket.s3.amazonaws.com/alice.jpg',
+    'professional-female-1': 'https://d-id-public-bucket.s3.amazonaws.com/alice.jpg',
 
     // Neutral
-    'professional-neutral': 'https://create-images-results.d-id.com/DefaultPresenters/Jordan_f/image.jpeg',
+    'professional-neutral': 'https://d-id-public-bucket.s3.amazonaws.com/alice.jpg',
   };
 
-  // Return selected avatar or default to professional female
-  return avatarMap[avatarId || 'professional-female-1'] || avatarMap['professional-female-1'];
+  // Return selected avatar or default to alice demo image
+  return avatarMap[avatarId || 'professional-female-1'] || 'https://d-id-public-bucket.s3.amazonaws.com/alice.jpg';
 }
