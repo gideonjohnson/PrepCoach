@@ -51,11 +51,14 @@ export async function POST(req: NextRequest) {
     const ELEVENLABS_API_KEY = process.env.ELEVENLABS_API_KEY;
     const useElevenLabs = ELEVENLABS_API_KEY && ELEVENLABS_API_KEY !== 'your_elevenlabs_api_key_here';
 
+    // Base64 encode the API key for Basic authentication
+    const encodedApiKey = Buffer.from(D_ID_API_KEY).toString('base64');
+
     // Create D-ID talk stream
     const createTalkResponse = await fetch(`${D_ID_API_URL}/talks`, {
       method: 'POST',
       headers: {
-        'Authorization': `Basic ${D_ID_API_KEY}`,
+        'Authorization': `Basic ${encodedApiKey}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
@@ -82,8 +85,14 @@ export async function POST(req: NextRequest) {
     });
 
     if (!createTalkResponse.ok) {
-      const error = await createTalkResponse.json();
-      console.error('D-ID API Error:', error);
+      const error = await createTalkResponse.json().catch(() => ({ message: 'Unknown error' }));
+      console.error('D-ID API Error:', {
+        status: createTalkResponse.status,
+        statusText: createTalkResponse.statusText,
+        error,
+        apiKeyLength: D_ID_API_KEY?.length,
+        hasApiKey: !!D_ID_API_KEY
+      });
       return NextResponse.json(
         { error: 'Failed to generate video', details: error },
         { status: createTalkResponse.status }
@@ -103,7 +112,7 @@ export async function POST(req: NextRequest) {
 
       const statusResponse = await fetch(`${D_ID_API_URL}/talks/${talkId}`, {
         headers: {
-          'Authorization': `Basic ${D_ID_API_KEY}`,
+          'Authorization': `Basic ${encodedApiKey}`,
         },
       });
 
