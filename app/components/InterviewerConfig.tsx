@@ -64,13 +64,15 @@ const VOICE_OPTIONS = {
 
 export default function InterviewerConfig({ onSave, onClose, currentSettings }: InterviewerConfigProps) {
   const [settings, setSettings] = useState<InterviewerSettings>(currentSettings || {
-    type: 'animated',
+    type: 'realistic',
     gender: 'female',
     accent: 'american',
-    tone: 'friendly',
+    tone: 'professional',
+    avatarId: 'professional-female-1',
+    voiceId: 'en-US-JennyNeural',
   });
 
-  const [selectedAvatarId, setSelectedAvatarId] = useState(currentSettings?.avatarId || '');
+  const [selectedAvatarId, setSelectedAvatarId] = useState(currentSettings?.avatarId || 'professional-female-1');
 
   const handleSave = () => {
     const finalSettings = { ...settings };
