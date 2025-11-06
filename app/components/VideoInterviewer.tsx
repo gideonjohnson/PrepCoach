@@ -45,41 +45,8 @@ export default function VideoInterviewer({
     setAudioUrl(null);
 
     try {
-      if (settings.type === 'realistic') {
-        // Generate realistic video with D-ID
-        const response = await fetch('/api/interviewer/generate-video', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            text: question,
-            avatarId: settings.avatarId,
-            voiceId: settings.voiceId,
-            tone: settings.tone,
-          }),
-        });
-
-        const data = await response.json();
-
-        console.log('D-ID API Response:', {
-          ok: response.ok,
-          status: response.status,
-          data
-        });
-
-        if (response.ok && data.videoUrl) {
-          setVideoUrl(data.videoUrl);
-        } else if (data.mode === 'audio-only') {
-          // Fallback to audio if video generation fails
-          await generateAudioOnly();
-        } else {
-          const errorMsg = `Failed to generate video: ${data.error || 'Unknown error'}. Status: ${response.status}. Details: ${JSON.stringify(data.details || {})}`;
-          console.error(errorMsg);
-          throw new Error(errorMsg);
-        }
-      } else {
-        // Use animated avatar with audio
-        await generateAudioOnly();
-      }
+      // Realistic video is disabled - use animated avatar with audio
+      await generateAudioOnly();
     } catch (err: any) {
       console.error('Media generation error:', err);
       const errorMessage = err.message || 'Failed to generate interviewer media';
