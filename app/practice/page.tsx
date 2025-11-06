@@ -48,12 +48,10 @@ function PracticeContent() {
   const [showLimitModal, setShowLimitModal] = useState(false);
   const [limitMessage, setLimitMessage] = useState('');
   const [interviewerSettings, setInterviewerSettings] = useState<InterviewerSettings>({
-    type: 'realistic',
+    type: 'animated',
     gender: 'female',
     accent: 'american',
-    tone: 'professional',
-    avatarId: 'professional-female-1',
-    voiceId: 'en-US-JennyNeural',
+    tone: 'friendly',
   });
   const [showFilters, setShowFilters] = useState(false);
   const [showLevelModal, setShowLevelModal] = useState(false);

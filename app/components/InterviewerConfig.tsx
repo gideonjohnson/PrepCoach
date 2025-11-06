@@ -64,15 +64,13 @@ const VOICE_OPTIONS = {
 
 export default function InterviewerConfig({ onSave, onClose, currentSettings }: InterviewerConfigProps) {
   const [settings, setSettings] = useState<InterviewerSettings>(currentSettings || {
-    type: 'realistic',
+    type: 'animated',
     gender: 'female',
     accent: 'american',
-    tone: 'professional',
-    avatarId: 'professional-female-1',
-    voiceId: 'en-US-JennyNeural',
+    tone: 'friendly',
   });
 
-  const [selectedAvatarId, setSelectedAvatarId] = useState(currentSettings?.avatarId || 'professional-female-1');
+  const [selectedAvatarId, setSelectedAvatarId] = useState(currentSettings?.avatarId || '');
 
   const handleSave = () => {
     const finalSettings = { ...settings };
@@ -142,15 +140,12 @@ export default function InterviewerConfig({ onSave, onClose, currentSettings }: 
 
               <button
                 onClick={() => setSettings({ ...settings, type: 'realistic' })}
-                className={`p-6 rounded-2xl border-2 transition-all ${
-                  settings.type === 'realistic'
-                    ? 'border-purple-500 bg-purple-50 shadow-lg scale-105'
-                    : 'border-gray-200 hover:border-purple-300 hover:shadow-md'
-                }`}
+                disabled
+                className="p-6 rounded-2xl border-2 border-gray-200 bg-gray-100 opacity-50 cursor-not-allowed"
               >
                 <div className="text-5xl mb-3">🧑‍💼</div>
-                <h4 className="font-bold text-lg text-gray-900 mb-2">Realistic AI Human</h4>
-                <p className="text-sm text-gray-600">Photorealistic interviewer with natural expressions and lip-sync</p>
+                <h4 className="font-bold text-lg text-gray-500 mb-2">Realistic AI Human <span className="text-xs bg-gray-200 text-gray-600 px-2 py-1 rounded-full">Coming Soon</span></h4>
+                <p className="text-sm text-gray-500">Premium feature - Photorealistic interviewer with lip-sync</p>
                 {settings.type === 'realistic' && (
                   <div className="mt-3 flex items-center gap-2 text-purple-600 font-semibold text-sm">
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
