@@ -756,9 +756,8 @@ function InterviewSession({
 
   // Media stream for biometric analysis
   const mediaStream = useMediaStream();
-  // Temporarily disable visual analytics due to compatibility issues
-  // const tfVision = useTensorFlowVision();
-  const tfVision = { isLoaded: false, error: 'Visual analytics temporarily disabled - vocal analysis only', analyzeFace: async (_frameData: any) => null, analyzePose: async (_frameData: any) => null, cleanup: () => {} };
+  // Enable TensorFlow.js visual analytics
+  const tfVision = useTensorFlowVision();
 
   const {
     isRecording,
