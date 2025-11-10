@@ -317,14 +317,105 @@ export default function ResumeBuilder() {
 
   const handleAIOptimize = async () => {
     setIsGenerating(true);
+
+    const loadingToast = toast.loading('AI is optimizing your resume...');
+
     try {
-      // TODO: Implement AI optimization
-      toast('AI optimization feature coming soon!', {
-        icon: '✨',
-        duration: 4000
+      // Prepare resume data
+      const resumeData = {
+        fullName,
+        email,
+        phone,
+        location,
+        summary,
+        experience: experience.filter(exp => exp.company || exp.position),
+        education: education.filter(edu => edu.school || edu.degree),
+        skills: skills.filter(s => s.trim()),
+        projects: projects.filter(proj => proj.name || proj.description),
+      };
+
+      // Validate we have some data
+      if (!resumeData.summary && resumeData.experience.length === 0) {
+        toast.error('Please add some content to your resume before optimizing.', { id: loadingToast });
+        return;
+      }
+
+      const response = await fetch('/api/resume/optimize', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ resumeData }),
       });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to optimize resume');
+      }
+
+      // Apply optimizations
+      const { optimizedData } = data;
+
+      if (optimizedData.summary) {
+        setSummary(optimizedData.summary);
+      }
+
+      // Update experience descriptions
+      if (optimizedData.experience && optimizedData.experience.length > 0) {
+        setExperience(prevExp => {
+          const newExp = [...prevExp];
+          optimizedData.experience.forEach((optExp: { company: string; position: string; description: string }, index: number) => {
+            if (newExp[index]) {
+              // Match by company and position to ensure we're updating the right entry
+              const matchingIndex = newExp.findIndex(
+                exp => exp.company === optExp.company && exp.position === optExp.position
+              );
+              if (matchingIndex !== -1) {
+                newExp[matchingIndex].description = optExp.description;
+              }
+            }
+          });
+          return newExp;
+        });
+      }
+
+      // Update project descriptions
+      if (optimizedData.projects && optimizedData.projects.length > 0) {
+        setProjects(prevProjects => {
+          const newProjects = [...prevProjects];
+          optimizedData.projects.forEach((optProj: { name: string; description: string }, index: number) => {
+            if (newProjects[index]) {
+              const matchingIndex = newProjects.findIndex(proj => proj.name === optProj.name);
+              if (matchingIndex !== -1) {
+                newProjects[matchingIndex].description = optProj.description;
+              }
+            }
+          });
+          return newProjects;
+        });
+      }
+
+      // Show recommendations
+      if (optimizedData.recommendations && optimizedData.recommendations.length > 0) {
+        const recommendationsText = optimizedData.recommendations.slice(0, 3).join('\n• ');
+        toast.success(
+          <div>
+            <strong>Resume optimized! 🎉</strong>
+            <div className="mt-2 text-sm">
+              <strong>Top recommendations:</strong>
+              <div className="mt-1">• {recommendationsText}</div>
+            </div>
+          </div>,
+          { id: loadingToast, duration: 8000 }
+        );
+      } else {
+        toast.success('Resume optimized successfully! 🎉', { id: loadingToast });
+      }
     } catch (error) {
       console.error('AI optimization error:', error);
+      toast.error(
+        error instanceof Error ? error.message : 'Failed to optimize resume. Please try again.',
+        { id: loadingToast }
+      );
     } finally {
       setIsGenerating(false);
     }

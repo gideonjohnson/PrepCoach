@@ -27,6 +27,7 @@ model User {
   subscriptionStatus String  @default("inactive") // inactive, active, cancelled, expired
   subscriptionStart DateTime?
   subscriptionEnd   DateTime?
+  stripeCustomerId  String?  @unique // Stripe customer ID for subscription management
 
   // Usage limits
   interviewsThisMonth Int     @default(0)

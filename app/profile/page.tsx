@@ -78,6 +78,31 @@ export default function ProfilePage() {
     }
   };
 
+  const handleManageSubscription = async () => {
+    try {
+      setMessage({ type: 'success', text: 'Opening subscription management portal...' });
+
+      const response = await fetch('/api/stripe/create-portal-session', {
+        method: 'POST',
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.url) {
+        // Redirect to Stripe Customer Portal
+        window.location.href = data.url;
+      } else {
+        setMessage({
+          type: 'error',
+          text: data.message || data.error || 'Failed to open subscription portal',
+        });
+      }
+    } catch (error) {
+      console.error('Error opening portal:', error);
+      setMessage({ type: 'error', text: 'An error occurred. Please try again.' });
+    }
+  };
+
   const handleDeleteAccount = async () => {
     if (!confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
       return;
@@ -163,11 +188,12 @@ export default function ProfilePage() {
                     Renews on {new Date(profile.subscriptionEnd).toLocaleDateString()}
                   </p>
                 )}
-                <Link href="/pricing">
-                  <button className="w-full px-6 py-3 bg-white/20 backdrop-blur-sm text-white rounded-lg font-semibold hover:bg-white/30 transition">
-                    Manage Subscription
-                  </button>
-                </Link>
+                <button
+                  onClick={handleManageSubscription}
+                  className="w-full px-6 py-3 bg-white/20 backdrop-blur-sm text-white rounded-lg font-semibold hover:bg-white/30 transition"
+                >
+                  Manage Subscription
+                </button>
               </div>
             )}
             {profile.subscriptionTier === 'lifetime' && (
