@@ -10,7 +10,8 @@
       "Bash(npm uninstall:*)",
       "Bash(ping:*)",
       "Bash(npx prisma migrate:*)",
-      "Bash(npx prisma db push:*)"
+      "Bash(npx prisma db push:*)",
+      "Bash(npm run lint:*)"
     ],
     "deny": [],
     "ask": []

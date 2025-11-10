@@ -332,7 +332,7 @@ export default function HelpPage() {
         <div className="bg-gradient-to-r from-purple-600 via-orange-500 to-red-500 rounded-3xl p-8 sm:p-12 text-center text-white shadow-2xl">
           <h2 className="text-3xl font-bold mb-4">Still need help?</h2>
           <p className="text-lg mb-8 opacity-90 max-w-2xl mx-auto">
-            Can't find what you're looking for? Our support team is here to help you succeed.
+            Can&apos;t find what you&apos;re looking for? Our support team is here to help you succeed.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a

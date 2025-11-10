@@ -44,7 +44,7 @@ export default function PaymentCancelPage() {
         <div className="bg-white rounded-2xl shadow-lg p-8 mb-8 border-2 border-gray-200">
           <h2 className="text-2xl font-bold text-gray-900 mb-4">What Happened?</h2>
           <p className="text-gray-600 mb-6">
-            You've cancelled the checkout process. This is completely normal - maybe you want to review the plans again or you're not quite ready yet.
+            You&apos;ve cancelled the checkout process. This is completely normal - maybe you want to review the plans again or you&apos;re not quite ready yet.
           </p>
 
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">

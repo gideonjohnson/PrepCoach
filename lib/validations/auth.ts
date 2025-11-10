@@ -114,7 +114,7 @@ export function validateAuthInput<T>(
     return { success: true, data: result.data };
   }
 
-  const errors = result.error.issues.map((err: any) => {
+  const errors = result.error.issues.map((err) => {
     const field = err.path.join('.');
     return field ? `${field}: ${err.message}` : err.message;
   });

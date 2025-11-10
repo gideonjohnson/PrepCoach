@@ -827,7 +827,7 @@ export default function HelpArticlePage() {
           <div className="text-6xl mb-6">📄</div>
           <h1 className="text-3xl font-bold text-gray-900 mb-4">Article Not Found</h1>
           <p className="text-lg text-gray-600 mb-8">
-            We couldn't find the help article you're looking for.
+            We couldn&apos;t find the help article you&apos;re looking for.
           </p>
           <Link
             href="/help"

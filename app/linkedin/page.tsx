@@ -309,7 +309,7 @@ function LinkedInOptimizerContent() {
                   <div className="text-6xl mb-6">📊</div>
                   <h2 className="text-3xl font-bold text-gray-900 mb-4">No Analysis Yet</h2>
                   <p className="text-gray-600 mb-8 text-lg">
-                    To see your optimized profile and recommendations, please fill in your profile information in the <strong>Profile Input</strong> tab and click the <strong>"🚀 Analyze & Optimize My Profile"</strong> button.
+                    To see your optimized profile and recommendations, please fill in your profile information in the <strong>Profile Input</strong> tab and click the <strong>&quot;🚀 Analyze & Optimize My Profile&quot;</strong> button.
                   </p>
                   <button
                     onClick={() => setActiveTab('input')}
@@ -339,7 +339,7 @@ function LinkedInOptimizerContent() {
                   <div className="text-6xl mb-6">💡</div>
                   <h2 className="text-3xl font-bold text-gray-900 mb-4">No Skills Analysis Yet</h2>
                   <p className="text-gray-600 mb-8 text-lg">
-                    To get personalized skill recommendations, please fill in your profile information in the <strong>Profile Input</strong> tab and click the <strong>"🚀 Analyze & Optimize My Profile"</strong> button.
+                    To get personalized skill recommendations, please fill in your profile information in the <strong>Profile Input</strong> tab and click the <strong>&quot;🚀 Analyze & Optimize My Profile&quot;</strong> button.
                   </p>
                   <button
                     onClick={() => setActiveTab('input')}

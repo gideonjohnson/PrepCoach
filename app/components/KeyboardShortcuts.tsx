@@ -108,7 +108,7 @@ export default function KeyboardShortcuts() {
                 <div>
                   <h4 className="font-semibold text-orange-900 mb-1">Pro Tip</h4>
                   <p className="text-sm text-orange-700">
-                    Keyboard shortcuts won't work when you're typing in text fields. They only work when navigating the app.
+                    Keyboard shortcuts won&apos;t work when you&apos;re typing in text fields. They only work when navigating the app.
                   </p>
                 </div>
               </div>

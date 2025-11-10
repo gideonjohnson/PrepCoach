@@ -74,13 +74,13 @@ export default function MicrophonePermissionBanner({
               Microphone Permission Denied
             </h3>
             <p className="text-sm text-orange-800 mb-2">
-              You've blocked microphone access. To record your interview responses, please allow microphone permissions.
+              You&apos;ve blocked microphone access. To record your interview responses, please allow microphone permissions.
             </p>
             <div className="text-sm text-orange-700 mb-3">
               <strong>How to fix:</strong>
               <ol className="list-decimal ml-5 mt-1 space-y-1">
-                <li>Look for the 🔒 or camera icon in your browser's address bar</li>
-                <li>Click it and change microphone permissions to "Allow"</li>
+                <li>Look for the 🔒 or camera icon in your browser&apos;s address bar</li>
+                <li>Click it and change microphone permissions to &quot;Allow&quot;</li>
                 <li>Refresh the page</li>
               </ol>
             </div>

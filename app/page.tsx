@@ -565,7 +565,7 @@ export default function Home() {
               🎯 Complete Career Success Package
             </h3>
             <p className="text-gray-700 text-lg mb-4">
-              Ace your interview <strong>AND</strong> negotiate like a pro. Most candidates leave $10K-50K on the table. Don't be one of them.
+              Ace your interview <strong>AND</strong> negotiate like a pro. Most candidates leave $10K-50K on the table. Don&apos;t be one of them.
             </p>
             <div className="flex flex-wrap justify-center gap-6 text-sm font-semibold text-gray-600">
               <span className="flex items-center gap-2">
@@ -863,7 +863,7 @@ export default function Home() {
               />
               <div className="absolute inset-0 bg-gradient-to-r from-orange-500/80 to-purple-500/80 flex items-center justify-center">
                 <div className="text-center text-white px-6">
-                  <p className="text-3xl md:text-4xl font-bold mb-4">"I landed my dream job!"</p>
+                  <p className="text-3xl md:text-4xl font-bold mb-4">&quot;I landed my dream job!&quot;</p>
                   <p className="text-lg md:text-xl opacity-90">Join 500,000+ candidates who transformed their careers with PrepCoach</p>
                 </div>
               </div>

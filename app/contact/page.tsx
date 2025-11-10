@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import Header from '../components/Header';
 import { toast } from 'react-hot-toast';
 
@@ -19,7 +20,7 @@ export default function ContactPage() {
 
     // Simulate form submission (you can replace this with actual API call)
     setTimeout(() => {
-      toast.success('Message sent! We\'ll get back to you soon.');
+      toast.success('Message sent! We&apos;ll get back to you soon.');
       setFormData({ name: '', email: '', subject: '', message: '' });
       setIsSubmitting(false);
     }, 1000);
@@ -157,9 +158,9 @@ export default function ContactPage() {
                   <div>
                     <h3 className="font-semibold text-gray-900 mb-1">Help Center</h3>
                     <p className="text-gray-600 text-sm">Find answers to common questions</p>
-                    <a href="/help" className="text-blue-500 hover:text-blue-600 font-medium mt-2 block">
+                    <Link href="/help" className="text-blue-500 hover:text-blue-600 font-medium mt-2 block">
                       Visit Help Center →
-                    </a>
+                    </Link>
                   </div>
                 </div>
               </div>

@@ -16,7 +16,7 @@ export default function TermsPage() {
           <section>
             <h2 className="text-2xl font-bold text-gray-900 mb-4">1. Acceptance of Terms</h2>
             <p className="mb-4">
-              By accessing or using PrepCoach ("the Service"), you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use the Service.
+              By accessing or using PrepCoach (&quot;the Service&quot;), you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use the Service.
             </p>
           </section>
 
@@ -87,7 +87,7 @@ export default function TermsPage() {
               Our Service uses AI (Anthropic Claude, OpenAI) to generate feedback and suggestions. While we strive for accuracy:
             </p>
             <ul className="list-disc pl-6 space-y-2">
-              <li>AI-generated content is provided "as is"</li>
+              <li>AI-generated content is provided &quot;as is&quot;</li>
               <li>We do not guarantee accuracy or completeness</li>
               <li>You are responsible for reviewing and verifying all content</li>
               <li>AI feedback is for educational purposes only</li>
@@ -104,7 +104,7 @@ export default function TermsPage() {
           <section>
             <h2 className="text-2xl font-bold text-gray-900 mb-4">9. Disclaimers</h2>
             <p className="mb-4">
-              THE SERVICE IS PROVIDED "AS IS" WITHOUT WARRANTIES OF ANY KIND. WE DO NOT GUARANTEE:
+              THE SERVICE IS PROVIDED &quot;AS IS&quot; WITHOUT WARRANTIES OF ANY KIND. WE DO NOT GUARANTEE:
             </p>
             <ul className="list-disc pl-6 space-y-2">
               <li>Job placement or interview success</li>

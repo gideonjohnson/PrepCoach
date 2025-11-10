@@ -286,7 +286,7 @@ export function formatZodError(error: z.ZodError): {
   field: string;
   message: string;
 }[] {
-  return error.issues.map((err: any) => ({
+  return error.issues.map((err) => ({
     field: err.path.join('.'),
     message: err.message,
   }));

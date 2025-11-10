@@ -55,7 +55,7 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
                 Oops! Something went wrong
               </h2>
               <p className="text-gray-600 mb-4">
-                We encountered an unexpected error. Don't worry, your progress has been saved.
+                We encountered an unexpected error. Don&apos;t worry, your progress has been saved.
               </p>
               {this.state.error && (
                 <details className="text-left mt-4">
