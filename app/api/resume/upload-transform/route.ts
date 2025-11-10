@@ -4,6 +4,8 @@ import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { checkApiRateLimit } from '@/lib/rate-limit';
 import { resumeContentTransformSchema, safeValidateData, formatZodError } from '@/lib/validation';
 import OpenAI from 'openai';
+import pdf from 'pdf-parse';
+import mammoth from 'mammoth';
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY
@@ -72,9 +74,42 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Invalid file type (must be TXT, PDF, DOC, or DOCX)' }, { status: 400 });
     }
 
-    // Read file content
+    // Parse file content based on type
     const fileBuffer = await resumeFile.arrayBuffer();
-    const fileContent = Buffer.from(fileBuffer).toString('utf-8');
+    const buffer = Buffer.from(fileBuffer);
+    let fileContent = '';
+
+    try {
+      if (resumeFile.type === 'application/pdf') {
+        // Parse PDF
+        const pdfData = await pdf(buffer);
+        fileContent = pdfData.text;
+      } else if (
+        resumeFile.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
+        resumeFile.type === 'application/msword'
+      ) {
+        // Parse DOCX
+        const result = await mammoth.extractRawText({ buffer });
+        fileContent = result.value;
+      } else {
+        // Plain text
+        fileContent = buffer.toString('utf-8');
+      }
+    } catch (parseError) {
+      console.error('File parsing error:', parseError);
+      return NextResponse.json(
+        { error: 'Failed to parse resume file. Please ensure the file is not corrupted.' },
+        { status: 400 }
+      );
+    }
+
+    // Check if content was extracted
+    if (!fileContent || fileContent.trim().length < 50) {
+      return NextResponse.json(
+        { error: 'Could not extract text from resume. The file may be empty or corrupted.' },
+        { status: 400 }
+      );
+    }
 
     // Validate content with Zod
     const validation = safeValidateData(resumeContentTransformSchema, {

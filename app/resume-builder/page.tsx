@@ -205,6 +205,8 @@ export default function ResumeBuilder() {
     }
 
     setIsTransforming(true);
+    const loadingToast = toast.loading('Analyzing and transforming your resume with AI...');
+
     try {
       const formData = new FormData();
       formData.append('resume', uploadedResume);
@@ -217,8 +219,9 @@ export default function ResumeBuilder() {
         body: formData
       });
 
+      const result = await response.json();
+
       if (response.ok) {
-        const result = await response.json();
         const data = result.data;
 
         setTransformedData(data);
@@ -241,16 +244,22 @@ export default function ResumeBuilder() {
         }
 
         // Show optimized versions
-        if (data.transformedSections) {
-          toast.success(`Resume transformed successfully! ATS Score: ${data.atsScore}%\n\nYour form has been populated with the optimized content.`, { duration: 6000 });
-        }
+        toast.success(
+          `Resume transformed successfully! ATS Score: ${data.atsScore}%\n\nYour form has been populated with the optimized content.`,
+          { id: loadingToast, duration: 6000 }
+        );
       } else {
-        const error = await response.json();
-        toast.error(`Failed to transform resume: ${error.error}`, { duration: 5000 });
+        toast.error(
+          result.error || 'Failed to transform resume',
+          { id: loadingToast, duration: 5000 }
+        );
       }
     } catch (error) {
       console.error('Transform error:', error);
-      toast.error('Failed to transform resume. Please check your connection and try again.', { duration: 5000 });
+      toast.error(
+        'Failed to transform resume. Please check your connection and try again.',
+        { id: loadingToast, duration: 5000 }
+      );
     } finally {
       setIsTransforming(false);
     }
