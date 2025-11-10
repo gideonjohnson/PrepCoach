@@ -7,7 +7,10 @@
       "Bash(vercel:*)",
       "Bash(cat:*)",
       "WebFetch(domain:aiprep.work)",
-      "Bash(npm uninstall:*)"
+      "Bash(npm uninstall:*)",
+      "Bash(ping:*)",
+      "Bash(npx prisma migrate:*)",
+      "Bash(npx prisma db push:*)"
     ],
     "deny": [],
     "ask": []

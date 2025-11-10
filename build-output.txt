@@ -1,0 +1,25 @@
+
+> prepcoach@0.1.0 build
+> prisma generate && prisma migrate deploy && next build
+
+Environment variables loaded from .env
+Prisma schema loaded from prisma\schema.prisma
+
+✔ Generated Prisma Client (v6.16.3) to .\node_modules\@prisma\client in 159ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+Tip: Want to turn off tips and other hints? https://pris.ly/tip-4-nohints
+
+Environment variables loaded from .env
+Prisma schema loaded from prisma\schema.prisma
+Datasource "db": PostgreSQL database "postgres", schema "public" at "localhost:51213"
+
+4 migrations found in prisma/migrations
+
+Error: P1001
+
+Can't reach database server at `localhost:51214`
+
+Please make sure your database server is running at `localhost:51214`.
+

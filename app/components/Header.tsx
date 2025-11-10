@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useSession, signOut } from 'next-auth/react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
@@ -9,10 +9,48 @@ export default function Header() {
   const { data: session } = useSession();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const pathname = usePathname();
   const router = useRouter();
+  const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const isActive = (path: string) => pathname === path;
+
+  // Dropdown menu configurations
+  const productItems = [
+    { name: 'Interview Practice', href: '/practice', icon: '💬', description: '45+ questions per role' },
+    { name: 'Resume Builder', href: '/resume-builder', icon: '📄', description: 'ATS-optimized templates' },
+    { name: 'LinkedIn Optimizer', href: '/linkedin', icon: '💼', description: '3x profile visibility' },
+    { name: 'Career Roadmap', href: '/roadmap', icon: '🗺️', description: 'Skills & timeline' },
+    { name: 'Salary Negotiation', href: '/salary', icon: '💰', description: '$15K+ average increase' },
+  ];
+
+  const resourceItems = [
+    { name: 'Help Center', href: '/help', icon: '❓', description: 'Get answers fast' },
+    { name: 'Interview Tips', href: '/help/interview-tips', icon: '💡', description: 'Expert advice' },
+    { name: 'Career Guides', href: '/help/career-guides', icon: '📚', description: 'In-depth resources' },
+    { name: 'Success Stories', href: '/help/success-stories', icon: '⭐', description: 'Real user results' },
+  ];
+
+  const companyItems = [
+    { name: 'About Us', href: '/about', icon: '🏢', description: 'Our mission' },
+    { name: 'Contact', href: '/contact', icon: '📧', description: 'Get in touch' },
+    { name: 'Privacy Policy', href: '/privacy', icon: '🔒', description: 'Your data is safe' },
+    { name: 'Terms of Service', href: '/terms', icon: '📋', description: 'Legal details' },
+  ];
+
+  const handleMouseEnter = (menu: string) => {
+    if (dropdownTimeoutRef.current) {
+      clearTimeout(dropdownTimeoutRef.current);
+    }
+    setActiveDropdown(menu);
+  };
+
+  const handleMouseLeave = () => {
+    dropdownTimeoutRef.current = setTimeout(() => {
+      setActiveDropdown(null);
+    }, 150);
+  };
 
   // Handle scroll for header shadow
   useEffect(() => {
@@ -79,16 +117,112 @@ export default function Header() {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-1">
-            <Link
-              href="/practice"
-              className={`px-4 py-2 rounded-lg font-medium transition-all ${
-                isActive('/practice')
-                  ? 'bg-orange-50 text-orange-600'
-                  : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
-              }`}
+            {/* Product Dropdown */}
+            <div
+              className="relative"
+              onMouseEnter={() => handleMouseEnter('product')}
+              onMouseLeave={handleMouseLeave}
             >
-              Practice
-            </Link>
+              <button className="px-4 py-2 rounded-lg font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-all flex items-center gap-1">
+                Product
+                <svg className={`w-4 h-4 transition-transform ${activeDropdown === 'product' ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+
+              {activeDropdown === 'product' && (
+                <div className="absolute top-full left-0 mt-2 w-80 bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-gray-100 overflow-hidden animate-fadeIn">
+                  <div className="p-2">
+                    {productItems.map((item, index) => (
+                      <Link
+                        key={index}
+                        href={item.href}
+                        onClick={() => setActiveDropdown(null)}
+                        className="flex items-start gap-3 p-3 rounded-xl hover:bg-gradient-to-r hover:from-orange-50 hover:to-red-50 transition-all group"
+                      >
+                        <span className="text-2xl group-hover:scale-110 transition-transform">{item.icon}</span>
+                        <div className="flex-1">
+                          <div className="font-semibold text-gray-900 group-hover:text-orange-600 transition-colors">{item.name}</div>
+                          <div className="text-xs text-gray-500 mt-0.5">{item.description}</div>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Resources Dropdown */}
+            <div
+              className="relative"
+              onMouseEnter={() => handleMouseEnter('resources')}
+              onMouseLeave={handleMouseLeave}
+            >
+              <button className="px-4 py-2 rounded-lg font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-all flex items-center gap-1">
+                Resources
+                <svg className={`w-4 h-4 transition-transform ${activeDropdown === 'resources' ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+
+              {activeDropdown === 'resources' && (
+                <div className="absolute top-full left-0 mt-2 w-80 bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-gray-100 overflow-hidden animate-fadeIn">
+                  <div className="p-2">
+                    {resourceItems.map((item, index) => (
+                      <Link
+                        key={index}
+                        href={item.href}
+                        onClick={() => setActiveDropdown(null)}
+                        className="flex items-start gap-3 p-3 rounded-xl hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 transition-all group"
+                      >
+                        <span className="text-2xl group-hover:scale-110 transition-transform">{item.icon}</span>
+                        <div className="flex-1">
+                          <div className="font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">{item.name}</div>
+                          <div className="text-xs text-gray-500 mt-0.5">{item.description}</div>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Company Dropdown */}
+            <div
+              className="relative"
+              onMouseEnter={() => handleMouseEnter('company')}
+              onMouseLeave={handleMouseLeave}
+            >
+              <button className="px-4 py-2 rounded-lg font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-all flex items-center gap-1">
+                Company
+                <svg className={`w-4 h-4 transition-transform ${activeDropdown === 'company' ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+
+              {activeDropdown === 'company' && (
+                <div className="absolute top-full left-0 mt-2 w-80 bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-gray-100 overflow-hidden animate-fadeIn">
+                  <div className="p-2">
+                    {companyItems.map((item, index) => (
+                      <Link
+                        key={index}
+                        href={item.href}
+                        onClick={() => setActiveDropdown(null)}
+                        className="flex items-start gap-3 p-3 rounded-xl hover:bg-gradient-to-r hover:from-green-50 hover:to-emerald-50 transition-all group"
+                      >
+                        <span className="text-2xl group-hover:scale-110 transition-transform">{item.icon}</span>
+                        <div className="flex-1">
+                          <div className="font-semibold text-gray-900 group-hover:text-green-600 transition-colors">{item.name}</div>
+                          <div className="text-xs text-gray-500 mt-0.5">{item.description}</div>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Dashboard Link */}
             <Link
               href="/dashboard"
               className={`px-4 py-2 rounded-lg font-medium transition-all ${
@@ -99,16 +233,8 @@ export default function Header() {
             >
               Dashboard
             </Link>
-            <Link
-              href="/resume-builder"
-              className={`px-4 py-2 rounded-lg font-medium transition-all ${
-                isActive('/resume-builder')
-                  ? 'bg-orange-50 text-orange-600'
-                  : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
-              }`}
-            >
-              Resume Builder
-            </Link>
+
+            {/* Pricing Link */}
             <Link
               href="/pricing"
               className={`px-4 py-2 rounded-lg font-medium transition-all ${
@@ -118,16 +244,6 @@ export default function Header() {
               }`}
             >
               Pricing
-            </Link>
-            <Link
-              href="/help"
-              className={`px-4 py-2 rounded-lg font-medium transition-all ${
-                isActive('/help') || pathname?.startsWith('/help/')
-                  ? 'bg-orange-50 text-orange-600'
-                  : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
-              }`}
-            >
-              Help
             </Link>
 
             {session ? (
@@ -192,21 +308,60 @@ export default function Header() {
           }`}
         >
           <div className="flex flex-col space-y-2">
-              <Link
-                href="/practice"
-                onClick={() => setMobileMenuOpen(false)}
-                className={`px-4 py-2 rounded-lg font-medium transition-all ${
-                  isActive('/practice')
-                    ? 'bg-orange-50 text-orange-600'
-                    : 'text-gray-600 hover:bg-gray-50'
-                }`}
-              >
-                Practice
-              </Link>
+            {/* Product Section */}
+            <div className="space-y-1">
+              <div className="px-4 py-2 font-semibold text-gray-900 text-sm uppercase tracking-wide">Product</div>
+              {productItems.map((item, index) => (
+                <Link
+                  key={index}
+                  href={item.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center gap-3 px-4 py-2 text-gray-600 hover:bg-orange-50 hover:text-orange-600 transition-all rounded-lg ml-2"
+                >
+                  <span>{item.icon}</span>
+                  <span className="font-medium">{item.name}</span>
+                </Link>
+              ))}
+            </div>
+
+            {/* Resources Section */}
+            <div className="space-y-1 pt-2">
+              <div className="px-4 py-2 font-semibold text-gray-900 text-sm uppercase tracking-wide">Resources</div>
+              {resourceItems.map((item, index) => (
+                <Link
+                  key={index}
+                  href={item.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center gap-3 px-4 py-2 text-gray-600 hover:bg-blue-50 hover:text-blue-600 transition-all rounded-lg ml-2"
+                >
+                  <span>{item.icon}</span>
+                  <span className="font-medium">{item.name}</span>
+                </Link>
+              ))}
+            </div>
+
+            {/* Company Section */}
+            <div className="space-y-1 pt-2">
+              <div className="px-4 py-2 font-semibold text-gray-900 text-sm uppercase tracking-wide">Company</div>
+              {companyItems.map((item, index) => (
+                <Link
+                  key={index}
+                  href={item.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center gap-3 px-4 py-2 text-gray-600 hover:bg-green-50 hover:text-green-600 transition-all rounded-lg ml-2"
+                >
+                  <span>{item.icon}</span>
+                  <span className="font-medium">{item.name}</span>
+                </Link>
+              ))}
+            </div>
+
+            {/* Other Links */}
+            <div className="pt-2 border-t border-gray-100">
               <Link
                 href="/dashboard"
                 onClick={() => setMobileMenuOpen(false)}
-                className={`px-4 py-2 rounded-lg font-medium transition-all ${
+                className={`px-4 py-2 rounded-lg font-medium transition-all flex ${
                   isActive('/dashboard')
                     ? 'bg-orange-50 text-orange-600'
                     : 'text-gray-600 hover:bg-gray-50'
@@ -215,20 +370,9 @@ export default function Header() {
                 Dashboard
               </Link>
               <Link
-                href="/resume-builder"
-                onClick={() => setMobileMenuOpen(false)}
-                className={`px-4 py-2 rounded-lg font-medium transition-all ${
-                  isActive('/resume-builder')
-                    ? 'bg-orange-50 text-orange-600'
-                    : 'text-gray-600 hover:bg-gray-50'
-                }`}
-              >
-                Resume Builder
-              </Link>
-              <Link
                 href="/pricing"
                 onClick={() => setMobileMenuOpen(false)}
-                className={`px-4 py-2 rounded-lg font-medium transition-all ${
+                className={`px-4 py-2 rounded-lg font-medium transition-all flex ${
                   isActive('/pricing')
                     ? 'bg-orange-50 text-orange-600'
                     : 'text-gray-600 hover:bg-gray-50'
@@ -236,17 +380,7 @@ export default function Header() {
               >
                 Pricing
               </Link>
-              <Link
-                href="/help"
-                onClick={() => setMobileMenuOpen(false)}
-                className={`px-4 py-2 rounded-lg font-medium transition-all ${
-                  isActive('/help') || pathname?.startsWith('/help/')
-                    ? 'bg-orange-50 text-orange-600'
-                    : 'text-gray-600 hover:bg-gray-50'
-                }`}
-              >
-                Help
-              </Link>
+            </div>
 
               {session ? (
                 <>
