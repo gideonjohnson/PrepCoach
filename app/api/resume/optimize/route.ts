@@ -35,6 +35,15 @@ interface ResumeData {
 
 export async function POST(req: NextRequest) {
   try {
+    // Check if Anthropic API is configured
+    if (!process.env.ANTHROPIC_API_KEY) {
+      console.error('ANTHROPIC_API_KEY not configured');
+      return NextResponse.json(
+        { error: 'AI service not configured. Please contact support.' },
+        { status: 503 }
+      );
+    }
+
     // Check authentication
     const session = await getServerSession(authOptions);
     if (!session) {
