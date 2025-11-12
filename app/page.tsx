@@ -1023,18 +1023,18 @@ export default function Home() {
               <h4 className="font-bold text-lg mb-4">Resources</h4>
               <ul className="space-y-3 text-gray-400">
                 <li><a href="#how-it-works" className="hover:text-orange-500 transition">How It Works</a></li>
-                <li><a href="#" className="hover:text-orange-500 transition">Blog</a></li>
-                <li><a href="#" className="hover:text-orange-500 transition">Help Center</a></li>
-                <li><a href="#" className="hover:text-orange-500 transition">FAQ</a></li>
+                <li><Link href="/help" className="hover:text-orange-500 transition">Help Center</Link></li>
+                <li><Link href="/roadmap" className="hover:text-orange-500 transition">Roadmap</Link></li>
+                <li><Link href="/salary" className="hover:text-orange-500 transition">Salary Calculator</Link></li>
               </ul>
             </div>
             <div>
               <h4 className="font-bold text-lg mb-4">Company</h4>
               <ul className="space-y-3 text-gray-400">
-                <li><a href="#" className="hover:text-orange-500 transition">About Us</a></li>
-                <li><a href="#" className="hover:text-orange-500 transition">Careers</a></li>
-                <li><a href="#" className="hover:text-orange-500 transition">Contact</a></li>
-                <li><a href="#" className="hover:text-orange-500 transition">Partners</a></li>
+                <li><Link href="/about" className="hover:text-orange-500 transition">About Us</Link></li>
+                <li><Link href="/contact" className="hover:text-orange-500 transition">Contact</Link></li>
+                <li><Link href="/pricing" className="hover:text-orange-500 transition">Pricing</Link></li>
+                <li><a href="https://github.com/gideonjohnson/PrepCoach" target="_blank" rel="noopener noreferrer" className="hover:text-orange-500 transition">GitHub</a></li>
               </ul>
             </div>
           </div>
@@ -1046,7 +1046,6 @@ export default function Home() {
               <div className="flex gap-6 text-sm text-gray-400">
                 <Link href="/privacy" className="hover:text-orange-500 transition">Privacy Policy</Link>
                 <Link href="/terms" className="hover:text-orange-500 transition">Terms of Service</Link>
-                <a href="#" className="hover:text-orange-500 transition">Cookie Policy</a>
               </div>
             </div>
           </div>
