@@ -147,7 +147,7 @@ export default function TermsPage() {
             <p className="mb-4">
               For questions about these Terms of Service, contact us at:
             </p>
-            <p className="font-semibold">Email: support@aiprep.work</p>
+            <p className="font-semibold">Email: gideonbosiregj@gmail.com</p>
           </section>
         </div>
 

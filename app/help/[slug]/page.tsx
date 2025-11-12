@@ -613,7 +613,7 @@ const articles: Record<string, ArticleContent> = {
         },
         {
           heading: 'Can I get a refund?',
-          content: 'We offer a 14-day money-back guarantee. If you\'re not satisfied with Pro, email support@aiprep.work within 14 days for a full refund.',
+          content: 'We offer a 14-day money-back guarantee. If you\'re not satisfied with Pro, email gideonbosiregj@gmail.com within 14 days for a full refund.',
         },
         {
           heading: 'What happens if payment fails?',
@@ -625,7 +625,7 @@ const articles: Record<string, ArticleContent> = {
         },
         {
           heading: 'Do you offer student discounts?',
-          content: 'Yes! Students get 50% off Pro with a valid .edu email address. Contact support@aiprep.work to verify your student status.',
+          content: 'Yes! Students get 50% off Pro with a valid .edu email address. Contact gideonbosiregj@gmail.com to verify your student status.',
         },
         {
           heading: 'What about teams or companies?',
@@ -666,7 +666,7 @@ const articles: Record<string, ArticleContent> = {
         },
         {
           heading: 'Pausing Instead of Canceling',
-          content: 'Need a break? Contact support@aiprep.work about pausing your subscription instead of canceling. We can work something out.',
+          content: 'Need a break? Contact gideonbosiregj@gmail.com about pausing your subscription instead of canceling. We can work something out.',
         },
         {
           heading: 'Reactivating Your Subscription',
@@ -934,7 +934,7 @@ export default function HelpArticlePage() {
               </div>
             </Link>
             <a
-              href="mailto:support@aiprep.work"
+              href="mailto:gideonbosiregj@gmail.com"
               className="flex-1 flex items-center gap-3 bg-gradient-to-r from-orange-500 to-red-500 text-white p-4 rounded-xl hover:shadow-lg transition-all"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">

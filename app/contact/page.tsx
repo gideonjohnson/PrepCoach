@@ -142,8 +142,8 @@ export default function ContactPage() {
                   <div>
                     <h3 className="font-semibold text-gray-900 mb-1">Email</h3>
                     <p className="text-gray-600 text-sm">Get in touch via email</p>
-                    <a href="mailto:support@aiprep.work" className="text-orange-500 hover:text-orange-600 font-medium mt-2 block">
-                      support@aiprep.work
+                    <a href="mailto:gideonbosiregj@gmail.com" className="text-orange-500 hover:text-orange-600 font-medium mt-2 block">
+                      gideonbosiregj@gmail.com
                     </a>
                   </div>
                 </div>
@@ -175,10 +175,10 @@ export default function ContactPage() {
                     <h3 className="font-semibold text-gray-900 mb-1">Follow Us</h3>
                     <p className="text-gray-600 text-sm mb-3">Stay updated with the latest</p>
                     <div className="flex gap-3">
-                      <a href="https://twitter.com/prepcoach" target="_blank" rel="noopener noreferrer" className="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center hover:bg-gray-200 transition">
+                      <a href="https://x.com/prep_coach" target="_blank" rel="noopener noreferrer" className="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center hover:bg-gray-200 transition">
                         <span className="text-sm">𝕏</span>
                       </a>
-                      <a href="https://linkedin.com/company/prepcoach" target="_blank" rel="noopener noreferrer" className="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center hover:bg-gray-200 transition">
+                      <a href="https://www.linkedin.com/in/enggidpro/" target="_blank" rel="noopener noreferrer" className="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center hover:bg-gray-200 transition">
                         <span className="text-sm">in</span>
                       </a>
                     </div>
