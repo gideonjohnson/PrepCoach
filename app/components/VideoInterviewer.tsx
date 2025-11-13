@@ -59,6 +59,9 @@ export default function VideoInterviewer({
   };
 
   const generateAudioOnly = async () => {
+    console.log('🎙️ Generating audio for question:', question.substring(0, 50) + '...');
+    console.log('Settings:', { voiceId: settings.voiceId, tone: settings.tone });
+
     const response = await fetch('/api/interviewer/generate-audio', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -69,17 +72,23 @@ export default function VideoInterviewer({
       }),
     });
 
+    console.log('📡 Response status:', response.status);
     const data = await response.json();
+    console.log('📦 Response data:', data);
 
     if (response.ok && data.audioData) {
+      console.log('✅ Audio data received, converting to blob...');
       // Convert base64 to blob URL
       const audioBlob = base64ToBlob(data.audioData, data.mimeType);
       const url = URL.createObjectURL(audioBlob);
       setAudioUrl(url);
+      console.log('✅ Audio URL created successfully');
     } else if (data.mode === 'browser-tts') {
+      console.log('ℹ️ Using browser TTS fallback');
       playWithBrowserTTS();
     } else {
-      throw new Error(data.error || 'Failed to generate audio');
+      console.error('❌ Audio generation failed:', data);
+      throw new Error(data.error || data.details || 'Failed to generate audio');
     }
   };
 
