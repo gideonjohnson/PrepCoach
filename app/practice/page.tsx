@@ -18,11 +18,28 @@ import MicrophonePermissionBanner from '../components/MicrophonePermissionBanner
 import BiometricsPanel from '../components/BiometricsPanel';
 import PaymentGate from '../components/PaymentGate';
 import AIHintsPanel from '../components/AIHintsPanel';
+import CodingInterview, { Language } from '../components/CodingInterview';
 import { useMediaStream } from './biometrics/useMediaStream';
 import { VocalAnalyzer } from './biometrics/vocalAnalytics';
 import { VisualAnalyzer } from './biometrics/visualAnalytics';
 import { useTensorFlowVision } from './biometrics/useTensorFlowVision';
 import { VocalMetrics, VisualMetrics } from './biometrics/types';
+
+// Helper to determine if a role requires coding interview
+function isCodingRole(role: Role): boolean {
+  const codingKeywords = [
+    'Software Engineer',
+    'Backend',
+    'Frontend',
+    'Full-Stack',
+    'Data Engineer',
+    'DevOps',
+    'Site Reliability',
+    'ML Engineer',
+    'Systems Engineer'
+  ];
+  return codingKeywords.some(keyword => role.title.includes(keyword));
+}
 
 type Step = 'role-selection' | 'interviewer-config' | 'interview';
 
@@ -745,6 +762,8 @@ function InterviewSession({
   const [sessionId] = useState(() => resumeData?.sessionId || `session-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [showHints, setShowHints] = useState(false);
+  const [isCodingQuestion, setIsCodingQuestion] = useState(false);
+  const [showCodingInterview, setShowCodingInterview] = useState(false);
 
   // Biometric tracking state
   const [biometricsEnabled, setBiometricsEnabled] = useState(false);
@@ -1142,17 +1161,45 @@ function InterviewSession({
             onRequestPermission={handleStartRecording}
           />
 
-          {/* Biometric Toggle & Hints Button */}
-          <div className="mb-6 flex justify-between items-center">
-            <button
-              onClick={() => setShowHints(!showHints)}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all shadow-sm hover:shadow-md bg-gradient-to-r from-purple-500 to-blue-500 text-white hover:from-purple-600 hover:to-blue-600"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-              </svg>
-              {showHints ? 'Hide AI Hints' : '💡 Get AI Hints'}
-            </button>
+          {/* Controls Row: Hints, Coding Toggle, Biometrics */}
+          <div className="mb-6 flex justify-between items-center flex-wrap gap-3">
+            <div className="flex gap-3">
+              <button
+                onClick={() => setShowHints(!showHints)}
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all shadow-sm hover:shadow-md bg-gradient-to-r from-purple-500 to-blue-500 text-white hover:from-purple-600 hover:to-blue-600"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                </svg>
+                {showHints ? 'Hide AI Hints' : '💡 Get AI Hints'}
+              </button>
+
+              {/* Coding/Audio Toggle for technical roles */}
+              {isCodingRole(role) && (
+                <div className="inline-flex gap-1 p-1 bg-gray-100 rounded-lg">
+                  <button
+                    onClick={() => setShowCodingInterview(false)}
+                    className={`px-4 py-2 rounded-md font-medium text-sm transition-all ${
+                      !showCodingInterview
+                        ? 'bg-white text-gray-900 shadow-sm'
+                        : 'text-gray-600 hover:text-gray-900'
+                    }`}
+                  >
+                    🎙️ Audio Interview
+                  </button>
+                  <button
+                    onClick={() => setShowCodingInterview(true)}
+                    className={`px-4 py-2 rounded-md font-medium text-sm transition-all ${
+                      showCodingInterview
+                        ? 'bg-white text-gray-900 shadow-sm'
+                        : 'text-gray-600 hover:text-gray-900'
+                    }`}
+                  >
+                    💻 Code Challenge
+                  </button>
+                </div>
+              )}
+            </div>
 
             <button
               onClick={() => setBiometricsEnabled(!biometricsEnabled)}
@@ -1228,31 +1275,82 @@ function InterviewSession({
             </div>
           )}
 
-          {/* Question Card */}
-          <div className="bg-white rounded-3xl p-12 mb-8 shadow-xl border-2 border-gray-100 animate-fadeIn">
-            <div className="text-center">
-              {/* Video Interviewer - Now supports both animated and realistic */}
-              <div className="mb-6">
-                <VideoInterviewer
-                  question={questions[currentQuestion]}
-                  settings={interviewerSettings}
-                  onSpeakingChange={setIsSpeaking}
-                  autoPlay={true}
-                />
+          {/* Coding Interview Mode */}
+          {showCodingInterview && isCodingRole(role) ? (
+            <div className="bg-white rounded-2xl shadow-2xl border-2 border-gray-200 overflow-hidden mb-8 animate-fadeIn">
+              <CodingInterview
+                question={questions[currentQuestion]}
+                onSubmit={async (code, language) => {
+                  setIsAnalyzing(true);
+                  try {
+                    const response = await fetch('/api/interview/code-review', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({
+                        code,
+                        language,
+                        question: questions[currentQuestion],
+                        role: role.title,
+                        category: role.category,
+                      }),
+                    });
+
+                    if (!response.ok) throw new Error('Failed to get code review');
+
+                    const data = await response.json();
+                    const updatedResponses = [...responses];
+                    updatedResponses[currentQuestion] = {
+                      audioURL: null,
+                      duration: 0,
+                      feedback: data.feedback,
+                    };
+                    setResponses(updatedResponses);
+                    setShowFeedback(true);
+                    toast.success('Code review complete!');
+                  } catch (error: any) {
+                    toast.error(error.message || 'Failed to analyze code');
+                  } finally {
+                    setIsAnalyzing(false);
+                  }
+                }}
+                onRunCode={async (code, language) => {
+                  const response = await fetch('/api/interview/execute-code', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ code, language }),
+                  });
+                  if (!response.ok) throw new Error('Execution failed');
+                  return await response.json();
+                }}
+              />
+            </div>
+          ) : (
+            <>
+              {/* Question Card - Audio Interview Mode */}
+              <div className="bg-white rounded-3xl p-12 mb-8 shadow-xl border-2 border-gray-100 animate-fadeIn">
+                <div className="text-center">
+                  {/* Video Interviewer */}
+                  <div className="mb-6">
+                    <VideoInterviewer
+                      question={questions[currentQuestion]}
+                      settings={interviewerSettings}
+                      onSpeakingChange={setIsSpeaking}
+                      autoPlay={true}
+                    />
+                  </div>
+
+                  <h3 className="text-3xl font-bold text-gray-900 mb-6 leading-tight">
+                    {questions[currentQuestion]}
+                  </h3>
+
+                  <p className="text-gray-600 text-lg">
+                    Take your time to think about your answer before recording
+                  </p>
+                </div>
               </div>
 
-              <h3 className="text-3xl font-bold text-gray-900 mb-6 leading-tight">
-                {questions[currentQuestion]}
-              </h3>
-
-              <p className="text-gray-600 text-lg">
-                Take your time to think about your answer before recording
-              </p>
-            </div>
-          </div>
-
-          {/* Recording Controls */}
-          <div className="text-center space-y-6">
+              {/* Recording Controls */}
+              <div className="text-center space-y-6">
             {audioURL && !isRecording && (
               <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-6 mb-4 border-2 border-green-200 shadow-lg animate-fadeIn">
                 <div className="flex items-center justify-center gap-3 mb-4">
@@ -1364,7 +1462,9 @@ function InterviewSession({
                 </button>
               </div>
             )}
-          </div>
+              </div>
+            </>
+          )}
 
           {/* Navigation */}
           <div className="flex justify-between items-center mt-12">
