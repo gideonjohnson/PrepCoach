@@ -11,12 +11,9 @@ const VOICE_ID = process.env.ELEVENLABS_VOICE_ID || '21m00Tcm4TlvDq8ikWAM'; // R
 
 export async function POST(request: NextRequest) {
   try {
-    // Check authentication
+    // Optional: Log if user is authenticated (but don't block)
     const session = await getServerSession(authOptions);
-    if (!session?.user?.id) {
-      console.error('❌ ElevenLabs TTS: Unauthorized - no session');
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
+    console.log('🔊 ElevenLabs TTS request - User authenticated:', !!session?.user?.id);
 
     // Check if API key is configured
     if (!ELEVENLABS_API_KEY || ELEVENLABS_API_KEY === 'your_elevenlabs_api_key_here') {
