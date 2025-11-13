@@ -78,6 +78,7 @@ function PracticeContent() {
   const [selectedExperienceLevel, setSelectedExperienceLevel] = useState<ExperienceLevel>('entry');
   const [selectedStage, setSelectedStage] = useState<1 | 2 | 3>(1);
   const [showStageModal, setShowStageModal] = useState(false);
+  const [stageProgress, setStageProgress] = useState<any[]>([]);
 
   // Removed payment gate - free tier users now get 3 interviews/month
   // Limits are enforced by /api/user/check-limits endpoint
@@ -124,7 +125,23 @@ function PracticeContent() {
     }
   }, [resumeSessionId]);
 
+  // Fetch stage progress when role is selected
+  const fetchStageProgress = async (category: string) => {
+    try {
+      const response = await fetch(`/api/stage-progress?category=${encodeURIComponent(category)}`);
+      if (response.ok) {
+        const data = await response.json();
+        setStageProgress(data.stages || []);
+      }
+    } catch (error) {
+      console.error('Error fetching stage progress:', error);
+    }
+  };
+
   const handleRoleSelect = async (role: Role, skipConfig: boolean = true) => {
+    // Fetch stage progress for this role category
+    await fetchStageProgress(role.category);
+
     // Check if user can start a new interview
     try {
       const response = await fetch('/api/user/check-limits?feature=interview');
@@ -617,50 +634,54 @@ function PracticeContent() {
                   <span className="text-xs font-normal text-gray-500">(15 questions per stage)</span>
                 </h4>
                 <div className="grid grid-cols-3 gap-3">
-                  {/* Stage 1 */}
-                  <button
-                    onClick={() => setSelectedStage(1)}
-                    className={`p-4 rounded-xl border-2 transition-all text-center ${
-                      selectedStage === 1
-                        ? 'border-green-500 bg-gradient-to-br from-green-50 to-emerald-50 shadow-md'
-                        : 'border-gray-200 bg-white hover:border-green-300'
-                    }`}
-                  >
-                    <div className="text-3xl mb-2">🌱</div>
-                    <h5 className="font-bold text-sm text-gray-900 mb-1">Stage 1</h5>
-                    <p className="text-xs text-gray-600">Foundational</p>
-                    <p className="text-xs text-green-600 mt-1 font-semibold">Q1-15</p>
-                  </button>
+                  {[1, 2, 3].map((stageNum) => {
+                    const progress = stageProgress.find(p => p.stage === stageNum);
+                    const isUnlocked = progress?.isUnlocked ?? (stageNum === 1);
+                    const completion = progress?.completionPercentage ?? 0;
+                    const stageColors = {
+                      1: { border: 'green-500', bg: 'from-green-50 to-emerald-50', text: 'green-600', hover: 'green-300' },
+                      2: { border: 'blue-500', bg: 'from-blue-50 to-cyan-50', text: 'blue-600', hover: 'blue-300' },
+                      3: { border: 'purple-500', bg: 'from-purple-50 to-indigo-50', text: 'purple-600', hover: 'purple-300' }
+                    };
+                    const stageInfo = { 1: { icon: '🌱', title: 'Foundational', range: 'Q1-15' }, 2: { icon: '📈', title: 'Applied', range: 'Q16-30' }, 3: { icon: '⭐', title: 'Expert', range: 'Q31-45' } };
+                    const colors = stageColors[stageNum as 1 | 2 | 3];
+                    const info = stageInfo[stageNum as 1 | 2 | 3];
 
-                  {/* Stage 2 */}
-                  <button
-                    onClick={() => setSelectedStage(2)}
-                    className={`p-4 rounded-xl border-2 transition-all text-center ${
-                      selectedStage === 2
-                        ? 'border-blue-500 bg-gradient-to-br from-blue-50 to-cyan-50 shadow-md'
-                        : 'border-gray-200 bg-white hover:border-blue-300'
-                    }`}
-                  >
-                    <div className="text-3xl mb-2">📈</div>
-                    <h5 className="font-bold text-sm text-gray-900 mb-1">Stage 2</h5>
-                    <p className="text-xs text-gray-600">Applied</p>
-                    <p className="text-xs text-blue-600 mt-1 font-semibold">Q16-30</p>
-                  </button>
-
-                  {/* Stage 3 */}
-                  <button
-                    onClick={() => setSelectedStage(3)}
-                    className={`p-4 rounded-xl border-2 transition-all text-center ${
-                      selectedStage === 3
-                        ? 'border-purple-500 bg-gradient-to-br from-purple-50 to-indigo-50 shadow-md'
-                        : 'border-gray-200 bg-white hover:border-purple-300'
-                    }`}
-                  >
-                    <div className="text-3xl mb-2">⭐</div>
-                    <h5 className="font-bold text-sm text-gray-900 mb-1">Stage 3</h5>
-                    <p className="text-xs text-gray-600">Expert</p>
-                    <p className="text-xs text-purple-600 mt-1 font-semibold">Q31-45</p>
-                  </button>
+                    return (
+                      <button
+                        key={stageNum}
+                        onClick={() => isUnlocked && setSelectedStage(stageNum as 1 | 2 | 3)}
+                        disabled={!isUnlocked}
+                        className={`p-4 rounded-xl border-2 transition-all text-center relative ${
+                          !isUnlocked
+                            ? 'border-gray-300 bg-gray-50 opacity-60 cursor-not-allowed'
+                            : selectedStage === stageNum
+                            ? `border-${colors.border} bg-gradient-to-br ${colors.bg} shadow-md`
+                            : `border-gray-200 bg-white hover:border-${colors.hover}`
+                        }`}
+                      >
+                        {!isUnlocked && (
+                          <div className="absolute top-2 right-2">
+                            <svg className="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                              <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
+                            </svg>
+                          </div>
+                        )}
+                        <div className="text-3xl mb-2">{info.icon}</div>
+                        <h5 className={`font-bold text-sm mb-1 ${!isUnlocked ? 'text-gray-500' : 'text-gray-900'}`}>Stage {stageNum}</h5>
+                        <p className={`text-xs ${!isUnlocked ? 'text-gray-400' : 'text-gray-600'}`}>{info.title}</p>
+                        <p className={`text-xs mt-1 font-semibold text-${colors.text}`}>{info.range}</p>
+                        {completion > 0 && (
+                          <div className="mt-2">
+                            <div className="w-full bg-gray-200 rounded-full h-1.5">
+                              <div className={`bg-${colors.border} h-1.5 rounded-full`} style={{ width: `${completion}%` }}></div>
+                            </div>
+                            <p className="text-xs text-gray-500 mt-1">{completion}% complete</p>
+                          </div>
+                        )}
+                      </button>
+                    );
+                  })}
                 </div>
                 <p className="text-xs text-gray-500 mt-3 text-center">
                   💡 Start with Stage 1 to build foundation, then progress to harder stages
