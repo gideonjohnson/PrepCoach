@@ -50,7 +50,7 @@ export async function POST(req: NextRequest) {
         },
         body: JSON.stringify({
           text,
-          model_id: 'eleven_monolingual_v1',
+          model_id: 'eleven_turbo_v2_5',  // Updated to latest model (free tier compatible)
           voice_settings: voiceSettings,
         }),
       }
