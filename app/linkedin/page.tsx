@@ -171,9 +171,9 @@ function LinkedInOptimizerContent() {
       </header>
 
       {/* Tab Navigation */}
-      <div className="bg-white border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex gap-8 overflow-x-auto">
+      <div className="bg-gray-50 border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <div className="flex gap-3 overflow-x-auto">
             {[
               { id: 'input', label: 'Profile Input' },
               { id: 'optimize', label: 'Optimization' },
@@ -184,10 +184,10 @@ function LinkedInOptimizerContent() {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as any)}
-                className={`py-4 px-4 border-b-2 font-medium text-sm whitespace-nowrap transition-colors ${
+                className={`px-6 py-2.5 rounded-lg font-medium text-sm whitespace-nowrap transition-all ${
                   activeTab === tab.id
-                    ? 'border-blue-600 text-blue-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    ? 'bg-blue-600 text-white shadow-sm'
+                    : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200'
                 }`}
               >
                 {tab.label}
