@@ -109,31 +109,33 @@ export default function Home() {
             {/* Left: Hero Content */}
             <div className="text-center lg:text-left">
             <div className="inline-block mb-6 px-4 py-2 bg-gradient-to-r from-orange-100 to-red-100 rounded-full">
-              <span className="text-orange-600 font-semibold text-sm">✨ Master Your Next Interview with AI</span>
+              <span className="text-orange-600 font-semibold text-sm">🚀 Join 500,000+ candidates who aced their interviews</span>
             </div>
             <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 mb-6 leading-tight">
-              Land Your Dream Job with{" "}
+              Stop Guessing.{" "}
               <span className="bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">
-                AI-Powered Interview Coaching
+                Start Winning Interviews
               </span>
             </h1>
             <p className="text-base sm:text-lg md:text-xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed">
-              PrepCoach delivers professional interview preparation with <strong>45+ role-specific questions</strong> tailored to match what current interviewers ask,
-              real-time AI feedback, audio recording, and advanced analytics. Transform your interview skills and
-              land positions at top companies like Microsoft, Netflix, and OpenAI.
+              Practice with <strong>45+ real interview questions</strong> for your role. Get instant AI feedback. Land offers at top companies.
+              <span className="block mt-2 text-lg font-semibold text-gray-800">95% success rate. 24/7 access. Zero awkwardness.</span>
             </p>
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start items-stretch sm:items-center mb-8">
               <Link href="/auth/signup" className="w-full sm:w-auto">
                 <button className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-full text-base sm:text-lg font-semibold hover:shadow-2xl transition transform hover:scale-105 min-h-[48px]">
-                  Start Your Journey Today
+                  Start Practicing Free →
                 </button>
               </Link>
               <Link href="/pricing" className="w-full sm:w-auto">
                 <button className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-white text-gray-800 border-2 border-gray-300 rounded-full text-base sm:text-lg font-semibold hover:border-orange-500 hover:text-orange-500 transition min-h-[48px]">
-                  View Pricing
+                  See Plans & Pricing
                 </button>
               </Link>
             </div>
+            <p className="text-sm text-gray-500 mb-4">
+              ⚡ Get started in under 60 seconds • No credit card required
+            </p>
             </div>
 
             {/* Right: Hero Image */}
@@ -156,10 +158,10 @@ export default function Home() {
           <div className="mt-20 mb-12">
             <div className="text-center mb-8">
               <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
-                Explore Our Features
+                Your Complete Career Arsenal
               </h2>
               <p className="text-lg text-gray-600">
-                Everything you need to succeed in your career journey
+                From interview prep to salary negotiation — we've got you covered
               </p>
             </div>
 
@@ -288,7 +290,7 @@ export default function Home() {
 
           {/* Company Logos */}
           <div className="mt-12 sm:mt-16">
-            <p className="text-center text-gray-500 mb-6 sm:mb-8 font-medium text-sm sm:text-base">Trusted by candidates aiming for top companies</p>
+            <p className="text-center text-gray-500 mb-6 sm:mb-8 font-medium text-sm sm:text-base">Our users land offers at companies like</p>
             <div className="flex flex-wrap justify-center items-center gap-6 sm:gap-8 md:gap-12 opacity-60">
               <div className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800">Meta</div>
               <div className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800">Google</div>
@@ -306,10 +308,10 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              Your Complete Career Success Platform
+              Nail the Interview. Maximize the Offer.
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              From interview prep to salary negotiation - everything you need to land your dream job at the right compensation
+              Don't just get the job — get the job with the salary you deserve
             </p>
           </div>
 
@@ -325,12 +327,12 @@ export default function Home() {
                   </div>
                   <div className="flex-1">
                     <h3 className="text-2xl font-bold text-gray-900 mb-2">AI Interview Practice</h3>
-                    <p className="text-orange-600 font-semibold text-lg mb-4">Start preparing now →</p>
+                    <p className="text-orange-600 font-semibold text-lg mb-4">Ace every question →</p>
                   </div>
                 </div>
 
                 <p className="text-gray-700 text-base mb-6 leading-relaxed">
-                  Master your interview skills with <strong>45+ role-specific questions</strong> tailored to current standards. Get real-time AI feedback, audio recording, and detailed analytics.
+                  Practice with <strong>45+ actual interview questions</strong> recruiters ask right now. Get instant feedback that makes you better, faster.
                 </p>
 
                 <div className="grid grid-cols-2 gap-3 mb-6">
@@ -386,12 +388,12 @@ export default function Home() {
                   </div>
                   <div className="flex-1">
                     <h3 className="text-2xl font-bold text-gray-900 mb-2">LinkedIn Optimizer</h3>
-                    <p className="text-blue-600 font-semibold text-lg mb-4">Get noticed →</p>
+                    <p className="text-blue-600 font-semibold text-lg mb-4">Get 3x more views →</p>
                   </div>
                 </div>
 
                 <p className="text-gray-700 text-base mb-6 leading-relaxed">
-                  Optimize your LinkedIn profile to attract recruiters. Get keyword analysis, AI-powered headline & About generators, and a <strong>4-week visibility plan</strong>.
+                  Make recruiters come to you. AI-powered optimization that gets you <strong>3x more profile views</strong> in just 4 weeks.
                 </p>
 
                 <div className="grid grid-cols-2 gap-3 mb-6">
@@ -447,12 +449,12 @@ export default function Home() {
                   </div>
                   <div className="flex-1">
                     <h3 className="text-2xl font-bold text-gray-900 mb-2">Career Roadmap</h3>
-                    <p className="text-indigo-600 font-semibold text-lg mb-4">Plan your growth →</p>
+                    <p className="text-indigo-600 font-semibold text-lg mb-4">Know your path →</p>
                   </div>
                 </div>
 
                 <p className="text-gray-700 text-base mb-6 leading-relaxed">
-                  Get a personalized career development plan with <strong>skills gap analysis</strong>, learning paths, timeline projections, and certification recommendations.
+                  Stop wandering. Get a <strong>personalized step-by-step plan</strong> to reach your dream role, with exact skills to learn and timelines to follow.
                 </p>
 
                 <div className="grid grid-cols-2 gap-3 mb-6">
@@ -508,12 +510,12 @@ export default function Home() {
                   </div>
                   <div className="flex-1">
                     <h3 className="text-2xl font-bold text-gray-900 mb-2">Salary Negotiation</h3>
-                    <p className="text-green-600 font-semibold text-lg mb-4">Maximize your offer →</p>
+                    <p className="text-green-600 font-semibold text-lg mb-4">Earn $15K+ more →</p>
                   </div>
                 </div>
 
                 <p className="text-gray-700 text-base mb-6 leading-relaxed">
-                  Get market data, professional negotiation scripts, and compensation calculators. <strong>Average $15K+ increase</strong> with data-driven strategies.
+                  Don't leave money on the table. Get word-for-word scripts and real market data that help you negotiate <strong>$15K+ more on average</strong>.
                 </p>
 
                 <div className="grid grid-cols-2 gap-3 mb-6">
@@ -562,10 +564,10 @@ export default function Home() {
           {/* Value Prop Banner */}
           <div className="mt-12 bg-gradient-to-r from-purple-100 via-blue-100 to-indigo-100 rounded-2xl p-8 text-center border-2 border-purple-200">
             <h3 className="text-2xl font-bold text-gray-900 mb-3">
-              🎯 Complete Career Success Package
+              🎯 Why settle for just the job?
             </h3>
             <p className="text-gray-700 text-lg mb-4">
-              Ace your interview <strong>AND</strong> negotiate like a pro. Most candidates leave $10K-50K on the table. Don&apos;t be one of them.
+              Most candidates leave <strong>$10K-50K</strong> on the table every year. Get the offer AND the salary you deserve.
             </p>
             <div className="flex flex-wrap justify-center gap-6 text-sm font-semibold text-gray-600">
               <span className="flex items-center gap-2">
@@ -596,10 +598,10 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              Everything You Need to Ace Your Interview
+              Interview Prep That Actually Works
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Professional-grade tools powered by advanced AI to prepare you for any interview scenario
+              Real questions. Instant feedback. Proven results. Everything you need to dominate your next interview.
             </p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -610,10 +612,9 @@ export default function Home() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">45+ Role-Specific Questions</h3>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">45+ Real Interview Questions</h3>
               <p className="text-gray-600 leading-relaxed">
-                Access a comprehensive question bank covering software engineering, product management,
-                data science, and 500+ other roles. Each question is tailored to match what current interviewers ask.
+                Practice the exact questions interviewers ask today. Covering 500+ roles from software engineering to product management. No fluff, just what works.
               </p>
             </div>
 
@@ -624,10 +625,9 @@ export default function Home() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                 </svg>
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Real-Time AI Feedback</h3>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">Instant AI Feedback</h3>
               <p className="text-gray-600 leading-relaxed">
-                Get instant, detailed analysis on your responses. Our AI evaluates content quality,
-                communication style, and provides actionable suggestions for improvement.
+                Know exactly what to improve—instantly. Get detailed feedback on your answers, communication style, and how to make every response stronger.
               </p>
             </div>
 
@@ -638,10 +638,9 @@ export default function Home() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
                 </svg>
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Audio Recording & Transcription</h3>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">Record & Review Your Answers</h3>
               <p className="text-gray-600 leading-relaxed">
-                Practice speaking your answers out loud. Our system records and transcribes your responses,
-                helping you refine your delivery and communication skills.
+                Hear how you actually sound. Practice out loud, get instant transcriptions, and catch those "ums" and "ahs" before the real interview.
               </p>
             </div>
 
@@ -652,10 +651,9 @@ export default function Home() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                 </svg>
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Advanced Analytics & Insights</h3>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">Track Your Progress</h3>
               <p className="text-gray-600 leading-relaxed">
-                Track your progress with detailed performance metrics. Identify strengths, weaknesses,
-                and areas for improvement with comprehensive analytics dashboards.
+                See yourself getting better. Visual dashboards show exactly where you're improving and what needs work. Watch your confidence grow with every session.
               </p>
             </div>
 
@@ -666,10 +664,9 @@ export default function Home() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
                 </svg>
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Export to PDF & CSV</h3>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">Save & Share Your Progress</h3>
               <p className="text-gray-600 leading-relaxed">
-                Download your practice sessions, feedback reports, and analytics data. Share your
-                progress with mentors or keep records for personal reference.
+                Download everything as PDF or CSV. Share your wins with mentors, review offline, or keep records for future interviews. Your data, your way.
               </p>
             </div>
 
@@ -680,10 +677,9 @@ export default function Home() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Unlimited Practice Sessions</h3>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">Practice Until You're Perfect</h3>
               <p className="text-gray-600 leading-relaxed">
-                Practice as much as you need with no limits. Build confidence through repetition
-                and master every aspect of your target role&apos;s interview process.
+                No limits. No restrictions. Practice 10 times or 100 times—whatever it takes to walk into that interview room with unshakeable confidence.
               </p>
             </div>
           </div>
@@ -695,10 +691,10 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              Your Path to Interview Success
+              From Nervous to Confident in 3 Steps
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Three simple steps to master your interview and land your dream job
+              Start practicing in under 60 seconds. Land your dream job this month.
             </p>
           </div>
 
@@ -706,10 +702,9 @@ export default function Home() {
           <div className="mb-16 relative">
             <div className="grid md:grid-cols-2 gap-8 items-center bg-gradient-to-r from-orange-50 to-purple-50 rounded-3xl p-8 md:p-12">
               <div>
-                <h3 className="text-3xl font-bold text-gray-900 mb-4">Practice Like a Pro</h3>
+                <h3 className="text-3xl font-bold text-gray-900 mb-4">Real Practice. Real Results.</h3>
                 <p className="text-lg text-gray-600 mb-6">
-                  Our AI-powered platform simulates real interview scenarios, giving you the confidence
-                  to excel in any situation. Track your progress and improve with every session.
+                  Stop reading generic tips. Start practicing with real questions, getting real feedback, and seeing real improvement. Every single session makes you better.
                 </p>
                 <ul className="space-y-3 text-gray-700">
                   <li className="flex items-center gap-3">
@@ -757,10 +752,9 @@ export default function Home() {
                 <div className="flex items-center justify-center w-16 h-16 bg-gradient-to-r from-orange-500 to-red-500 rounded-2xl mb-6 text-white text-2xl font-bold">
                   1
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">Choose Your Role</h3>
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">Pick Your Role</h3>
                 <p className="text-gray-600 mb-4">
-                  Select from <strong>45+ role-specific questions</strong> across 500+ roles.
-                  Customize your interview based on your target position, company, and experience level.
+                  Choose your target role. Get <strong>45+ questions</strong> that interviewers actually ask for that specific position. From entry-level to senior roles across 500+ careers.
                 </p>
                 <ul className="text-sm text-gray-500 space-y-2">
                   <li className="flex items-start gap-2">
@@ -784,10 +778,9 @@ export default function Home() {
                 <div className="flex items-center justify-center w-16 h-16 bg-gradient-to-r from-purple-500 to-blue-500 rounded-2xl mb-6 text-white text-2xl font-bold">
                   2
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">Practice with AI</h3>
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">Practice Out Loud</h3>
                 <p className="text-gray-600 mb-4">
-                  Engage in realistic mock interviews with our advanced AI interviewer.
-                  Record your audio responses and get transcriptions instantly.
+                  Answer questions like you're in the real interview. Record your voice, get instant transcriptions, and practice until it feels natural.
                 </p>
                 <ul className="text-sm text-gray-500 space-y-2">
                   <li className="flex items-start gap-2">
@@ -811,10 +804,9 @@ export default function Home() {
                 <div className="flex items-center justify-center w-16 h-16 bg-gradient-to-r from-green-500 to-teal-500 rounded-2xl mb-6 text-white text-2xl font-bold">
                   3
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">Get Instant Feedback</h3>
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">See What to Fix</h3>
                 <p className="text-gray-600 mb-4">
-                  Receive detailed AI-powered analysis on your performance. Track progress
-                  with advanced analytics and export reports.
+                  Get instant, specific feedback on every answer. Know exactly what's working and what needs improvement. Track your progress as you get better.
                 </p>
                 <ul className="text-sm text-gray-500 space-y-2">
                   <li className="flex items-start gap-2">
@@ -848,9 +840,9 @@ export default function Home() {
               <span className="text-orange-600 font-semibold text-sm">💬 Success Stories</span>
             </div>
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              Loved by Candidates Worldwide
+              Real People. Real Offers. Real Results.
             </h2>
-            <p className="text-xl text-gray-600">Real success stories from PrepCoach users</p>
+            <p className="text-xl text-gray-600">Here's what happened when they stopped overthinking and started practicing</p>
           </div>
 
           {/* Testimonial Hero Image */}
@@ -954,28 +946,28 @@ export default function Home() {
         <div className="absolute inset-0 bg-black/10"></div>
         <div className="max-w-5xl mx-auto text-center px-4 sm:px-6 lg:px-8 relative z-10">
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
-            Ready to Ace Your Next Interview?
+            Your Dream Job Is Waiting
           </h2>
           <p className="text-xl sm:text-2xl text-white/95 mb-4 max-w-3xl mx-auto">
-            Join 500,000+ candidates who transformed their interview skills with PrepCoach
+            Join 500,000+ people who stopped winging it and started winning it
           </p>
           <p className="text-lg text-white/90 mb-10 max-w-2xl mx-auto">
-            Get unlimited access to 45+ role-specific questions tailored to current interview standards, AI feedback, audio recording, and advanced analytics
+            Get instant access to real interview questions, AI feedback, and everything you need to nail your next interview
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link href="/auth/signup">
               <button className="px-10 py-5 bg-white text-orange-600 rounded-full text-lg font-bold hover:shadow-2xl transition transform hover:scale-105 shadow-xl">
-                Start Your Free Trial
+                Start Practicing Free →
               </button>
             </Link>
             <Link href="/pricing">
               <button className="px-10 py-5 bg-transparent border-2 border-white text-white rounded-full text-lg font-bold hover:bg-white hover:text-orange-600 transition">
-                View Pricing Plans
+                See Plans & Pricing
               </button>
             </Link>
           </div>
           <p className="text-white/80 text-sm mt-6">
-            ✨ No credit card required • Cancel anytime • 30-day money-back guarantee
+            ⚡ Start in 60 seconds • No credit card • 30-day money-back guarantee
           </p>
         </div>
       </section>
