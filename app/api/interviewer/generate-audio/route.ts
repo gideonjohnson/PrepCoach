@@ -12,10 +12,9 @@ const ELEVENLABS_API_URL = 'https://api.elevenlabs.io/v1';
 
 export async function POST(req: NextRequest) {
   try {
+    // Optional: Log if user is authenticated (but don't block)
     const session = await getServerSession(authOptions);
-    if (!session?.user?.email) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
+    console.log('🔊 Generate audio request - User authenticated:', !!session?.user?.email);
 
     const { text, voiceId, tone } = await req.json();
 
@@ -23,13 +22,18 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Text is required' }, { status: 400 });
     }
 
-    if (!ELEVENLABS_API_KEY) {
+    if (!ELEVENLABS_API_KEY || ELEVENLABS_API_KEY === 'your_elevenlabs_api_key_here') {
+      console.warn('⚠️ ElevenLabs API key not configured');
       // Fallback to browser TTS if ElevenLabs is not configured
       return NextResponse.json({
         mode: 'browser-tts',
         message: 'ElevenLabs not configured, using browser text-to-speech'
       }, { status: 200 });
     }
+
+    console.log('✅ ElevenLabs API key configured, generating audio...');
+    console.log('Voice ID:', voiceId || 'EXAVITQu4vr4xnSDxMaL');
+    console.log('Text length:', text.length, 'characters');
 
     // Get voice settings based on tone
     const voiceSettings = getVoiceSettings(tone);
@@ -52,17 +56,20 @@ export async function POST(req: NextRequest) {
       }
     );
 
+    console.log('📡 ElevenLabs API response status:', response.status);
+
     if (!response.ok) {
-      const error = await response.json();
-      console.error('ElevenLabs API Error:', error);
+      const errorText = await response.text();
+      console.error('❌ ElevenLabs API Error:', response.status, errorText);
       return NextResponse.json(
-        { error: 'Failed to generate audio', details: error },
+        { error: 'Failed to generate audio', details: errorText, status: response.status },
         { status: response.status }
       );
     }
 
     // Get audio data as buffer
     const audioBuffer = await response.arrayBuffer();
+    console.log('✅ ElevenLabs audio generated successfully! Size:', audioBuffer.byteLength, 'bytes');
 
     // Convert to base64 for easy transmission
     const base64Audio = Buffer.from(audioBuffer).toString('base64');
