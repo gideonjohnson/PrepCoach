@@ -126,7 +126,8 @@ function extractSpecializations(profile: LinkedInProfile, keywords: string[]): s
 }
 
 /**
- * Generate optimized About section
+ * Generate optimized About section with executive-level language
+ * Enhanced to compete with premium LinkedIn optimization services
  */
 export function optimizeAbout(
   currentAbout: string,
@@ -140,14 +141,15 @@ export function optimizeAbout(
   // Build About section structure
   const sections: string[] = [];
 
-  // 1. Opening hook (who you are + value prop)
+  // 1. Opening hook (who you are + value prop) - ENHANCED
   const yearsExp = calculateYearsOfExperience(profile);
   const topSkills = keywordAnalysis.keywordGaps
     .filter(gap => gap.importance === 'high')
     .slice(0, 3)
     .map(gap => gap.keyword);
 
-  const opening = `${targetRole} with ${yearsExp}+ years of experience specializing in ${topSkills.slice(0, 2).join(' and ')}. I build scalable solutions that drive business impact through innovative technology and cross-functional collaboration.`;
+  // More powerful opening with specific value proposition
+  const opening = `${targetRole} with ${yearsExp}+ years of proven expertise in ${topSkills.slice(0, 2).join(' and ')}. I specialize in transforming complex technical challenges into scalable, high-impact solutions that drive measurable business results. Known for bridging the gap between technology and business strategy to deliver exceptional outcomes.`;
   sections.push(opening);
   keywordsAdded.push(...topSkills.slice(0, 2));
 
@@ -171,8 +173,14 @@ export function optimizeAbout(
     keywordsAdded.push(...technologies.slice(0, 8));
   }
 
-  // 5. Call to action
-  const cta = `\n\nI'm passionate about leveraging technology to solve complex problems and drive innovation. Let's connect if you're looking for someone who can bring technical expertise and strategic thinking to your team.`;
+  // 5. Call to action - ENHANCED
+  const cta = `\n\n💼 What I Bring to Your Organization:
+• Proven track record of delivering high-impact technical solutions
+• Strategic mindset that aligns technology with business objectives
+• Strong leadership and mentorship capabilities
+• Commitment to continuous learning and innovation
+
+📬 Open to discussing opportunities where I can drive meaningful impact. Let's connect if you're building something exceptional and need a ${targetRole} who combines technical excellence with business acumen.`;
   sections.push(cta);
 
   const optimized = sections.join('');
@@ -303,14 +311,20 @@ export function optimizeExperienceBullets(
 }
 
 /**
- * Optimize a single experience bullet
+ * Optimize a single experience bullet using CAR (Challenge-Action-Result) framework
+ * Enhanced with executive-level language and quantification
  */
 function optimizeBullet(original: string, keywordAnalysis: KeywordAnalysis): OptimizedBullet {
-  // Extract action, context, and result
+  // Extract action, context, and result using CAR framework
   const actionVerbs = [
-    'Developed', 'Built', 'Led', 'Designed', 'Implemented', 'Architected', 'Optimized',
-    'Improved', 'Reduced', 'Increased', 'Launched', 'Managed', 'Coordinated', 'Delivered',
-    'Created', 'Established', 'Drove', 'Spearheaded', 'Transformed',
+    // Leadership tier
+    'Spearheaded', 'Orchestrated', 'Pioneered', 'Championed', 'Directed',
+    // Achievement tier
+    'Architected', 'Engineered', 'Transformed', 'Revolutionized', 'Optimized',
+    // Impact tier
+    'Delivered', 'Drove', 'Accelerated', 'Scaled', 'Launched',
+    // Standard tier (use sparingly)
+    'Developed', 'Built', 'Led', 'Designed', 'Implemented', 'Managed',
   ];
 
   // Start with strong action verb

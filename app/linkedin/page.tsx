@@ -24,6 +24,63 @@ function LinkedInOptimizerContent() {
   const [optimizedProfile, setOptimizedProfile] = useState<Partial<OptimizedProfile> | null>(null);
   const [profileScore, setProfileScore] = useState<ProfileScore | null>(null);
   const [skillRecommendations, setSkillRecommendations] = useState<SkillRecommendation[]>([]);
+  const [isImporting, setIsImporting] = useState(false);
+  const [importText, setImportText] = useState('');
+  const [showImportModal, setShowImportModal] = useState(false);
+
+  // Handle profile import
+  const handleImportProfile = async () => {
+    if (!importText.trim() || importText.trim().length < 50) {
+      alert('Please paste your LinkedIn profile text (at least 50 characters)');
+      return;
+    }
+
+    setIsImporting(true);
+
+    try {
+      const response = await fetch('/api/linkedin/parse-profile', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ profileText: importText }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to parse profile');
+      }
+
+      // Autofill the form with parsed data
+      const parsed = data.profile;
+
+      setProfile({
+        headline: parsed.headline || '',
+        about: parsed.about || '',
+        experience: parsed.experience && parsed.experience.length > 0
+          ? parsed.experience.map((exp: any) => ({
+              title: exp.title || '',
+              company: exp.company || '',
+              duration: exp.duration || '',
+              description: exp.description || '',
+              bullets: []
+            }))
+          : [],
+        skills: parsed.skills || [],
+        education: parsed.education || [],
+        projects: parsed.projects || [],
+        certifications: parsed.certifications || [],
+      });
+
+      setShowImportModal(false);
+      setImportText('');
+      alert('Profile imported successfully! Review the fields and make any adjustments.');
+    } catch (error: any) {
+      console.error('Import error:', error);
+      alert(error.message || 'Failed to import profile. Please try again.');
+    } finally {
+      setIsImporting(false);
+    }
+  };
 
   // Handle analyze
   const handleAnalyze = () => {
@@ -145,6 +202,29 @@ function LinkedInOptimizerContent() {
         {/* Input Tab */}
         {activeTab === 'input' && (
           <div className="space-y-8">
+            {/* Import Profile Banner */}
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
+              <div className="flex items-start justify-between">
+                <div className="flex-1">
+                  <h3 className="text-lg font-bold text-blue-900 mb-2">Quick Import from LinkedIn</h3>
+                  <p className="text-blue-700 text-sm mb-4">
+                    Save time! Copy your LinkedIn profile and paste it here. Our AI will automatically extract and fill all your information.
+                  </p>
+                  <button
+                    onClick={() => setShowImportModal(true)}
+                    className="px-6 py-2.5 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition shadow-sm"
+                  >
+                    Import from LinkedIn
+                  </button>
+                </div>
+                <div className="ml-4">
+                  <svg className="w-16 h-16 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm-1-7.9c-.7 0-1.3-.6-1.3-1.3 0-.7.6-1.3 1.3-1.3.7 0 1.3.6 1.3 1.3 0 .7-.6 1.3-1.3 1.3zM17 17h-2v-3.5c0-1.4-1.6-1.3-1.6 0V17h-2v-7h2v1c.8-1.5 3.6-1.6 3.6 1.4V17z"/>
+                  </svg>
+                </div>
+              </div>
+            </div>
+
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
               <h2 className="text-2xl font-bold text-gray-900 mb-6">Your LinkedIn Profile</h2>
 
@@ -362,6 +442,93 @@ function LinkedInOptimizerContent() {
           <VisibilityTab targetRole={targetRole} />
         )}
       </main>
+
+      {/* Import Modal */}
+      {showImportModal && (
+        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4 backdrop-blur-sm">
+          <div className="bg-white rounded-xl shadow-2xl w-full max-w-3xl p-8">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-2xl font-bold text-gray-900">Import LinkedIn Profile</h2>
+              <button
+                onClick={() => {
+                  setShowImportModal(false);
+                  setImportText('');
+                }}
+                className="text-gray-400 hover:text-gray-600 transition"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            <div className="mb-6">
+              <h3 className="font-semibold text-gray-900 mb-3">How to import your LinkedIn profile:</h3>
+              <ol className="list-decimal list-inside space-y-2 text-sm text-gray-700">
+                <li>Go to your LinkedIn profile page</li>
+                <li>Click "More" button, then select "Save to PDF"</li>
+                <li>Open the PDF and copy ALL the text (Ctrl+A, then Ctrl+C)</li>
+                <li>Paste it in the text area below</li>
+                <li>Click "Parse & Import" - our AI will extract everything automatically</li>
+              </ol>
+              <p className="text-xs text-gray-500 mt-3">
+                <strong>Alternative:</strong> You can also manually copy-paste sections from your LinkedIn profile page
+              </p>
+            </div>
+
+            <div className="mb-6">
+              <label className="block text-sm font-semibold text-gray-900 mb-2">
+                Paste Your LinkedIn Profile Text
+              </label>
+              <textarea
+                value={importText}
+                onChange={(e) => setImportText(e.target.value)}
+                rows={12}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-sm font-mono"
+                placeholder="Paste your complete LinkedIn profile text here...&#10;&#10;Example:&#10;John Doe&#10;Senior Software Engineer | Full-Stack Development | React, Node.js&#10;&#10;About&#10;Experienced software engineer with 5+ years...&#10;&#10;Experience&#10;Senior Software Engineer at Tech Corp&#10;Jan 2020 - Present..."
+              />
+              <p className="text-xs text-gray-500 mt-2">
+                {importText.length} characters | Minimum 50 characters required
+              </p>
+            </div>
+
+            <div className="flex gap-3">
+              <button
+                onClick={handleImportProfile}
+                disabled={isImporting || importText.trim().length < 50}
+                className="flex-1 px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
+              >
+                {isImporting ? (
+                  <span className="flex items-center justify-center gap-2">
+                    <svg className="animate-spin h-5 w-5" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Parsing with AI...
+                  </span>
+                ) : (
+                  'Parse & Import'
+                )}
+              </button>
+              <button
+                onClick={() => {
+                  setShowImportModal(false);
+                  setImportText('');
+                }}
+                className="px-6 py-3 bg-gray-100 text-gray-700 rounded-lg font-medium hover:bg-gray-200 transition"
+              >
+                Cancel
+              </button>
+            </div>
+
+            <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+              <p className="text-sm text-blue-900">
+                <strong>Privacy Note:</strong> Your profile data is processed securely and only used to populate the form. We never store your LinkedIn credentials or share your information.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
