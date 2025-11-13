@@ -118,6 +118,17 @@
   }
 }
 
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
 @keyframes float-3d {
   0%, 100% {
     transform: translateY(0) rotateX(0deg);

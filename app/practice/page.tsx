@@ -17,6 +17,7 @@ import ErrorBoundary from '../components/ErrorBoundary';
 import MicrophonePermissionBanner from '../components/MicrophonePermissionBanner';
 import BiometricsPanel from '../components/BiometricsPanel';
 import PaymentGate from '../components/PaymentGate';
+import AIHintsPanel from '../components/AIHintsPanel';
 import { useMediaStream } from './biometrics/useMediaStream';
 import { VocalAnalyzer } from './biometrics/vocalAnalytics';
 import { VisualAnalyzer } from './biometrics/visualAnalytics';
@@ -743,6 +744,7 @@ function InterviewSession({
   const [showFeedback, setShowFeedback] = useState(false);
   const [sessionId] = useState(() => resumeData?.sessionId || `session-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`);
   const [isSpeaking, setIsSpeaking] = useState(false);
+  const [showHints, setShowHints] = useState(false);
 
   // Biometric tracking state
   const [biometricsEnabled, setBiometricsEnabled] = useState(false);
@@ -1140,8 +1142,18 @@ function InterviewSession({
             onRequestPermission={handleStartRecording}
           />
 
-          {/* Biometric Toggle */}
-          <div className="mb-6 flex justify-end">
+          {/* Biometric Toggle & Hints Button */}
+          <div className="mb-6 flex justify-between items-center">
+            <button
+              onClick={() => setShowHints(!showHints)}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all shadow-sm hover:shadow-md bg-gradient-to-r from-purple-500 to-blue-500 text-white hover:from-purple-600 hover:to-blue-600"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+              </svg>
+              {showHints ? 'Hide AI Hints' : '💡 Get AI Hints'}
+            </button>
+
             <button
               onClick={() => setBiometricsEnabled(!biometricsEnabled)}
               className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all shadow-sm hover:shadow-md ${
@@ -1379,6 +1391,15 @@ function InterviewSession({
           </div>
         </div>
       </div>
+
+      {/* AI Hints Panel */}
+      <AIHintsPanel
+        question={questions[currentQuestion]}
+        role={role.title}
+        category={role.category}
+        isVisible={showHints}
+        onToggle={() => setShowHints(!showHints)}
+      />
     </div>
   );
 }
