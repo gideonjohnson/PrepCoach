@@ -12,6 +12,7 @@ export function useTextToSpeech(): UseTextToSpeechReturn {
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [voicesLoaded, setVoicesLoaded] = useState(false);
   const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
     // Load voices
@@ -34,17 +35,58 @@ export function useTextToSpeech(): UseTextToSpeechReturn {
     };
   }, []);
 
-  const speak = (text: string) => {
+  const speak = async (text: string) => {
     // Cancel any ongoing speech
-    window.speechSynthesis.cancel();
+    stop();
 
+    setIsSpeaking(true);
+
+    try {
+      // Try ElevenLabs first for high-quality TTS
+      const response = await fetch('/api/tts/elevenlabs', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text }),
+      });
+
+      if (response.ok) {
+        // ElevenLabs succeeded - play the audio
+        const audioBlob = await response.blob();
+        const audioUrl = URL.createObjectURL(audioBlob);
+
+        const audio = new Audio(audioUrl);
+        audioRef.current = audio;
+
+        audio.onplay = () => setIsSpeaking(true);
+        audio.onended = () => {
+          setIsSpeaking(false);
+          URL.revokeObjectURL(audioUrl);
+        };
+        audio.onerror = () => {
+          setIsSpeaking(false);
+          URL.revokeObjectURL(audioUrl);
+          console.error('Audio playback error, falling back to browser TTS');
+          speakWithBrowserTTS(text);
+        };
+
+        await audio.play();
+        return;
+      }
+    } catch (error) {
+      console.warn('ElevenLabs TTS failed, falling back to browser TTS:', error);
+    }
+
+    // Fallback to browser TTS
+    speakWithBrowserTTS(text);
+  };
+
+  const speakWithBrowserTTS = (text: string) => {
     const utterance = new SpeechSynthesisUtterance(text);
     utteranceRef.current = utterance;
 
     // Configure voice settings for a professional female interviewer
-    // Use normal rate (1.0) for natural, clear speech across all devices
-    utterance.rate = 1.0; // Normal speed - sounds natural on all devices
-    utterance.pitch = 1.05; // Slightly higher pitch for female voice
+    utterance.rate = 1.0;
+    utterance.pitch = 1.05;
     utterance.volume = 1.0;
 
     // Try to use a natural-sounding female voice
@@ -75,45 +117,37 @@ export function useTextToSpeech(): UseTextToSpeechReturn {
       selectedVoice = voices.find(voice =>
         voice.name.toLowerCase().includes('female') ||
         voice.name.toLowerCase().includes('zira') ||
-        voice.name.toLowerCase().includes('samantha') ||
-        voice.name.toLowerCase().includes('victoria') ||
-        voice.name.toLowerCase().includes('karen') ||
-        voice.name.toLowerCase().includes('fiona') ||
-        voice.name.toLowerCase().includes('joanna')
+        voice.name.toLowerCase().includes('samantha')
       );
     }
 
     // Last resort: find any English voice
     if (!selectedVoice) {
-      selectedVoice = voices.find(voice =>
-        voice.lang.startsWith('en')
-      );
+      selectedVoice = voices.find(voice => voice.lang.startsWith('en'));
     }
 
     if (selectedVoice) {
       utterance.voice = selectedVoice;
-      console.log('Selected voice:', selectedVoice.name, selectedVoice.lang);
-    } else {
-      console.log('No specific voice selected, using default');
     }
 
-    utterance.onstart = () => {
-      setIsSpeaking(true);
-    };
-
-    utterance.onend = () => {
-      setIsSpeaking(false);
-    };
-
-    utterance.onerror = () => {
-      setIsSpeaking(false);
-    };
+    utterance.onstart = () => setIsSpeaking(true);
+    utterance.onend = () => setIsSpeaking(false);
+    utterance.onerror = () => setIsSpeaking(false);
 
     window.speechSynthesis.speak(utterance);
   };
 
   const stop = () => {
+    // Stop browser TTS
     window.speechSynthesis.cancel();
+
+    // Stop ElevenLabs audio if playing
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+      audioRef.current = null;
+    }
+
     setIsSpeaking(false);
   };
 
