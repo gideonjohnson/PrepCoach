@@ -95,19 +95,19 @@ function LinkedInOptimizerContent() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 via-white to-purple-50">
+    <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <header className="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl flex items-center justify-center">
+            <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center">
               <svg className="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
               </svg>
             </div>
             <div>
               <h1 className="text-3xl font-bold text-gray-900">LinkedIn Profile Optimizer</h1>
-              <p className="text-gray-600">Get noticed by recruiters and land your dream job</p>
+              <p className="text-gray-600">Professional profile optimization powered by advanced AI</p>
             </div>
           </div>
         </div>
@@ -118,22 +118,21 @@ function LinkedInOptimizerContent() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex gap-8 overflow-x-auto">
             {[
-              { id: 'input', label: 'Profile Input', icon: '📝' },
-              { id: 'optimize', label: 'Optimization', icon: '✨' },
-              { id: 'skills', label: 'Skills', icon: '🎯' },
-              { id: 'connect', label: 'Networking', icon: '🤝' },
-              { id: 'visibility', label: 'Visibility Plan', icon: '📈' },
+              { id: 'input', label: 'Profile Input' },
+              { id: 'optimize', label: 'Optimization' },
+              { id: 'skills', label: 'Skills' },
+              { id: 'connect', label: 'Networking' },
+              { id: 'visibility', label: 'Visibility Plan' },
             ].map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as any)}
-                className={`py-4 px-2 border-b-2 font-medium text-sm whitespace-nowrap transition-colors ${
+                className={`py-4 px-4 border-b-2 font-medium text-sm whitespace-nowrap transition-colors ${
                   activeTab === tab.id
                     ? 'border-blue-600 text-blue-600'
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                 }`}
               >
-                <span className="mr-2">{tab.icon}</span>
                 {tab.label}
               </button>
             ))}
@@ -146,7 +145,7 @@ function LinkedInOptimizerContent() {
         {/* Input Tab */}
         {activeTab === 'input' && (
           <div className="space-y-8">
-            <div className="bg-white rounded-2xl shadow-lg p-8">
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
               <h2 className="text-2xl font-bold text-gray-900 mb-6">Your LinkedIn Profile</h2>
 
               {/* Target Role */}
@@ -250,7 +249,7 @@ function LinkedInOptimizerContent() {
             </div>
 
             {/* Target Jobs */}
-            <div className="bg-white rounded-2xl shadow-lg p-8">
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
               <h2 className="text-2xl font-bold text-gray-900 mb-4">Target Job Descriptions</h2>
               <p className="text-gray-600 mb-6">Paste 3-5 job descriptions you&apos;re interested in (or URLs - we&apos;ll analyze the keywords)</p>
 
@@ -285,9 +284,9 @@ function LinkedInOptimizerContent() {
             <div className="flex justify-center">
               <button
                 onClick={handleAnalyze}
-                className="px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white text-lg font-semibold rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all transform hover:scale-105 shadow-lg"
+                className="px-8 py-4 bg-blue-600 text-white text-lg font-semibold rounded-lg hover:bg-blue-700 transition shadow-sm"
               >
-                🚀 Analyze & Optimize My Profile
+                Analyze & Optimize My Profile
               </button>
             </div>
           </div>
@@ -305,7 +304,7 @@ function LinkedInOptimizerContent() {
               />
             ) : (
               <div className="max-w-2xl mx-auto text-center py-16">
-                <div className="bg-white rounded-3xl shadow-xl p-12">
+                <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-12">
                   <div className="text-6xl mb-6">📊</div>
                   <h2 className="text-3xl font-bold text-gray-900 mb-4">No Analysis Yet</h2>
                   <p className="text-gray-600 mb-8 text-lg">
@@ -313,7 +312,7 @@ function LinkedInOptimizerContent() {
                   </p>
                   <button
                     onClick={() => setActiveTab('input')}
-                    className="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 transition-all transform hover:scale-105 shadow-lg"
+                    className="px-6 py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-all transform hover:scale-105 shadow-lg"
                   >
                     Go to Profile Input
                   </button>
@@ -335,7 +334,7 @@ function LinkedInOptimizerContent() {
               />
             ) : (
               <div className="max-w-2xl mx-auto text-center py-16">
-                <div className="bg-white rounded-3xl shadow-xl p-12">
+                <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-12">
                   <div className="text-6xl mb-6">💡</div>
                   <h2 className="text-3xl font-bold text-gray-900 mb-4">No Skills Analysis Yet</h2>
                   <p className="text-gray-600 mb-8 text-lg">
@@ -343,7 +342,7 @@ function LinkedInOptimizerContent() {
                   </p>
                   <button
                     onClick={() => setActiveTab('input')}
-                    className="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 transition-all transform hover:scale-105 shadow-lg"
+                    className="px-6 py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-all transform hover:scale-105 shadow-lg"
                   >
                     Go to Profile Input
                   </button>
@@ -381,7 +380,7 @@ function OptimizationTab({ profile, optimizedProfile, profileScore, keywordAnaly
   return (
     <div className="space-y-8">
       {/* Profile Score */}
-      <div className="bg-white rounded-2xl shadow-lg p-8">
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
         <h2 className="text-2xl font-bold text-gray-900 mb-6">Profile Score</h2>
         <div className="grid md:grid-cols-5 gap-6">
           <ScoreCard label="Overall" score={profileScore.overall} />
@@ -397,7 +396,7 @@ function OptimizationTab({ profile, optimizedProfile, profileScore, keywordAnaly
       </div>
 
       {/* Keyword Coverage */}
-      <div className="bg-white rounded-2xl shadow-lg p-8">
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
         <h2 className="text-2xl font-bold text-gray-900 mb-4">Keyword Analysis</h2>
         <div className="mb-4">
           <div className="flex justify-between mb-2">
@@ -406,7 +405,7 @@ function OptimizationTab({ profile, optimizedProfile, profileScore, keywordAnaly
           </div>
           <div className="w-full bg-gray-200 rounded-full h-3">
             <div
-              className="bg-gradient-to-r from-blue-600 to-green-600 h-3 rounded-full transition-all"
+              className="bg-blue-600 h-3 rounded-full transition-all"
               style={{ width: `${keywordAnalysis.coverageScore}%` }}
             />
           </div>
@@ -420,7 +419,7 @@ function OptimizationTab({ profile, optimizedProfile, profileScore, keywordAnaly
 
       {/* Optimized Headline */}
       {optimizedProfile.headline && (
-        <div className="bg-white rounded-2xl shadow-lg p-8">
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
           <h2 className="text-2xl font-bold text-gray-900 mb-4">Optimized Headline</h2>
           <div className="space-y-4">
             <div>
@@ -430,7 +429,7 @@ function OptimizationTab({ profile, optimizedProfile, profileScore, keywordAnaly
             <div>
               <h3 className="font-medium text-gray-700 mb-2">Optimized:</h3>
               <div className="relative">
-                <p className="p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg text-gray-900 font-medium">
+                <p className="p-4 bg-blue-50 border border-blue-200 rounded-lg text-gray-900 font-medium">
                   {optimizedProfile.headline.optimized}
                 </p>
                 <button
@@ -455,13 +454,13 @@ function OptimizationTab({ profile, optimizedProfile, profileScore, keywordAnaly
 
       {/* Optimized About */}
       {optimizedProfile.about && (
-        <div className="bg-white rounded-2xl shadow-lg p-8">
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
           <h2 className="text-2xl font-bold text-gray-900 mb-4">Optimized About Section</h2>
           <div className="space-y-4">
             <div>
               <h3 className="font-medium text-gray-700 mb-2">Optimized:</h3>
               <div className="relative">
-                <div className="p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg text-gray-900 whitespace-pre-wrap">
+                <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg text-gray-900 whitespace-pre-wrap">
                   {optimizedProfile.about.optimized}
                 </div>
                 <button
@@ -507,14 +506,14 @@ function OptimizationTab({ profile, optimizedProfile, profileScore, keywordAnaly
 // Score Card Component
 function ScoreCard({ label, score }: { label: string; score: number }) {
   const getColor = (score: number) => {
-    if (score >= 80) return 'from-green-500 to-emerald-500';
-    if (score >= 60) return 'from-yellow-500 to-orange-500';
-    return 'from-red-500 to-pink-500';
+    if (score >= 80) return 'bg-green-600';
+    if (score >= 60) return 'bg-yellow-600';
+    return 'bg-red-600';
   };
 
   return (
     <div className="text-center">
-      <div className={`w-24 h-24 mx-auto rounded-full bg-gradient-to-br ${getColor(score)} flex items-center justify-center text-white text-2xl font-bold shadow-lg`}>
+      <div className={`w-24 h-24 mx-auto rounded-full ${getColor(score)} flex items-center justify-center text-white text-2xl font-bold shadow-sm`}>
         {score}
       </div>
       <p className="mt-2 font-medium text-gray-700">{label}</p>
@@ -530,7 +529,7 @@ function SkillsTab({ profile, skillRecommendations, keywordAnalysis, targetRole 
   return (
     <div className="space-y-8">
       {/* Skills Gap Summary */}
-      <div className="bg-white rounded-2xl shadow-lg p-8">
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
         <h2 className="text-2xl font-bold text-gray-900 mb-4">Skills Gap Analysis</h2>
         <p className="text-gray-700 mb-6">{skillsGap.summary}</p>
         <div className="grid md:grid-cols-3 gap-4 mb-6">
@@ -556,7 +555,7 @@ function SkillsTab({ profile, skillRecommendations, keywordAnalysis, targetRole 
       </div>
 
       {/* Skill Recommendations */}
-      <div className="bg-white rounded-2xl shadow-lg p-8">
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
         <h2 className="text-2xl font-bold text-gray-900 mb-6">Recommended Skills to Add</h2>
         <div className="space-y-4">
           {skillRecommendations.slice(0, 15).map((rec: SkillRecommendation, index: number) => (
@@ -586,7 +585,7 @@ function SkillsTab({ profile, skillRecommendations, keywordAnalysis, targetRole 
       </div>
 
       {/* Optimized Skills Order */}
-      <div className="bg-white rounded-2xl shadow-lg p-8">
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
         <h2 className="text-2xl font-bold text-gray-900 mb-4">Optimized Skills Order</h2>
         <p className="text-gray-600 mb-4">Reorder your skills to put the most relevant ones first for better recruiter visibility:</p>
         <div className="flex flex-wrap gap-2 mb-4">
@@ -622,7 +621,7 @@ function ConnectionTab() {
   return (
     <div className="space-y-8">
       {/* Template Selection */}
-      <div className="bg-white rounded-2xl shadow-lg p-8">
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
         <h2 className="text-2xl font-bold text-gray-900 mb-6">Connection Message Templates</h2>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
           {templates.slice(0, 6).map((template, index) => (
@@ -670,7 +669,7 @@ function ConnectionTab() {
       </div>
 
       {/* Message Customizer */}
-      <div className="bg-white rounded-2xl shadow-lg p-8">
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
         <h2 className="text-2xl font-bold text-gray-900 mb-4">Customize Your Message</h2>
         <textarea
           value={customizedMessage}
@@ -738,7 +737,7 @@ function VisibilityTab({ targetRole }: { targetRole: string }) {
   return (
     <div className="space-y-8">
       {/* Overview */}
-      <div className="bg-white rounded-2xl shadow-lg p-8">
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
         <h2 className="text-2xl font-bold text-gray-900 mb-4">4-Week Visibility Plan</h2>
         <p className="text-gray-600 mb-6">Strategic plan to increase your LinkedIn visibility and get noticed by recruiters</p>
         <div className="grid md:grid-cols-2 gap-6">
@@ -768,7 +767,7 @@ function VisibilityTab({ targetRole }: { targetRole: string }) {
       </div>
 
       {/* Week Selector */}
-      <div className="bg-white rounded-2xl shadow-lg p-8">
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
         <div className="flex gap-4 mb-6">
           {[1, 2, 3, 4].map((week) => (
             <button
@@ -825,7 +824,7 @@ function VisibilityTab({ targetRole }: { targetRole: string }) {
       </div>
 
       {/* Best Practices */}
-      <div className="bg-white rounded-2xl shadow-lg p-8">
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
         <h2 className="text-2xl font-bold text-gray-900 mb-6">LinkedIn Best Practices</h2>
         <div className="grid md:grid-cols-2 gap-6">
           <div>
