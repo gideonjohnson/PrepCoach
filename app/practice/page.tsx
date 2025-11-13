@@ -913,7 +913,7 @@ function InterviewSession({
       // Update toast for analysis phase
       toast.loading('Analyzing your response with AI...', { id: transcribeToast });
 
-      // Call AI feedback API
+      // Call AI feedback API with biometric data if available
       const response = await fetch('/api/analyze-response', {
         method: 'POST',
         headers: {
@@ -924,6 +924,9 @@ function InterviewSession({
           question: questions[currentQuestion],
           role: role.title,
           category: role.category,
+          // Include biometric data for enhanced feedback
+          vocalMetrics: vocalMetrics || undefined,
+          visualMetrics: visualMetrics || undefined,
         }),
       });
 

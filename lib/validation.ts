@@ -79,6 +79,35 @@ export const aiFeedbackSchema = z.object({
   role: z.string().trim().max(200, 'Role name too long').optional(),
   category: z.string().trim().max(100, 'Category name too long').optional(),
   sessionId: z.string().trim().min(1, 'Session ID is required').max(100, 'Invalid session ID').optional(),
+  // Biometric data for enhanced feedback (optional)
+  vocalMetrics: z.object({
+    pace: z.number().optional(),
+    averagePitch: z.number().optional(),
+    pitchVariation: z.number().optional(),
+    volume: z.number().optional(),
+    volumeConsistency: z.number().optional(),
+    energyLevel: z.number().optional(),
+    clarity: z.number().optional(),
+    fillerWordCount: z.number().optional(),
+    fillerWords: z.array(z.object({
+      word: z.string(),
+      timestamp: z.number(),
+      count: z.number()
+    })).optional(),
+    pauseCount: z.number().optional(),
+    averagePauseLength: z.number().optional(),
+  }).optional(),
+  visualMetrics: z.object({
+    eyeContactPercentage: z.number().optional(),
+    eyeContactDuration: z.number().optional(),
+    facialConfidence: z.number().optional(),
+    smileFrequency: z.number().optional(),
+    postureScore: z.number().optional(),
+    gestureFrequency: z.number().optional(),
+    gestureAppropriacy: z.number().optional(),
+    headMovement: z.number().optional(),
+    facingCamera: z.boolean().optional(),
+  }).optional(),
 });
 
 export const analyzeResponseSchema = z.object({
