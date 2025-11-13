@@ -14,12 +14,14 @@ export async function POST(request: NextRequest) {
     // Check authentication
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) {
+      console.error('❌ ElevenLabs TTS: Unauthorized - no session');
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     // Check if API key is configured
     if (!ELEVENLABS_API_KEY || ELEVENLABS_API_KEY === 'your_elevenlabs_api_key_here') {
       console.warn('⚠️ ElevenLabs API key not configured, falling back to browser TTS');
+      console.log('Current API key value:', ELEVENLABS_API_KEY ? `${ELEVENLABS_API_KEY.substring(0, 10)}...` : 'undefined');
       return NextResponse.json(
         {
           error: 'ElevenLabs not configured',
@@ -28,6 +30,8 @@ export async function POST(request: NextRequest) {
         { status: 503 }
       );
     }
+
+    console.log('✅ ElevenLabs API key configured, attempting to generate speech...');
 
     const { text } = await request.json();
 
@@ -60,7 +64,7 @@ export async function POST(request: NextRequest) {
 
     if (!response.ok) {
       const error = await response.text();
-      console.error('ElevenLabs API error:', error);
+      console.error('❌ ElevenLabs API error:', response.status, error);
       return NextResponse.json(
         {
           error: 'Failed to generate speech',
@@ -72,6 +76,7 @@ export async function POST(request: NextRequest) {
 
     // Get the audio buffer
     const audioBuffer = await response.arrayBuffer();
+    console.log('✅ ElevenLabs TTS success! Audio size:', audioBuffer.byteLength, 'bytes');
 
     // Return the audio as MP3
     return new NextResponse(audioBuffer, {

@@ -42,6 +42,7 @@ export function useTextToSpeech(): UseTextToSpeechReturn {
     setIsSpeaking(true);
 
     try {
+      console.log('🔊 Attempting ElevenLabs TTS...');
       // Try ElevenLabs first for high-quality TTS
       const response = await fetch('/api/tts/elevenlabs', {
         method: 'POST',
@@ -49,7 +50,10 @@ export function useTextToSpeech(): UseTextToSpeechReturn {
         body: JSON.stringify({ text }),
       });
 
+      console.log('📡 ElevenLabs API response status:', response.status);
+
       if (response.ok) {
+        console.log('✅ ElevenLabs TTS succeeded! Playing high-quality audio...');
         // ElevenLabs succeeded - play the audio
         const audioBlob = await response.blob();
         const audioUrl = URL.createObjectURL(audioBlob);
@@ -65,18 +69,22 @@ export function useTextToSpeech(): UseTextToSpeechReturn {
         audio.onerror = () => {
           setIsSpeaking(false);
           URL.revokeObjectURL(audioUrl);
-          console.error('Audio playback error, falling back to browser TTS');
+          console.error('❌ Audio playback error, falling back to browser TTS');
           speakWithBrowserTTS(text);
         };
 
         await audio.play();
         return;
+      } else {
+        const errorData = await response.json();
+        console.warn('⚠️ ElevenLabs not available:', errorData);
       }
     } catch (error) {
-      console.warn('ElevenLabs TTS failed, falling back to browser TTS:', error);
+      console.warn('⚠️ ElevenLabs TTS failed, falling back to browser TTS:', error);
     }
 
     // Fallback to browser TTS
+    console.log('🔄 Using browser TTS fallback...');
     speakWithBrowserTTS(text);
   };
 
