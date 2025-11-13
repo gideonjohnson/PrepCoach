@@ -9,6 +9,8 @@ import AIAvatar from './AIAvatar';
 import { roles, categories, type Role } from './roles';
 import { getQuestionsForRole } from './questions';
 import { getQuestionsForRoleAndLevel, type ExperienceLevel } from './questions-by-level';
+import { getQuestionsByStage, type Stage, STAGE_CONFIG, getStageColor } from './stage-system';
+import { getQuestionsByStage as getQuestionsByStageHelper } from './questions-by-stage';
 import Link from 'next/link';
 import InterviewerConfig, { InterviewerSettings } from '../components/InterviewerConfig';
 import VideoInterviewer from '../components/VideoInterviewer';
@@ -74,6 +76,8 @@ function PracticeContent() {
   const [showFilters, setShowFilters] = useState(false);
   const [showLevelModal, setShowLevelModal] = useState(false);
   const [selectedExperienceLevel, setSelectedExperienceLevel] = useState<ExperienceLevel>('entry');
+  const [selectedStage, setSelectedStage] = useState<1 | 2 | 3>(1);
+  const [showStageModal, setShowStageModal] = useState(false);
 
   // Removed payment gate - free tier users now get 3 interviews/month
   // Limits are enforced by /api/user/check-limits endpoint
@@ -139,7 +143,10 @@ function PracticeContent() {
     setSelectedRole(role);
     setResumeData(null); // Clear resume data when starting fresh
 
-    // Show level selection modal before starting interview
+    // Reset stage to 1 for new role
+    setSelectedStage(1);
+
+    // Show level & stage selection modal before starting interview
     setShowLevelModal(true);
   };
 
@@ -598,11 +605,70 @@ function PracticeContent() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
                   </svg>
                 </div>
-                <h3 className="text-3xl font-bold text-gray-900 mb-2">Select Your Experience Level</h3>
+                <h3 className="text-3xl font-bold text-gray-900 mb-2">Customize Your Practice</h3>
                 <p className="text-gray-600 text-lg">For {selectedRole.title}</p>
-                <p className="text-sm text-gray-500 mt-2">Questions will be tailored to your selected level</p>
+                <p className="text-sm text-gray-500 mt-2">Select difficulty stage and experience level</p>
               </div>
 
+              {/* Stage Selection */}
+              <div className="mb-8">
+                <h4 className="text-lg font-bold text-gray-900 mb-3 flex items-center gap-2">
+                  🎯 Select Difficulty Stage
+                  <span className="text-xs font-normal text-gray-500">(15 questions per stage)</span>
+                </h4>
+                <div className="grid grid-cols-3 gap-3">
+                  {/* Stage 1 */}
+                  <button
+                    onClick={() => setSelectedStage(1)}
+                    className={`p-4 rounded-xl border-2 transition-all text-center ${
+                      selectedStage === 1
+                        ? 'border-green-500 bg-gradient-to-br from-green-50 to-emerald-50 shadow-md'
+                        : 'border-gray-200 bg-white hover:border-green-300'
+                    }`}
+                  >
+                    <div className="text-3xl mb-2">🌱</div>
+                    <h5 className="font-bold text-sm text-gray-900 mb-1">Stage 1</h5>
+                    <p className="text-xs text-gray-600">Foundational</p>
+                    <p className="text-xs text-green-600 mt-1 font-semibold">Q1-15</p>
+                  </button>
+
+                  {/* Stage 2 */}
+                  <button
+                    onClick={() => setSelectedStage(2)}
+                    className={`p-4 rounded-xl border-2 transition-all text-center ${
+                      selectedStage === 2
+                        ? 'border-blue-500 bg-gradient-to-br from-blue-50 to-cyan-50 shadow-md'
+                        : 'border-gray-200 bg-white hover:border-blue-300'
+                    }`}
+                  >
+                    <div className="text-3xl mb-2">📈</div>
+                    <h5 className="font-bold text-sm text-gray-900 mb-1">Stage 2</h5>
+                    <p className="text-xs text-gray-600">Applied</p>
+                    <p className="text-xs text-blue-600 mt-1 font-semibold">Q16-30</p>
+                  </button>
+
+                  {/* Stage 3 */}
+                  <button
+                    onClick={() => setSelectedStage(3)}
+                    className={`p-4 rounded-xl border-2 transition-all text-center ${
+                      selectedStage === 3
+                        ? 'border-purple-500 bg-gradient-to-br from-purple-50 to-indigo-50 shadow-md'
+                        : 'border-gray-200 bg-white hover:border-purple-300'
+                    }`}
+                  >
+                    <div className="text-3xl mb-2">⭐</div>
+                    <h5 className="font-bold text-sm text-gray-900 mb-1">Stage 3</h5>
+                    <p className="text-xs text-gray-600">Expert</p>
+                    <p className="text-xs text-purple-600 mt-1 font-semibold">Q31-45</p>
+                  </button>
+                </div>
+                <p className="text-xs text-gray-500 mt-3 text-center">
+                  💡 Start with Stage 1 to build foundation, then progress to harder stages
+                </p>
+              </div>
+
+              {/* Experience Level Selection */}
+              <h4 className="text-lg font-bold text-gray-900 mb-3">Select Experience Level</h4>
               <div className="grid grid-cols-1 gap-4 mb-6">
                 {/* Entry Level */}
                 <button
@@ -726,6 +792,7 @@ function PracticeContent() {
       <InterviewSession
         role={selectedRole!}
         experienceLevel={selectedExperienceLevel}
+        stage={selectedStage}
         onBack={() => {
           setStep('role-selection');
           setResumeData(null);
@@ -741,6 +808,7 @@ function PracticeContent() {
 function InterviewSession({
   role,
   experienceLevel,
+  stage,
   onBack,
   resumeData,
   interviewerSettings,
@@ -748,6 +816,7 @@ function InterviewSession({
 }: {
   role: Role;
   experienceLevel: ExperienceLevel;
+  stage: Stage;
   onBack: () => void;
   resumeData: ResumeSession | null;
   interviewerSettings: InterviewerSettings;
@@ -793,8 +862,8 @@ function InterviewSession({
     permissionStatus
   } = useAudioRecorder();
 
-  // Get role-specific questions based on experience level
-  const [questions] = useState(() => getQuestionsForRoleAndLevel(role.category, experienceLevel));
+  // Get role-specific questions based on stage (15 questions per stage)
+  const [questions] = useState(() => getQuestionsByStageHelper(role.category, stage));
 
   // Initialize analyzers
   useEffect(() => {
