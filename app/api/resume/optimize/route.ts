@@ -74,52 +74,124 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Build the prompt for Claude
-    const prompt = `You are an expert resume writer and career coach. Optimize the following resume to make it more impactful, professional, and ATS-friendly.
+    // Build the prompt for Claude - Enhanced for competitive resume optimization
+    const prompt = `You are an elite executive resume writer and career strategist with 15+ years of experience optimizing resumes for Fortune 500 companies, FAANG, and top-tier organizations. Your resumes consistently achieve 90%+ ATS pass rates and 3x more interview callbacks.
 
-${targetRole ? `Target Role: ${targetRole}\n\n` : ''}Current Resume Data:
+${targetRole ? `🎯 TARGET ROLE: ${targetRole}\n\n` : ''}CURRENT RESUME DATA:
 
-**Summary:**
+**PROFESSIONAL SUMMARY:**
 ${resumeData.summary || 'No summary provided'}
 
-**Experience:**
+**WORK EXPERIENCE:**
 ${resumeData.experience.map(exp => `
 - ${exp.position} at ${exp.company}
   ${exp.description}
 `).join('\n')}
 
-**Skills:**
+**TECHNICAL SKILLS:**
 ${resumeData.skills.filter(s => s.trim()).join(', ')}
 
-**Projects:**
+**KEY PROJECTS:**
 ${resumeData.projects.map(proj => `
 - ${proj.name}
   ${proj.description}
   Technologies: ${proj.technologies}
 `).join('\n')}
 
-Please provide optimized versions of:
-1. Professional Summary (2-3 compelling sentences)
-2. Each work experience description (use strong action verbs, quantify achievements)
-3. Each project description (highlight impact and technical depth)
-4. Top 5 recommended improvements
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+## YOUR OPTIMIZATION MISSION:
+
+Transform this resume using advanced optimization frameworks used by $500/hr executive career coaches:
+
+### 1. PROFESSIONAL SUMMARY (Executive Branding):
+- Craft a powerful 3-4 sentence executive summary
+- Lead with quantifiable value proposition (e.g., "Drove $10M revenue growth...")
+- Include industry-specific keywords for ATS optimization
+- Use powerful positioning language (e.g., "Award-winning," "Results-driven," "Strategic")
+- Highlight unique differentiators and competitive advantages
+- Target the specific role and industry if provided
+
+### 2. EXPERIENCE OPTIMIZATION (STAR/PAR Framework):
+For EACH work experience, apply the PAR (Problem-Action-Result) framework:
+- **Situation/Problem**: What challenge existed?
+- **Action**: What specific actions did they take? (Use powerful action verbs)
+- **Result**: What measurable impact did they achieve?
+
+**Power Verb Categories to Use:**
+- Leadership: Spearheaded, Orchestrated, Championed, Pioneered
+- Achievement: Achieved, Surpassed, Exceeded, Delivered
+- Innovation: Engineered, Architected, Revolutionized, Transformed
+- Growth: Scaled, Expanded, Accelerated, Amplified
+- Impact: Generated, Optimized, Streamlined, Enhanced
+
+**Quantification Requirements:**
+- Add metrics: percentages, dollar amounts, time saved, users impacted
+- Use concrete numbers: "Led team of 12" instead of "Led team"
+- Show ROI: "Reduced costs by 35% ($2.3M annually)"
+- Demonstrate scale: "Serving 100K+ daily active users"
+
+### 3. PROJECT DESCRIPTIONS (Impact-Driven):
+Transform each project to showcase:
+- Business impact and measurable outcomes
+- Technical depth and complexity
+- Problem-solving and innovation
+- Team leadership or collaboration
+- Technologies positioned as tools to achieve results, not just buzzwords
+
+### 4. ATS OPTIMIZATION CHECKLIST:
+- Identify critical keywords missing from current resume
+- Ensure industry-standard terminology is used
+- Check for ATS-friendly formatting suggestions
+- Verify all achievements are quantified where possible
+
+### 5. STRATEGIC RECOMMENDATIONS (Top 7):
+Provide specific, actionable recommendations that would cost $500+ at TopResume:
+- Industry-specific optimizations
+- Missing credentials or certifications to highlight
+- LinkedIn profile alignment suggestions
+- Interview-winning talking points based on achievements
+- Competitive positioning advice
+- Salary negotiation leverage points
+- Personal branding opportunities
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Return your response as a JSON object with this structure:
 {
-  "summary": "optimized summary",
+  "summary": "Optimized executive summary with quantifiable value proposition and ATS keywords",
   "experience": [
-    { "company": "company name", "position": "position", "description": "optimized description" }
+    {
+      "company": "company name",
+      "position": "position",
+      "description": "Bullet points using PAR framework with quantified achievements. Each bullet should start with power verb and include measurable results. Minimum 3-5 bullets per role, each 1-2 lines maximum."
+    }
   ],
   "projects": [
-    { "name": "project name", "description": "optimized description" }
+    {
+      "name": "project name",
+      "description": "Impact-driven description highlighting business value, scale, and measurable outcomes. Include specific technologies strategically."
+    }
   ],
-  "recommendations": ["recommendation 1", "recommendation 2", ...]
-}`;
+  "atsKeywords": ["critical keyword 1", "critical keyword 2", "...up to 15 keywords"],
+  "recommendations": [
+    "Specific recommendation 1 with tactical implementation",
+    "Specific recommendation 2 with expected impact",
+    "...7 total strategic recommendations"
+  ],
+  "impactScore": {
+    "before": 45,
+    "after": 92,
+    "improvement": "Explanation of how optimization improved ATS compatibility and recruiter appeal"
+  }
+}
 
-    // Call Claude API
+**CRITICAL**: Every single experience bullet and project description MUST include quantifiable metrics or measurable impact. Generic statements will not pass ATS screening or impress recruiters.`;
+
+    // Call Claude API with increased token limit for comprehensive optimization
     const message = await anthropic.messages.create({
       model: 'claude-3-5-sonnet-20241022',
-      max_tokens: 2048,
+      max_tokens: 4096, // Doubled for more detailed, competitive output
       messages: [
         {
           role: 'user',
