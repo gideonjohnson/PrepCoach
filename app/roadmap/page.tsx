@@ -131,11 +131,11 @@ function CareerRoadmapContent() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-indigo-50 via-white to-purple-50">
+    <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 py-6">
-          <Link href="/dashboard" className="text-indigo-600 hover:text-indigo-800 mb-4 inline-block">
+          <Link href="/dashboard" className="text-blue-600 hover:text-blue-800 mb-4 inline-block font-medium">
             ← Back to Dashboard
           </Link>
           <h1 className="text-4xl font-bold text-gray-900 mb-2">Career Roadmap Planner</h1>
@@ -146,33 +146,37 @@ function CareerRoadmapContent() {
       </div>
 
       {/* Tabs */}
-      <div className="max-w-7xl mx-auto px-4 py-8">
-        <div className="flex gap-2 mb-8 overflow-x-auto pb-2">
-          {[
-            { id: 'input', label: '1. Profile & Goals', icon: '👤' },
-            { id: 'gap-analysis', label: '2. Skills Gap', icon: '📊' },
-            { id: 'learning-paths', label: '3. Learning Paths', icon: '📚' },
-            { id: 'timeline', label: '4. Timeline', icon: '📅' },
-            { id: 'certifications', label: '5. Certifications', icon: '🎓' },
-          ].map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id as any)}
-              className={`px-6 py-3 rounded-lg font-semibold text-sm whitespace-nowrap transition-all ${
-                activeTab === tab.id
-                  ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg'
-                  : 'bg-white text-gray-600 hover:bg-gray-50 border border-gray-200'
-              }`}
-            >
-              <span className="mr-2">{tab.icon}</span>
-              {tab.label}
-            </button>
-          ))}
+      <div className="bg-gray-50 border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 py-4">
+          <div className="flex gap-3 overflow-x-auto pb-2">
+            {[
+              { id: 'input', label: '1. Profile & Goals' },
+              { id: 'gap-analysis', label: '2. Skills Gap' },
+              { id: 'learning-paths', label: '3. Learning Paths' },
+              { id: 'timeline', label: '4. Timeline' },
+              { id: 'certifications', label: '5. Certifications' },
+            ].map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id as any)}
+                className={`px-6 py-2.5 rounded-lg font-medium text-sm whitespace-nowrap transition-all ${
+                  activeTab === tab.id
+                    ? 'bg-blue-600 text-white shadow-sm'
+                    : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200'
+                }`}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
         </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 py-8">
 
         {/* Input Tab */}
         {activeTab === 'input' && (
-          <div className="bg-white rounded-xl shadow-lg p-8 space-y-8">
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8 space-y-8">
             <div>
               <h2 className="text-2xl font-bold text-gray-900 mb-6">Tell us about yourself</h2>
 
@@ -186,7 +190,7 @@ function CareerRoadmapContent() {
                     value={currentRole}
                     onChange={(e) => setCurrentRole(e.target.value)}
                     placeholder="e.g., Software Engineer"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
                 </div>
 
@@ -199,7 +203,7 @@ function CareerRoadmapContent() {
                     value={targetRole}
                     onChange={(e) => setTargetRole(e.target.value)}
                     placeholder="e.g., Senior Software Engineer"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
                 </div>
               </div>
@@ -265,7 +269,7 @@ function CareerRoadmapContent() {
                     onChange={(e) => setSkillInput(e.target.value)}
                     onKeyPress={(e) => e.key === 'Enter' && handleAddSkill()}
                     placeholder="Skill name (e.g., JavaScript)"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
 
@@ -273,7 +277,7 @@ function CareerRoadmapContent() {
                   <select
                     value={selectedCategory}
                     onChange={(e) => setSelectedCategory(e.target.value as any)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                   >
                     <option value="technical">Technical</option>
                     <option value="soft">Soft Skills</option>
@@ -286,7 +290,7 @@ function CareerRoadmapContent() {
                   <select
                     value={selectedProficiency}
                     onChange={(e) => setSelectedProficiency(parseInt(e.target.value) as any)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                   >
                     <option value="1">1 - Beginner</option>
                     <option value="2">2 - Basic</option>
@@ -299,7 +303,7 @@ function CareerRoadmapContent() {
 
               <button
                 onClick={handleAddSkill}
-                className="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition mb-6"
+                className="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-blue-700 transition mb-6"
               >
                 + Add Skill
               </button>
@@ -329,7 +333,7 @@ function CareerRoadmapContent() {
 
             <button
               onClick={handleGenerateRoadmap}
-              className="w-full py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-lg font-bold rounded-lg hover:shadow-xl transition-all transform hover:scale-[1.02]"
+              className="w-full py-4 bg-blue-600 text-white text-lg font-bold rounded-lg hover:shadow-xl transition-all transform hover:scale-[1.02]"
             >
               Generate My Career Roadmap
             </button>
@@ -340,12 +344,12 @@ function CareerRoadmapContent() {
         {activeTab === 'gap-analysis' && skillsGapAnalysis && (
           <div className="space-y-6">
             {/* Overview Card */}
-            <div className="bg-white rounded-xl shadow-lg p-8">
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
               <h2 className="text-2xl font-bold text-gray-900 mb-4">Skills Gap Analysis</h2>
 
               <div className="grid md:grid-cols-3 gap-6 mb-6">
                 <div className="text-center">
-                  <div className="text-5xl font-bold text-indigo-600 mb-2">
+                  <div className="text-5xl font-bold text-blue-600 mb-2">
                     {skillsGapAnalysis.gapScore}%
                   </div>
                   <p className="text-gray-600">Skill Coverage</p>
@@ -372,7 +376,7 @@ function CareerRoadmapContent() {
             </div>
 
             {/* Skill Gaps */}
-            <div className="bg-white rounded-xl shadow-lg p-8">
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
               <h3 className="text-xl font-bold text-gray-900 mb-6">Skill Gaps Breakdown</h3>
 
               <div className="space-y-4">
@@ -406,7 +410,7 @@ function CareerRoadmapContent() {
                       </div>
                       <div className="w-full bg-gray-200 rounded-full h-3">
                         <div
-                          className="bg-gradient-to-r from-indigo-500 to-purple-500 h-3 rounded-full transition-all"
+                          className="bg-blue-600 h-3 rounded-full transition-all"
                           style={{ width: `${(gap.currentLevel / gap.requiredLevel) * 100}%` }}
                         />
                       </div>
@@ -432,7 +436,7 @@ function CareerRoadmapContent() {
         {/* Learning Paths Tab */}
         {activeTab === 'learning-paths' && learningPaths.length > 0 && (
           <div className="space-y-6">
-            <div className="bg-white rounded-xl shadow-lg p-8">
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
               <h2 className="text-2xl font-bold text-gray-900 mb-4">Personalized Learning Paths</h2>
               <p className="text-gray-600 mb-6">
                 We&apos;ve created {learningPaths.length} customized learning paths based on your skill gaps and learning preferences.
@@ -440,11 +444,11 @@ function CareerRoadmapContent() {
 
               <div className="space-y-8">
                 {learningPaths.map((path, index) => (
-                  <div key={path.pathId} className="border-2 border-indigo-200 rounded-xl p-6 bg-gradient-to-br from-indigo-50 to-purple-50">
+                  <div key={path.pathId} className="border-2 border-indigo-200 rounded-xl p-6 bg-blue-50 border border-blue-200">
                     <div className="flex items-start justify-between mb-4">
                       <div>
                         <div className="flex items-center gap-3 mb-2">
-                          <span className="text-3xl font-bold text-indigo-600">#{path.order}</span>
+                          <span className="text-3xl font-bold text-blue-600">#{path.order}</span>
                           <h3 className="text-2xl font-bold text-gray-900">{path.title}</h3>
                         </div>
                         <p className="text-gray-700 mb-4">{path.description}</p>
@@ -454,7 +458,7 @@ function CareerRoadmapContent() {
                     <div className="grid md:grid-cols-4 gap-4 mb-6">
                       <div className="bg-white rounded-lg p-4">
                         <div className="text-sm text-gray-600">Duration</div>
-                        <div className="text-lg font-bold text-indigo-600">{path.duration}</div>
+                        <div className="text-lg font-bold text-blue-600">{path.duration}</div>
                       </div>
                       <div className="bg-white rounded-lg p-4">
                         <div className="text-sm text-gray-600">Difficulty</div>
@@ -534,13 +538,13 @@ function CareerRoadmapContent() {
         {activeTab === 'timeline' && timeline && (
           <div className="space-y-6">
             {/* Overview */}
-            <div className="bg-white rounded-xl shadow-lg p-8">
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
               <h2 className="text-2xl font-bold text-gray-900 mb-6">Your Career Transition Timeline</h2>
 
               <div className="grid md:grid-cols-3 gap-6 mb-6">
                 <div className="text-center bg-indigo-50 rounded-lg p-6">
                   <div className="text-sm text-gray-600 mb-2">Total Duration</div>
-                  <div className="text-3xl font-bold text-indigo-600">{timeline.totalDuration}</div>
+                  <div className="text-3xl font-bold text-blue-600">{timeline.totalDuration}</div>
                 </div>
                 <div className="text-center bg-purple-50 rounded-lg p-6">
                   <div className="text-sm text-gray-600 mb-2">Start Date</div>
@@ -554,14 +558,14 @@ function CareerRoadmapContent() {
             </div>
 
             {/* Phases */}
-            <div className="bg-white rounded-xl shadow-lg p-8">
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
               <h3 className="text-xl font-bold text-gray-900 mb-6">Timeline Phases</h3>
 
               <div className="space-y-6">
                 {timeline.phases.map((phase, index) => (
                   <div key={phase.phase} className="border-l-4 border-indigo-500 pl-6 pb-6">
                     <div className="flex items-center gap-3 mb-3">
-                      <span className="text-2xl font-bold text-indigo-600">Phase {phase.phase}</span>
+                      <span className="text-2xl font-bold text-blue-600">Phase {phase.phase}</span>
                       <h4 className="text-xl font-bold text-gray-900">{phase.title}</h4>
                       <span className="ml-auto text-gray-600 font-medium">{phase.duration}</span>
                     </div>
@@ -572,7 +576,7 @@ function CareerRoadmapContent() {
                       </div>
                       <div className="w-full bg-gray-200 rounded-full h-2">
                         <div
-                          className="bg-gradient-to-r from-indigo-500 to-purple-500 h-2 rounded-full"
+                          className="bg-blue-600 h-2 rounded-full"
                           style={{ width: `${((phase.endMonth - phase.startMonth) / timeline.phases[timeline.phases.length - 1].endMonth) * 100}%` }}
                         />
                       </div>
@@ -615,7 +619,7 @@ function CareerRoadmapContent() {
 
             {/* Milestones */}
             {milestones.length > 0 && (
-              <div className="bg-white rounded-xl shadow-lg p-8">
+              <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
                 <h3 className="text-xl font-bold text-gray-900 mb-6">Key Milestones</h3>
                 <div className="space-y-4">
                   {milestones.map((milestone) => (
@@ -636,7 +640,7 @@ function CareerRoadmapContent() {
                         </div>
                         <div className="text-right">
                           <div className="text-sm font-medium text-gray-600">Month</div>
-                          <div className="text-2xl font-bold text-indigo-600">{milestone.targetMonth}</div>
+                          <div className="text-2xl font-bold text-blue-600">{milestone.targetMonth}</div>
                         </div>
                       </div>
                       <div className="mt-2 text-sm text-gray-600">
@@ -650,19 +654,19 @@ function CareerRoadmapContent() {
 
             {/* Assumptions & Tips */}
             <div className="grid md:grid-cols-3 gap-6">
-              <div className="bg-white rounded-xl shadow-lg p-6">
+              <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
                 <h4 className="font-bold text-gray-900 mb-4">📋 Assumptions</h4>
                 <ul className="space-y-2 text-sm text-gray-700">
                   {timeline.assumptions.map((assumption, i) => (
                     <li key={i} className="flex items-start gap-2">
-                      <span className="text-indigo-600 mt-1">•</span>
+                      <span className="text-blue-600 mt-1">•</span>
                       <span>{assumption}</span>
                     </li>
                   ))}
                 </ul>
               </div>
 
-              <div className="bg-white rounded-xl shadow-lg p-6">
+              <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
                 <h4 className="font-bold text-gray-900 mb-4">⚡ Accelerators</h4>
                 <ul className="space-y-2 text-sm text-gray-700">
                   {timeline.accelerators.map((accelerator, i) => (
@@ -674,7 +678,7 @@ function CareerRoadmapContent() {
                 </ul>
               </div>
 
-              <div className="bg-white rounded-xl shadow-lg p-6">
+              <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
                 <h4 className="font-bold text-gray-900 mb-4">⚠️ Risks</h4>
                 <ul className="space-y-2 text-sm text-gray-700">
                   {timeline.risks.map((risk, i) => (
@@ -692,7 +696,7 @@ function CareerRoadmapContent() {
         {/* Certifications Tab */}
         {activeTab === 'certifications' && certifications.length > 0 && (
           <div className="space-y-6">
-            <div className="bg-white rounded-xl shadow-lg p-8">
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
               <h2 className="text-2xl font-bold text-gray-900 mb-4">Recommended Certifications</h2>
               <p className="text-gray-600 mb-6">
                 Industry-recognized certifications that align with your target role and skill gaps.
@@ -704,7 +708,7 @@ function CareerRoadmapContent() {
                   const tips = getCertificationPreparationTips(cert);
 
                   return (
-                    <div key={index} className="border-2 border-purple-200 rounded-xl p-6 bg-gradient-to-br from-purple-50 to-indigo-50">
+                    <div key={index} className="border-2 border-purple-200 rounded-xl p-6 bg-purple-50 border border-purple-200">
                       <div className="flex items-start justify-between mb-4">
                         <div className="flex-1">
                           <div className="flex items-center gap-3 mb-2">
@@ -734,7 +738,7 @@ function CareerRoadmapContent() {
                         </div>
                         <div className="bg-white rounded-lg p-3 text-center">
                           <div className="text-xs text-gray-600">Duration</div>
-                          <div className="text-sm font-bold text-indigo-600">{cert.duration}</div>
+                          <div className="text-sm font-bold text-blue-600">{cert.duration}</div>
                         </div>
                         <div className="bg-white rounded-lg p-3 text-center">
                           <div className="text-xs text-gray-600">Difficulty</div>
@@ -848,7 +852,7 @@ function CareerRoadmapContent() {
 
         {/* Empty State for Analysis Tabs */}
         {(activeTab !== 'input' && !skillsGapAnalysis) && (
-          <div className="bg-white rounded-xl shadow-lg p-12 text-center">
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-12 text-center">
             <div className="text-6xl mb-4">📊</div>
             <h3 className="text-2xl font-bold text-gray-900 mb-2">No Analysis Yet</h3>
             <p className="text-gray-600 mb-6">
@@ -856,7 +860,7 @@ function CareerRoadmapContent() {
             </p>
             <button
               onClick={() => setActiveTab('input')}
-              className="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-lg hover:shadow-lg transition"
+              className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:shadow-lg transition"
             >
               Go to Profile & Goals
             </button>
