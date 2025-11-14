@@ -38,7 +38,7 @@ export const PRICING_TIERS = {
   },
   enterprise: {
     name: 'Enterprise',
-    price: 99,
+    price: 65,
     interval: 'month',
     currency: 'USD',
     features: [
