@@ -107,10 +107,10 @@ export default function Header() {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 group">
-            <span className="text-2xl font-bold bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">
+            <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-500 bg-clip-text text-transparent">
               PrepCoach
             </span>
-            <span className="text-xs font-bold text-gray-400 group-hover:text-orange-500 transition-colors" style={{ fontSize: '0.65rem', verticalAlign: 'super', marginLeft: '-0.1rem' }}>
+            <span className="text-xs font-bold text-gray-400 group-hover:text-blue-600 transition-colors" style={{ fontSize: '0.65rem', verticalAlign: 'super', marginLeft: '-0.1rem' }}>
               GJ
             </span>
           </Link>
@@ -138,11 +138,11 @@ export default function Header() {
                         key={index}
                         href={item.href}
                         onClick={() => setActiveDropdown(null)}
-                        className="flex items-start gap-3 p-3 rounded-xl hover:bg-gradient-to-r hover:from-orange-50 hover:to-red-50 transition-all group"
+                        className="flex items-start gap-3 p-3 rounded-xl hover:bg-blue-50 transition-all group"
                       >
                         <span className="text-2xl group-hover:scale-110 transition-transform">{item.icon}</span>
                         <div className="flex-1">
-                          <div className="font-semibold text-gray-900 group-hover:text-orange-600 transition-colors">{item.name}</div>
+                          <div className="font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">{item.name}</div>
                           <div className="text-xs text-gray-500 mt-0.5">{item.description}</div>
                         </div>
                       </Link>
@@ -173,7 +173,7 @@ export default function Header() {
                         key={index}
                         href={item.href}
                         onClick={() => setActiveDropdown(null)}
-                        className="flex items-start gap-3 p-3 rounded-xl hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 transition-all group"
+                        className="flex items-start gap-3 p-3 rounded-xl hover:bg-blue-50 transition-all group"
                       >
                         <span className="text-2xl group-hover:scale-110 transition-transform">{item.icon}</span>
                         <div className="flex-1">
@@ -208,11 +208,11 @@ export default function Header() {
                         key={index}
                         href={item.href}
                         onClick={() => setActiveDropdown(null)}
-                        className="flex items-start gap-3 p-3 rounded-xl hover:bg-gradient-to-r hover:from-green-50 hover:to-emerald-50 transition-all group"
+                        className="flex items-start gap-3 p-3 rounded-xl hover:bg-blue-50 transition-all group"
                       >
                         <span className="text-2xl group-hover:scale-110 transition-transform">{item.icon}</span>
                         <div className="flex-1">
-                          <div className="font-semibold text-gray-900 group-hover:text-green-600 transition-colors">{item.name}</div>
+                          <div className="font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">{item.name}</div>
                           <div className="text-xs text-gray-500 mt-0.5">{item.description}</div>
                         </div>
                       </Link>
@@ -227,7 +227,7 @@ export default function Header() {
               href="/dashboard"
               className={`px-4 py-2 rounded-lg font-medium transition-all ${
                 isActive('/dashboard')
-                  ? 'bg-orange-50 text-orange-600'
+                  ? 'bg-blue-50 text-blue-600'
                   : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
               }`}
             >
@@ -239,7 +239,7 @@ export default function Header() {
               href="/pricing"
               className={`px-4 py-2 rounded-lg font-medium transition-all ${
                 isActive('/pricing')
-                  ? 'bg-orange-50 text-orange-600'
+                  ? 'bg-blue-50 text-blue-600'
                   : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
               }`}
             >
@@ -252,7 +252,7 @@ export default function Header() {
                   href="/profile"
                   className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-50 transition-all"
                 >
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-r from-orange-500 to-red-500 flex items-center justify-center text-white font-semibold text-sm">
+                  <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white font-semibold text-sm">
                     {session.user?.email?.[0].toUpperCase()}
                   </div>
                   <span className="text-sm font-medium text-gray-700 hidden lg:block">
@@ -276,7 +276,7 @@ export default function Header() {
                 </Link>
                 <Link
                   href="/auth/signup"
-                  className="px-5 py-2 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-lg font-medium hover:shadow-lg transition-all"
+                  className="px-5 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 hover:shadow-lg transition-all"
                 >
                   Get Started
                 </Link>
@@ -287,7 +287,7 @@ export default function Header() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition-all focus:outline-none focus:ring-2 focus:ring-orange-500"
+            className="md:hidden p-2 rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500"
             aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={mobileMenuOpen}
           >
@@ -316,9 +316,9 @@ export default function Header() {
                   key={index}
                   href={item.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center gap-3 px-4 py-2 text-gray-600 hover:bg-orange-50 hover:text-orange-600 transition-all rounded-lg ml-2"
+                  className="flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-blue-50 hover:text-blue-600 transition-all rounded-lg ml-2 active:bg-blue-100"
                 >
-                  <span>{item.icon}</span>
+                  <span className="text-xl">{item.icon}</span>
                   <span className="font-medium">{item.name}</span>
                 </Link>
               ))}
@@ -332,9 +332,9 @@ export default function Header() {
                   key={index}
                   href={item.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center gap-3 px-4 py-2 text-gray-600 hover:bg-blue-50 hover:text-blue-600 transition-all rounded-lg ml-2"
+                  className="flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-blue-50 hover:text-blue-600 transition-all rounded-lg ml-2 active:bg-blue-100"
                 >
-                  <span>{item.icon}</span>
+                  <span className="text-xl">{item.icon}</span>
                   <span className="font-medium">{item.name}</span>
                 </Link>
               ))}
@@ -348,9 +348,9 @@ export default function Header() {
                   key={index}
                   href={item.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center gap-3 px-4 py-2 text-gray-600 hover:bg-green-50 hover:text-green-600 transition-all rounded-lg ml-2"
+                  className="flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-blue-50 hover:text-blue-600 transition-all rounded-lg ml-2 active:bg-blue-100"
                 >
-                  <span>{item.icon}</span>
+                  <span className="text-xl">{item.icon}</span>
                   <span className="font-medium">{item.name}</span>
                 </Link>
               ))}
@@ -361,9 +361,9 @@ export default function Header() {
               <Link
                 href="/dashboard"
                 onClick={() => setMobileMenuOpen(false)}
-                className={`px-4 py-2 rounded-lg font-medium transition-all flex ${
+                className={`px-4 py-3 rounded-lg font-medium transition-all flex active:bg-blue-100 ${
                   isActive('/dashboard')
-                    ? 'bg-orange-50 text-orange-600'
+                    ? 'bg-blue-50 text-blue-600'
                     : 'text-gray-600 hover:bg-gray-50'
                 }`}
               >
@@ -372,9 +372,9 @@ export default function Header() {
               <Link
                 href="/pricing"
                 onClick={() => setMobileMenuOpen(false)}
-                className={`px-4 py-2 rounded-lg font-medium transition-all flex ${
+                className={`px-4 py-3 rounded-lg font-medium transition-all flex active:bg-blue-100 ${
                   isActive('/pricing')
-                    ? 'bg-orange-50 text-orange-600'
+                    ? 'bg-blue-50 text-blue-600'
                     : 'text-gray-600 hover:bg-gray-50'
                 }`}
               >
@@ -406,14 +406,14 @@ export default function Header() {
                   <Link
                     href="/auth/signin"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="px-4 py-2 rounded-lg text-gray-600 hover:bg-gray-50 font-medium transition-all"
+                    className="px-4 py-3 rounded-lg text-gray-600 hover:bg-gray-50 font-medium transition-all active:bg-gray-100"
                   >
                     Sign In
                   </Link>
                   <Link
                     href="/auth/signup"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="px-4 py-2 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-lg font-medium text-center"
+                    className="px-4 py-3 bg-blue-600 text-white rounded-lg font-medium text-center hover:bg-blue-700 active:bg-blue-800 transition-all"
                   >
                     Get Started
                   </Link>

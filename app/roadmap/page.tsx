@@ -148,7 +148,7 @@ function CareerRoadmapContent() {
       {/* Tabs */}
       <div className="bg-gray-50 border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex gap-3 overflow-x-auto pb-2">
+          <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide snap-x snap-mandatory scroll-smooth -mx-4 px-4 sm:mx-0 sm:px-0">
             {[
               { id: 'input', label: '1. Profile & Goals' },
               { id: 'gap-analysis', label: '2. Skills Gap' },
@@ -159,10 +159,10 @@ function CareerRoadmapContent() {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as any)}
-                className={`px-6 py-2.5 rounded-lg font-medium text-sm whitespace-nowrap transition-all ${
+                className={`px-6 py-3 rounded-lg font-medium text-sm whitespace-nowrap transition-all snap-start active:scale-95 ${
                   activeTab === tab.id
                     ? 'bg-blue-600 text-white shadow-sm'
-                    : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200'
+                    : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200 active:bg-gray-200'
                 }`}
               >
                 {tab.label}

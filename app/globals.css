@@ -236,6 +236,21 @@ html {
   background: var(--color-gray-400);
 }
 
+/* Hide scrollbar for mobile-optimized horizontal scrolling */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari and Opera */
+}
+
+/* Safe area inset for bottom navigation on mobile */
+.safe-area-inset-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
 /* 3D Transform Utilities */
 .transform-3d {
   transform-style: preserve-3d;

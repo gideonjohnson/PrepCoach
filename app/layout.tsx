@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
 import KeyboardShortcuts from "./components/KeyboardShortcuts";
+import MobileBottomNav from "./components/MobileBottomNav";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
@@ -25,7 +26,7 @@ export const metadata: Metadata = {
     maximumScale: 5,
     userScalable: true,
   },
-  themeColor: "#f97316",
+  themeColor: "#3B82F6",
 };
 
 export default function RootLayout({
@@ -40,6 +41,7 @@ export default function RootLayout({
       >
         <Providers>
           {children}
+          <MobileBottomNav />
           <KeyboardShortcuts />
         </Providers>
         <Analytics />
