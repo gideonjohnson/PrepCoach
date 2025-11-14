@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import Anthropic from '@anthropic-ai/sdk';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../../auth/[...nextauth]/route';
+import { checkApiRateLimit } from '@/lib/rate-limit';
+import { z } from 'zod';
 
 const anthropic = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY,
@@ -15,14 +17,54 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { code, language, question, role, category } = await request.json();
+    // Apply rate limiting for AI code review endpoint
+    const identifier = (session?.user as any)?.id;
+    const rateLimit = await checkApiRateLimit('aiFeedback', identifier);
 
-    if (!code || !language || !question) {
+    if (!rateLimit.success) {
       return NextResponse.json(
-        { error: 'Code, language, and question are required' },
+        {
+          error: 'Rate limit exceeded',
+          message: 'Too many code review requests. Please try again later.',
+          resetAt: new Date(rateLimit.reset).toISOString()
+        },
+        {
+          status: 429,
+          headers: {
+            'X-RateLimit-Limit': rateLimit.limit.toString(),
+            'X-RateLimit-Remaining': rateLimit.remaining.toString(),
+            'X-RateLimit-Reset': rateLimit.reset.toString(),
+          }
+        }
+      );
+    }
+
+    const body = await request.json();
+
+    // Validate input
+    const codeReviewSchema = z.object({
+      code: z.string().trim().min(1, 'Code is required').max(50000, 'Code too long (max 50KB)'),
+      language: z.string().trim().min(1, 'Language is required').max(50, 'Language name too long'),
+      question: z.string().trim().min(1, 'Question is required').max(2000, 'Question too long'),
+      role: z.string().trim().max(200, 'Role too long').optional(),
+      category: z.string().trim().max(100, 'Category too long').optional(),
+    });
+
+    const validation = codeReviewSchema.safeParse(body);
+    if (!validation.success) {
+      return NextResponse.json(
+        {
+          error: 'Validation failed',
+          details: validation.error.issues.map(issue => ({
+            field: issue.path.join('.'),
+            message: issue.message
+          }))
+        },
         { status: 400 }
       );
     }
+
+    const { code, language, question, role, category } = validation.data;
 
     const prompt = `You are an expert technical interviewer conducting a coding interview. Review this code solution and provide detailed, constructive feedback.
 

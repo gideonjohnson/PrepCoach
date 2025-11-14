@@ -13,7 +13,9 @@
       "Bash(npx prisma db push:*)",
       "Bash(npm run lint:*)",
       "Bash(npm install:*)",
-      "Bash(git restore:*)"
+      "Bash(git restore:*)",
+      "Bash(npx prisma generate:*)",
+      "Bash(npx next build)"
     ],
     "deny": [],
     "ask": []

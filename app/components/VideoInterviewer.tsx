@@ -264,13 +264,21 @@ export default function VideoInterviewer({
         <div className="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-gray-200 bg-black">
           <video
             ref={videoRef}
-            src={videoUrl}
             autoPlay
             onPlay={handleVideoPlay}
             onEnded={handleVideoEnd}
             className="w-full h-auto max-h-[500px] object-cover"
             playsInline
-          />
+            preload="metadata"
+            controls={false}
+            muted={false}
+            webkit-playsinline="true"
+          >
+            <source src={videoUrl} type="video/mp4" />
+            <source src={videoUrl} type="video/webm" />
+            <source src={videoUrl} type="video/ogg" />
+            Your browser does not support the video tag.
+          </video>
 
           {/* Interviewer Label */}
           <div className="absolute bottom-4 left-4 right-4 bg-black/70 backdrop-blur-sm rounded-lg px-4 py-2">
@@ -300,12 +308,17 @@ export default function VideoInterviewer({
           {audioUrl && (
             <audio
               ref={audioRef}
-              src={audioUrl}
               autoPlay
               onPlay={handleAudioPlay}
               onEnded={handleAudioEnd}
               className="hidden"
-            />
+              preload="metadata"
+            >
+              <source src={audioUrl} type="audio/mpeg" />
+              <source src={audioUrl} type="audio/mp4" />
+              <source src={audioUrl} type="audio/webm" />
+              <source src={audioUrl} type="audio/ogg" />
+            </audio>
           )}
         </div>
       )}

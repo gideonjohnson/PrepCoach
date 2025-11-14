@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { stripe, STRIPE_PRICE_IDS, isStripeConfigured } from '@/lib/stripe';
+import { checkApiRateLimit } from '@/lib/rate-limit';
 
 export async function POST(req: NextRequest) {
   try {
@@ -9,6 +10,28 @@ export async function POST(req: NextRequest) {
     const session = await getServerSession(authOptions);
     if (!session?.user?.email) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    // Apply strict rate limiting for payment endpoints
+    const identifier = (session?.user as any)?.id;
+    const rateLimit = await checkApiRateLimit('auth', identifier);
+
+    if (!rateLimit.success) {
+      return NextResponse.json(
+        {
+          error: 'Rate limit exceeded',
+          message: 'Too many checkout requests. Please try again later.',
+          resetAt: new Date(rateLimit.reset).toISOString()
+        },
+        {
+          status: 429,
+          headers: {
+            'X-RateLimit-Limit': rateLimit.limit.toString(),
+            'X-RateLimit-Remaining': rateLimit.remaining.toString(),
+            'X-RateLimit-Reset': rateLimit.reset.toString(),
+          }
+        }
+      );
     }
 
     // Check if Stripe is configured

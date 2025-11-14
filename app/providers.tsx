@@ -7,6 +7,7 @@ import SentryUser from './components/SentryUser';
 import GoogleAnalytics from './components/GoogleAnalytics';
 import AnalyticsPageViews from './components/AnalyticsPageViews';
 import AnalyticsUser from './components/AnalyticsUser';
+import SessionTimeoutWarning from './components/SessionTimeoutWarning';
 
 export function Providers({ children }: { children: ReactNode }) {
   return (
@@ -17,21 +18,31 @@ export function Providers({ children }: { children: ReactNode }) {
       </Suspense>
       <SentryUser />
       <AnalyticsUser />
+      <SessionTimeoutWarning />
       {children}
       <Toaster
         position="top-right"
         reverseOrder={false}
         gutter={8}
+        containerStyle={{
+          top: 20,
+          right: 20,
+          bottom: 20,
+          left: 20,
+        }}
+        containerClassName="z-[9999]"
         toastOptions={{
           // Default options for all toasts
           duration: 4000,
           style: {
             background: '#fff',
             color: '#363636',
-            padding: '16px',
+            padding: '12px 16px',
             borderRadius: '12px',
             boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)',
-            maxWidth: '500px',
+            maxWidth: '90vw',
+            width: '100%',
+            fontSize: '14px',
           },
           // Success toast styles
           success: {

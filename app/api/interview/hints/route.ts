@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import Anthropic from '@anthropic-ai/sdk';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../../auth/[...nextauth]/route';
+import { checkApiRateLimit } from '@/lib/rate-limit';
+import { z } from 'zod';
 
 const anthropic = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY,
@@ -15,11 +17,52 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { question, role, category } = await request.json();
+    // Apply rate limiting for AI hints endpoint
+    const identifier = (session?.user as any)?.id;
+    const rateLimit = await checkApiRateLimit('aiFeedback', identifier);
 
-    if (!question) {
-      return NextResponse.json({ error: 'Question is required' }, { status: 400 });
+    if (!rateLimit.success) {
+      return NextResponse.json(
+        {
+          error: 'Rate limit exceeded',
+          message: 'Too many hint requests. Please try again later.',
+          resetAt: new Date(rateLimit.reset).toISOString()
+        },
+        {
+          status: 429,
+          headers: {
+            'X-RateLimit-Limit': rateLimit.limit.toString(),
+            'X-RateLimit-Remaining': rateLimit.remaining.toString(),
+            'X-RateLimit-Reset': rateLimit.reset.toString(),
+          }
+        }
+      );
     }
+
+    const body = await request.json();
+
+    // Validate input
+    const hintsSchema = z.object({
+      question: z.string().trim().min(1, 'Question is required').max(2000, 'Question too long'),
+      role: z.string().trim().max(200, 'Role too long').optional(),
+      category: z.string().trim().max(100, 'Category too long').optional(),
+    });
+
+    const validation = hintsSchema.safeParse(body);
+    if (!validation.success) {
+      return NextResponse.json(
+        {
+          error: 'Validation failed',
+          details: validation.error.issues.map(issue => ({
+            field: issue.path.join('.'),
+            message: issue.message
+          }))
+        },
+        { status: 400 }
+      );
+    }
+
+    const { question, role, category } = validation.data;
 
     const prompt = `You are an expert interview coach. Generate 4 smart, actionable hints to help a candidate answer this interview question effectively.
 

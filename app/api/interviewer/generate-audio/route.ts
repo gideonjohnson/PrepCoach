@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { checkApiRateLimit } from '@/lib/rate-limit';
 
 /**
  * ElevenLabs API Integration for neural voice synthesis
@@ -15,6 +16,28 @@ export async function POST(req: NextRequest) {
     // Optional: Log if user is authenticated (but don't block)
     const session = await getServerSession(authOptions);
     console.log('🔊 Generate audio request - User authenticated:', !!session?.user?.email);
+
+    // Apply rate limiting for AI TTS endpoint
+    const identifier = (session?.user as any)?.id || req.headers.get('x-forwarded-for') || 'unknown';
+    const rateLimit = await checkApiRateLimit('aiFeedback', identifier);
+
+    if (!rateLimit.success) {
+      return NextResponse.json(
+        {
+          error: 'Rate limit exceeded',
+          message: 'Too many audio generation requests. Please try again later.',
+          resetAt: new Date(rateLimit.reset).toISOString()
+        },
+        {
+          status: 429,
+          headers: {
+            'X-RateLimit-Limit': rateLimit.limit.toString(),
+            'X-RateLimit-Remaining': rateLimit.remaining.toString(),
+            'X-RateLimit-Reset': rateLimit.reset.toString(),
+          }
+        }
+      );
+    }
 
     const { text, voiceId, tone } = await req.json();
 
