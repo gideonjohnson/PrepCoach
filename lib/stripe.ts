@@ -2,10 +2,10 @@ import Stripe from 'stripe';
 
 // Initialize Stripe
 export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
-  apiVersion: '2025-09-30.clover',
+  apiVersion: '2024-11-20.acacia',
   typescript: true,
-  maxNetworkRetries: 2,
-  timeout: 30000, // 30 seconds
+  maxNetworkRetries: 3,
+  timeout: 60000, // 60 seconds - increased for reliability
 });
 
 // Stripe price IDs from environment
