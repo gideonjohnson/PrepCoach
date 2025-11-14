@@ -584,7 +584,7 @@ function CareerRoadmapContent() {
 
                     <div className="grid md:grid-cols-2 gap-6">
                       <div>
-                        <h5 className="font-bold text-gray-900 mb-2">🎯 Goals:</h5>
+                        <h5 className="font-bold text-gray-900 mb-2">Goals:</h5>
                         <ul className="list-disc list-inside space-y-1 text-gray-700">
                           {phase.goals.map((goal, i) => (
                             <li key={i}>{goal}</li>
@@ -593,7 +593,7 @@ function CareerRoadmapContent() {
                       </div>
 
                       <div>
-                        <h5 className="font-bold text-gray-900 mb-2">✅ Activities:</h5>
+                        <h5 className="font-bold text-gray-900 mb-2">Activities:</h5>
                         <ul className="list-disc list-inside space-y-1 text-gray-700">
                           {phase.activities.map((activity, i) => (
                             <li key={i}>{activity}</li>
@@ -603,7 +603,7 @@ function CareerRoadmapContent() {
                     </div>
 
                     <div className="mt-4">
-                      <h5 className="font-bold text-gray-900 mb-2">📊 Success Metrics:</h5>
+                      <h5 className="font-bold text-gray-900 mb-2">Success Metrics:</h5>
                       <div className="flex flex-wrap gap-2">
                         {phase.successMetrics.map((metric, i) => (
                           <span key={i} className="px-3 py-1 bg-green-50 text-green-700 rounded-lg text-sm border border-green-200">
@@ -626,12 +626,12 @@ function CareerRoadmapContent() {
                     <div key={milestone.id} className={`border-2 rounded-lg p-4 ${getPriorityColor(milestone.priority)}`}>
                       <div className="flex items-start justify-between mb-2">
                         <div className="flex items-center gap-3">
-                          <span className="text-2xl">
-                            {milestone.type === 'skill' && '🎯'}
-                            {milestone.type === 'project' && '🚀'}
-                            {milestone.type === 'certification' && '🎓'}
-                            {milestone.type === 'networking' && '🤝'}
-                            {milestone.type === 'application' && '📝'}
+                          <span className="text-2xl font-bold text-blue-600">
+                            {milestone.type === 'skill' && 'SKILL'}
+                            {milestone.type === 'project' && 'PROJECT'}
+                            {milestone.type === 'certification' && 'CERT'}
+                            {milestone.type === 'networking' && 'NETWORK'}
+                            {milestone.type === 'application' && 'APPLY'}
                           </span>
                           <div>
                             <h4 className="font-bold text-gray-900">{milestone.title}</h4>
@@ -655,7 +655,7 @@ function CareerRoadmapContent() {
             {/* Assumptions & Tips */}
             <div className="grid md:grid-cols-3 gap-6">
               <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-                <h4 className="font-bold text-gray-900 mb-4">📋 Assumptions</h4>
+                <h4 className="font-bold text-gray-900 mb-4">Assumptions</h4>
                 <ul className="space-y-2 text-sm text-gray-700">
                   {timeline.assumptions.map((assumption, i) => (
                     <li key={i} className="flex items-start gap-2">
@@ -667,7 +667,7 @@ function CareerRoadmapContent() {
               </div>
 
               <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-                <h4 className="font-bold text-gray-900 mb-4">⚡ Accelerators</h4>
+                <h4 className="font-bold text-gray-900 mb-4">Accelerators</h4>
                 <ul className="space-y-2 text-sm text-gray-700">
                   {timeline.accelerators.map((accelerator, i) => (
                     <li key={i} className="flex items-start gap-2">
@@ -679,7 +679,7 @@ function CareerRoadmapContent() {
               </div>
 
               <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-                <h4 className="font-bold text-gray-900 mb-4">⚠️ Risks</h4>
+                <h4 className="font-bold text-gray-900 mb-4">Risks</h4>
                 <ul className="space-y-2 text-sm text-gray-700">
                   {timeline.risks.map((risk, i) => (
                     <li key={i} className="flex items-start gap-2">
@@ -712,7 +712,7 @@ function CareerRoadmapContent() {
                       <div className="flex items-start justify-between mb-4">
                         <div className="flex-1">
                           <div className="flex items-center gap-3 mb-2">
-                            <span className="text-3xl">🎓</span>
+                            <span className="text-3xl font-bold text-purple-600">CERT</span>
                             <div>
                               <h3 className="text-xl font-bold text-gray-900">{cert.name}</h3>
                               <p className="text-gray-600">by {cert.provider}</p>
@@ -756,7 +756,7 @@ function CareerRoadmapContent() {
 
                       <div className="grid md:grid-cols-2 gap-6 mb-6">
                         <div>
-                          <h4 className="font-bold text-gray-900 mb-2">💰 ROI Estimate:</h4>
+                          <h4 className="font-bold text-gray-900 mb-2">ROI Estimate:</h4>
                           <div className="bg-white rounded-lg p-4 space-y-2">
                             <div className="flex justify-between">
                               <span className="text-gray-600">Salary Increase:</span>
@@ -770,7 +770,7 @@ function CareerRoadmapContent() {
                         </div>
 
                         <div>
-                          <h4 className="font-bold text-gray-900 mb-2">📋 Exam Details:</h4>
+                          <h4 className="font-bold text-gray-900 mb-2">Exam Details:</h4>
                           <div className="bg-white rounded-lg p-4 space-y-1 text-sm">
                             <div><strong>Format:</strong> {cert.examFormat}</div>
                             {cert.passingScore && <div><strong>Passing Score:</strong> {cert.passingScore}</div>}
@@ -780,7 +780,7 @@ function CareerRoadmapContent() {
                       </div>
 
                       <div className="mb-4">
-                        <h4 className="font-bold text-gray-900 mb-2">🎯 Skills Covered:</h4>
+                        <h4 className="font-bold text-gray-900 mb-2">Skills Covered:</h4>
                         <div className="flex flex-wrap gap-2">
                           {cert.skills.map((skill, i) => (
                             <span key={i} className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">
@@ -792,7 +792,7 @@ function CareerRoadmapContent() {
 
                       {cert.prerequisites.length > 0 && (
                         <div className="mb-4">
-                          <h4 className="font-bold text-gray-900 mb-2">✅ Prerequisites:</h4>
+                          <h4 className="font-bold text-gray-900 mb-2">Prerequisites:</h4>
                           <ul className="list-disc list-inside text-gray-700 text-sm">
                             {cert.prerequisites.map((prereq, i) => (
                               <li key={i}>{prereq}</li>
@@ -802,7 +802,7 @@ function CareerRoadmapContent() {
                       )}
 
                       <div className="mb-4">
-                        <h4 className="font-bold text-gray-900 mb-2">💡 Benefits:</h4>
+                        <h4 className="font-bold text-gray-900 mb-2">Benefits:</h4>
                         <ul className="list-disc list-inside text-gray-700 text-sm">
                           {cert.benefits.map((benefit, i) => (
                             <li key={i}>{benefit}</li>
@@ -811,7 +811,7 @@ function CareerRoadmapContent() {
                       </div>
 
                       <div className="mb-4">
-                        <h4 className="font-bold text-gray-900 mb-2">📚 Preparation Tips:</h4>
+                        <h4 className="font-bold text-gray-900 mb-2">Preparation Tips:</h4>
                         <ul className="list-disc list-inside text-gray-700 text-sm">
                           {tips.map((tip, i) => (
                             <li key={i}>{tip}</li>
@@ -821,7 +821,7 @@ function CareerRoadmapContent() {
 
                       {cert.preparationResources.length > 0 && (
                         <div>
-                          <h4 className="font-bold text-gray-900 mb-2">📖 Preparation Resources:</h4>
+                          <h4 className="font-bold text-gray-900 mb-2">Preparation Resources:</h4>
                           <div className="space-y-2">
                             {cert.preparationResources.map((resource, i) => (
                               <div key={i} className="bg-white rounded-lg p-3 border border-gray-200">

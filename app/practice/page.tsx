@@ -630,7 +630,7 @@ function PracticeContent() {
               {/* Stage Selection */}
               <div className="mb-8">
                 <h4 className="text-lg font-bold text-gray-900 mb-3 flex items-center gap-2">
-                  🎯 Select Difficulty Stage
+                  Select Difficulty Stage
                   <span className="text-xs font-normal text-gray-500">(15 questions per stage)</span>
                 </h4>
                 <div className="grid grid-cols-3 gap-3">
@@ -684,7 +684,7 @@ function PracticeContent() {
                   })}
                 </div>
                 <p className="text-xs text-gray-500 mt-3 text-center">
-                  💡 Start with Stage 1 to build foundation, then progress to harder stages
+                  Start with Stage 1 to build foundation, then progress to harder stages
                 </p>
               </div>
 
@@ -701,7 +701,7 @@ function PracticeContent() {
                   className="group relative p-6 rounded-2xl border-2 border-gray-200 bg-white hover:border-green-500 hover:bg-gradient-to-br hover:from-green-50 hover:to-emerald-50 transition-all text-left hover:shadow-xl transform hover:scale-[1.02]"
                 >
                   <div className="flex items-start gap-4">
-                    <div className="text-4xl group-hover:scale-110 transition-transform">🌱</div>
+                    <div className="text-4xl group-hover:scale-110 transition-transform">Entry</div>
                     <div className="flex-1">
                       <h4 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-green-700">Entry Level</h4>
                       <p className="text-sm text-gray-600 mb-2">0-2 years of experience</p>
@@ -723,7 +723,7 @@ function PracticeContent() {
                   className="group relative p-6 rounded-2xl border-2 border-gray-200 bg-white hover:border-blue-500 hover:bg-gradient-to-br hover:from-blue-50 hover:to-cyan-50 transition-all text-left hover:shadow-xl transform hover:scale-[1.02]"
                 >
                   <div className="flex items-start gap-4">
-                    <div className="text-4xl group-hover:scale-110 transition-transform">📈</div>
+                    <div className="text-4xl group-hover:scale-110 transition-transform">Mid</div>
                     <div className="flex-1">
                       <h4 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-700">Mid Level</h4>
                       <p className="text-sm text-gray-600 mb-2">3-5 years of experience</p>
@@ -745,7 +745,7 @@ function PracticeContent() {
                   className="group relative p-6 rounded-2xl border-2 border-gray-200 bg-white hover:border-purple-500 hover:bg-gradient-to-br hover:from-purple-50 hover:to-indigo-50 transition-all text-left hover:shadow-xl transform hover:scale-[1.02]"
                 >
                   <div className="flex items-start gap-4">
-                    <div className="text-4xl group-hover:scale-110 transition-transform">⭐</div>
+                    <div className="text-4xl group-hover:scale-110 transition-transform">Senior</div>
                     <div className="flex-1">
                       <h4 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-purple-700">Senior Level</h4>
                       <p className="text-sm text-gray-600 mb-2">7+ years of experience</p>
@@ -1261,7 +1261,7 @@ function InterviewSession({
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                 </svg>
-                {showHints ? 'Hide AI Hints' : '💡 Get AI Hints'}
+                {showHints ? 'Hide AI Hints' : 'Get AI Hints'}
               </button>
 
               {/* Coding/Audio Toggle for technical roles */}
@@ -1275,7 +1275,7 @@ function InterviewSession({
                         : 'text-gray-600 hover:text-gray-900'
                     }`}
                   >
-                    🎙️ Audio Interview
+                    Audio Interview
                   </button>
                   <button
                     onClick={() => setShowCodingInterview(true)}
@@ -1285,7 +1285,7 @@ function InterviewSession({
                         : 'text-gray-600 hover:text-gray-900'
                     }`}
                   >
-                    💻 Code Challenge
+                    Code Challenge
                   </button>
                 </div>
               )}

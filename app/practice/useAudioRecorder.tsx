@@ -214,7 +214,7 @@ export function useAudioRecorder(): UseAudioRecorderReturn {
                 Please allow microphone access in your browser settings and try again.
               </div>
               <div className="text-xs text-gray-200 mt-1">
-                Look for the 🔒 or camera icon in your browser's address bar.
+                Look for the lock or camera icon in your browser's address bar.
               </div>
             </div>
           ),

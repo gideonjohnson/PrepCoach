@@ -179,7 +179,7 @@ function SalaryNegotiationContent() {
               </div>
             </div>
             <div className="flex-1">
-              <h3 className="text-lg font-bold text-green-900 mb-1">💰 Average Salary Increase from Negotiation: $15,000+</h3>
+              <h3 className="text-lg font-bold text-green-900 mb-1">Average Salary Increase from Negotiation: $15,000+</h3>
               <p className="text-sm text-green-700 mb-3">
                 Studies show that 84% of employers expect candidates to negotiate, yet 68% of people accept the first offer.
                 Don&apos;t leave money on the table - use our data-driven tools to negotiate confidently.
@@ -205,10 +205,10 @@ function SalaryNegotiationContent() {
         {/* Tab Navigation */}
         <div className="mb-6 bg-white rounded-xl shadow-sm border border-gray-200 p-1 inline-flex gap-1">
           {[
-            { id: 'market', label: '📊 Market Research', icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z' },
-            { id: 'calculator', label: '🧮 Compensation Calculator', icon: 'M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z' },
-            { id: 'scripts', label: '💬 Negotiation Scripts', icon: 'M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z' },
-            { id: 'compare', label: '⚖️ Compare Offers', icon: 'M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3' },
+            { id: 'market', label: 'Market Research', icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z' },
+            { id: 'calculator', label: 'Compensation Calculator', icon: 'M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z' },
+            { id: 'scripts', label: 'Negotiation Scripts', icon: 'M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z' },
+            { id: 'compare', label: 'Compare Offers', icon: 'M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3' },
           ].map((tab) => (
             <button
               key={tab.id}
@@ -289,7 +289,7 @@ function SalaryNegotiationContent() {
                       Loading Market Data...
                     </span>
                   ) : (
-                    '🔍 Get Market Data'
+                    'Get Market Data'
                   )}
                 </button>
 
@@ -337,7 +337,7 @@ function SalaryNegotiationContent() {
 
                       {/* Total Compensation */}
                       <div>
-                        <h4 className="text-sm font-semibold text-gray-700 mb-3">💰 Total Compensation</h4>
+                        <h4 className="text-sm font-semibold text-gray-700 mb-3">Total Compensation</h4>
                         <div className="grid grid-cols-5 gap-3">
                           {[
                             { label: 'Min', value: marketData.totalComp.min },
@@ -369,7 +369,7 @@ function SalaryNegotiationContent() {
                     {/* Quick Insights */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div className="p-5 bg-white rounded-xl border-2 border-gray-200">
-                        <h4 className="text-sm font-semibold text-gray-700 mb-2">📈 Equity Range</h4>
+                        <h4 className="text-sm font-semibold text-gray-700 mb-2">Equity Range</h4>
                         <div className="text-2xl font-bold text-green-600 mb-1">
                           {formatLargeNumber(marketData.equity.median)}
                         </div>
@@ -379,7 +379,7 @@ function SalaryNegotiationContent() {
                       </div>
 
                       <div className="p-5 bg-white rounded-xl border-2 border-gray-200">
-                        <h4 className="text-sm font-semibold text-gray-700 mb-2">🎁 Bonus Range</h4>
+                        <h4 className="text-sm font-semibold text-gray-700 mb-2">Bonus Range</h4>
                         <div className="text-2xl font-bold text-purple-600 mb-1">
                           {formatLargeNumber(marketData.bonus.median)}
                         </div>
@@ -486,7 +486,7 @@ function SalaryNegotiationContent() {
               {!marketData && (
                 <div className="p-4 bg-yellow-50 border-2 border-yellow-200 rounded-xl">
                   <p className="text-sm text-yellow-800">
-                    💡 <strong>Tip:</strong> Load market data first from the &quot;Market Research&quot; tab to compare your offer against industry standards.
+                    <strong>Tip:</strong> Load market data first from the &quot;Market Research&quot; tab to compare your offer against industry standards.
                   </p>
                 </div>
               )}
@@ -495,7 +495,7 @@ function SalaryNegotiationContent() {
               {negotiationLeverage && marketData && (
                 <div className="mt-8 space-y-6 animate-fadeIn">
                   <div className="p-6 bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl border-2 border-purple-200">
-                    <h3 className="text-xl font-bold text-gray-900 mb-4">🎯 Negotiation Strategy</h3>
+                    <h3 className="text-xl font-bold text-gray-900 mb-4">Negotiation Strategy</h3>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
                       <div className="bg-white rounded-lg p-5">
@@ -537,7 +537,7 @@ function SalaryNegotiationContent() {
                     {/* Strengths & Weaknesses */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
-                        <h4 className="text-sm font-semibold text-green-700 mb-3">✅ Your Strengths</h4>
+                        <h4 className="text-sm font-semibold text-green-700 mb-3">Your Strengths</h4>
                         <ul className="space-y-2">
                           {negotiationLeverage.strengths.map((strength: string, idx: number) => (
                             <li key={idx} className="text-sm text-gray-700 flex items-start gap-2">
@@ -549,7 +549,7 @@ function SalaryNegotiationContent() {
                       </div>
 
                       <div>
-                        <h4 className="text-sm font-semibold text-red-700 mb-3">⚠️ Considerations</h4>
+                        <h4 className="text-sm font-semibold text-red-700 mb-3">Considerations</h4>
                         <ul className="space-y-2">
                           {negotiationLeverage.weaknesses.map((weakness: string, idx: number) => (
                             <li key={idx} className="text-sm text-gray-700 flex items-start gap-2">
@@ -563,7 +563,7 @@ function SalaryNegotiationContent() {
 
                     {/* Talking Points */}
                     <div className="mt-6 p-5 bg-white rounded-lg">
-                      <h4 className="text-sm font-semibold text-gray-900 mb-3">💬 Key Talking Points</h4>
+                      <h4 className="text-sm font-semibold text-gray-900 mb-3">Key Talking Points</h4>
                       <ul className="space-y-2">
                         {negotiationLeverage.talkingPoints.map((point: string, idx: number) => (
                           <li key={idx} className="text-sm text-gray-700 pl-4 border-l-2 border-blue-500">
@@ -594,7 +594,7 @@ function SalaryNegotiationContent() {
                 {/* Recommended Scripts */}
                 {selectedScripts.length > 0 && (
                   <div className="mb-8 p-6 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl border-2 border-blue-200">
-                    <h3 className="text-lg font-bold text-gray-900 mb-4">⭐ Recommended for Your Situation</h3>
+                    <h3 className="text-lg font-bold text-gray-900 mb-4">Recommended for Your Situation</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {selectedScripts.map((script) => (
                         <div key={script.id} className="p-4 bg-white rounded-lg border border-blue-200">
@@ -640,7 +640,7 @@ function SalaryNegotiationContent() {
 
                       {/* Script Content */}
                       <div className="p-5 bg-white rounded-lg border border-gray-300 mb-4">
-                        <h4 className="text-sm font-semibold text-gray-700 mb-3">📝 Script Template</h4>
+                        <h4 className="text-sm font-semibold text-gray-700 mb-3">Script Template</h4>
                         <div className="text-sm text-gray-700 whitespace-pre-line leading-relaxed font-mono">
                           {script.script}
                         </div>
@@ -648,7 +648,7 @@ function SalaryNegotiationContent() {
 
                       {/* Tips */}
                       <div className="p-4 bg-blue-50 rounded-lg">
-                        <h4 className="text-sm font-semibold text-blue-900 mb-3">💡 Tips</h4>
+                        <h4 className="text-sm font-semibold text-blue-900 mb-3">Tips</h4>
                         <ul className="space-y-2">
                           {script.tips.map((tip, idx) => (
                             <li key={idx} className="text-sm text-blue-800 flex items-start gap-2">

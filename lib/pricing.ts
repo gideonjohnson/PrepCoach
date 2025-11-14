@@ -62,7 +62,7 @@ export const PRICING_TIERS = {
     price: 0,
     interval: 'lifetime',
     features: [
-      '🎉 LIFETIME ACCESS - No expiration!',
+      'LIFETIME ACCESS - No expiration!',
       'Unlimited interview sessions forever',
       'Unlimited AI feedback forever',
       'Access to all 350+ roles',

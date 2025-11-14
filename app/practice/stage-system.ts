@@ -21,7 +21,7 @@ export const STAGE_CONFIG: Record<Stage, StageInfo> = {
     difficulty: 'Foundational',
     unlockRequirement: 'Always unlocked',
     questionsCount: 15,
-    icon: '🌱',
+    icon: '1',
   },
   2: {
     stage: 2,
@@ -30,7 +30,7 @@ export const STAGE_CONFIG: Record<Stage, StageInfo> = {
     difficulty: 'Applied',
     unlockRequirement: 'Complete 80% of Stage 1 (12/15 questions)',
     questionsCount: 15,
-    icon: '📈',
+    icon: '2',
   },
   3: {
     stage: 3,
@@ -39,7 +39,7 @@ export const STAGE_CONFIG: Record<Stage, StageInfo> = {
     difficulty: 'Expert',
     unlockRequirement: 'Complete 80% of Stage 2 (12/15 questions)',
     questionsCount: 15,
-    icon: '⭐',
+    icon: '3',
   },
 };
 
@@ -118,17 +118,17 @@ export function getMotivationalMessage(progress: RoleStageProgress): string {
   const completion = progress.overallCompletion;
 
   if (completion === 0) {
-    return "🚀 Ready to start your journey? Let's crush Stage 1!";
+    return "Ready to start your journey? Let's crush Stage 1!";
   } else if (completion < 25) {
-    return "💪 Great start! Keep building that foundation.";
+    return "Great start! Keep building that foundation.";
   } else if (completion < 50) {
-    return "🔥 You're gaining momentum! Stage 2 is within reach.";
+    return "You're gaining momentum! Stage 2 is within reach.";
   } else if (completion < 75) {
-    return "⚡ Impressive progress! You're mastering this role.";
+    return "Impressive progress! You're mastering this role.";
   } else if (completion < 100) {
-    return "🎯 Almost there! Finish strong to complete all stages.";
+    return "Almost there! Finish strong to complete all stages.";
   } else {
-    return "🏆 Stage Master! You've conquered this role. Ready for the next challenge?";
+    return "Stage Master! You've conquered this role. Ready for the next challenge?";
   }
 }
 

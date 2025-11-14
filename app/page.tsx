@@ -109,7 +109,7 @@ export default function Home() {
             {/* Left: Hero Content */}
             <div className="text-center lg:text-left">
             <div className="inline-block mb-6 px-4 py-2 bg-gradient-to-r from-orange-100 to-red-100 rounded-full">
-              <span className="text-orange-600 font-semibold text-sm">🚀 Join 500,000+ candidates who aced their interviews</span>
+              <span className="text-orange-600 font-semibold text-sm">Join 500,000+ candidates who aced their interviews</span>
             </div>
             <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 mb-6 leading-tight">
               Stop Guessing.{" "}
@@ -134,7 +134,7 @@ export default function Home() {
               </Link>
             </div>
             <p className="text-sm text-gray-500 mb-4">
-              ⚡ Get started in under 60 seconds • No credit card required
+              Get started in under 60 seconds • No credit card required
             </p>
             </div>
 
@@ -564,7 +564,7 @@ export default function Home() {
           {/* Value Prop Banner */}
           <div className="mt-12 bg-gradient-to-r from-purple-100 via-blue-100 to-indigo-100 rounded-2xl p-8 text-center border-2 border-purple-200">
             <h3 className="text-2xl font-bold text-gray-900 mb-3">
-              🎯 Why settle for just the job?
+              Why settle for just the job?
             </h3>
             <p className="text-gray-700 text-lg mb-4">
               Most candidates leave <strong>$10K-50K</strong> on the table every year. Get the offer AND the salary you deserve.
@@ -837,7 +837,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-16">
             <div className="inline-block mb-4 px-4 py-2 bg-gradient-to-r from-orange-100 to-red-100 rounded-full">
-              <span className="text-orange-600 font-semibold text-sm">💬 Success Stories</span>
+              <span className="text-orange-600 font-semibold text-sm">Success Stories</span>
             </div>
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
               Real People. Real Offers. Real Results.
@@ -967,7 +967,7 @@ export default function Home() {
             </Link>
           </div>
           <p className="text-white/80 text-sm mt-6">
-            ⚡ Start in 60 seconds • No credit card • 30-day money-back guarantee
+            Start in 60 seconds • No credit card • 30-day money-back guarantee
           </p>
         </div>
       </section>

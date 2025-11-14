@@ -23,7 +23,7 @@ export default function AboutPage() {
           {/* Mission Section */}
           <div className="bg-white rounded-2xl shadow-lg p-8 mb-8">
             <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-              <span>🎯</span> Our Mission
+              Our Mission
             </h2>
             <p className="text-gray-700 leading-relaxed mb-4">
               PrepCoach was built to democratize access to professional interview coaching. We believe everyone deserves
@@ -38,32 +38,28 @@ export default function AboutPage() {
           {/* What We Offer */}
           <div className="bg-white rounded-2xl shadow-lg p-8 mb-8">
             <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
-              <span>✨</span> What We Offer
+              What We Offer
             </h2>
             <div className="grid md:grid-cols-2 gap-6">
               <div className="flex items-start gap-3">
-                <span className="text-2xl">💬</span>
                 <div>
                   <h3 className="font-semibold text-gray-900 mb-1">Interview Practice</h3>
                   <p className="text-gray-600 text-sm">45+ questions per role across 341 job positions</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
-                <span className="text-2xl">🤖</span>
                 <div>
                   <h3 className="font-semibold text-gray-900 mb-1">AI Feedback</h3>
                   <p className="text-gray-600 text-sm">Real-time analysis powered by Claude 3.5 Sonnet</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
-                <span className="text-2xl">📄</span>
                 <div>
                   <h3 className="font-semibold text-gray-900 mb-1">Resume Builder</h3>
                   <p className="text-gray-600 text-sm">ATS-optimized templates and AI optimization</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
-                <span className="text-2xl">💼</span>
                 <div>
                   <h3 className="font-semibold text-gray-900 mb-1">Career Tools</h3>
                   <p className="text-gray-600 text-sm">LinkedIn optimizer, salary calculator, and roadmaps</p>

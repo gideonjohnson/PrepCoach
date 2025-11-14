@@ -59,7 +59,7 @@ export default function PricingPage() {
         {/* Header */}
         <div className="text-center mb-12 sm:mb-16">
           <div className="inline-block mb-4 px-4 py-2 bg-gradient-to-r from-orange-100 to-red-100 rounded-full">
-            <span className="text-orange-600 font-semibold text-sm">💰 Transparent Pricing</span>
+            <span className="text-orange-600 font-semibold text-sm">Transparent Pricing</span>
           </div>
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4 px-4">
             Choose Your <span className="bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">Perfect Plan</span>
