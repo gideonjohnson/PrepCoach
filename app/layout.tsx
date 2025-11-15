@@ -27,6 +27,31 @@ export const metadata: Metadata = {
     userScalable: true,
   },
   themeColor: "#3B82F6",
+  icons: {
+    icon: '/icon.png',
+    apple: '/icon.png',
+  },
+  openGraph: {
+    title: "PrepCoach - AI-Powered Interview Practice",
+    description: "Practice interviews with AI, get instant feedback, and land your dream job",
+    url: "https://www.aiprep.work",
+    siteName: "PrepCoach",
+    images: [
+      {
+        url: '/icon.png',
+        width: 832,
+        height: 1248,
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "PrepCoach - AI-Powered Interview Practice",
+    description: "Practice interviews with AI, get instant feedback, and land your dream job",
+    images: ['/icon.png'],
+  },
 };
 
 export default function RootLayout({
