@@ -51,20 +51,28 @@ export default function PricingPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-purple-50 via-white to-blue-50">
+    <div className="min-h-screen bg-black relative overflow-hidden">
+      {/* Animated Background */}
+      <div className="fixed inset-0 -z-10">
+        <div className="absolute inset-0 bg-gradient-to-br from-black via-gray-900 to-black"></div>
+        <div className="absolute top-0 -left-40 w-96 h-96 bg-orange-500/10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute top-40 right-0 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute bottom-0 left-1/3 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse delay-500"></div>
+      </div>
+
       <Header />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <Breadcrumbs />
         {/* Header */}
         <div className="text-center mb-12 sm:mb-16">
-          <div className="inline-block mb-4 px-4 py-2 bg-gradient-to-r from-orange-100 to-red-100 rounded-full">
-            <span className="text-orange-600 font-semibold text-sm">Transparent Pricing</span>
+          <div className="inline-block mb-4 px-4 py-2 bg-black/50 backdrop-blur-xl border border-orange-500/30 rounded-full">
+            <span className="text-orange-400 font-semibold text-sm">Transparent Pricing</span>
           </div>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4 px-4">
-            Choose Your <span className="bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">Perfect Plan</span>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-4 px-4" style={{textShadow: '0 0 80px rgba(255,255,255,0.3)'}}>
+            Choose Your <span className="bg-gradient-to-r from-orange-400 via-red-500 to-pink-500 bg-clip-text text-transparent animate-pulse">Perfect Plan</span>
           </h1>
-          <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto mb-8 px-4">
+          <p className="text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto mb-8 px-4">
             Simple, transparent pricing. Start practicing today with our free tier, upgrade when you're ready.
           </p>
 
@@ -90,7 +98,7 @@ export default function PricingPage() {
         <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto mb-20">
           {/* Pro Tier - Most Popular */}
           <div className="bg-gradient-to-br from-orange-500 to-red-500 rounded-2xl shadow-2xl p-6 sm:p-8 border-2 border-orange-600 md:transform md:scale-105 relative transition-all duration-300 hover:shadow-3xl md:hover:scale-110">
-            <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-yellow-400 text-gray-900 px-4 py-1 rounded-full text-sm font-bold shadow-lg">
+            <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-yellow-400 text-white px-4 py-1 rounded-full text-sm font-bold shadow-lg">
               MOST POPULAR
             </div>
             <div className="mb-6">
@@ -132,10 +140,10 @@ export default function PricingPage() {
           {/* Enterprise Tier */}
           <div className="bg-white rounded-2xl shadow-lg p-6 sm:p-8 border-2 border-purple-200 hover:border-purple-400 transition-all duration-300 hover:shadow-xl">
             <div className="mb-6">
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">{PRICING_TIERS.enterprise.name}</h3>
+              <h3 className="text-2xl font-bold text-white mb-2">{PRICING_TIERS.enterprise.name}</h3>
               <div className="flex items-baseline gap-2">
-                <span className="text-5xl font-bold text-gray-900">${PRICING_TIERS.enterprise.price}</span>
-                <span className="text-gray-600">/{PRICING_TIERS.enterprise.interval}</span>
+                <span className="text-5xl font-bold text-white">${PRICING_TIERS.enterprise.price}</span>
+                <span className="text-gray-400">/{PRICING_TIERS.enterprise.interval}</span>
               </div>
             </div>
             <ul className="space-y-4 mb-8">
@@ -144,7 +152,7 @@ export default function PricingPage() {
                   <svg className="w-5 h-5 text-purple-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
-                  <span className="text-gray-600">{feature}</span>
+                  <span className="text-gray-400">{feature}</span>
                 </li>
               ))}
             </ul>
@@ -170,84 +178,84 @@ export default function PricingPage() {
 
         {/* FAQ Section */}
         <div className="mt-16 sm:mt-20 max-w-4xl mx-auto">
-          <h2 className="text-3xl sm:text-4xl font-bold text-center text-gray-900 mb-4 px-4">
+          <h2 className="text-3xl sm:text-4xl font-bold text-center text-white mb-4 px-4">
             Frequently Asked <span className="bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">Questions</span>
           </h2>
-          <p className="text-center text-gray-600 mb-8 sm:mb-12 px-4">Everything you need to know about our pricing and plans</p>
+          <p className="text-center text-gray-400 mb-8 sm:mb-12 px-4">Everything you need to know about our pricing and plans</p>
 
           <div className="space-y-6">
             <div className="bg-white rounded-xl p-6 shadow-md border border-gray-100 hover:shadow-lg transition-shadow duration-300">
-              <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-start gap-3">
+              <h3 className="text-lg font-semibold text-white mb-3 flex items-start gap-3">
                 <span className="text-orange-500 text-xl">Q:</span>
                 Can I change plans anytime?
               </h3>
-              <p className="text-gray-600 ml-8">
+              <p className="text-gray-400 ml-8">
                 Yes! You can upgrade or downgrade your plan at any time. When you upgrade, you'll get immediate access to all the features.
                 When you downgrade, changes take effect at the end of your current billing period, so you won't lose access to features you've already paid for.
               </p>
             </div>
 
             <div className="bg-white rounded-xl p-6 shadow-md border border-gray-100 hover:shadow-lg transition-shadow duration-300">
-              <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-start gap-3">
+              <h3 className="text-lg font-semibold text-white mb-3 flex items-start gap-3">
                 <span className="text-orange-500 text-xl">Q:</span>
                 What happens when I hit my Free tier limits?
               </h3>
-              <p className="text-gray-600 ml-8">
+              <p className="text-gray-400 ml-8">
                 You'll be notified when you're approaching your monthly limits (3 interviews and 5 AI feedback requests).
                 Once you hit your limits, you can either wait until next month when they reset, or upgrade to Pro for unlimited access to both features.
               </p>
             </div>
 
             <div className="bg-white rounded-xl p-6 shadow-md border border-gray-100 hover:shadow-lg transition-shadow duration-300">
-              <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-start gap-3">
+              <h3 className="text-lg font-semibold text-white mb-3 flex items-start gap-3">
                 <span className="text-orange-500 text-xl">Q:</span>
                 Is there a free trial for Pro or Enterprise?
               </h3>
-              <p className="text-gray-600 ml-8">
+              <p className="text-gray-400 ml-8">
                 All new users start on our Free tier, which gives you a great taste of PrepCoach with 3 interviews and 5 AI feedback requests per month.
                 This lets you experience the platform before committing to a paid plan. For enterprise trials, please contact our sales team.
               </p>
             </div>
 
             <div className="bg-white rounded-xl p-6 shadow-md border border-gray-100 hover:shadow-lg transition-shadow duration-300">
-              <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-start gap-3">
+              <h3 className="text-lg font-semibold text-white mb-3 flex items-start gap-3">
                 <span className="text-orange-500 text-xl">Q:</span>
                 What payment methods do you accept?
               </h3>
-              <p className="text-gray-600 ml-8">
+              <p className="text-gray-400 ml-8">
                 We accept all major credit cards (Visa, Mastercard, American Express) through our secure payment processor Stripe.
                 All payments are encrypted and secure. We do not store your payment information on our servers.
               </p>
             </div>
 
             <div className="bg-white rounded-xl p-6 shadow-md border border-gray-100 hover:shadow-lg transition-shadow duration-300">
-              <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-start gap-3">
+              <h3 className="text-lg font-semibold text-white mb-3 flex items-start gap-3">
                 <span className="text-orange-500 text-xl">Q:</span>
                 Can I cancel my subscription anytime?
               </h3>
-              <p className="text-gray-600 ml-8">
+              <p className="text-gray-400 ml-8">
                 Absolutely! You can cancel your subscription at any time from your account settings. When you cancel, you'll continue to have access
                 to your paid features until the end of your current billing period. After that, you'll automatically be moved to the Free tier.
               </p>
             </div>
 
             <div className="bg-white rounded-xl p-6 shadow-md border border-gray-100 hover:shadow-lg transition-shadow duration-300">
-              <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-start gap-3">
+              <h3 className="text-lg font-semibold text-white mb-3 flex items-start gap-3">
                 <span className="text-orange-500 text-xl">Q:</span>
                 Is my data secure?
               </h3>
-              <p className="text-gray-600 ml-8">
+              <p className="text-gray-400 ml-8">
                 Yes! We take data security very seriously. All your interview recordings, transcriptions, and personal data are encrypted both
                 in transit and at rest. We comply with industry-standard security practices and never share your data with third parties without your explicit consent.
               </p>
             </div>
 
             <div className="bg-white rounded-xl p-6 shadow-md border border-gray-100 hover:shadow-lg transition-shadow duration-300">
-              <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-start gap-3">
+              <h3 className="text-lg font-semibold text-white mb-3 flex items-start gap-3">
                 <span className="text-orange-500 text-xl">Q:</span>
                 What's the difference between Pro and Enterprise?
               </h3>
-              <p className="text-gray-600 ml-8">
+              <p className="text-gray-400 ml-8">
                 Pro is perfect for individual job seekers who want unlimited practice. Enterprise is designed for teams and organizations,
                 offering team management features for up to 10 users, company-specific interview preparation, dedicated support, and custom integrations.
                 If you're a career coach, recruiting agency, or company training your employees, Enterprise is the right choice.
@@ -255,11 +263,11 @@ export default function PricingPage() {
             </div>
 
             <div className="bg-white rounded-xl p-6 shadow-md border border-gray-100 hover:shadow-lg transition-shadow duration-300">
-              <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-start gap-3">
+              <h3 className="text-lg font-semibold text-white mb-3 flex items-start gap-3">
                 <span className="text-orange-500 text-xl">Q:</span>
                 Do you offer refunds?
               </h3>
-              <p className="text-gray-600 ml-8">
+              <p className="text-gray-400 ml-8">
                 We offer a 7-day money-back guarantee for all paid plans. If you're not satisfied with PrepCoach within the first 7 days of your subscription,
                 contact our support team and we'll issue a full refund, no questions asked.
               </p>

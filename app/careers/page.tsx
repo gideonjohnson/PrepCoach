@@ -125,13 +125,13 @@ export default function CareersPage() {
                 Exceptional Opportunities
               </span>
             </div>
-            <h1 className="text-5xl sm:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+            <h1 className="text-5xl sm:text-6xl font-bold text-white mb-6 leading-tight">
               Shape the Future of
               <span className="block bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">
                 Career Development
               </span>
             </h1>
-            <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-xl text-gray-400 mb-8 max-w-3xl mx-auto leading-relaxed">
               Join a mission-driven team building AI technology that empowers thousands of
               professionals to advance their careers. We are seeking extraordinary individuals who
               combine strategic thinking with exceptional execution.
@@ -143,7 +143,7 @@ export default function CareersPage() {
       {/* Company Value Props */}
       <div className="py-16 px-4 sm:px-6 lg:px-8 bg-white border-y border-gray-100">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold text-gray-900 text-center mb-12">
+          <h2 className="text-3xl font-bold text-white text-center mb-12">
             Why Exceptional Talent Chooses PrepCoach
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
@@ -163,8 +163,8 @@ export default function CareersPage() {
                   />
                 </svg>
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Market-Leading Technology</h3>
-              <p className="text-gray-600 leading-relaxed">
+              <h3 className="text-xl font-bold text-white mb-3">Market-Leading Technology</h3>
+              <p className="text-gray-400 leading-relaxed">
                 Build at the cutting edge of AI, working with the latest language models, real-time
                 processing, and behavioral analytics
               </p>
@@ -185,8 +185,8 @@ export default function CareersPage() {
                   />
                 </svg>
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Meaningful Impact</h3>
-              <p className="text-gray-600 leading-relaxed">
+              <h3 className="text-xl font-bold text-white mb-3">Meaningful Impact</h3>
+              <p className="text-gray-400 leading-relaxed">
                 Your work directly influences career outcomes for thousands of professionals seeking
                 advancement and opportunity
               </p>
@@ -207,8 +207,8 @@ export default function CareersPage() {
                   />
                 </svg>
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Exceptional Growth</h3>
-              <p className="text-gray-600 leading-relaxed">
+              <h3 className="text-xl font-bold text-white mb-3">Exceptional Growth</h3>
+              <p className="text-gray-400 leading-relaxed">
                 Significant equity upside, rapid career progression, and the opportunity to shape
                 strategy as we scale
               </p>
@@ -221,8 +221,8 @@ export default function CareersPage() {
       <div className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-5xl mx-auto">
           <div className="mb-12">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Current Opportunities</h2>
-            <p className="text-lg text-gray-600">
+            <h2 className="text-4xl font-bold text-white mb-4">Current Opportunities</h2>
+            <p className="text-lg text-gray-400">
               We are selective in our hiring. Each role represents an opportunity to make a
               defining impact on our mission and trajectory.
             </p>
@@ -239,7 +239,7 @@ export default function CareersPage() {
                   <div className="mb-8 pb-8 border-b border-gray-100">
                     <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-6">
                       <div className="mb-4 sm:mb-0">
-                        <h3 className="text-3xl font-bold text-gray-900 mb-3">
+                        <h3 className="text-3xl font-bold text-white mb-3">
                           {position.title}
                         </h3>
                         <div className="flex flex-wrap gap-3">
@@ -258,20 +258,20 @@ export default function CareersPage() {
                         </div>
                       </div>
                     </div>
-                    <p className="text-lg text-gray-700 leading-relaxed font-medium">
+                    <p className="text-lg text-gray-300 leading-relaxed font-medium">
                       {position.description}
                     </p>
                   </div>
 
                   {/* Overview */}
                   <div className="mb-8 p-6 bg-gradient-to-br from-orange-50 to-red-50 rounded-2xl">
-                    <h4 className="text-lg font-bold text-gray-900 mb-3">The Opportunity</h4>
-                    <p className="text-gray-700 leading-relaxed">{position.overview}</p>
+                    <h4 className="text-lg font-bold text-white mb-3">The Opportunity</h4>
+                    <p className="text-gray-300 leading-relaxed">{position.overview}</p>
                   </div>
 
                   {/* Responsibilities */}
                   <div className="mb-8">
-                    <h4 className="text-xl font-bold text-gray-900 mb-4">
+                    <h4 className="text-xl font-bold text-white mb-4">
                       What You&apos;ll Accomplish
                     </h4>
                     <ul className="space-y-3">
@@ -290,7 +290,7 @@ export default function CareersPage() {
                               d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
                             />
                           </svg>
-                          <span className="text-gray-700 leading-relaxed">{item}</span>
+                          <span className="text-gray-300 leading-relaxed">{item}</span>
                         </li>
                       ))}
                     </ul>
@@ -298,7 +298,7 @@ export default function CareersPage() {
 
                   {/* Requirements */}
                   <div className="mb-8">
-                    <h4 className="text-xl font-bold text-gray-900 mb-4">
+                    <h4 className="text-xl font-bold text-white mb-4">
                       What You Bring
                     </h4>
                     <ul className="space-y-3">
@@ -317,7 +317,7 @@ export default function CareersPage() {
                               d="M5 13l4 4L19 7"
                             />
                           </svg>
-                          <span className="text-gray-700 leading-relaxed">{item}</span>
+                          <span className="text-gray-300 leading-relaxed">{item}</span>
                         </li>
                       ))}
                     </ul>
@@ -325,7 +325,7 @@ export default function CareersPage() {
 
                   {/* Nice to Have */}
                   <div className="mb-8">
-                    <h4 className="text-xl font-bold text-gray-900 mb-4">
+                    <h4 className="text-xl font-bold text-white mb-4">
                       Additional Differentiators
                     </h4>
                     <ul className="space-y-3">
@@ -344,7 +344,7 @@ export default function CareersPage() {
                               d="M12 4v16m8-8H4"
                             />
                           </svg>
-                          <span className="text-gray-700 leading-relaxed">{item}</span>
+                          <span className="text-gray-300 leading-relaxed">{item}</span>
                         </li>
                       ))}
                     </ul>
@@ -352,7 +352,7 @@ export default function CareersPage() {
 
                   {/* What We Offer */}
                   <div className="mb-8 p-6 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl">
-                    <h4 className="text-xl font-bold text-gray-900 mb-4">What We Offer</h4>
+                    <h4 className="text-xl font-bold text-white mb-4">What We Offer</h4>
                     <ul className="space-y-3">
                       {position.whatWeOffer.map((item, idx) => (
                         <li key={idx} className="flex items-start">
@@ -369,7 +369,7 @@ export default function CareersPage() {
                               d="M5 13l4 4L19 7"
                             />
                           </svg>
-                          <span className="text-gray-700 leading-relaxed font-medium">{item}</span>
+                          <span className="text-gray-300 leading-relaxed font-medium">{item}</span>
                         </li>
                       ))}
                     </ul>
@@ -386,7 +386,7 @@ export default function CareersPage() {
                       </Link>
                       <a
                         href={`mailto:gideonbosiregj@gmail.com?subject=Inquiry about ${position.title}`}
-                        className="flex-1 text-center px-8 py-4 bg-gray-100 text-gray-900 rounded-xl font-bold hover:bg-gray-200 transition-all duration-300"
+                        className="flex-1 text-center px-8 py-4 bg-gray-100 text-white rounded-xl font-bold hover:bg-gray-200 transition-all duration-300"
                       >
                         Schedule a Conversation
                       </a>
@@ -402,7 +402,7 @@ export default function CareersPage() {
       {/* Application Process */}
       <div className="py-16 px-4 sm:px-6 lg:px-8 bg-white border-t border-gray-100">
         <div className="max-w-5xl mx-auto">
-          <h2 className="text-3xl font-bold text-gray-900 text-center mb-12">
+          <h2 className="text-3xl font-bold text-white text-center mb-12">
             Our Selection Process
           </h2>
           <div className="grid md:grid-cols-4 gap-8">
@@ -410,8 +410,8 @@ export default function CareersPage() {
               <div className="w-12 h-12 bg-orange-500 text-white rounded-full flex items-center justify-center mx-auto mb-4 font-bold text-lg">
                 1
               </div>
-              <h3 className="font-bold text-gray-900 mb-2">Application Review</h3>
-              <p className="text-sm text-gray-600">
+              <h3 className="font-bold text-white mb-2">Application Review</h3>
+              <p className="text-sm text-gray-400">
                 We carefully review every application within 48 hours
               </p>
             </div>
@@ -419,8 +419,8 @@ export default function CareersPage() {
               <div className="w-12 h-12 bg-orange-500 text-white rounded-full flex items-center justify-center mx-auto mb-4 font-bold text-lg">
                 2
               </div>
-              <h3 className="font-bold text-gray-900 mb-2">Initial Conversation</h3>
-              <p className="text-sm text-gray-600">
+              <h3 className="font-bold text-white mb-2">Initial Conversation</h3>
+              <p className="text-sm text-gray-400">
                 30-minute discussion about your background and aspirations
               </p>
             </div>
@@ -428,8 +428,8 @@ export default function CareersPage() {
               <div className="w-12 h-12 bg-orange-500 text-white rounded-full flex items-center justify-center mx-auto mb-4 font-bold text-lg">
                 3
               </div>
-              <h3 className="font-bold text-gray-900 mb-2">Deep Dive</h3>
-              <p className="text-sm text-gray-600">
+              <h3 className="font-bold text-white mb-2">Deep Dive</h3>
+              <p className="text-sm text-gray-400">
                 In-depth interviews with team members and leadership
               </p>
             </div>
@@ -437,8 +437,8 @@ export default function CareersPage() {
               <div className="w-12 h-12 bg-orange-500 text-white rounded-full flex items-center justify-center mx-auto mb-4 font-bold text-lg">
                 4
               </div>
-              <h3 className="font-bold text-gray-900 mb-2">Offer & Onboarding</h3>
-              <p className="text-sm text-gray-600">
+              <h3 className="font-bold text-white mb-2">Offer & Onboarding</h3>
+              <p className="text-sm text-gray-400">
                 Competitive offer and seamless integration into the team
               </p>
             </div>

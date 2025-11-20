@@ -9,9 +9,17 @@ export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-black relative overflow-hidden">
+      {/* Animated Background */}
+      <div className="fixed inset-0 -z-10">
+        <div className="absolute inset-0 bg-gradient-to-br from-black via-gray-900 to-black"></div>
+        <div className="absolute top-0 -left-40 w-96 h-96 bg-orange-500/10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute top-40 right-0 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute bottom-0 left-1/3 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse delay-500"></div>
+      </div>
+
       {/* Navigation */}
-      <nav className="fixed top-0 w-full bg-white/80 backdrop-blur-md z-50 border-b border-gray-100">
+      <nav className="fixed top-0 w-full bg-black/50 backdrop-blur-xl z-50 border-b border-white/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
@@ -26,26 +34,26 @@ export default function Home() {
             </div>
             {/* Desktop menu */}
             <div className="hidden md:flex items-center space-x-8">
-              <Link href="/pricing" className="text-gray-600 hover:text-gray-900 transition">Pricing</Link>
-              <Link href="/careers" className="text-gray-600 hover:text-gray-900 transition">Careers</Link>
-              <Link href="/dashboard" className="text-gray-600 hover:text-gray-900 transition">Dashboard</Link>
+              <Link href="/pricing" className="text-gray-300 hover:text-white transition">Pricing</Link>
+              <Link href="/careers" className="text-gray-300 hover:text-white transition">Careers</Link>
+              <Link href="/dashboard" className="text-gray-300 hover:text-white transition">Dashboard</Link>
               {session ? (
                 <div className="flex items-center space-x-4">
-                  <span className="text-gray-700">{session.user?.email}</span>
+                  <span className="text-gray-300">{session.user?.email}</span>
                   <button
                     onClick={() => signOut()}
-                    className="px-6 py-2 bg-gray-200 text-gray-800 rounded-full font-medium hover:bg-gray-300 transition"
+                    className="px-6 py-2 bg-white/10 text-white rounded-full font-medium hover:bg-white/20 transition backdrop-blur-sm border border-white/10"
                   >
                     Sign Out
                   </button>
                 </div>
               ) : (
                 <div className="flex items-center space-x-4">
-                  <Link href="/auth/signin" className="text-gray-600 hover:text-gray-900 transition">
+                  <Link href="/auth/signin" className="text-gray-300 hover:text-white transition">
                     Sign In
                   </Link>
                   <Link href="/practice">
-                    <button className="px-6 py-2 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-full font-medium hover:shadow-lg transition">
+                    <button className="px-6 py-2 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-full font-medium hover:shadow-lg hover:shadow-orange-500/50 transition">
                       Get Started
                     </button>
                   </Link>
@@ -55,7 +63,7 @@ export default function Home() {
             {/* Mobile menu button */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-2 text-gray-600 hover:text-gray-900 transition"
+              className="md:hidden p-2 text-gray-300 hover:text-white transition"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 {mobileMenuOpen ? (
@@ -68,31 +76,31 @@ export default function Home() {
           </div>
           {/* Mobile menu */}
           {mobileMenuOpen && (
-            <div className="md:hidden py-4 border-t border-gray-100">
+            <div className="md:hidden py-4 border-t border-white/10">
               <div className="flex flex-col space-y-4">
-                <Link href="/pricing" onClick={() => setMobileMenuOpen(false)} className="text-gray-600 hover:text-gray-900 transition">Pricing</Link>
-                <Link href="/careers" onClick={() => setMobileMenuOpen(false)} className="text-gray-600 hover:text-gray-900 transition">Careers</Link>
-                <Link href="/dashboard" onClick={() => setMobileMenuOpen(false)} className="text-gray-600 hover:text-gray-900 transition">Dashboard</Link>
+                <Link href="/pricing" onClick={() => setMobileMenuOpen(false)} className="text-gray-300 hover:text-white transition">Pricing</Link>
+                <Link href="/careers" onClick={() => setMobileMenuOpen(false)} className="text-gray-300 hover:text-white transition">Careers</Link>
+                <Link href="/dashboard" onClick={() => setMobileMenuOpen(false)} className="text-gray-300 hover:text-white transition">Dashboard</Link>
                 {session ? (
                   <>
-                    <span className="text-gray-700 text-sm">{session.user?.email}</span>
+                    <span className="text-gray-300 text-sm">{session.user?.email}</span>
                     <button
                       onClick={() => {
                         setMobileMenuOpen(false);
                         signOut();
                       }}
-                      className="w-full px-6 py-2 bg-gray-200 text-gray-800 rounded-full font-medium hover:bg-gray-300 transition"
+                      className="w-full px-6 py-2 bg-white/10 text-white rounded-full font-medium hover:bg-white/20 transition backdrop-blur-sm border border-white/10"
                     >
                       Sign Out
                     </button>
                   </>
                 ) : (
                   <>
-                    <Link href="/auth/signin" onClick={() => setMobileMenuOpen(false)} className="text-gray-600 hover:text-gray-900 transition">
+                    <Link href="/auth/signin" onClick={() => setMobileMenuOpen(false)} className="text-gray-300 hover:text-white transition">
                       Sign In
                     </Link>
                     <Link href="/practice" onClick={() => setMobileMenuOpen(false)}>
-                      <button className="w-full px-6 py-2 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-full font-medium hover:shadow-lg transition">
+                      <button className="w-full px-6 py-2 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-full font-medium hover:shadow-lg hover:shadow-orange-500/50 transition">
                         Get Started
                       </button>
                     </Link>
@@ -105,23 +113,23 @@ export default function Home() {
       </nav>
 
       {/* Hero Section */}
-      <section className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-purple-50 via-white to-orange-50">
+      <section className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 relative">
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-12 items-center mb-16">
             {/* Left: Hero Content */}
             <div className="text-center lg:text-left">
-            <div className="inline-block mb-6 px-4 py-2 bg-gradient-to-r from-orange-100 to-red-100 rounded-full">
-              <span className="text-orange-600 font-semibold text-sm">Join 500,000+ candidates who aced their interviews</span>
+            <div className="inline-block mb-6 px-4 py-2 bg-black/50 backdrop-blur-xl border border-orange-500/30 rounded-full">
+              <span className="text-orange-400 font-semibold text-sm">Join 500,000+ candidates who aced their interviews</span>
             </div>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 mb-6 leading-tight">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white mb-6 leading-tight" style={{textShadow: '0 0 80px rgba(255,255,255,0.3)'}}>
               Stop Guessing.{" "}
-              <span className="bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-orange-400 via-red-500 to-pink-500 bg-clip-text text-transparent animate-pulse">
                 Start Winning Interviews
               </span>
             </h1>
-            <p className="text-base sm:text-lg md:text-xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed">
-              Practice with <strong>45+ real interview questions</strong> for your role. Get instant AI feedback. Land offers at top companies.
-              <span className="block mt-2 text-lg font-semibold text-gray-800">95% success rate. 24/7 access. Zero awkwardness.</span>
+            <p className="text-base sm:text-lg md:text-xl text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
+              Practice with <strong className="text-white">45+ real interview questions</strong> for your role. Get instant AI feedback. Land offers at top companies.
+              <span className="block mt-2 text-lg font-semibold text-white">95% success rate. 24/7 access. Zero awkwardness.</span>
             </p>
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start items-stretch sm:items-center mb-8">
               <Link href="/auth/signup" className="w-full sm:w-auto">
@@ -130,12 +138,12 @@ export default function Home() {
                 </button>
               </Link>
               <Link href="/pricing" className="w-full sm:w-auto">
-                <button className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-white text-gray-800 border-2 border-gray-300 rounded-full text-base sm:text-lg font-semibold hover:border-orange-500 hover:text-orange-500 transition min-h-[48px]">
+                <button className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-white/5 backdrop-blur-xl text-white border-2 border-white/20 rounded-full text-base sm:text-lg font-semibold hover:bg-white/10 hover:border-white/40 transition min-h-[48px]">
                   See Plans & Pricing
                 </button>
               </Link>
             </div>
-            <p className="text-sm text-gray-500 mb-4">
+            <p className="text-sm text-gray-400 mb-4">
               Get started in under 60 seconds • No credit card required
             </p>
             </div>
@@ -159,10 +167,10 @@ export default function Home() {
           {/* 3D Feature Buttons Section */}
           <div className="mt-20 mb-12">
             <div className="text-center mb-8">
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
+              <h2 className="text-3xl md:text-4xl font-black text-white mb-3" style={{textShadow: '0 0 60px rgba(255,255,255,0.2)'}}>
                 Your Complete Career Arsenal
               </h2>
-              <p className="text-lg text-gray-600">
+              <p className="text-lg text-gray-400">
                 From interview prep to salary negotiation — we've got you covered
               </p>
             </div>
@@ -272,47 +280,47 @@ export default function Home() {
 
             {/* Stats Section */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 max-w-4xl mx-auto mt-8 mb-8">
-              <div className="text-center p-4 rounded-xl bg-white/50 backdrop-blur-sm">
-                <div className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent mb-2">500+</div>
-                <div className="text-gray-600 text-xs sm:text-sm">Professional Roles</div>
+              <div className="text-center p-4 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10">
+                <div className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text text-transparent mb-2">500+</div>
+                <div className="text-gray-400 text-xs sm:text-sm">Professional Roles</div>
               </div>
-              <div className="text-center p-4 rounded-xl bg-white/50 backdrop-blur-sm">
-                <div className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent mb-2">45+</div>
-                <div className="text-gray-600 text-xs sm:text-sm">Questions Per Role</div>
+              <div className="text-center p-4 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10">
+                <div className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text text-transparent mb-2">45+</div>
+                <div className="text-gray-400 text-xs sm:text-sm">Questions Per Role</div>
               </div>
-              <div className="text-center p-4 rounded-xl bg-white/50 backdrop-blur-sm">
-                <div className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent mb-2">95%</div>
-                <div className="text-gray-600 text-xs sm:text-sm">Success Rate</div>
+              <div className="text-center p-4 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10">
+                <div className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text text-transparent mb-2">95%</div>
+                <div className="text-gray-400 text-xs sm:text-sm">Success Rate</div>
               </div>
-              <div className="text-center p-4 rounded-xl bg-white/50 backdrop-blur-sm">
-                <div className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent mb-2">24/7</div>
-                <div className="text-gray-600 text-xs sm:text-sm">AI Availability</div>
+              <div className="text-center p-4 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10">
+                <div className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text text-transparent mb-2">24/7</div>
+                <div className="text-gray-400 text-xs sm:text-sm">AI Availability</div>
               </div>
             </div>
 
           {/* Company Logos */}
           <div className="mt-12 sm:mt-16">
-            <p className="text-center text-gray-500 mb-6 sm:mb-8 font-medium text-sm sm:text-base">Our users land offers at companies like</p>
+            <p className="text-center text-gray-400 mb-6 sm:mb-8 font-medium text-sm sm:text-base">Our users land offers at companies like</p>
             <div className="flex flex-wrap justify-center items-center gap-6 sm:gap-8 md:gap-12 opacity-60">
-              <div className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800">Meta</div>
-              <div className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800">Google</div>
-              <div className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800">Microsoft</div>
-              <div className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800">Amazon</div>
-              <div className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800">Netflix</div>
-              <div className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800">Apple</div>
+              <div className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-300">Meta</div>
+              <div className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-300">Google</div>
+              <div className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-300">Microsoft</div>
+              <div className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-300">Amazon</div>
+              <div className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-300">Netflix</div>
+              <div className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-300">Apple</div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Feature Showcase - Interview & Salary Negotiation */}
-      <section className="py-20 bg-gradient-to-b from-white to-gray-50">
+      <section className="py-20 relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              Nail the Interview. Maximize the Offer.
+            <h2 className="text-4xl md:text-5xl font-black text-white mb-4" style={{textShadow: '0 0 60px rgba(255,255,255,0.2)'}}>
+              Nail the Interview. <span className="bg-gradient-to-r from-green-400 to-emerald-500 bg-clip-text text-transparent">Maximize the Offer.</span>
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
               Don't just get the job — get the job with the salary you deserve
             </p>
           </div>
@@ -320,7 +328,7 @@ export default function Home() {
           <div className="grid lg:grid-cols-2 xl:grid-cols-4 gap-8">
             {/* Interview Practice Card */}
             <Link href="/practice">
-              <div className="group bg-gradient-to-br from-orange-50 via-red-50 to-pink-50 rounded-3xl p-8 lg:p-10 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 border-2 border-orange-200 hover:border-orange-400 cursor-pointer h-full">
+              <div className="group bg-gradient-to-br from-gray-900/70 to-black/70 backdrop-blur-xl rounded-3xl p-8 lg:p-10 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 border-2 border-orange-500/20 hover:border-orange-500/40 cursor-pointer h-full">
                 <div className="flex items-start gap-6 mb-6">
                   <div className="flex-shrink-0 w-20 h-20 bg-gradient-to-r from-orange-500 to-red-500 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
                     <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -328,13 +336,13 @@ export default function Home() {
                     </svg>
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-2xl font-bold text-gray-900 mb-2">AI Interview Practice</h3>
-                    <p className="text-orange-600 font-semibold text-lg mb-4">Ace every question →</p>
+                    <h3 className="text-2xl font-bold text-white mb-2">AI Interview Practice</h3>
+                    <p className="text-orange-400 font-semibold text-lg mb-4">Ace every question →</p>
                   </div>
                 </div>
 
-                <p className="text-gray-700 text-base mb-6 leading-relaxed">
-                  Practice with <strong>45+ actual interview questions</strong> recruiters ask right now. Get instant feedback that makes you better, faster.
+                <p className="text-gray-300 text-base mb-6 leading-relaxed">
+                  Practice with <strong className="text-white">45+ actual interview questions</strong> recruiters ask right now. Get instant feedback that makes you better, faster.
                 </p>
 
                 <div className="grid grid-cols-2 gap-3 mb-6">
@@ -344,7 +352,7 @@ export default function Home() {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       </svg>
                     </div>
-                    <span className="text-xs text-gray-700">45+ Questions</span>
+                    <span className="text-xs text-gray-300">45+ Questions</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="w-6 h-6 rounded-full bg-gradient-to-r from-orange-500 to-red-500 flex items-center justify-center flex-shrink-0">
@@ -352,7 +360,7 @@ export default function Home() {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       </svg>
                     </div>
-                    <span className="text-xs text-gray-700">AI Feedback</span>
+                    <span className="text-xs text-gray-300">AI Feedback</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="w-6 h-6 rounded-full bg-gradient-to-r from-orange-500 to-red-500 flex items-center justify-center flex-shrink-0">
@@ -360,7 +368,7 @@ export default function Home() {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       </svg>
                     </div>
-                    <span className="text-xs text-gray-700">Audio Recording</span>
+                    <span className="text-xs text-gray-300">Audio Recording</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="w-6 h-6 rounded-full bg-gradient-to-r from-orange-500 to-red-500 flex items-center justify-center flex-shrink-0">
@@ -368,20 +376,20 @@ export default function Home() {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       </svg>
                     </div>
-                    <span className="text-xs text-gray-700">Analytics</span>
+                    <span className="text-xs text-gray-300">Analytics</span>
                   </div>
                 </div>
 
                 <div className="flex items-center justify-between pt-4 border-t-2 border-orange-200">
-                  <span className="text-gray-600 text-xs font-medium">500+ Roles</span>
-                  <span className="text-orange-600 font-bold text-base group-hover:translate-x-2 transition-transform">Try It Free →</span>
+                  <span className="text-gray-400 text-xs font-medium">500+ Roles</span>
+                  <span className="text-orange-400 font-bold text-base group-hover:translate-x-2 transition-transform">Try It Free →</span>
                 </div>
               </div>
             </Link>
 
             {/* LinkedIn Profile Optimizer Card */}
             <Link href="/linkedin">
-              <div className="group bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 rounded-3xl p-8 lg:p-10 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 border-2 border-blue-200 hover:border-blue-400 cursor-pointer h-full">
+              <div className="group bg-gradient-to-br from-gray-900/70 to-black/70 backdrop-blur-xl rounded-3xl p-8 lg:p-10 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 border-2 border-blue-500/20 hover:border-blue-500/40 cursor-pointer h-full">
                 <div className="flex items-start gap-6 mb-6">
                   <div className="flex-shrink-0 w-20 h-20 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
                     <svg className="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 24 24">
@@ -389,12 +397,12 @@ export default function Home() {
                     </svg>
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-2xl font-bold text-gray-900 mb-2">LinkedIn Optimizer</h3>
-                    <p className="text-blue-600 font-semibold text-lg mb-4">Get 3x more views →</p>
+                    <h3 className="text-2xl font-bold text-white mb-2">LinkedIn Optimizer</h3>
+                    <p className="text-blue-400 font-semibold text-lg mb-4">Get 3x more views →</p>
                   </div>
                 </div>
 
-                <p className="text-gray-700 text-base mb-6 leading-relaxed">
+                <p className="text-gray-300 text-base mb-6 leading-relaxed">
                   Make recruiters come to you. AI-powered optimization that gets you <strong>3x more profile views</strong> in just 4 weeks.
                 </p>
 
@@ -405,7 +413,7 @@ export default function Home() {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       </svg>
                     </div>
-                    <span className="text-xs text-gray-700">Keyword Analysis</span>
+                    <span className="text-xs text-gray-300">Keyword Analysis</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="w-6 h-6 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 flex items-center justify-center flex-shrink-0">
@@ -413,7 +421,7 @@ export default function Home() {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       </svg>
                     </div>
-                    <span className="text-xs text-gray-700">Profile Scoring</span>
+                    <span className="text-xs text-gray-300">Profile Scoring</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="w-6 h-6 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 flex items-center justify-center flex-shrink-0">
@@ -421,7 +429,7 @@ export default function Home() {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       </svg>
                     </div>
-                    <span className="text-xs text-gray-700">10+ Templates</span>
+                    <span className="text-xs text-gray-300">10+ Templates</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="w-6 h-6 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 flex items-center justify-center flex-shrink-0">
@@ -429,13 +437,13 @@ export default function Home() {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       </svg>
                     </div>
-                    <span className="text-xs text-gray-700">Visibility Plan</span>
+                    <span className="text-xs text-gray-300">Visibility Plan</span>
                   </div>
                 </div>
 
                 <div className="flex items-center justify-between pt-4 border-t-2 border-blue-200">
-                  <span className="text-gray-600 text-xs font-medium">Get 3x more views</span>
-                  <span className="text-blue-600 font-bold text-base group-hover:translate-x-2 transition-transform">Optimize →</span>
+                  <span className="text-gray-400 text-xs font-medium">Get 3x more views</span>
+                  <span className="text-blue-400 font-bold text-base group-hover:translate-x-2 transition-transform">Optimize →</span>
                 </div>
               </div>
             </Link>
@@ -450,12 +458,12 @@ export default function Home() {
                     </svg>
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-2xl font-bold text-gray-900 mb-2">Career Roadmap</h3>
+                    <h3 className="text-2xl font-bold text-white mb-2">Career Roadmap</h3>
                     <p className="text-indigo-600 font-semibold text-lg mb-4">Know your path →</p>
                   </div>
                 </div>
 
-                <p className="text-gray-700 text-base mb-6 leading-relaxed">
+                <p className="text-gray-300 text-base mb-6 leading-relaxed">
                   Stop wandering. Get a <strong>personalized step-by-step plan</strong> to reach your dream role, with exact skills to learn and timelines to follow.
                 </p>
 
@@ -466,7 +474,7 @@ export default function Home() {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       </svg>
                     </div>
-                    <span className="text-xs text-gray-700">Skills Gap Analysis</span>
+                    <span className="text-xs text-gray-300">Skills Gap Analysis</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="w-6 h-6 rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 flex items-center justify-center flex-shrink-0">
@@ -474,7 +482,7 @@ export default function Home() {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       </svg>
                     </div>
-                    <span className="text-xs text-gray-700">Learning Paths</span>
+                    <span className="text-xs text-gray-300">Learning Paths</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="w-6 h-6 rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 flex items-center justify-center flex-shrink-0">
@@ -482,7 +490,7 @@ export default function Home() {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       </svg>
                     </div>
-                    <span className="text-xs text-gray-700">Timeline Plan</span>
+                    <span className="text-xs text-gray-300">Timeline Plan</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="w-6 h-6 rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 flex items-center justify-center flex-shrink-0">
@@ -490,12 +498,12 @@ export default function Home() {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       </svg>
                     </div>
-                    <span className="text-xs text-gray-700">Certifications</span>
+                    <span className="text-xs text-gray-300">Certifications</span>
                   </div>
                 </div>
 
                 <div className="flex items-center justify-between pt-4 border-t-2 border-indigo-200">
-                  <span className="text-gray-600 text-xs font-medium">Chart your path</span>
+                  <span className="text-gray-400 text-xs font-medium">Chart your path</span>
                   <span className="text-indigo-600 font-bold text-base group-hover:translate-x-2 transition-transform">Get Started →</span>
                 </div>
               </div>
@@ -503,7 +511,7 @@ export default function Home() {
 
             {/* Salary Negotiation Card */}
             <Link href="/salary">
-              <div className="group bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 rounded-3xl p-8 lg:p-10 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 border-2 border-green-200 hover:border-green-400 cursor-pointer h-full">
+              <div className="group bg-gradient-to-br from-gray-900/70 to-black/70 backdrop-blur-xl rounded-3xl p-8 lg:p-10 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 border-2 border-green-500/20 hover:border-green-500/40 cursor-pointer h-full">
                 <div className="flex items-start gap-6 mb-6">
                   <div className="flex-shrink-0 w-20 h-20 bg-gradient-to-r from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
                     <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -511,12 +519,12 @@ export default function Home() {
                     </svg>
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-2xl font-bold text-gray-900 mb-2">Salary Negotiation</h3>
-                    <p className="text-green-600 font-semibold text-lg mb-4">Earn $15K+ more →</p>
+                    <h3 className="text-2xl font-bold text-white mb-2">Salary Negotiation</h3>
+                    <p className="text-green-400 font-semibold text-lg mb-4">Earn $15K+ more →</p>
                   </div>
                 </div>
 
-                <p className="text-gray-700 text-base mb-6 leading-relaxed">
+                <p className="text-gray-300 text-base mb-6 leading-relaxed">
                   Don't leave money on the table. Get word-for-word scripts and real market data that help you negotiate <strong>$15K+ more on average</strong>.
                 </p>
 
@@ -527,7 +535,7 @@ export default function Home() {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       </svg>
                     </div>
-                    <span className="text-xs text-gray-700">Market Data</span>
+                    <span className="text-xs text-gray-300">Market Data</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="w-6 h-6 rounded-full bg-gradient-to-r from-green-500 to-emerald-600 flex items-center justify-center flex-shrink-0">
@@ -535,7 +543,7 @@ export default function Home() {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       </svg>
                     </div>
-                    <span className="text-xs text-gray-700">12+ Scripts</span>
+                    <span className="text-xs text-gray-300">12+ Scripts</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="w-6 h-6 rounded-full bg-gradient-to-r from-green-500 to-emerald-600 flex items-center justify-center flex-shrink-0">
@@ -543,7 +551,7 @@ export default function Home() {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       </svg>
                     </div>
-                    <span className="text-xs text-gray-700">Calculator</span>
+                    <span className="text-xs text-gray-300">Calculator</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="w-6 h-6 rounded-full bg-gradient-to-r from-green-500 to-emerald-600 flex items-center justify-center flex-shrink-0">
@@ -551,13 +559,13 @@ export default function Home() {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       </svg>
                     </div>
-                    <span className="text-xs text-gray-700">Comparison</span>
+                    <span className="text-xs text-gray-300">Comparison</span>
                   </div>
                 </div>
 
                 <div className="flex items-center justify-between pt-4 border-t-2 border-green-200">
-                  <span className="text-gray-600 text-xs font-medium">$15K+ Average</span>
-                  <span className="text-green-600 font-bold text-base group-hover:translate-x-2 transition-transform">Start Now →</span>
+                  <span className="text-gray-400 text-xs font-medium">$15K+ Average</span>
+                  <span className="text-green-400 font-bold text-base group-hover:translate-x-2 transition-transform">Start Now →</span>
                 </div>
               </div>
             </Link>
@@ -565,27 +573,27 @@ export default function Home() {
 
           {/* Value Prop Banner */}
           <div className="mt-12 bg-gradient-to-r from-purple-100 via-blue-100 to-indigo-100 rounded-2xl p-8 text-center border-2 border-purple-200">
-            <h3 className="text-2xl font-bold text-gray-900 mb-3">
+            <h3 className="text-2xl font-bold text-white mb-3">
               Why settle for just the job?
             </h3>
-            <p className="text-gray-700 text-lg mb-4">
+            <p className="text-gray-300 text-lg mb-4">
               Most candidates leave <strong>$10K-50K</strong> on the table every year. Get the offer AND the salary you deserve.
             </p>
-            <div className="flex flex-wrap justify-center gap-6 text-sm font-semibold text-gray-600">
+            <div className="flex flex-wrap justify-center gap-6 text-sm font-semibold text-gray-400">
               <span className="flex items-center gap-2">
-                <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
                 95% Interview Success Rate
               </span>
               <span className="flex items-center gap-2">
-                <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
                 $15K+ Avg Salary Increase
               </span>
               <span className="flex items-center gap-2">
-                <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
                 500K+ Happy Users
@@ -599,10 +607,10 @@ export default function Home() {
       <section id="features" className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
               Interview Prep That Actually Works
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-xl text-gray-400 max-w-3xl mx-auto">
               Real questions. Instant feedback. Proven results. Everything you need to dominate your next interview.
             </p>
           </div>
@@ -614,8 +622,8 @@ export default function Home() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">45+ Real Interview Questions</h3>
-              <p className="text-gray-600 leading-relaxed">
+              <h3 className="text-xl font-bold text-white mb-3">45+ Real Interview Questions</h3>
+              <p className="text-gray-400 leading-relaxed">
                 Practice the exact questions interviewers ask today. Covering 500+ roles from software engineering to product management. No fluff, just what works.
               </p>
             </div>
@@ -627,8 +635,8 @@ export default function Home() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                 </svg>
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Instant AI Feedback</h3>
-              <p className="text-gray-600 leading-relaxed">
+              <h3 className="text-xl font-bold text-white mb-3">Instant AI Feedback</h3>
+              <p className="text-gray-400 leading-relaxed">
                 Know exactly what to improve—instantly. Get detailed feedback on your answers, communication style, and how to make every response stronger.
               </p>
             </div>
@@ -640,8 +648,8 @@ export default function Home() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
                 </svg>
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Record & Review Your Answers</h3>
-              <p className="text-gray-600 leading-relaxed">
+              <h3 className="text-xl font-bold text-white mb-3">Record & Review Your Answers</h3>
+              <p className="text-gray-400 leading-relaxed">
                 Hear how you actually sound. Practice out loud, get instant transcriptions, and catch those "ums" and "ahs" before the real interview.
               </p>
             </div>
@@ -653,8 +661,8 @@ export default function Home() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                 </svg>
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Track Your Progress</h3>
-              <p className="text-gray-600 leading-relaxed">
+              <h3 className="text-xl font-bold text-white mb-3">Track Your Progress</h3>
+              <p className="text-gray-400 leading-relaxed">
                 See yourself getting better. Visual dashboards show exactly where you're improving and what needs work. Watch your confidence grow with every session.
               </p>
             </div>
@@ -666,8 +674,8 @@ export default function Home() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
                 </svg>
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Save & Share Your Progress</h3>
-              <p className="text-gray-600 leading-relaxed">
+              <h3 className="text-xl font-bold text-white mb-3">Save & Share Your Progress</h3>
+              <p className="text-gray-400 leading-relaxed">
                 Download everything as PDF or CSV. Share your wins with mentors, review offline, or keep records for future interviews. Your data, your way.
               </p>
             </div>
@@ -679,8 +687,8 @@ export default function Home() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Practice Until You're Perfect</h3>
-              <p className="text-gray-600 leading-relaxed">
+              <h3 className="text-xl font-bold text-white mb-3">Practice Until You're Perfect</h3>
+              <p className="text-gray-400 leading-relaxed">
                 No limits. No restrictions. Practice 10 times or 100 times—whatever it takes to walk into that interview room with unshakeable confidence.
               </p>
             </div>
@@ -692,10 +700,10 @@ export default function Home() {
       <section id="how-it-works" className="py-20 bg-gradient-to-b from-gray-50 to-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
               From Nervous to Confident in 3 Steps
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            <p className="text-xl text-gray-400 max-w-2xl mx-auto">
               Start practicing in under 60 seconds. Land your dream job this month.
             </p>
           </div>
@@ -704,11 +712,11 @@ export default function Home() {
           <div className="mb-16 relative">
             <div className="grid md:grid-cols-2 gap-8 items-center bg-gradient-to-r from-orange-50 to-purple-50 rounded-3xl p-8 md:p-12">
               <div>
-                <h3 className="text-3xl font-bold text-gray-900 mb-4">Real Practice. Real Results.</h3>
-                <p className="text-lg text-gray-600 mb-6">
+                <h3 className="text-3xl font-bold text-white mb-4">Real Practice. Real Results.</h3>
+                <p className="text-lg text-gray-400 mb-6">
                   Stop reading generic tips. Start practicing with real questions, getting real feedback, and seeing real improvement. Every single session makes you better.
                 </p>
-                <ul className="space-y-3 text-gray-700">
+                <ul className="space-y-3 text-gray-300">
                   <li className="flex items-center gap-3">
                     <div className="w-6 h-6 rounded-full bg-gradient-to-r from-orange-500 to-red-500 flex items-center justify-center flex-shrink-0">
                       <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -754,11 +762,11 @@ export default function Home() {
                 <div className="flex items-center justify-center w-16 h-16 bg-gradient-to-r from-orange-500 to-red-500 rounded-2xl mb-6 text-white text-2xl font-bold">
                   1
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">Pick Your Role</h3>
-                <p className="text-gray-600 mb-4">
+                <h3 className="text-2xl font-bold text-white mb-4">Pick Your Role</h3>
+                <p className="text-gray-400 mb-4">
                   Choose your target role. Get <strong>45+ questions</strong> that interviewers actually ask for that specific position. From entry-level to senior roles across 500+ careers.
                 </p>
-                <ul className="text-sm text-gray-500 space-y-2">
+                <ul className="text-sm text-gray-400 space-y-2">
                   <li className="flex items-start gap-2">
                     <span className="text-orange-500 mt-1">✓</span>
                     <span>Software Engineering, Product, Design</span>
@@ -780,11 +788,11 @@ export default function Home() {
                 <div className="flex items-center justify-center w-16 h-16 bg-gradient-to-r from-purple-500 to-blue-500 rounded-2xl mb-6 text-white text-2xl font-bold">
                   2
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">Practice Out Loud</h3>
-                <p className="text-gray-600 mb-4">
+                <h3 className="text-2xl font-bold text-white mb-4">Practice Out Loud</h3>
+                <p className="text-gray-400 mb-4">
                   Answer questions like you're in the real interview. Record your voice, get instant transcriptions, and practice until it feels natural.
                 </p>
-                <ul className="text-sm text-gray-500 space-y-2">
+                <ul className="text-sm text-gray-400 space-y-2">
                   <li className="flex items-start gap-2">
                     <span className="text-purple-500 mt-1">✓</span>
                     <span>Natural conversation flow</span>
@@ -806,11 +814,11 @@ export default function Home() {
                 <div className="flex items-center justify-center w-16 h-16 bg-gradient-to-r from-green-500 to-teal-500 rounded-2xl mb-6 text-white text-2xl font-bold">
                   3
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">See What to Fix</h3>
-                <p className="text-gray-600 mb-4">
+                <h3 className="text-2xl font-bold text-white mb-4">See What to Fix</h3>
+                <p className="text-gray-400 mb-4">
                   Get instant, specific feedback on every answer. Know exactly what's working and what needs improvement. Track your progress as you get better.
                 </p>
-                <ul className="text-sm text-gray-500 space-y-2">
+                <ul className="text-sm text-gray-400 space-y-2">
                   <li className="flex items-start gap-2">
                     <span className="text-green-500 mt-1">✓</span>
                     <span>Content quality assessment</span>
@@ -839,12 +847,12 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-16">
             <div className="inline-block mb-4 px-4 py-2 bg-gradient-to-r from-orange-100 to-red-100 rounded-full">
-              <span className="text-orange-600 font-semibold text-sm">Success Stories</span>
+              <span className="text-orange-400 font-semibold text-sm">Success Stories</span>
             </div>
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
               Real People. Real Offers. Real Results.
             </h2>
-            <p className="text-xl text-gray-600">Here's what happened when they stopped overthinking and started practicing</p>
+            <p className="text-xl text-gray-400">Here's what happened when they stopped overthinking and started practicing</p>
           </div>
 
           {/* Testimonial Hero Image */}
@@ -873,7 +881,7 @@ export default function Home() {
                   </svg>
                 ))}
               </div>
-              <p className="text-gray-700 mb-6 leading-relaxed">
+              <p className="text-gray-300 mb-6 leading-relaxed">
                 &quot;PrepCoach helped me land a senior PM role at Google. The AI feedback was incredibly detailed
                 and helped me refine my STAR responses. Worth every penny!&quot;
               </p>
@@ -884,8 +892,8 @@ export default function Home() {
                   className="w-12 h-12 rounded-full object-cover"
                 />
                 <div>
-                  <p className="font-bold text-gray-900">Sarah Chen</p>
-                  <p className="text-sm text-gray-500">Product Manager @ Google</p>
+                  <p className="font-bold text-white">Sarah Chen</p>
+                  <p className="text-sm text-gray-400">Product Manager @ Google</p>
                 </div>
               </div>
             </div>
@@ -898,7 +906,7 @@ export default function Home() {
                   </svg>
                 ))}
               </div>
-              <p className="text-gray-700 mb-6 leading-relaxed">
+              <p className="text-gray-300 mb-6 leading-relaxed">
                 &quot;As a career switcher into tech, PrepCoach gave me the confidence I needed. The analytics
                 showed exactly where I was improving. Got 3 offers in 2 months!&quot;
               </p>
@@ -909,8 +917,8 @@ export default function Home() {
                   className="w-12 h-12 rounded-full object-cover"
                 />
                 <div>
-                  <p className="font-bold text-gray-900">Michael Rodriguez</p>
-                  <p className="text-sm text-gray-500">Software Engineer @ Meta</p>
+                  <p className="font-bold text-white">Michael Rodriguez</p>
+                  <p className="text-sm text-gray-400">Software Engineer @ Meta</p>
                 </div>
               </div>
             </div>
@@ -923,7 +931,7 @@ export default function Home() {
                   </svg>
                 ))}
               </div>
-              <p className="text-gray-700 mb-6 leading-relaxed">
+              <p className="text-gray-300 mb-6 leading-relaxed">
                 &quot;The audio recording feature was game-changing. I could hear myself and identify verbal
                 tics. Landed my dream data science role at Netflix!&quot;
               </p>
@@ -934,8 +942,8 @@ export default function Home() {
                   className="w-12 h-12 rounded-full object-cover"
                 />
                 <div>
-                  <p className="font-bold text-gray-900">Aisha Patel</p>
-                  <p className="text-sm text-gray-500">Data Scientist @ Netflix</p>
+                  <p className="font-bold text-white">Aisha Patel</p>
+                  <p className="text-sm text-gray-400">Data Scientist @ Netflix</p>
                 </div>
               </div>
             </div>
@@ -958,12 +966,12 @@ export default function Home() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link href="/auth/signup">
-              <button className="px-10 py-5 bg-white text-orange-600 rounded-full text-lg font-bold hover:shadow-2xl transition transform hover:scale-105 shadow-xl">
+              <button className="px-10 py-5 bg-white text-orange-400 rounded-full text-lg font-bold hover:shadow-2xl transition transform hover:scale-105 shadow-xl">
                 Start Practicing Free →
               </button>
             </Link>
             <Link href="/pricing">
-              <button className="px-10 py-5 bg-transparent border-2 border-white text-white rounded-full text-lg font-bold hover:bg-white hover:text-orange-600 transition">
+              <button className="px-10 py-5 bg-transparent border-2 border-white text-white rounded-full text-lg font-bold hover:bg-white hover:text-orange-400 transition">
                 See Plans & Pricing
               </button>
             </Link>
@@ -990,7 +998,7 @@ export default function Home() {
                 <span className="text-3xl font-bold bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent cursor-pointer">
                   PrepCoach
                 </span>
-                <span className="text-sm font-bold text-gray-500 group-hover:text-orange-400 transition-colors" style={{ fontSize: '0.75rem', verticalAlign: 'super', marginLeft: '-0.15rem' }}>
+                <span className="text-sm font-bold text-gray-400 group-hover:text-orange-400 transition-colors" style={{ fontSize: '0.75rem', verticalAlign: 'super', marginLeft: '-0.15rem' }}>
                   GJ
                 </span>
               </Link>

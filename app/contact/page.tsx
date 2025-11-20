@@ -42,10 +42,10 @@ function ContactForm() {
         <div className="max-w-4xl mx-auto">
           {/* Hero Section */}
           <div className="text-center mb-12">
-            <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">
+            <h1 className="text-4xl sm:text-5xl font-bold text-white mb-4">
               Get in <span className="bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">Touch</span>
             </h1>
-            <p className="text-xl text-gray-600">
+            <p className="text-xl text-gray-400">
               Have a question? We&apos;d love to hear from you.
             </p>
           </div>
@@ -53,10 +53,10 @@ function ContactForm() {
           <div className="grid md:grid-cols-2 gap-8">
             {/* Contact Form */}
             <div className="bg-white rounded-2xl shadow-lg p-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Send us a message</h2>
+              <h2 className="text-2xl font-bold text-white mb-6">Send us a message</h2>
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+                  <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-1">
                     Your Name
                   </label>
                   <input
@@ -72,7 +72,7 @@ function ContactForm() {
                 </div>
 
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                  <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-1">
                     Email Address
                   </label>
                   <input
@@ -88,7 +88,7 @@ function ContactForm() {
                 </div>
 
                 <div>
-                  <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-1">
+                  <label htmlFor="subject" className="block text-sm font-medium text-gray-300 mb-1">
                     Subject
                   </label>
                   <select
@@ -112,7 +112,7 @@ function ContactForm() {
                 </div>
 
                 <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
+                  <label htmlFor="message" className="block text-sm font-medium text-gray-300 mb-1">
                     Message
                   </label>
                   <textarea
@@ -146,8 +146,8 @@ function ContactForm() {
                     📧
                   </div>
                   <div>
-                    <h3 className="font-semibold text-gray-900 mb-1">Email</h3>
-                    <p className="text-gray-600 text-sm">Get in touch via email</p>
+                    <h3 className="font-semibold text-white mb-1">Email</h3>
+                    <p className="text-gray-400 text-sm">Get in touch via email</p>
                     <a href="mailto:gideonbosiregj@gmail.com" className="text-orange-500 hover:text-orange-600 font-medium mt-2 block">
                       gideonbosiregj@gmail.com
                     </a>
@@ -162,8 +162,8 @@ function ContactForm() {
                     ❓
                   </div>
                   <div>
-                    <h3 className="font-semibold text-gray-900 mb-1">Help Center</h3>
-                    <p className="text-gray-600 text-sm">Find answers to common questions</p>
+                    <h3 className="font-semibold text-white mb-1">Help Center</h3>
+                    <p className="text-gray-400 text-sm">Find answers to common questions</p>
                     <Link href="/help" className="text-blue-500 hover:text-blue-600 font-medium mt-2 block">
                       Visit Help Center →
                     </Link>
@@ -178,8 +178,8 @@ function ContactForm() {
                     🌐
                   </div>
                   <div>
-                    <h3 className="font-semibold text-gray-900 mb-1">Follow Us</h3>
-                    <p className="text-gray-600 text-sm mb-3">Stay updated with the latest</p>
+                    <h3 className="font-semibold text-white mb-1">Follow Us</h3>
+                    <p className="text-gray-400 text-sm mb-3">Stay updated with the latest</p>
                     <div className="flex gap-3">
                       <a href="https://x.com/prep_coach" target="_blank" rel="noopener noreferrer" className="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center hover:bg-gray-200 transition">
                         <span className="text-sm">𝕏</span>
@@ -213,7 +213,7 @@ export default function ContactPage() {
       <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-orange-50 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading...</p>
+          <p className="text-gray-400">Loading...</p>
         </div>
       </div>
     }>
