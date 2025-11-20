@@ -1034,6 +1034,7 @@ export default function Home() {
               <ul className="space-y-3 text-gray-400">
                 <li><Link href="/about" className="hover:text-orange-500 transition">About Us</Link></li>
                 <li><Link href="/careers" className="hover:text-orange-500 transition font-semibold text-orange-400">Careers 🚀</Link></li>
+                <li><Link href="/affiliate" className="hover:text-orange-500 transition font-semibold text-green-400">Affiliate Program 💰</Link></li>
                 <li><Link href="/contact" className="hover:text-orange-500 transition">Contact</Link></li>
                 <li><Link href="/pricing" className="hover:text-orange-500 transition">Pricing</Link></li>
                 <li><a href="https://github.com/gideonjohnson/PrepCoach" target="_blank" rel="noopener noreferrer" className="hover:text-orange-500 transition">GitHub</a></li>

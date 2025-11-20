@@ -105,6 +105,7 @@ function ContactForm() {
                     <option value="billing">Billing Question</option>
                     <option value="feature">Feature Request</option>
                     <option value="partnership">Partnership Opportunity</option>
+                    <option value="affiliate">Affiliate Program Application</option>
                     <option value="career">Job Application</option>
                     <option value="other">Other</option>
                   </select>
