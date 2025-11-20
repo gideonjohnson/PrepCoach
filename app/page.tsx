@@ -27,6 +27,7 @@ export default function Home() {
             {/* Desktop menu */}
             <div className="hidden md:flex items-center space-x-8">
               <Link href="/pricing" className="text-gray-600 hover:text-gray-900 transition">Pricing</Link>
+              <Link href="/careers" className="text-gray-600 hover:text-gray-900 transition">Careers</Link>
               <Link href="/dashboard" className="text-gray-600 hover:text-gray-900 transition">Dashboard</Link>
               {session ? (
                 <div className="flex items-center space-x-4">
@@ -70,6 +71,7 @@ export default function Home() {
             <div className="md:hidden py-4 border-t border-gray-100">
               <div className="flex flex-col space-y-4">
                 <Link href="/pricing" onClick={() => setMobileMenuOpen(false)} className="text-gray-600 hover:text-gray-900 transition">Pricing</Link>
+                <Link href="/careers" onClick={() => setMobileMenuOpen(false)} className="text-gray-600 hover:text-gray-900 transition">Careers</Link>
                 <Link href="/dashboard" onClick={() => setMobileMenuOpen(false)} className="text-gray-600 hover:text-gray-900 transition">Dashboard</Link>
                 {session ? (
                   <>
@@ -966,6 +968,13 @@ export default function Home() {
               </button>
             </Link>
           </div>
+          <div className="mt-8">
+            <Link href="/careers">
+              <button className="px-8 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-full font-semibold hover:shadow-2xl transition transform hover:scale-105 shadow-lg">
+                Join Our Team - We&apos;re Hiring! 🚀
+              </button>
+            </Link>
+          </div>
           <p className="text-white/80 text-sm mt-6">
             Start in 60 seconds • No credit card • 30-day money-back guarantee
           </p>
@@ -1024,6 +1033,7 @@ export default function Home() {
               <h4 className="font-bold text-lg mb-4">Company</h4>
               <ul className="space-y-3 text-gray-400">
                 <li><Link href="/about" className="hover:text-orange-500 transition">About Us</Link></li>
+                <li><Link href="/careers" className="hover:text-orange-500 transition font-semibold text-orange-400">Careers 🚀</Link></li>
                 <li><Link href="/contact" className="hover:text-orange-500 transition">Contact</Link></li>
                 <li><Link href="/pricing" className="hover:text-orange-500 transition">Pricing</Link></li>
                 <li><a href="https://github.com/gideonjohnson/PrepCoach" target="_blank" rel="noopener noreferrer" className="hover:text-orange-500 transition">GitHub</a></li>
