@@ -1,16 +1,20 @@
 'use client';
 
 import { useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import Header from '../components/Header';
 import { toast } from 'react-hot-toast';
 
 export default function ContactPage() {
+  const searchParams = useSearchParams();
+  const position = searchParams.get('position');
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    subject: '',
-    message: '',
+    subject: position ? 'career' : '',
+    message: position ? `I would like to apply for the ${position} position.\n\n` : '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -101,6 +105,7 @@ export default function ContactPage() {
                     <option value="billing">Billing Question</option>
                     <option value="feature">Feature Request</option>
                     <option value="partnership">Partnership Opportunity</option>
+                    <option value="career">Job Application</option>
                     <option value="other">Other</option>
                   </select>
                 </div>

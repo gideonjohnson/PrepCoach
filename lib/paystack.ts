@@ -1,4 +1,5 @@
 import axios from 'axios';
+import crypto from 'crypto';
 
 // Check if Paystack secret key is configured
 if (!process.env.PAYSTACK_SECRET_KEY || process.env.PAYSTACK_SECRET_KEY === 'your_paystack_secret_key_here') {
@@ -52,7 +53,7 @@ export async function initializeTransaction(
   email: string,
   amount: number,
   planCode: string,
-  metadata: Record<string, any>
+  metadata: Record<string, unknown>
 ) {
   try {
     const payload = {
@@ -67,10 +68,11 @@ export async function initializeTransaction(
     const response = await paystackAPI.post('/transaction/initialize', payload);
 
     return response.data;
-  } catch (error: any) {
-    console.error('[PAYSTACK] Initialization error - Full response:', JSON.stringify(error.response?.data || {}, null, 2));
-    console.error('[PAYSTACK] Initialization error - Status:', error.response?.status);
-    console.error('[PAYSTACK] Initialization error - Message:', error.message);
+  } catch (error: unknown) {
+    const axiosError = error as { response?: { data?: unknown; status?: number }; message?: string };
+    console.error('[PAYSTACK] Initialization error - Full response:', JSON.stringify(axiosError.response?.data || {}, null, 2));
+    console.error('[PAYSTACK] Initialization error - Status:', axiosError.response?.status);
+    console.error('[PAYSTACK] Initialization error - Message:', axiosError.message);
     throw error;
   }
 }
@@ -80,15 +82,15 @@ export async function verifyTransaction(reference: string) {
   try {
     const response = await paystackAPI.get(`/transaction/verify/${reference}`);
     return response.data;
-  } catch (error: any) {
-    console.error('Paystack verification error:', error.response?.data || error.message);
+  } catch (error: unknown) {
+    const axiosError = error as { response?: { data?: unknown }; message?: string };
+    console.error('Paystack verification error:', axiosError.response?.data || axiosError.message);
     throw error;
   }
 }
 
 // Verify Paystack webhook signature
 export function verifyWebhookSignature(payload: string, signature: string): boolean {
-  const crypto = require('crypto');
   const hash = crypto
     .createHmac('sha512', paystackConfig.secretKey)
     .update(payload)

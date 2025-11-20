@@ -122,7 +122,7 @@ export async function POST(request: NextRequest) {
         biometricSection += `\nVocal Analysis:
 - Speaking Pace: ${vocalMetrics.pace || 'N/A'} words/minute ${vocalMetrics.pace ? (vocalMetrics.pace < 120 ? '(Too slow)' : vocalMetrics.pace > 180 ? '(Too fast)' : '(Good pace)') : ''}
 - Clarity Score: ${vocalMetrics.clarity || 'N/A'}/100
-- Filler Words: ${vocalMetrics.fillerWordCount || 0} detected${vocalMetrics.fillerWords?.length ? ` (${vocalMetrics.fillerWords.map((f: any) => `"${f.word}": ${f.count}`).join(', ')})` : ''}
+- Filler Words: ${vocalMetrics.fillerWordCount || 0} detected${vocalMetrics.fillerWords?.length ? ` (${vocalMetrics.fillerWords.map((f: { word: string; count: number }) => `"${f.word}": ${f.count}`).join(', ')})` : ''}
 - Pause Frequency: ${vocalMetrics.pauseCount || 0} pauses, avg ${vocalMetrics.averagePauseLength || 0}s each
 - Energy Level: ${vocalMetrics.energyLevel || 'N/A'}/100
 - Volume Consistency: ${vocalMetrics.volumeConsistency || 'N/A'}/100`;
@@ -244,11 +244,12 @@ IMPORTANT: Be brutally honest but constructive. Avoid generic platitudes. Give s
     }
 
     return NextResponse.json({ feedback });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error analyzing response:', error);
 
     // Handle quota/credit errors
-    if (error?.status === 429 || error?.error?.type === 'insufficient_credits') {
+    const errorObj = error as { status?: number; error?: { type?: string }; message?: string };
+    if (errorObj?.status === 429 || errorObj?.error?.type === 'insufficient_credits') {
       return NextResponse.json(
         {
           error: 'Anthropic API quota exceeded',
@@ -260,7 +261,7 @@ IMPORTANT: Be brutally honest but constructive. Avoid generic platitudes. Give s
     }
 
     // Handle rate limit errors
-    if (error?.status === 429 || error?.error?.type === 'rate_limit_error') {
+    if (errorObj?.status === 429 || errorObj?.error?.type === 'rate_limit_error') {
       return NextResponse.json(
         {
           error: 'Rate limit exceeded',
@@ -272,7 +273,7 @@ IMPORTANT: Be brutally honest but constructive. Avoid generic platitudes. Give s
     }
 
     // Handle authentication errors
-    if (error?.status === 401 || error?.error?.type === 'authentication_error') {
+    if (errorObj?.status === 401 || errorObj?.error?.type === 'authentication_error') {
       return NextResponse.json(
         {
           error: 'API authentication failed',
@@ -287,7 +288,7 @@ IMPORTANT: Be brutally honest but constructive. Avoid generic platitudes. Give s
     return NextResponse.json(
       {
         error: 'Failed to analyze response',
-        message: error?.message || 'An unexpected error occurred while analyzing your response',
+        message: errorObj?.message || 'An unexpected error occurred while analyzing your response',
         code: 'analysis_failed'
       },
       { status: 500 }

@@ -118,7 +118,7 @@ export function addRateLimitHeaders(
 /**
  * Wrapper for API routes with rate limiting
  */
-export function withApiRateLimit<T extends any[]>(
+export function withApiRateLimit<T extends unknown[]>(
   handler: (req: NextRequest, ...args: T) => Promise<NextResponse>,
   config: RateLimitConfig = { enabled: true }
 ) {

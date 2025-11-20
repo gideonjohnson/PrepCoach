@@ -38,6 +38,9 @@ export default function Navigation() {
             <Link href="/pricing" className="text-gray-600 hover:text-gray-900 transition font-medium">
               Pricing
             </Link>
+            <Link href="/careers" className="text-gray-600 hover:text-gray-900 transition font-medium">
+              Careers
+            </Link>
             {session ? (
               <div className="flex items-center space-x-4">
                 <Link href="/profile" className="text-gray-600 hover:text-gray-900 transition font-medium">
@@ -115,6 +118,13 @@ export default function Navigation() {
                 className="text-gray-600 hover:text-gray-900 transition font-medium"
               >
                 Pricing
+              </Link>
+              <Link
+                href="/careers"
+                onClick={() => setMobileMenuOpen(false)}
+                className="text-gray-600 hover:text-gray-900 transition font-medium"
+              >
+                Careers
               </Link>
               {session ? (
                 <>

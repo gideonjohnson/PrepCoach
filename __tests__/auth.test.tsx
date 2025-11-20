@@ -11,16 +11,16 @@ describe('Authentication', () => {
     it('renders sign in form', () => {
       render(<SignInPage />)
 
-      expect(screen.getByText(/sign in to your account/i)).toBeInTheDocument()
+      expect(screen.getByText(/welcome back/i)).toBeInTheDocument()
       expect(screen.getByPlaceholderText(/you@example.com/i)).toBeInTheDocument()
       expect(screen.getByPlaceholderText(/••••••••/)).toBeInTheDocument()
-      expect(screen.getByRole('button', { name: /sign in/i })).toBeInTheDocument()
+      expect(screen.getByRole('button', { name: /^sign in$/i })).toBeInTheDocument()
     })
 
     it('validates required fields', async () => {
       render(<SignInPage />)
 
-      const submitButton = screen.getByRole('button', { name: /sign in/i })
+      const submitButton = screen.getByRole('button', { name: /^sign in$/i })
       fireEvent.click(submitButton)
 
       // HTML5 validation will prevent submission
@@ -30,13 +30,14 @@ describe('Authentication', () => {
 
     it('submits form with valid credentials', async () => {
       const mockSignIn = signIn as jest.MockedFunction<typeof signIn>
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       mockSignIn.mockResolvedValue({ ok: true, error: null } as any)
 
       render(<SignInPage />)
 
       const emailInput = screen.getByPlaceholderText(/you@example.com/i)
       const passwordInput = screen.getByPlaceholderText(/••••••••/)
-      const submitButton = screen.getByRole('button', { name: /sign in/i })
+      const submitButton = screen.getByRole('button', { name: /^sign in$/i })
 
       fireEvent.change(emailInput, { target: { value: 'test@example.com' } })
       fireEvent.change(passwordInput, { target: { value: 'password123' } })
@@ -56,11 +57,11 @@ describe('Authentication', () => {
     it('renders sign up form', () => {
       render(<SignUpPage />)
 
-      expect(screen.getByText(/create your account/i)).toBeInTheDocument()
+      expect(screen.getByText(/create your account and start practicing/i)).toBeInTheDocument()
       expect(screen.getByPlaceholderText(/john doe/i)).toBeInTheDocument()
       expect(screen.getByPlaceholderText(/you@example.com/i)).toBeInTheDocument()
       expect(screen.getByPlaceholderText(/••••••••/)).toBeInTheDocument()
-      expect(screen.getByRole('button', { name: /sign up/i })).toBeInTheDocument()
+      expect(screen.getByRole('button', { name: /^sign up$/i })).toBeInTheDocument()
     })
 
     it('validates password length', async () => {
@@ -69,7 +70,7 @@ describe('Authentication', () => {
       const passwordInput = screen.getByPlaceholderText(/••••••••/) as HTMLInputElement
 
       // Check that it has minlength attribute
-      expect(passwordInput.getAttribute('minlength')).toBe('6')
+      expect(passwordInput.getAttribute('minlength')).toBe('8')
     })
 
     it('submits form with valid data', async () => {
@@ -85,7 +86,7 @@ describe('Authentication', () => {
       const nameInput = screen.getByPlaceholderText(/john doe/i)
       const emailInput = screen.getByPlaceholderText(/you@example.com/i)
       const passwordInput = screen.getByPlaceholderText(/••••••••/)
-      const submitButton = screen.getByRole('button', { name: /sign up/i })
+      const submitButton = screen.getByRole('button', { name: /^sign up$/i })
 
       fireEvent.change(nameInput, { target: { value: 'Test User' } })
       fireEvent.change(emailInput, { target: { value: 'test@example.com' } })

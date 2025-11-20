@@ -4,7 +4,7 @@ import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { checkApiRateLimit } from '@/lib/rate-limit';
 import { resumeContentTransformSchema, safeValidateData, formatZodError } from '@/lib/validation';
 import OpenAI from 'openai';
-import pdf from 'pdf-parse';
+import * as pdfParse from 'pdf-parse';
 import mammoth from 'mammoth';
 
 const openai = new OpenAI({
@@ -82,7 +82,7 @@ export async function POST(req: NextRequest) {
     try {
       if (resumeFile.type === 'application/pdf') {
         // Parse PDF
-        const pdfData = await pdf(buffer);
+        const pdfData = await pdfParse(buffer);
         fileContent = pdfData.text;
       } else if (
         resumeFile.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
@@ -246,10 +246,10 @@ Return your response in the following JSON format:
       data: result
     });
 
-  } catch (error: any) {
+  } catch (error) {
     console.error('Resume transformation error:', error);
     return NextResponse.json(
-      { error: error.message || 'Failed to transform resume' },
+      { error: error instanceof Error ? error.message : 'Failed to transform resume' },
       { status: 500 }
     );
   }

@@ -89,11 +89,11 @@ export const authOptions: NextAuthOptions = {
     },
     async session({ session, token }) {
       if (session.user) {
-        (session.user as any).id = token.id;
+        (session.user as { id?: string }).id = token.id as string;
       }
       return session;
     },
-    async signIn({ user, account, profile }) {
+    async signIn({ user, account }) {
       // Handle OAuth sign-ins (Google/GitHub)
       if (account?.provider === 'google' || account?.provider === 'github') {
         try {
@@ -129,9 +129,10 @@ export const authOptions: NextAuthOptions = {
                 }
               });
               console.log('[AUTH] Created new OAuth user:', existingUser.id);
-            } catch (createError: any) {
+            } catch (createError: unknown) {
               // Handle race condition: user was created by another request
-              if (createError.code === 'P2002') {
+              const prismaError = createError as { code?: string };
+              if (prismaError.code === 'P2002') {
                 existingUser = await prisma.user.findUnique({
                   where: { email: normalizedEmail }
                 });
