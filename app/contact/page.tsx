@@ -1,12 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import Header from '../components/Header';
 import { toast } from 'react-hot-toast';
 
-export default function ContactPage() {
+function ContactForm() {
   const searchParams = useSearchParams();
   const position = searchParams.get('position');
 
@@ -46,7 +46,7 @@ export default function ContactPage() {
               Get in <span className="bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">Touch</span>
             </h1>
             <p className="text-xl text-gray-600">
-              Have a question? We'd love to hear from you.
+              Have a question? We&apos;d love to hear from you.
             </p>
           </div>
 
@@ -203,5 +203,20 @@ export default function ContactPage() {
         </div>
       </main>
     </div>
+  );
+}
+
+export default function ContactPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-orange-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading...</p>
+        </div>
+      </div>
+    }>
+      <ContactForm />
+    </Suspense>
   );
 }
