@@ -152,9 +152,15 @@ function LinkedInOptimizerContent() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-black relative overflow-hidden">
+      <div className="fixed inset-0 -z-10">
+        <div className="absolute inset-0 bg-gradient-to-br from-black via-gray-900 to-black"></div>
+        <div className="absolute top-0 -left-40 w-96 h-96 bg-orange-500/10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute top-40 right-0 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute bottom-0 left-1/3 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse delay-500"></div>
+      </div>
       {/* Header */}
-      <header className="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
+      <header className="bg-gradient-to-br from-gray-900/80 to-black/80 backdrop-blur-sm border-b border-white/10 sticky top-0 z-50 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center">
@@ -163,8 +169,8 @@ function LinkedInOptimizerContent() {
               </svg>
             </div>
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">LinkedIn Profile Optimizer</h1>
-              <p className="text-gray-600">Professional profile optimization powered by advanced AI</p>
+              <h1 className="text-3xl font-bold text-white">LinkedIn Profile Optimizer</h1>
+              <p className="text-gray-400">Professional profile optimization powered by advanced AI</p>
             </div>
           </div>
         </div>
@@ -187,7 +193,7 @@ function LinkedInOptimizerContent() {
                 className={`px-6 py-3 rounded-lg font-medium text-sm whitespace-nowrap transition-all snap-start active:scale-95 ${
                   activeTab === tab.id
                     ? 'bg-blue-600 text-white shadow-sm'
-                    : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200 active:bg-gray-200'
+                    : 'bg-white text-gray-300 hover:bg-gray-100 border border-gray-200 active:bg-gray-200'
                 }`}
               >
                 {tab.label}
@@ -225,12 +231,12 @@ function LinkedInOptimizerContent() {
               </div>
             </div>
 
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Your LinkedIn Profile</h2>
+            <div className="bg-gradient-to-br from-gray-900/90 to-black/90 backdrop-blur-2xl rounded-lg shadow-sm border border-white/10 p-8">
+              <h2 className="text-2xl font-bold text-white mb-6">Your LinkedIn Profile</h2>
 
               {/* Target Role */}
               <div className="mb-6">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-300 mb-2">
                   Target Role
                 </label>
                 <input
@@ -244,7 +250,7 @@ function LinkedInOptimizerContent() {
 
               {/* Headline */}
               <div className="mb-6">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-300 mb-2">
                   Current Headline
                 </label>
                 <input
@@ -260,7 +266,7 @@ function LinkedInOptimizerContent() {
 
               {/* About */}
               <div className="mb-6">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-300 mb-2">
                   About Section
                 </label>
                 <textarea
@@ -276,7 +282,7 @@ function LinkedInOptimizerContent() {
 
               {/* Skills */}
               <div className="mb-6">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-300 mb-2">
                   Current Skills (add your top skills)
                 </label>
                 <div className="flex gap-2 mb-3">
@@ -329,13 +335,13 @@ function LinkedInOptimizerContent() {
             </div>
 
             {/* Target Jobs */}
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">Target Job Descriptions</h2>
-              <p className="text-gray-600 mb-6">Paste 3-5 job descriptions you&apos;re interested in (or URLs - we&apos;ll analyze the keywords)</p>
+            <div className="bg-gradient-to-br from-gray-900/90 to-black/90 backdrop-blur-2xl rounded-lg shadow-sm border border-white/10 p-8">
+              <h2 className="text-2xl font-bold text-white mb-4">Target Job Descriptions</h2>
+              <p className="text-gray-400 mb-6">Paste 3-5 job descriptions you&apos;re interested in (or URLs - we&apos;ll analyze the keywords)</p>
 
               {targetJobs.map((job, index) => (
                 <div key={index} className="mb-4">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-300 mb-2">
                     Job {index + 1}
                   </label>
                   <textarea
@@ -386,8 +392,8 @@ function LinkedInOptimizerContent() {
               <div className="max-w-2xl mx-auto text-center py-16">
                 <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-12">
                   <div className="text-6xl mb-6">📊</div>
-                  <h2 className="text-3xl font-bold text-gray-900 mb-4">No Analysis Yet</h2>
-                  <p className="text-gray-600 mb-8 text-lg">
+                  <h2 className="text-3xl font-bold text-white mb-4">No Analysis Yet</h2>
+                  <p className="text-gray-400 mb-8 text-lg">
                     To see your optimized profile and recommendations, please fill in your profile information in the <strong>Profile Input</strong> tab and click the <strong>&quot;Analyze & Optimize My Profile&quot;</strong> button.
                   </p>
                   <button
@@ -416,8 +422,8 @@ function LinkedInOptimizerContent() {
               <div className="max-w-2xl mx-auto text-center py-16">
                 <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-12">
                   <div className="text-6xl mb-6">💡</div>
-                  <h2 className="text-3xl font-bold text-gray-900 mb-4">No Skills Analysis Yet</h2>
-                  <p className="text-gray-600 mb-8 text-lg">
+                  <h2 className="text-3xl font-bold text-white mb-4">No Skills Analysis Yet</h2>
+                  <p className="text-gray-400 mb-8 text-lg">
                     To get personalized skill recommendations, please fill in your profile information in the <strong>Profile Input</strong> tab and click the <strong>&quot;Analyze & Optimize My Profile&quot;</strong> button.
                   </p>
                   <button
@@ -446,15 +452,15 @@ function LinkedInOptimizerContent() {
       {/* Import Modal */}
       {showImportModal && (
         <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4 backdrop-blur-sm">
-          <div className="bg-white rounded-xl shadow-2xl w-full max-w-3xl p-8">
+          <div className="bg-gradient-to-br from-gray-900/95 to-black/95 backdrop-blur-2xl rounded-xl shadow-2xl w-full max-w-3xl p-8 border-2 border-white/10">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold text-gray-900">Import LinkedIn Profile</h2>
+              <h2 className="text-2xl font-bold text-white">Import LinkedIn Profile</h2>
               <button
                 onClick={() => {
                   setShowImportModal(false);
                   setImportText('');
                 }}
-                className="text-gray-400 hover:text-gray-600 transition"
+                className="text-gray-400 hover:text-gray-400 transition"
               >
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -463,8 +469,8 @@ function LinkedInOptimizerContent() {
             </div>
 
             <div className="mb-6">
-              <h3 className="font-semibold text-gray-900 mb-3">How to import your LinkedIn profile:</h3>
-              <ol className="list-decimal list-inside space-y-2 text-sm text-gray-700">
+              <h3 className="font-semibold text-white mb-3">How to import your LinkedIn profile:</h3>
+              <ol className="list-decimal list-inside space-y-2 text-sm text-gray-300">
                 <li>Go to your LinkedIn profile page</li>
                 <li>Click "More" button, then select "Save to PDF"</li>
                 <li>Open the PDF and copy ALL the text (Ctrl+A, then Ctrl+C)</li>
@@ -477,7 +483,7 @@ function LinkedInOptimizerContent() {
             </div>
 
             <div className="mb-6">
-              <label className="block text-sm font-semibold text-gray-900 mb-2">
+              <label className="block text-sm font-semibold text-white mb-2">
                 Paste Your LinkedIn Profile Text
               </label>
               <textarea
@@ -515,7 +521,7 @@ function LinkedInOptimizerContent() {
                   setShowImportModal(false);
                   setImportText('');
                 }}
-                className="px-6 py-3 bg-gray-100 text-gray-700 rounded-lg font-medium hover:bg-gray-200 transition"
+                className="px-6 py-3 bg-gray-100 text-gray-300 rounded-lg font-medium hover:bg-gray-200 transition"
               >
                 Cancel
               </button>
@@ -548,7 +554,7 @@ function OptimizationTab({ profile, optimizedProfile, profileScore, keywordAnaly
     <div className="space-y-8">
       {/* Profile Score */}
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
-        <h2 className="text-2xl font-bold text-gray-900 mb-6">Profile Score</h2>
+        <h2 className="text-2xl font-bold text-white mb-6">Profile Score</h2>
         <div className="grid md:grid-cols-5 gap-6">
           <ScoreCard label="Overall" score={profileScore.overall} />
           <ScoreCard label="Relevance" score={profileScore.relevance} />
@@ -558,13 +564,13 @@ function OptimizationTab({ profile, optimizedProfile, profileScore, keywordAnaly
         </div>
         <div className="mt-6 p-4 bg-blue-50 rounded-lg">
           <h3 className="font-bold text-lg mb-2">Grade: {assessment.grade}</h3>
-          <p className="text-gray-700">{assessment.summary}</p>
+          <p className="text-gray-300">{assessment.summary}</p>
         </div>
       </div>
 
       {/* Keyword Coverage */}
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
-        <h2 className="text-2xl font-bold text-gray-900 mb-4">Keyword Analysis</h2>
+        <h2 className="text-2xl font-bold text-white mb-4">Keyword Analysis</h2>
         <div className="mb-4">
           <div className="flex justify-between mb-2">
             <span className="font-medium">Keyword Coverage</span>
@@ -579,7 +585,7 @@ function OptimizationTab({ profile, optimizedProfile, profileScore, keywordAnaly
         </div>
         <div className="space-y-2">
           {keywordAnalysis.recommendations.map((rec: string, index: number) => (
-            <p key={index} className="text-gray-700">{rec}</p>
+            <p key={index} className="text-gray-300">{rec}</p>
           ))}
         </div>
       </div>
@@ -587,16 +593,16 @@ function OptimizationTab({ profile, optimizedProfile, profileScore, keywordAnaly
       {/* Optimized Headline */}
       {optimizedProfile.headline && (
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">Optimized Headline</h2>
+          <h2 className="text-2xl font-bold text-white mb-4">Optimized Headline</h2>
           <div className="space-y-4">
             <div>
-              <h3 className="font-medium text-gray-700 mb-2">Original:</h3>
+              <h3 className="font-medium text-gray-300 mb-2">Original:</h3>
               <p className="p-4 bg-gray-50 rounded-lg text-gray-800">{optimizedProfile.headline.original}</p>
             </div>
             <div>
-              <h3 className="font-medium text-gray-700 mb-2">Optimized:</h3>
+              <h3 className="font-medium text-gray-300 mb-2">Optimized:</h3>
               <div className="relative">
-                <p className="p-4 bg-blue-50 border border-blue-200 rounded-lg text-gray-900 font-medium">
+                <p className="p-4 bg-blue-50 border border-blue-200 rounded-lg text-white font-medium">
                   {optimizedProfile.headline.optimized}
                 </p>
                 <button
@@ -608,10 +614,10 @@ function OptimizationTab({ profile, optimizedProfile, profileScore, keywordAnaly
               </div>
             </div>
             <div>
-              <h3 className="font-medium text-gray-700 mb-2">Improvements:</h3>
+              <h3 className="font-medium text-gray-300 mb-2">Improvements:</h3>
               <ul className="list-disc list-inside space-y-1">
                 {optimizedProfile.headline.improvements.map((imp: string, index: number) => (
-                  <li key={index} className="text-gray-700">{imp}</li>
+                  <li key={index} className="text-gray-300">{imp}</li>
                 ))}
               </ul>
             </div>
@@ -622,12 +628,12 @@ function OptimizationTab({ profile, optimizedProfile, profileScore, keywordAnaly
       {/* Optimized About */}
       {optimizedProfile.about && (
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">Optimized About Section</h2>
+          <h2 className="text-2xl font-bold text-white mb-4">Optimized About Section</h2>
           <div className="space-y-4">
             <div>
-              <h3 className="font-medium text-gray-700 mb-2">Optimized:</h3>
+              <h3 className="font-medium text-gray-300 mb-2">Optimized:</h3>
               <div className="relative">
-                <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg text-gray-900 whitespace-pre-wrap">
+                <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg text-white whitespace-pre-wrap">
                   {optimizedProfile.about.optimized}
                 </div>
                 <button
@@ -639,7 +645,7 @@ function OptimizationTab({ profile, optimizedProfile, profileScore, keywordAnaly
               </div>
             </div>
             <div>
-              <h3 className="font-medium text-gray-700 mb-2">Keywords Added:</h3>
+              <h3 className="font-medium text-gray-300 mb-2">Keywords Added:</h3>
               <div className="flex flex-wrap gap-2">
                 {optimizedProfile.about.keywordsAdded.map((keyword: string, index: number) => (
                   <span key={index} className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm">
@@ -683,7 +689,7 @@ function ScoreCard({ label, score }: { label: string; score: number }) {
       <div className={`w-24 h-24 mx-auto rounded-full ${getColor(score)} flex items-center justify-center text-white text-2xl font-bold shadow-sm`}>
         {score}
       </div>
-      <p className="mt-2 font-medium text-gray-700">{label}</p>
+      <p className="mt-2 font-medium text-gray-300">{label}</p>
     </div>
   );
 }
@@ -697,40 +703,40 @@ function SkillsTab({ profile, skillRecommendations, keywordAnalysis, targetRole 
     <div className="space-y-8">
       {/* Skills Gap Summary */}
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
-        <h2 className="text-2xl font-bold text-gray-900 mb-4">Skills Gap Analysis</h2>
-        <p className="text-gray-700 mb-6">{skillsGap.summary}</p>
+        <h2 className="text-2xl font-bold text-white mb-4">Skills Gap Analysis</h2>
+        <p className="text-gray-300 mb-6">{skillsGap.summary}</p>
         <div className="grid md:grid-cols-3 gap-4 mb-6">
           <div className="p-4 bg-red-50 rounded-lg text-center">
             <div className="text-3xl font-bold text-red-600">{skillsGap.essentialCount}</div>
-            <div className="text-sm text-gray-600">Essential Skills Missing</div>
+            <div className="text-sm text-gray-400">Essential Skills Missing</div>
           </div>
           <div className="p-4 bg-yellow-50 rounded-lg text-center">
             <div className="text-3xl font-bold text-yellow-600">{skillsGap.recommendedCount}</div>
-            <div className="text-sm text-gray-600">Recommended Skills</div>
+            <div className="text-sm text-gray-400">Recommended Skills</div>
           </div>
           <div className="p-4 bg-green-50 rounded-lg text-center">
             <div className="text-3xl font-bold text-green-600">{skillsGap.niceToHaveCount}</div>
-            <div className="text-sm text-gray-600">Nice-to-Have Skills</div>
+            <div className="text-sm text-gray-400">Nice-to-Have Skills</div>
           </div>
         </div>
         <div className="space-y-2">
-          <h3 className="font-bold text-gray-900 mb-2">Top Actions:</h3>
+          <h3 className="font-bold text-white mb-2">Top Actions:</h3>
           {skillsGap.topActions.map((action: string, index: number) => (
-            <p key={index} className="text-gray-700">{action}</p>
+            <p key={index} className="text-gray-300">{action}</p>
           ))}
         </div>
       </div>
 
       {/* Skill Recommendations */}
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
-        <h2 className="text-2xl font-bold text-gray-900 mb-6">Recommended Skills to Add</h2>
+        <h2 className="text-2xl font-bold text-white mb-6">Recommended Skills to Add</h2>
         <div className="space-y-4">
           {skillRecommendations.slice(0, 15).map((rec: SkillRecommendation, index: number) => (
             <div key={index} className="p-4 border border-gray-200 rounded-lg hover:border-blue-300 transition">
               <div className="flex items-start justify-between">
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-2">
-                    <span className="font-bold text-gray-900">{rec.skill}</span>
+                    <span className="font-bold text-white">{rec.skill}</span>
                     <span className={`px-2 py-1 rounded-full text-xs font-medium ${
                       rec.priority === 'essential' ? 'bg-red-100 text-red-700' :
                       rec.priority === 'recommended' ? 'bg-yellow-100 text-yellow-700' :
@@ -739,7 +745,7 @@ function SkillsTab({ profile, skillRecommendations, keywordAnalysis, targetRole 
                       {rec.priority}
                     </span>
                   </div>
-                  <p className="text-sm text-gray-600">{rec.reason}</p>
+                  <p className="text-sm text-gray-400">{rec.reason}</p>
                 </div>
                 <div className="text-right ml-4">
                   <div className="text-2xl font-bold text-blue-600">{rec.inDemand}%</div>
@@ -753,8 +759,8 @@ function SkillsTab({ profile, skillRecommendations, keywordAnalysis, targetRole 
 
       {/* Optimized Skills Order */}
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
-        <h2 className="text-2xl font-bold text-gray-900 mb-4">Optimized Skills Order</h2>
-        <p className="text-gray-600 mb-4">Reorder your skills to put the most relevant ones first for better recruiter visibility:</p>
+        <h2 className="text-2xl font-bold text-white mb-4">Optimized Skills Order</h2>
+        <p className="text-gray-400 mb-4">Reorder your skills to put the most relevant ones first for better recruiter visibility:</p>
         <div className="flex flex-wrap gap-2 mb-4">
           {reorderedSkills.map((skill, index) => (
             <span key={index} className="px-3 py-2 bg-blue-100 text-blue-800 rounded-lg text-sm font-medium">
@@ -763,9 +769,9 @@ function SkillsTab({ profile, skillRecommendations, keywordAnalysis, targetRole 
           ))}
         </div>
         <div className="mt-4 p-4 bg-gray-50 rounded-lg">
-          <h3 className="font-bold text-gray-900 mb-2">Reasoning:</h3>
+          <h3 className="font-bold text-white mb-2">Reasoning:</h3>
           {reasoning.map((r, index) => (
-            <p key={index} className="text-gray-700 text-sm mb-1">{r}</p>
+            <p key={index} className="text-gray-300 text-sm mb-1">{r}</p>
           ))}
         </div>
       </div>
@@ -789,7 +795,7 @@ function ConnectionTab() {
     <div className="space-y-8">
       {/* Template Selection */}
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
-        <h2 className="text-2xl font-bold text-gray-900 mb-6">Connection Message Templates</h2>
+        <h2 className="text-2xl font-bold text-white mb-6">Connection Message Templates</h2>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
           {templates.slice(0, 6).map((template, index) => (
             <button
@@ -804,7 +810,7 @@ function ConnectionTab() {
                   : 'border-gray-200 hover:border-blue-300'
               }`}
             >
-              <h3 className="font-bold text-gray-900 mb-1">{template.scenario}</h3>
+              <h3 className="font-bold text-white mb-1">{template.scenario}</h3>
             </button>
           ))}
         </div>
@@ -813,22 +819,22 @@ function ConnectionTab() {
         <div className="border-t pt-6">
           <h3 className="font-bold text-lg mb-4">{selectedTemplate.scenario}</h3>
           <div className="mb-4">
-            <h4 className="font-medium text-gray-700 mb-2">Template:</h4>
+            <h4 className="font-medium text-gray-300 mb-2">Template:</h4>
             <div className="p-4 bg-gray-50 rounded-lg">
               <pre className="whitespace-pre-wrap text-sm text-gray-800">{selectedTemplate.template}</pre>
             </div>
           </div>
           <div className="mb-4">
-            <h4 className="font-medium text-gray-700 mb-2">Example:</h4>
+            <h4 className="font-medium text-gray-300 mb-2">Example:</h4>
             <div className="p-4 bg-blue-50 rounded-lg">
               <p className="text-sm text-gray-800">{selectedTemplate.example}</p>
             </div>
           </div>
           <div>
-            <h4 className="font-medium text-gray-700 mb-2">Tips:</h4>
+            <h4 className="font-medium text-gray-300 mb-2">Tips:</h4>
             <ul className="list-disc list-inside space-y-1">
               {selectedTemplate.tips.map((tip, index) => (
-                <li key={index} className="text-sm text-gray-700">{tip}</li>
+                <li key={index} className="text-sm text-gray-300">{tip}</li>
               ))}
             </ul>
           </div>
@@ -837,7 +843,7 @@ function ConnectionTab() {
 
       {/* Message Customizer */}
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
-        <h2 className="text-2xl font-bold text-gray-900 mb-4">Customize Your Message</h2>
+        <h2 className="text-2xl font-bold text-white mb-4">Customize Your Message</h2>
         <textarea
           value={customizedMessage}
           onChange={(e) => setCustomizedMessage(e.target.value)}
@@ -870,7 +876,7 @@ function ConnectionTab() {
                 <h4 className="font-bold text-green-700 mb-2">Strengths:</h4>
                 <ul className="list-disc list-inside space-y-1">
                   {messageScore.strengths.map((s: string, i: number) => (
-                    <li key={i} className="text-gray-700">{s}</li>
+                    <li key={i} className="text-gray-300">{s}</li>
                   ))}
                 </ul>
               </div>
@@ -880,7 +886,7 @@ function ConnectionTab() {
                 <h4 className="font-bold text-red-700 mb-2">Improvements:</h4>
                 <ul className="list-disc list-inside space-y-1">
                   {messageScore.improvements.map((imp: string, i: number) => (
-                    <li key={i} className="text-gray-700">{imp}</li>
+                    <li key={i} className="text-gray-300">{imp}</li>
                   ))}
                 </ul>
               </div>
@@ -905,8 +911,8 @@ function VisibilityTab({ targetRole }: { targetRole: string }) {
     <div className="space-y-8">
       {/* Overview */}
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
-        <h2 className="text-2xl font-bold text-gray-900 mb-4">4-Week Visibility Plan</h2>
-        <p className="text-gray-600 mb-6">Strategic plan to increase your LinkedIn visibility and get noticed by recruiters</p>
+        <h2 className="text-2xl font-bold text-white mb-4">4-Week Visibility Plan</h2>
+        <p className="text-gray-400 mb-6">Strategic plan to increase your LinkedIn visibility and get noticed by recruiters</p>
         <div className="grid md:grid-cols-2 gap-6">
           <div>
             <h3 className="font-bold text-lg mb-3">Goals:</h3>
@@ -914,7 +920,7 @@ function VisibilityTab({ targetRole }: { targetRole: string }) {
               {visibilityPlan.goals.map((goal, index) => (
                 <li key={index} className="flex items-start">
                   <span className="text-green-600 mr-2">✓</span>
-                  <span className="text-gray-700">{goal}</span>
+                  <span className="text-gray-300">{goal}</span>
                 </li>
               ))}
             </ul>
@@ -925,7 +931,7 @@ function VisibilityTab({ targetRole }: { targetRole: string }) {
               {visibilityPlan.metrics.map((metric, index) => (
                 <li key={index} className="flex items-start">
                   <span className="text-blue-600 mr-2">📊</span>
-                  <span className="text-gray-700">{metric}</span>
+                  <span className="text-gray-300">{metric}</span>
                 </li>
               ))}
             </ul>
@@ -943,7 +949,7 @@ function VisibilityTab({ targetRole }: { targetRole: string }) {
               className={`flex-1 py-3 px-4 rounded-lg font-medium transition ${
                 selectedWeek === week
                   ? 'bg-blue-600 text-white'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  : 'bg-gray-100 text-gray-300 hover:bg-gray-200'
               }`}
             >
               Week {week}
@@ -951,7 +957,7 @@ function VisibilityTab({ targetRole }: { targetRole: string }) {
           ))}
         </div>
 
-        <h3 className="text-2xl font-bold text-gray-900 mb-2">Week {selectedWeek}: {selectedWeekPlan.focus}</h3>
+        <h3 className="text-2xl font-bold text-white mb-2">Week {selectedWeek}: {selectedWeekPlan.focus}</h3>
 
         <div className="mb-6">
           <h4 className="font-bold text-lg mb-3">Tasks:</h4>
@@ -959,7 +965,7 @@ function VisibilityTab({ targetRole }: { targetRole: string }) {
             {selectedWeekPlan.tasks.map((task, index) => (
               <div key={index} className="p-4 border border-gray-200 rounded-lg">
                 <div className="flex items-start justify-between mb-2">
-                  <p className="font-medium text-gray-900 flex-1">{task.task}</p>
+                  <p className="font-medium text-white flex-1">{task.task}</p>
                   <span className={`ml-4 px-2 py-1 rounded-full text-xs font-medium ${
                     task.impact === 'high' ? 'bg-red-100 text-red-700' :
                     task.impact === 'medium' ? 'bg-yellow-100 text-yellow-700' :
@@ -968,7 +974,7 @@ function VisibilityTab({ targetRole }: { targetRole: string }) {
                     {task.impact} impact
                   </span>
                 </div>
-                <div className="flex gap-4 text-sm text-gray-600">
+                <div className="flex gap-4 text-sm text-gray-400">
                   <span>📅 {task.frequency}</span>
                   <span>{task.timeEstimate}</span>
                 </div>
@@ -983,7 +989,7 @@ function VisibilityTab({ targetRole }: { targetRole: string }) {
             {selectedWeekPlan.postTopics.map((topic, index) => (
               <li key={index} className="flex items-start">
                 <span className="text-purple-600 mr-2">💡</span>
-                <span className="text-gray-700">{topic}</span>
+                <span className="text-gray-300">{topic}</span>
               </li>
             ))}
           </ul>
@@ -992,13 +998,13 @@ function VisibilityTab({ targetRole }: { targetRole: string }) {
 
       {/* Best Practices */}
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
-        <h2 className="text-2xl font-bold text-gray-900 mb-6">LinkedIn Best Practices</h2>
+        <h2 className="text-2xl font-bold text-white mb-6">LinkedIn Best Practices</h2>
         <div className="grid md:grid-cols-2 gap-6">
           <div>
             <h3 className="font-bold text-lg mb-3">Posting Tips:</h3>
             <ul className="space-y-2">
               {postingBestPractices.timing.map((tip, index) => (
-                <li key={index} className="text-sm text-gray-700">{tip}</li>
+                <li key={index} className="text-sm text-gray-300">{tip}</li>
               ))}
             </ul>
           </div>
@@ -1006,7 +1012,7 @@ function VisibilityTab({ targetRole }: { targetRole: string }) {
             <h3 className="font-bold text-lg mb-3">Format Tips:</h3>
             <ul className="space-y-2">
               {postingBestPractices.format.map((tip, index) => (
-                <li key={index} className="text-sm text-gray-700">{tip}</li>
+                <li key={index} className="text-sm text-gray-300">{tip}</li>
               ))}
             </ul>
           </div>
@@ -1014,7 +1020,7 @@ function VisibilityTab({ targetRole }: { targetRole: string }) {
             <h3 className="font-bold text-lg mb-3">Engagement Tips:</h3>
             <ul className="space-y-2">
               {postingBestPractices.engagement.map((tip, index) => (
-                <li key={index} className="text-sm text-gray-700">{tip}</li>
+                <li key={index} className="text-sm text-gray-300">{tip}</li>
               ))}
             </ul>
           </div>
@@ -1022,7 +1028,7 @@ function VisibilityTab({ targetRole }: { targetRole: string }) {
             <h3 className="font-bold text-lg mb-3">Content Tips:</h3>
             <ul className="space-y-2">
               {postingBestPractices.content.map((tip, index) => (
-                <li key={index} className="text-sm text-gray-700">{tip}</li>
+                <li key={index} className="text-sm text-gray-300">{tip}</li>
               ))}
             </ul>
           </div>
