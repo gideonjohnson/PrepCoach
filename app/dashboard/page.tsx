@@ -158,17 +158,29 @@ export default function DashboardPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-purple-50 via-white to-blue-50 flex items-center justify-center">
-        <div className="text-center">
+      <div className="min-h-screen bg-black relative overflow-hidden flex items-center justify-center">
+        <div className="fixed inset-0 -z-10">
+          <div className="absolute inset-0 bg-gradient-to-br from-black via-gray-900 to-black"></div>
+          <div className="absolute top-0 -left-40 w-96 h-96 bg-orange-500/10 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute top-40 right-0 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
+          <div className="absolute bottom-0 left-1/3 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse delay-500"></div>
+        </div>
+        <div className="text-center relative z-10">
           <div className="w-16 h-16 border-4 border-orange-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-600 text-lg font-medium">Loading your dashboard...</p>
+          <p className="text-gray-300 text-lg font-medium">Loading your dashboard...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-purple-50 via-white to-blue-50">
+    <div className="min-h-screen bg-black relative overflow-hidden">
+      <div className="fixed inset-0 -z-10">
+        <div className="absolute inset-0 bg-gradient-to-br from-black via-gray-900 to-black"></div>
+        <div className="absolute top-0 -left-40 w-96 h-96 bg-orange-500/10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute top-40 right-0 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute bottom-0 left-1/3 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse delay-500"></div>
+      </div>
       <Header />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -179,7 +191,7 @@ export default function DashboardPage() {
           <h1 className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-purple-600 via-orange-500 to-red-500 bg-clip-text text-transparent mb-2">
             Interview Dashboard
           </h1>
-          <p className="text-gray-600 text-base sm:text-lg mb-4">Track your interview preparation progress</p>
+          <p className="text-gray-400 text-base sm:text-lg mb-4">Track your interview preparation progress</p>
 
           {/* Quick Navigation Links */}
           <div className="flex flex-wrap gap-3">
@@ -195,7 +207,7 @@ export default function DashboardPage() {
             </Link>
             <Link
               href="/resume-builder"
-              className="inline-flex items-center gap-2 px-4 py-2 bg-white border-2 border-purple-200 text-purple-700 rounded-lg text-sm font-semibold hover:bg-purple-50 transition-all"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-br from-gray-900/90 to-black/90 backdrop-blur-2xl border-2 border-purple-500/30 text-purple-400 rounded-lg text-sm font-semibold hover:bg-purple-900/30 transition-all"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -231,7 +243,7 @@ export default function DashboardPage() {
             </Link>
             <Link
               href="/pricing"
-              className="inline-flex items-center gap-2 px-4 py-2 bg-white border-2 border-gray-200 text-gray-700 rounded-lg text-sm font-semibold hover:bg-gray-50 transition-all"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-br from-gray-900/90 to-black/90 backdrop-blur-2xl border-2 border-white/10 text-gray-300 rounded-lg text-sm font-semibold hover:bg-gray-800 transition-all"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
@@ -255,7 +267,7 @@ export default function DashboardPage() {
         {/* Continue Interview Section */}
         {sessions.length > 0 && (
           <div className="mb-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+            <h2 className="text-2xl font-bold text-white mb-4 flex items-center gap-2">
               <span className="text-2xl">🚀</span>
               {inProgressSessions.length > 0 ? 'Continue Your Interviews' : 'Ready to Start?'}
             </h2>
@@ -265,20 +277,20 @@ export default function DashboardPage() {
                 {inProgressSessions.map((session, index) => (
                   <div
                     key={session.id}
-                    className="bg-gradient-to-br from-orange-50 to-red-50 rounded-2xl p-6 shadow-lg border-2 border-orange-200 hover:shadow-xl hover:border-orange-300 transition-all animate-fadeIn md:transform md:hover:scale-105"
+                    className="bg-gradient-to-br from-orange-900/30 to-red-900/30 backdrop-blur-2xl rounded-2xl p-6 shadow-lg border-2 border-orange-500/30 hover:shadow-xl hover:border-orange-500/50 transition-all animate-fadeIn md:transform md:hover:scale-105"
                     style={{ animationDelay: `${index * 50}ms` }}
                   >
                     <div className="flex items-start gap-3 mb-4">
                       <span className="text-4xl">{getCategoryEmoji(session.roleCategory)}</span>
                       <div className="flex-1">
-                        <h3 className="text-lg font-bold text-gray-900 mb-1 line-clamp-1">{session.roleTitle}</h3>
-                        <p className="text-sm text-gray-600 font-semibold">{session.company}</p>
+                        <h3 className="text-lg font-bold text-white mb-1 line-clamp-1">{session.roleTitle}</h3>
+                        <p className="text-sm text-gray-300 font-semibold">{session.company}</p>
                       </div>
                     </div>
 
                     <div className="mb-4">
                       <div className="flex items-center justify-between mb-2">
-                        <span className="text-xs font-semibold text-gray-700">
+                        <span className="text-xs font-semibold text-gray-300">
                           {session.answeredQuestions}/{session.totalQuestions} questions
                         </span>
                         <span className="text-xs font-bold text-orange-600">{session.completionRate}%</span>
@@ -301,14 +313,14 @@ export default function DashboardPage() {
                 ))}
               </div>
             ) : (
-              <div className="bg-gradient-to-br from-purple-50 to-blue-50 rounded-2xl p-8 shadow-lg border-2 border-purple-200 text-center">
-                <div className="w-16 h-16 bg-gradient-to-br from-purple-100 to-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-sm">
+              <div className="bg-gradient-to-br from-purple-900/30 to-blue-900/30 backdrop-blur-2xl rounded-2xl p-8 shadow-lg border-2 border-purple-500/30 text-center">
+                <div className="w-16 h-16 bg-gradient-to-br from-purple-500/20 to-blue-500/20 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-sm">
                   <svg className="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                   </svg>
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">All interviews completed!</h3>
-                <p className="text-gray-600 mb-6">Great job! Ready for your next challenge?</p>
+                <h3 className="text-xl font-bold text-white mb-2">All interviews completed!</h3>
+                <p className="text-gray-300 mb-6">Great job! Ready for your next challenge?</p>
                 <Link
                   href="/practice"
                   className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-full font-bold hover:shadow-xl transition-all transform hover:scale-105 shadow-lg"
@@ -377,12 +389,12 @@ export default function DashboardPage() {
         {/* Analytics Section */}
         {sessions.length > 0 && (
           <div className="mb-8 space-y-6">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">📊 Performance Analytics</h2>
+            <h2 className="text-2xl font-bold text-white mb-4">📊 Performance Analytics</h2>
 
             <div className="grid lg:grid-cols-2 gap-6">
               {/* Progress Over Time */}
-              <div className="bg-white rounded-2xl p-6 shadow-lg border-2 border-gray-100 animate-fadeIn">
-                <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+              <div className="bg-gradient-to-br from-gray-900/90 to-black/90 backdrop-blur-2xl rounded-2xl p-6 shadow-lg border-2 border-white/10 animate-fadeIn">
+                <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
                   <span className="text-2xl">📈</span>
                   Completion Rate Trend
                 </h3>
@@ -427,8 +439,8 @@ export default function DashboardPage() {
               </div>
 
               {/* Questions Answered Over Time */}
-              <div className="bg-white rounded-2xl p-6 shadow-lg border-2 border-gray-100 animate-fadeIn" style={{ animationDelay: '50ms' }}>
-                <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+              <div className="bg-gradient-to-br from-gray-900/90 to-black/90 backdrop-blur-2xl rounded-2xl p-6 shadow-lg border-2 border-white/10 animate-fadeIn" style={{ animationDelay: '50ms' }}>
+                <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
                   <span className="text-2xl">💬</span>
                   Questions Answered
                 </h3>
@@ -469,8 +481,8 @@ export default function DashboardPage() {
               </div>
 
               {/* Category Performance */}
-              <div className="bg-white rounded-2xl p-6 shadow-lg border-2 border-gray-100 animate-fadeIn" style={{ animationDelay: '100ms' }}>
-                <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+              <div className="bg-gradient-to-br from-gray-900/90 to-black/90 backdrop-blur-2xl rounded-2xl p-6 shadow-lg border-2 border-white/10 animate-fadeIn" style={{ animationDelay: '100ms' }}>
+                <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
                   <span className="text-2xl">🎯</span>
                   Performance by Category
                 </h3>
@@ -529,8 +541,8 @@ export default function DashboardPage() {
               </div>
 
               {/* Level Distribution */}
-              <div className="bg-white rounded-2xl p-6 shadow-lg border-2 border-gray-100 animate-fadeIn" style={{ animationDelay: '150ms' }}>
-                <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+              <div className="bg-gradient-to-br from-gray-900/90 to-black/90 backdrop-blur-2xl rounded-2xl p-6 shadow-lg border-2 border-white/10 animate-fadeIn" style={{ animationDelay: '150ms' }}>
+                <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
                   <span className="text-2xl">🎓</span>
                   Experience Level Distribution
                 </h3>
@@ -572,14 +584,14 @@ export default function DashboardPage() {
         )}
 
         {/* Filter Tabs */}
-        <div className="bg-white rounded-2xl shadow-lg border-2 border-gray-100 mb-6 p-1 animate-fadeIn">
+        <div className="bg-gradient-to-br from-gray-900/90 to-black/90 backdrop-blur-2xl rounded-2xl shadow-lg border-2 border-white/10 mb-6 p-1 animate-fadeIn">
           <div className="flex gap-2">
             <button
               onClick={() => setFilter('all')}
               className={`flex-1 px-6 py-3 rounded-xl font-semibold transition-all ${
                 filter === 'all'
                   ? 'bg-gradient-to-r from-orange-500 to-red-500 text-white shadow-md transform scale-105'
-                  : 'text-gray-600 hover:bg-gray-50'
+                  : 'text-gray-300 hover:bg-gray-800/50'
               }`}
             >
               All ({sessions.length})
@@ -589,7 +601,7 @@ export default function DashboardPage() {
               className={`flex-1 px-6 py-3 rounded-xl font-semibold transition-all ${
                 filter === 'completed'
                   ? 'bg-gradient-to-r from-green-500 to-emerald-500 text-white shadow-md transform scale-105'
-                  : 'text-gray-600 hover:bg-gray-50'
+                  : 'text-gray-300 hover:bg-gray-800/50'
               }`}
             >
               Completed ({completedSessions})
@@ -599,7 +611,7 @@ export default function DashboardPage() {
               className={`flex-1 px-6 py-3 rounded-xl font-semibold transition-all ${
                 filter === 'in-progress'
                   ? 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white shadow-md transform scale-105'
-                  : 'text-gray-600 hover:bg-gray-50'
+                  : 'text-gray-300 hover:bg-gray-800/50'
               }`}
             >
               In Progress ({totalSessions - completedSessions})
@@ -609,16 +621,16 @@ export default function DashboardPage() {
 
         {/* Interview Sessions List */}
         {filteredSessions.length === 0 ? (
-          <div className="bg-gradient-to-br from-purple-50 to-blue-50 rounded-2xl p-12 sm:p-16 text-center shadow-lg border-2 border-purple-200 animate-fadeIn">
-            <div className="w-24 h-24 bg-gradient-to-br from-purple-100 to-blue-100 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-md">
+          <div className="bg-gradient-to-br from-purple-900/30 to-blue-900/30 backdrop-blur-2xl rounded-2xl p-12 sm:p-16 text-center shadow-lg border-2 border-purple-500/30 animate-fadeIn">
+            <div className="w-24 h-24 bg-gradient-to-br from-purple-500/20 to-blue-500/20 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-md">
               <svg className="w-12 h-12 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
               </svg>
             </div>
-            <h3 className="text-3xl font-bold text-gray-900 mb-3">
+            <h3 className="text-3xl font-bold text-white mb-3">
               {sessions.length === 0 ? 'Start Your Interview Journey' : 'No matching interviews'}
             </h3>
-            <p className="text-gray-600 mb-4 text-lg max-w-md mx-auto">
+            <p className="text-gray-300 mb-4 text-lg max-w-md mx-auto">
               {sessions.length === 0
                 ? 'Practice makes perfect! Begin your first AI-powered mock interview and get instant feedback.'
                 : `Try adjusting your filters to see ${filter === 'completed' ? 'in-progress' : 'completed'} interviews.`
@@ -627,19 +639,19 @@ export default function DashboardPage() {
             {sessions.length === 0 && (
               <>
                 <div className="flex flex-wrap justify-center gap-4 mb-8 text-sm">
-                  <div className="flex items-center gap-2 text-gray-700">
+                  <div className="flex items-center gap-2 text-gray-300">
                     <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
                     Real-time feedback
                   </div>
-                  <div className="flex items-center gap-2 text-gray-700">
+                  <div className="flex items-center gap-2 text-gray-300">
                     <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
                     Track your progress
                   </div>
-                  <div className="flex items-center gap-2 text-gray-700">
+                  <div className="flex items-center gap-2 text-gray-300">
                     <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
@@ -663,7 +675,7 @@ export default function DashboardPage() {
             {filteredSessions.map((session, index) => (
               <div
                 key={session.id}
-                className="bg-white rounded-xl p-4 sm:p-5 shadow-md border border-gray-200 hover:shadow-lg hover:border-orange-300 transition-all animate-fadeIn"
+                className="bg-gradient-to-br from-gray-900/90 to-black/90 backdrop-blur-2xl rounded-xl p-4 sm:p-5 shadow-md border border-white/10 hover:shadow-lg hover:border-orange-500/50 transition-all animate-fadeIn"
                 style={{ animationDelay: `${index * 30}ms` }}
               >
                 <div className="flex flex-col sm:flex-row sm:items-center gap-4">
@@ -672,7 +684,7 @@ export default function DashboardPage() {
                     <span className="text-3xl flex-shrink-0">{getCategoryEmoji(session.roleCategory)}</span>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-1 flex-wrap">
-                        <h3 className="text-base sm:text-lg font-bold text-gray-900 truncate">{session.roleTitle}</h3>
+                        <h3 className="text-base sm:text-lg font-bold text-white truncate">{session.roleTitle}</h3>
                         <span className={`px-2 py-0.5 rounded-full text-xs font-bold flex-shrink-0 ${
                           session.completionRate === 100
                             ? 'bg-green-100 text-green-700'
@@ -682,13 +694,13 @@ export default function DashboardPage() {
                         </span>
                       </div>
                       <div className="flex flex-wrap gap-2 mb-2">
-                        <span className="text-xs sm:text-sm text-gray-600 font-medium">{session.company}</span>
-                        <span className="text-xs text-gray-400">•</span>
-                        <span className="text-xs sm:text-sm text-gray-600">{session.roleLevel}</span>
-                        <span className="text-xs text-gray-400">•</span>
-                        <span className="text-xs sm:text-sm text-gray-600">{session.roleCategory}</span>
+                        <span className="text-xs sm:text-sm text-gray-300 font-medium">{session.company}</span>
+                        <span className="text-xs text-gray-500">•</span>
+                        <span className="text-xs sm:text-sm text-gray-300">{session.roleLevel}</span>
+                        <span className="text-xs text-gray-500">•</span>
+                        <span className="text-xs sm:text-sm text-gray-300">{session.roleCategory}</span>
                       </div>
-                      <div className="flex items-center gap-4 text-xs text-gray-500">
+                      <div className="flex items-center gap-4 text-xs text-gray-400">
                         <span className="flex items-center gap-1">
                           <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -727,7 +739,7 @@ export default function DashboardPage() {
                           />
                         </svg>
                         <div className="absolute inset-0 flex items-center justify-center">
-                          <span className="text-xs font-bold text-gray-900">{session.completionRate}%</span>
+                          <span className="text-xs font-bold text-white">{session.completionRate}%</span>
                         </div>
                       </div>
                     </div>
@@ -736,7 +748,7 @@ export default function DashboardPage() {
                     <div className="flex gap-2">
                       <Link
                         href={`/dashboard/session/${session.id}`}
-                        className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-semibold hover:bg-gray-200 transition-all flex items-center gap-1 flex-1 sm:flex-none justify-center"
+                        className="px-4 py-2 bg-gradient-to-br from-gray-800/90 to-gray-900/90 backdrop-blur-2xl text-gray-300 rounded-lg text-sm font-semibold hover:bg-gray-700 transition-all flex items-center gap-1 flex-1 sm:flex-none justify-center border border-white/10"
                       >
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />

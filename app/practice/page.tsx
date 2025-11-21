@@ -222,7 +222,14 @@ function PracticeContent() {
   // Interviewer configuration step
   if (step === 'interviewer-config') {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-purple-50 via-white to-blue-50 flex items-center justify-center">
+      <div className="min-h-screen bg-black relative overflow-hidden flex items-center justify-center">
+        {/* Animated Background */}
+        <div className="fixed inset-0 -z-10">
+          <div className="absolute inset-0 bg-gradient-to-br from-black via-gray-900 to-black"></div>
+          <div className="absolute top-0 -left-40 w-96 h-96 bg-orange-500/10 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute top-40 right-0 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
+          <div className="absolute bottom-0 left-1/3 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse delay-500"></div>
+        </div>
         <InterviewerConfig
           currentSettings={interviewerSettings}
           onSave={(settings) => {
@@ -271,11 +278,18 @@ function PracticeContent() {
 
   if (step === 'role-selection') {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-purple-50 via-white to-blue-50 py-8 px-4 sm:px-6 lg:px-8 animate-fadeIn">
-        <div className="max-w-7xl mx-auto">
+      <div className="min-h-screen bg-black relative overflow-hidden py-8 px-4 sm:px-6 lg:px-8 animate-fadeIn">
+        {/* Animated Background */}
+        <div className="fixed inset-0 -z-10">
+          <div className="absolute inset-0 bg-gradient-to-br from-black via-gray-900 to-black"></div>
+          <div className="absolute top-0 -left-40 w-96 h-96 bg-orange-500/10 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute top-40 right-0 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
+          <div className="absolute bottom-0 left-1/3 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse delay-500"></div>
+        </div>
+        <div className="max-w-7xl mx-auto relative z-10">
           {/* Back to Dashboard Link */}
           <div className="mb-6">
-            <Link href="/dashboard" className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 font-medium transition-colors">
+            <Link href="/dashboard" className="inline-flex items-center gap-2 text-gray-400 hover:text-white font-medium transition-colors">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
@@ -288,10 +302,10 @@ function PracticeContent() {
             <h1 className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-purple-600 via-orange-500 to-red-500 bg-clip-text text-transparent mb-3 leading-tight">
               Choose Your Interview Role
             </h1>
-            <p className="text-lg sm:text-xl text-gray-600 mb-3">
+            <p className="text-lg sm:text-xl text-gray-400 mb-3">
               Select from <span className="font-bold text-orange-600">{roles.length} positions</span> across <span className="font-bold text-purple-600">{categories.length - 1} industries</span>
             </p>
-            <div className="flex items-center justify-center gap-2 text-sm text-gray-500">
+            <div className="flex items-center justify-center gap-2 text-sm text-gray-400">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
               </svg>
@@ -301,25 +315,25 @@ function PracticeContent() {
 
           {/* Quick Start Section */}
           <div className="mb-12">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4 text-center">Quick Start</h2>
-            <p className="text-gray-600 text-center mb-6">Jump right into the most popular interview roles</p>
+            <h2 className="text-2xl font-bold text-white mb-4 text-center">Quick Start</h2>
+            <p className="text-gray-400 text-center mb-6">Jump right into the most popular interview roles</p>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8 transform-3d">
               {quickStartRoles.map((role, index) => (
                 <div
                   key={role.id}
                   onClick={() => handleRoleSelect(role)}
-                  className="group bg-gradient-to-br from-white to-gray-50 rounded-2xl p-6 cursor-pointer border-2 border-gray-200 hover:border-orange-500 animate-pop-3d hover-lift-3d [box-shadow:0_4px_8px_rgba(0,0,0,0.12),0_8px_16px_rgba(0,0,0,0.08)]"
+                  className="group bg-gradient-to-br from-gray-900/90 to-black/90 backdrop-blur-2xl rounded-2xl p-6 cursor-pointer border-2 border-white/10 hover:border-orange-500 animate-pop-3d hover-lift-3d [box-shadow:0_4px_8px_rgba(0,0,0,0.12),0_8px_16px_rgba(0,0,0,0.08)]"
                   style={{ animationDelay: `${index * 100}ms` }}
                 >
                   <div className="text-4xl mb-3 transform group-hover:scale-110 transition-transform">
                     {getCategoryEmoji(role.category)}
                   </div>
-                  <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-orange-600 transition-colors leading-tight">
+                  <h3 className="text-lg font-bold text-white mb-2 group-hover:text-orange-600 transition-colors leading-tight">
                     {role.title}
                   </h3>
                   <div className="flex items-center gap-2 mb-2">
                     <span className="text-sm font-semibold text-orange-600">{role.company}</span>
-                    <span className="text-xs text-gray-400">•</span>
+                    <span className="text-xs text-gray-500">•</span>
                     <span className="text-xs text-purple-600 font-medium">{role.level}</span>
                   </div>
                   <div className="flex items-center text-orange-500 text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity mt-3">
@@ -338,7 +352,7 @@ function PracticeContent() {
                 <div className="w-full border-t border-gray-300"></div>
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-4 bg-gradient-to-b from-purple-50 via-white to-blue-50 text-gray-500">
+                <span className="px-4 bg-black text-gray-400">
                   Or browse all {roles.length} roles below
                 </span>
               </div>
@@ -346,7 +360,7 @@ function PracticeContent() {
           </div>
 
             {/* Search Bar - Sticky on mobile */}
-            <div className="max-w-2xl mx-auto mb-6 sticky top-0 z-10 bg-gradient-to-b from-purple-50 via-white to-blue-50 py-3 sm:static sm:py-0">
+            <div className="max-w-2xl mx-auto mb-6 sticky top-0 z-10 bg-black py-3 sm:static sm:py-0">
               <div className="relative group">
                 <svg className="absolute left-4 sm:left-6 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within:text-orange-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -356,7 +370,7 @@ function PracticeContent() {
                   placeholder="Search roles, companies, or keywords..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-12 sm:pl-14 pr-6 py-3 sm:py-4 rounded-full border-2 border-gray-200 focus:border-orange-500 focus:ring-4 focus:ring-orange-100 focus:outline-none text-base sm:text-lg shadow-sm hover:shadow-md transition-all duration-200 bg-white"
+                  className="w-full pl-12 sm:pl-14 pr-6 py-3 sm:py-4 rounded-full border-2 border-white/10 focus:border-orange-500 focus:ring-4 focus:ring-orange-100 focus:outline-none text-base sm:text-lg shadow-sm hover:shadow-md transition-all duration-200 bg-gradient-to-br from-gray-900/90 to-black/90 backdrop-blur-2xl text-white"
                 />
                 {searchQuery && (
                   <button
@@ -375,7 +389,7 @@ function PracticeContent() {
             <div className="mb-4 flex justify-center sm:hidden">
               <button
                 onClick={() => setShowFilters(!showFilters)}
-                className="inline-flex items-center gap-2 px-4 py-2 bg-white border-2 border-gray-200 rounded-full text-sm font-medium text-gray-700 hover:bg-gray-50 transition-all shadow-sm"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-br from-gray-900/90 to-black/90 backdrop-blur-2xl border-2 border-white/10 rounded-full text-sm font-medium text-gray-300 hover:bg-gray-800 transition-all shadow-sm"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
@@ -391,7 +405,7 @@ function PracticeContent() {
             <div className={`mb-6 transition-all duration-300 ${showFilters ? 'block' : 'hidden sm:block'}`}>
               {/* Category Filter */}
               <div className="mb-4">
-                <h3 className="text-xs sm:text-sm font-semibold text-gray-600 mb-2 text-center sm:text-left max-w-5xl mx-auto">Filter by Industry</h3>
+                <h3 className="text-xs sm:text-sm font-semibold text-gray-300 mb-2 text-center sm:text-left max-w-5xl mx-auto">Filter by Industry</h3>
                 <div className="overflow-x-auto sm:overflow-visible -mx-4 px-4 sm:mx-0 sm:px-0">
                   <div className="flex sm:flex-wrap gap-2 max-w-5xl mx-auto sm:justify-center min-w-max sm:min-w-0">
                     {categories.map((category) => {
@@ -403,7 +417,7 @@ function PracticeContent() {
                           className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-sm font-medium transition whitespace-nowrap ${
                             selectedCategory === category
                               ? 'bg-gradient-to-r from-orange-500 to-red-500 text-white shadow-md'
-                              : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200'
+                              : 'bg-gradient-to-br from-gray-900/90 to-black/90 backdrop-blur-2xl text-gray-300 hover:bg-gray-800 border border-white/10'
                           }`}
                         >
                           {category} ({count})
@@ -416,7 +430,7 @@ function PracticeContent() {
 
               {/* Level Filter */}
               <div className="mb-6">
-                <h3 className="text-xs sm:text-sm font-semibold text-gray-600 mb-2 text-center sm:text-left max-w-5xl mx-auto">Filter by Experience Level</h3>
+                <h3 className="text-xs sm:text-sm font-semibold text-gray-300 mb-2 text-center sm:text-left max-w-5xl mx-auto">Filter by Experience Level</h3>
                 <div className="flex flex-wrap justify-center gap-2 max-w-5xl mx-auto">
                 {levels.map((level) => {
                   const count = level === 'All'
@@ -435,7 +449,7 @@ function PracticeContent() {
                       if (level === 'Executive') return 'bg-amber-500 text-white shadow-md';
                       return 'bg-gray-700 text-white shadow-md';
                     }
-                    return 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-200';
+                    return 'bg-gradient-to-br from-gray-900/90 to-black/90 backdrop-blur-2xl text-gray-300 hover:bg-gray-800 border border-white/10';
                   };
 
                   // Icons for each level
@@ -464,7 +478,7 @@ function PracticeContent() {
 
           {/* Results count and Clear Filters */}
           <div className="flex items-center justify-center gap-4 mb-6">
-            <p className="text-sm sm:text-base text-gray-600">
+            <p className="text-sm sm:text-base text-gray-400">
               Showing {filteredRoles.length} {filteredRoles.length === 1 ? 'role' : 'roles'}
             </p>
             {(selectedCategory !== 'All' || selectedLevel !== 'All' || searchQuery) && (
@@ -492,7 +506,7 @@ function PracticeContent() {
                 <div key={category}>
                   <div className="flex items-center mb-5">
                     <span className="text-2xl mr-2">{getCategoryEmoji(category)}</span>
-                    <h2 className="text-xl sm:text-2xl font-bold text-gray-900">{category}</h2>
+                    <h2 className="text-xl sm:text-2xl font-bold text-white">{category}</h2>
                     <span className="ml-3 px-2.5 py-1 bg-orange-100 text-orange-700 rounded-full text-xs font-medium">
                       {categoryRoles.length}
                     </span>
@@ -502,7 +516,7 @@ function PracticeContent() {
                       <div
                         key={role.id}
                         onClick={() => handleRoleSelect(role)}
-                        className="group bg-white rounded-xl p-4 cursor-pointer border border-gray-200 hover:border-orange-500 animate-pop-3d hover-lift-3d [box-shadow:0_2px_4px_rgba(0,0,0,0.1),0_4px_8px_rgba(0,0,0,0.05)]"
+                        className="group bg-gradient-to-br from-gray-900/90 to-black/90 backdrop-blur-2xl rounded-xl p-4 cursor-pointer border border-white/10 hover:border-orange-500 animate-pop-3d hover-lift-3d [box-shadow:0_2px_4px_rgba(0,0,0,0.1),0_4px_8px_rgba(0,0,0,0.05)]"
                         style={{ animationDelay: `${index * 30}ms` }}
                       >
                         <div className="flex items-start gap-3 mb-3">
@@ -510,7 +524,7 @@ function PracticeContent() {
                             {getCategoryEmoji(role.category)}
                           </div>
                           <div className="flex-1 min-w-0">
-                            <h3 className="text-base font-bold text-gray-900 mb-2 group-hover:text-orange-600 transition-colors leading-tight line-clamp-2">
+                            <h3 className="text-base font-bold text-white mb-2 group-hover:text-orange-600 transition-colors leading-tight line-clamp-2">
                               {role.title}
                             </h3>
                             <div className="flex flex-wrap gap-1.5 mb-2">
@@ -523,7 +537,7 @@ function PracticeContent() {
                             </div>
                           </div>
                         </div>
-                        <p className="text-gray-600 text-xs line-clamp-2 mb-3">{role.description}</p>
+                        <p className="text-gray-400 text-xs line-clamp-2 mb-3">{role.description}</p>
                         <div className="flex items-center text-orange-500 text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity">
                           <span>Start Interview</span>
                           <svg className="w-3 h-3 ml-1 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -543,7 +557,7 @@ function PracticeContent() {
                 <div
                   key={role.id}
                   onClick={() => handleRoleSelect(role)}
-                  className="group bg-white rounded-xl p-4 cursor-pointer border border-gray-200 hover:border-orange-500 animate-pop-3d hover-lift-3d [box-shadow:0_2px_4px_rgba(0,0,0,0.1),0_4px_8px_rgba(0,0,0,0.05)]"
+                  className="group bg-gradient-to-br from-gray-900/90 to-black/90 backdrop-blur-2xl rounded-xl p-4 cursor-pointer border border-white/10 hover:border-orange-500 animate-pop-3d hover-lift-3d [box-shadow:0_2px_4px_rgba(0,0,0,0.1),0_4px_8px_rgba(0,0,0,0.05)]"
                   style={{ animationDelay: `${index * 30}ms` }}
                 >
                   <div className="flex items-start gap-3 mb-3">
@@ -551,7 +565,7 @@ function PracticeContent() {
                       {getCategoryEmoji(role.category)}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h3 className="text-base font-bold text-gray-900 mb-2 group-hover:text-orange-600 transition-colors leading-tight line-clamp-2">
+                      <h3 className="text-base font-bold text-white mb-2 group-hover:text-orange-600 transition-colors leading-tight line-clamp-2">
                         {role.title}
                       </h3>
                       <div className="flex flex-wrap gap-1.5 mb-2">
@@ -564,7 +578,7 @@ function PracticeContent() {
                       </div>
                     </div>
                   </div>
-                  <p className="text-gray-600 text-xs line-clamp-2 mb-3">{role.description}</p>
+                  <p className="text-gray-400 text-xs line-clamp-2 mb-3">{role.description}</p>
                   <div className="flex items-center text-orange-500 text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity">
                     <span>Start Interview</span>
                     <svg className="w-3 h-3 ml-1 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -582,7 +596,7 @@ function PracticeContent() {
               <button
                 onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
                 disabled={currentPage === 1}
-                className="group flex items-center gap-2 px-4 py-2 rounded-lg bg-white border-2 border-gray-200 text-gray-700 font-medium hover:border-orange-500 hover:text-orange-600 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:border-gray-200 disabled:hover:text-gray-700 transition-all shadow-sm hover:shadow-md"
+                className="group flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-br from-gray-900/90 to-black/90 backdrop-blur-2xl border-2 border-white/10 text-gray-300 font-medium hover:border-orange-500 hover:text-orange-600 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:border-white/10 disabled:hover:text-gray-300 transition-all shadow-sm hover:shadow-md"
               >
                 <svg className="w-5 h-5 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -591,17 +605,17 @@ function PracticeContent() {
               </button>
 
               <div className="flex items-center gap-2">
-                <span className="text-sm text-gray-600">Page</span>
+                <span className="text-sm text-gray-400">Page</span>
                 <span className="px-4 py-2 bg-gradient-to-r from-orange-500 to-red-500 text-white font-bold rounded-lg shadow-md">
                   {currentPage}
                 </span>
-                <span className="text-sm text-gray-600">of {totalPages}</span>
+                <span className="text-sm text-gray-400">of {totalPages}</span>
               </div>
 
               <button
                 onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
                 disabled={currentPage === totalPages}
-                className="group flex items-center gap-2 px-4 py-2 rounded-lg bg-white border-2 border-gray-200 text-gray-700 font-medium hover:border-orange-500 hover:text-orange-600 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:border-gray-200 disabled:hover:text-gray-700 transition-all shadow-sm hover:shadow-md"
+                className="group flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-br from-gray-900/90 to-black/90 backdrop-blur-2xl border-2 border-white/10 text-gray-300 font-medium hover:border-orange-500 hover:text-orange-600 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:border-white/10 disabled:hover:text-gray-300 transition-all shadow-sm hover:shadow-md"
               >
                 Next
                 <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -615,23 +629,23 @@ function PracticeContent() {
         {/* Experience Level Selection Modal */}
         {showLevelModal && selectedRole && (
           <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fadeIn">
-            <div className="bg-white rounded-3xl shadow-2xl w-full sm:max-w-2xl p-8 animate-slideUp">
+            <div className="bg-gradient-to-br from-gray-900/95 to-black/95 backdrop-blur-2xl rounded-3xl shadow-2xl w-full sm:max-w-2xl p-8 animate-slideUp border-2 border-white/10">
               <div className="text-center mb-8">
                 <div className="w-20 h-20 bg-gradient-to-r from-purple-500 via-orange-500 to-red-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
                   <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
                   </svg>
                 </div>
-                <h3 className="text-3xl font-bold text-gray-900 mb-2">Customize Your Practice</h3>
-                <p className="text-gray-600 text-lg">For {selectedRole.title}</p>
-                <p className="text-sm text-gray-500 mt-2">Select difficulty stage and experience level</p>
+                <h3 className="text-3xl font-bold text-white mb-2">Customize Your Practice</h3>
+                <p className="text-gray-300 text-lg">For {selectedRole.title}</p>
+                <p className="text-sm text-gray-400 mt-2">Select difficulty stage and experience level</p>
               </div>
 
               {/* Stage Selection */}
               <div className="mb-8">
-                <h4 className="text-lg font-bold text-gray-900 mb-3 flex items-center gap-2">
+                <h4 className="text-lg font-bold text-white mb-3 flex items-center gap-2">
                   Select Difficulty Stage
-                  <span className="text-xs font-normal text-gray-500">(15 questions per stage)</span>
+                  <span className="text-xs font-normal text-gray-400">(15 questions per stage)</span>
                 </h4>
                 <div className="grid grid-cols-3 gap-3">
                   {[1, 2, 3].map((stageNum) => {
@@ -654,10 +668,10 @@ function PracticeContent() {
                         disabled={!isUnlocked}
                         className={`p-4 rounded-xl border-2 transition-all text-center relative ${
                           !isUnlocked
-                            ? 'border-gray-300 bg-gray-50 opacity-60 cursor-not-allowed'
+                            ? 'border-gray-700 bg-gray-900 opacity-60 cursor-not-allowed'
                             : selectedStage === stageNum
                             ? `border-${colors.border} bg-gradient-to-br ${colors.bg} shadow-md`
-                            : `border-gray-200 bg-white hover:border-${colors.hover}`
+                            : `border-white/10 bg-gradient-to-br from-gray-900/90 to-black/90 backdrop-blur-2xl hover:border-${colors.hover}`
                         }`}
                       >
                         {!isUnlocked && (
@@ -668,8 +682,8 @@ function PracticeContent() {
                           </div>
                         )}
                         <div className="text-3xl mb-2">{info.icon}</div>
-                        <h5 className={`font-bold text-sm mb-1 ${!isUnlocked ? 'text-gray-500' : 'text-gray-900'}`}>Stage {stageNum}</h5>
-                        <p className={`text-xs ${!isUnlocked ? 'text-gray-400' : 'text-gray-600'}`}>{info.title}</p>
+                        <h5 className={`font-bold text-sm mb-1 ${!isUnlocked ? 'text-gray-600' : 'text-white'}`}>Stage {stageNum}</h5>
+                        <p className={`text-xs ${!isUnlocked ? 'text-gray-500' : 'text-gray-300'}`}>{info.title}</p>
                         <p className={`text-xs mt-1 font-semibold text-${colors.text}`}>{info.range}</p>
                         {completion > 0 && (
                           <div className="mt-2">
@@ -683,13 +697,13 @@ function PracticeContent() {
                     );
                   })}
                 </div>
-                <p className="text-xs text-gray-500 mt-3 text-center">
+                <p className="text-xs text-gray-400 mt-3 text-center">
                   Start with Stage 1 to build foundation, then progress to harder stages
                 </p>
               </div>
 
               {/* Experience Level Selection */}
-              <h4 className="text-lg font-bold text-gray-900 mb-3">Select Experience Level</h4>
+              <h4 className="text-lg font-bold text-white mb-3">Select Experience Level</h4>
               <div className="grid grid-cols-1 gap-4 mb-6">
                 {/* Entry Level */}
                 <button
@@ -698,14 +712,14 @@ function PracticeContent() {
                     setShowLevelModal(false);
                     handleStartInterview();
                   }}
-                  className="group relative p-6 rounded-2xl border-2 border-gray-200 bg-white hover:border-green-500 hover:bg-gradient-to-br hover:from-green-50 hover:to-emerald-50 transition-all text-left hover:shadow-xl transform hover:scale-[1.02]"
+                  className="group relative p-6 rounded-2xl border-2 border-white/10 bg-gradient-to-br from-gray-900/90 to-black/90 backdrop-blur-2xl hover:border-green-500 hover:from-green-900/50 hover:to-emerald-900/50 transition-all text-left hover:shadow-xl transform hover:scale-[1.02]"
                 >
                   <div className="flex items-start gap-4">
                     <div className="text-4xl group-hover:scale-110 transition-transform">Entry</div>
                     <div className="flex-1">
-                      <h4 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-green-700">Entry Level</h4>
-                      <p className="text-sm text-gray-600 mb-2">0-2 years of experience</p>
-                      <p className="text-xs text-gray-500">Focus on foundational knowledge, learning experiences, and basic problem-solving</p>
+                      <h4 className="text-xl font-bold text-white mb-2 group-hover:text-green-400">Entry Level</h4>
+                      <p className="text-sm text-gray-300 mb-2">0-2 years of experience</p>
+                      <p className="text-xs text-gray-400">Focus on foundational knowledge, learning experiences, and basic problem-solving</p>
                     </div>
                     <svg className="w-6 h-6 text-gray-300 group-hover:text-green-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -720,14 +734,14 @@ function PracticeContent() {
                     setShowLevelModal(false);
                     handleStartInterview();
                   }}
-                  className="group relative p-6 rounded-2xl border-2 border-gray-200 bg-white hover:border-blue-500 hover:bg-gradient-to-br hover:from-blue-50 hover:to-cyan-50 transition-all text-left hover:shadow-xl transform hover:scale-[1.02]"
+                  className="group relative p-6 rounded-2xl border-2 border-white/10 bg-gradient-to-br from-gray-900/90 to-black/90 backdrop-blur-2xl hover:border-blue-500 hover:from-blue-900/50 hover:to-cyan-900/50 transition-all text-left hover:shadow-xl transform hover:scale-[1.02]"
                 >
                   <div className="flex items-start gap-4">
                     <div className="text-4xl group-hover:scale-110 transition-transform">Mid</div>
                     <div className="flex-1">
-                      <h4 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-700">Mid Level</h4>
-                      <p className="text-sm text-gray-600 mb-2">3-5 years of experience</p>
-                      <p className="text-xs text-gray-500">Focus on complex scenarios, proven track record, and intermediate problem-solving</p>
+                      <h4 className="text-xl font-bold text-white mb-2 group-hover:text-blue-400">Mid Level</h4>
+                      <p className="text-sm text-gray-300 mb-2">3-5 years of experience</p>
+                      <p className="text-xs text-gray-400">Focus on complex scenarios, proven track record, and intermediate problem-solving</p>
                     </div>
                     <svg className="w-6 h-6 text-gray-300 group-hover:text-blue-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -742,14 +756,14 @@ function PracticeContent() {
                     setShowLevelModal(false);
                     handleStartInterview();
                   }}
-                  className="group relative p-6 rounded-2xl border-2 border-gray-200 bg-white hover:border-purple-500 hover:bg-gradient-to-br hover:from-purple-50 hover:to-indigo-50 transition-all text-left hover:shadow-xl transform hover:scale-[1.02]"
+                  className="group relative p-6 rounded-2xl border-2 border-white/10 bg-gradient-to-br from-gray-900/90 to-black/90 backdrop-blur-2xl hover:border-purple-500 hover:from-purple-900/50 hover:to-indigo-900/50 transition-all text-left hover:shadow-xl transform hover:scale-[1.02]"
                 >
                   <div className="flex items-start gap-4">
                     <div className="text-4xl group-hover:scale-110 transition-transform">Senior</div>
                     <div className="flex-1">
-                      <h4 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-purple-700">Senior Level</h4>
-                      <p className="text-sm text-gray-600 mb-2">7+ years of experience</p>
-                      <p className="text-xs text-gray-500">Focus on leadership, strategy, organizational impact, and team building</p>
+                      <h4 className="text-xl font-bold text-white mb-2 group-hover:text-purple-400">Senior Level</h4>
+                      <p className="text-sm text-gray-300 mb-2">7+ years of experience</p>
+                      <p className="text-xs text-gray-400">Focus on leadership, strategy, organizational impact, and team building</p>
                     </div>
                     <svg className="w-6 h-6 text-gray-300 group-hover:text-purple-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -764,7 +778,7 @@ function PracticeContent() {
                     setShowLevelModal(false);
                     setSelectedRole(null);
                   }}
-                  className="px-6 py-2 text-gray-600 hover:text-gray-900 font-medium transition-colors text-sm"
+                  className="px-6 py-2 text-gray-400 hover:text-white font-medium transition-colors text-sm"
                 >
                   Cancel
                 </button>
@@ -776,15 +790,15 @@ function PracticeContent() {
         {/* Limit Reached Modal */}
         {showLimitModal && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-2xl shadow-2xl w-full sm:max-w-md p-6 sm:p-8 animate-slideUp">
+            <div className="bg-gradient-to-br from-gray-900/95 to-black/95 backdrop-blur-2xl rounded-2xl shadow-2xl w-full sm:max-w-md p-6 sm:p-8 animate-slideUp border-2 border-white/10">
               <div className="text-center mb-6">
                 <div className="w-16 h-16 bg-gradient-to-r from-orange-500 to-red-500 rounded-full flex items-center justify-center mx-auto mb-4">
                   <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                   </svg>
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">Limit Reached</h3>
-                <p className="text-gray-600 mb-6">{limitMessage}</p>
+                <h3 className="text-2xl font-bold text-white mb-2">Limit Reached</h3>
+                <p className="text-gray-300 mb-6">{limitMessage}</p>
               </div>
 
               <div className="space-y-3">
@@ -809,7 +823,14 @@ function PracticeContent() {
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-black relative overflow-hidden">
+      {/* Animated Background */}
+      <div className="fixed inset-0 -z-10">
+        <div className="absolute inset-0 bg-gradient-to-br from-black via-gray-900 to-black"></div>
+        <div className="absolute top-0 -left-40 w-96 h-96 bg-orange-500/10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute top-40 right-0 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute bottom-0 left-1/3 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse delay-500"></div>
+      </div>
       <InterviewSession
         role={selectedRole!}
         experienceLevel={selectedExperienceLevel}
@@ -1202,13 +1223,20 @@ function InterviewSession({
   }, [responses, sessionId, role, questions, resumeData]);
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-b from-purple-50 via-white to-blue-50">
+    <div className="min-h-screen flex flex-col bg-black relative overflow-hidden">
+      {/* Animated Background */}
+      <div className="fixed inset-0 -z-10">
+        <div className="absolute inset-0 bg-gradient-to-br from-black via-gray-900 to-black"></div>
+        <div className="absolute top-0 -left-40 w-96 h-96 bg-orange-500/10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute top-40 right-0 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute bottom-0 left-1/3 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse delay-500"></div>
+      </div>
       {/* Header */}
-      <div className="bg-white/80 backdrop-blur-sm border-b border-gray-200 px-6 py-4 shadow-sm">
+      <div className="bg-gradient-to-br from-gray-900/80 to-black/80 backdrop-blur-sm border-b border-white/10 px-6 py-4 shadow-sm relative z-10">
         <div className="max-w-5xl mx-auto flex items-center justify-between">
           <button
             onClick={onBack}
-            className="flex items-center gap-2 text-gray-600 hover:text-gray-900 font-medium transition-colors"
+            className="flex items-center gap-2 text-gray-400 hover:text-white font-medium transition-colors"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -1217,7 +1245,7 @@ function InterviewSession({
           </button>
           <div className="text-center">
             <h2 className="text-lg font-bold bg-gradient-to-r from-purple-600 to-orange-500 bg-clip-text text-transparent">{role.title}</h2>
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-gray-400">
               Question {currentQuestion + 1} of {questions.length}
             </p>
           </div>
@@ -1417,7 +1445,7 @@ function InterviewSession({
           ) : (
             <>
               {/* Question Card - Audio Interview Mode */}
-              <div className="bg-white rounded-3xl p-12 mb-8 shadow-xl border-2 border-gray-100 animate-fadeIn">
+              <div className="bg-gradient-to-br from-gray-900/90 to-black/90 backdrop-blur-2xl rounded-3xl p-12 mb-8 shadow-xl border-2 border-white/10 animate-fadeIn">
                 <div className="text-center">
                   {/* Video Interviewer */}
                   <div className="mb-6">
@@ -1429,11 +1457,11 @@ function InterviewSession({
                     />
                   </div>
 
-                  <h3 className="text-3xl font-bold text-gray-900 mb-6 leading-tight">
+                  <h3 className="text-3xl font-bold text-white mb-6 leading-tight">
                     {questions[currentQuestion]}
                   </h3>
 
-                  <p className="text-gray-600 text-lg">
+                  <p className="text-gray-300 text-lg">
                     Take your time to think about your answer before recording
                   </p>
                 </div>
@@ -1454,7 +1482,7 @@ function InterviewSession({
                 <div className="flex gap-4 justify-center items-center">
                   <button
                     onClick={clearRecording}
-                    className="text-sm text-gray-600 hover:text-gray-900 font-medium transition-colors"
+                    className="text-sm text-gray-400 hover:text-white font-medium transition-colors"
                   >
                     Clear and re-record
                   </button>
@@ -1487,8 +1515,8 @@ function InterviewSession({
                     </svg>
                   </div>
                   <div className="space-y-2">
-                    <h3 className="text-lg font-bold text-gray-900">Analyzing Your Response</h3>
-                    <p className="text-sm text-gray-600">
+                    <h3 className="text-lg font-bold text-white">Analyzing Your Response</h3>
+                    <p className="text-sm text-gray-300">
                       Our AI is transcribing your audio and providing detailed feedback...
                     </p>
                   </div>
@@ -1535,14 +1563,14 @@ function InterviewSession({
               </button>
             ) : (
               <div className="space-y-6 animate-fadeIn">
-                <div className="bg-white rounded-2xl p-6 shadow-lg border-2 border-red-200">
+                <div className="bg-gradient-to-br from-gray-900/90 to-black/90 backdrop-blur-2xl rounded-2xl p-6 shadow-lg border-2 border-red-500">
                   <div className="flex items-center justify-center gap-4 mb-2">
                     <div className="w-4 h-4 bg-red-500 rounded-full animate-pulse shadow-lg"></div>
-                    <span className="text-2xl font-mono font-bold text-gray-900">
+                    <span className="text-2xl font-mono font-bold text-white">
                       {Math.floor(recordingTime / 60)}:{(recordingTime % 60).toString().padStart(2, '0')}
                     </span>
                   </div>
-                  <p className="text-sm text-gray-600 text-center">Recording in progress...</p>
+                  <p className="text-sm text-gray-300 text-center">Recording in progress...</p>
                 </div>
                 <button
                   onClick={handleStopRecording}
@@ -1561,7 +1589,7 @@ function InterviewSession({
             <button
               onClick={handlePreviousQuestion}
               disabled={currentQuestion === 0}
-              className="group px-6 py-3 text-gray-700 hover:text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed font-semibold transition-colors flex items-center gap-2"
+              className="group px-6 py-3 text-gray-300 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed font-semibold transition-colors flex items-center gap-2"
             >
               <svg className="w-5 h-5 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -1599,10 +1627,16 @@ export default function PracticePage() {
     <PaymentGate feature="Interview Practice">
       <ErrorBoundary>
         <Suspense fallback={
-          <div className="min-h-screen bg-gradient-to-b from-purple-50 via-white to-blue-50 flex items-center justify-center">
-            <div className="text-center">
+          <div className="min-h-screen bg-black relative overflow-hidden flex items-center justify-center">
+            <div className="fixed inset-0 -z-10">
+              <div className="absolute inset-0 bg-gradient-to-br from-black via-gray-900 to-black"></div>
+              <div className="absolute top-0 -left-40 w-96 h-96 bg-orange-500/10 rounded-full blur-3xl animate-pulse"></div>
+              <div className="absolute top-40 right-0 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
+              <div className="absolute bottom-0 left-1/3 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse delay-500"></div>
+            </div>
+            <div className="text-center relative z-10">
               <div className="w-16 h-16 border-4 border-orange-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-              <p className="text-gray-600 text-lg">Loading...</p>
+              <p className="text-gray-300 text-lg">Loading...</p>
             </div>
           </div>
         }>
