@@ -56,12 +56,20 @@ export default function SignUpPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-purple-50 via-white to-blue-50 flex items-center justify-center px-4 py-12">
-      <div className="max-w-md w-full">
+    <div className="min-h-screen bg-black relative overflow-hidden flex items-center justify-center px-4 py-12">
+      {/* Animated Background */}
+      <div className="fixed inset-0 -z-10">
+        <div className="absolute inset-0 bg-gradient-to-br from-black via-gray-900 to-black"></div>
+        <div className="absolute top-0 -left-40 w-96 h-96 bg-orange-500/10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute top-40 right-0 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute bottom-0 left-1/3 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse delay-500"></div>
+      </div>
+
+      <div className="max-w-md w-full relative z-10">
         {/* Back to Home Button */}
         <Link
           href="/"
-          className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-6 font-medium transition-colors"
+          className="inline-flex items-center gap-2 text-gray-300 hover:text-white mb-6 font-medium transition-colors"
         >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -76,11 +84,11 @@ export default function SignUpPage() {
               PrepCoach
             </h1>
           </Link>
-          <p className="text-gray-600">Create your account and start practicing</p>
+          <p className="text-gray-300">Create your account and start practicing</p>
         </div>
 
         {/* Sign Up Form */}
-        <div className="bg-white rounded-2xl shadow-lg p-8 border-2 border-gray-100">
+        <div className="bg-gradient-to-br from-gray-900/90 to-black/90 backdrop-blur-2xl rounded-2xl shadow-lg border-2 border-white/10 p-8">
           {success ? (
             <div className="text-center py-8">
               <div className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-green-100 mb-4">
@@ -88,8 +96,8 @@ export default function SignUpPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                 </svg>
               </div>
-              <h2 className="text-2xl font-bold text-gray-800 mb-2">Account Created!</h2>
-              <p className="text-gray-600 mb-4">{success}</p>
+              <h2 className="text-2xl font-bold text-white mb-2">Account Created!</h2>
+              <p className="text-gray-300 mb-4">{success}</p>
               <p className="text-sm text-gray-500 mb-6">Taking you to choose your plan...</p>
               <Link
                 href="/auth/welcome"
@@ -107,7 +115,7 @@ export default function SignUpPage() {
               )}
 
             <div>
-              <label htmlFor="name" className="block text-sm font-semibold text-gray-700 mb-2">
+              <label htmlFor="name" className="block text-sm font-semibold text-gray-300 mb-2">
                 Name
               </label>
               <input
@@ -122,7 +130,7 @@ export default function SignUpPage() {
             </div>
 
             <div>
-              <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-2">
+              <label htmlFor="email" className="block text-sm font-semibold text-gray-300 mb-2">
                 Email
               </label>
               <input
@@ -137,7 +145,7 @@ export default function SignUpPage() {
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-semibold text-gray-700 mb-2">
+              <label htmlFor="password" className="block text-sm font-semibold text-gray-300 mb-2">
                 Password
               </label>
               <input
@@ -173,7 +181,7 @@ export default function SignUpPage() {
                     <div className="w-full border-t border-gray-300"></div>
                   </div>
                   <div className="relative flex justify-center text-sm">
-                    <span className="px-4 bg-white text-gray-500 font-medium">Or continue with</span>
+                    <span className="px-4 bg-gray-900 text-gray-400 font-medium">Or continue with</span>
                   </div>
                 </div>
               </div>
@@ -211,7 +219,7 @@ export default function SignUpPage() {
           )}
 
           <div className="mt-6 text-center">
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-gray-300">
               Already have an account?{' '}
               <Link href="/auth/signin" className="text-orange-600 font-semibold hover:text-orange-700">
                 Sign in

@@ -50,12 +50,20 @@ function SignInForm() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-purple-50 via-white to-blue-50 flex items-center justify-center px-4">
-      <div className="max-w-md w-full">
+    <div className="min-h-screen bg-black relative overflow-hidden flex items-center justify-center px-4">
+      {/* Animated Background */}
+      <div className="fixed inset-0 -z-10">
+        <div className="absolute inset-0 bg-gradient-to-br from-black via-gray-900 to-black"></div>
+        <div className="absolute top-0 -left-40 w-96 h-96 bg-orange-500/10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute top-40 right-0 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute bottom-0 left-1/3 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse delay-500"></div>
+      </div>
+
+      <div className="max-w-md w-full relative z-10">
         {/* Back to Home Button */}
         <Link
           href="/"
-          className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-6 font-medium transition-colors"
+          className="inline-flex items-center gap-2 text-gray-300 hover:text-white mb-6 font-medium transition-colors"
         >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -66,15 +74,15 @@ function SignInForm() {
         {/* Logo/Header */}
         <div className="text-center mb-8">
           <Link href="/">
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent mb-2 cursor-pointer">
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-orange-400 via-red-500 to-pink-500 bg-clip-text text-transparent mb-2 cursor-pointer" style={{textShadow: '0 0 80px rgba(255,255,255,0.3)'}}>
               PrepCoach
             </h1>
           </Link>
-          <p className="text-gray-600">Welcome back! Sign in to continue</p>
+          <p className="text-gray-300">Welcome back! Sign in to continue</p>
         </div>
 
         {/* Sign In Form */}
-        <div className="bg-white rounded-2xl shadow-lg p-8 border-2 border-gray-100">
+        <div className="bg-gradient-to-br from-gray-900/90 to-black/90 backdrop-blur-2xl rounded-2xl shadow-lg p-8 border-2 border-white/10">
           <form onSubmit={handleSubmit} className="space-y-6">
             {success && (
               <div className="bg-green-50 border-2 border-green-200 rounded-lg p-4 text-green-700 text-sm">
@@ -88,7 +96,7 @@ function SignInForm() {
             )}
 
             <div>
-              <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-2">
+              <label htmlFor="email" className="block text-sm font-semibold text-gray-300 mb-2">
                 Email
               </label>
               <input
@@ -104,7 +112,7 @@ function SignInForm() {
 
             <div>
               <div className="flex items-center justify-between mb-2">
-                <label htmlFor="password" className="block text-sm font-semibold text-gray-700">
+                <label htmlFor="password" className="block text-sm font-semibold text-gray-300">
                   Password
                 </label>
                 <Link
@@ -141,7 +149,7 @@ function SignInForm() {
                 <div className="w-full border-t border-gray-300"></div>
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-4 bg-white text-gray-500 font-medium">Or continue with</span>
+                <span className="px-4 bg-gray-900 text-gray-400 font-medium">Or continue with</span>
               </div>
             </div>
           </div>
@@ -177,7 +185,7 @@ function SignInForm() {
           </div>
 
           <div className="mt-6 text-center">
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-gray-300">
               Don&apos;t have an account?{' '}
               <Link href="/auth/signup" className="text-orange-600 font-semibold hover:text-orange-700">
                 Sign up
