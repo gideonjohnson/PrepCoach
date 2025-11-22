@@ -90,8 +90,7 @@ export const metadata: Metadata = {
     canonical: 'https://aiprep.work',
   },
   verification: {
-    // Add your Google Search Console verification code here
-    // google: 'your-verification-code',
+    google: 'O2wJFupBost_uXJiSexCSq5Sv2lyFPsNJ5wIOqIKKZc',
   },
 };
 
