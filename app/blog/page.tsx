@@ -6,6 +6,36 @@ import Breadcrumbs from '../components/Breadcrumbs';
 
 const blogPosts = [
   {
+    slug: 'faang-interview-preparation-guide-2025',
+    title: 'The Complete FAANG Interview Preparation Guide for 2025',
+    excerpt: 'A comprehensive, data-driven guide to landing offers at Meta, Apple, Amazon, Netflix, and Google. Learn the exact strategies that helped 2,847 PrepCoach users get FAANG offers in 2024.',
+    image: 'https://images.unsplash.com/photo-1573164713988-8665fc963095?w=800&h=400&fit=crop',
+    date: 'November 20, 2025',
+    readTime: '18 min read',
+    category: 'FAANG Prep',
+    featured: true,
+  },
+  {
+    slug: 'ai-revolutionizing-interview-preparation',
+    title: 'How AI is Revolutionizing Interview Preparation: A Data-Driven Analysis',
+    excerpt: 'An in-depth look at how artificial intelligence is transforming the way candidates prepare for interviews, with research-backed insights and practical applications.',
+    image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=400&fit=crop',
+    date: 'November 18, 2025',
+    readTime: '14 min read',
+    category: 'Technology',
+    featured: true,
+  },
+  {
+    slug: 'salary-negotiation-strategies-15k-increase',
+    title: 'Mastering Salary Negotiation: Strategies That Increased Our Users\' Offers by $15K+',
+    excerpt: 'Data-backed negotiation tactics from analyzing thousands of successful salary negotiations. Learn the exact scripts and strategies that maximize your compensation.',
+    image: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&h=400&fit=crop',
+    date: 'November 15, 2025',
+    readTime: '16 min read',
+    category: 'Salary',
+    featured: true,
+  },
+  {
     slug: 'ai-interview-practice-guide',
     title: 'How AI Interview Practice Can Transform Your Job Search in 2025',
     excerpt: 'Discover how artificial intelligence is revolutionizing interview preparation and helping candidates land their dream jobs faster than ever before.',
@@ -47,7 +77,7 @@ export default function BlogPage() {
         </div>
 
         {/* Blog Posts Grid */}
-        <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
           {blogPosts.map((post) => (
             <Link key={post.slug} href={`/blog/${post.slug}`}>
               <article className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 cursor-pointer h-full flex flex-col">
