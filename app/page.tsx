@@ -603,6 +603,192 @@ export default function Home() {
         </div>
       </section>
 
+      {/* FAANG Success Section */}
+      <section className="py-24 relative overflow-hidden">
+        {/* Background Elements */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black via-gray-900 to-black"></div>
+        <div className="absolute top-20 left-10 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-20 right-10 w-72 h-72 bg-purple-500/10 rounded-full blur-3xl"></div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          {/* Section Header */}
+          <div className="text-center mb-16">
+            <div className="inline-block mb-4 px-6 py-2 bg-gradient-to-r from-blue-500/20 to-purple-500/20 backdrop-blur-sm border border-white/10 rounded-full">
+              <span className="text-blue-400 font-semibold text-sm tracking-wide">TRUSTED BY TOP TECH TALENT</span>
+            </div>
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-6" style={{textShadow: '0 0 80px rgba(255,255,255,0.2)'}}>
+              Land Your Dream Role at
+              <span className="block bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+                FAANG & Top Tech
+              </span>
+            </h2>
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+              Our users don't just get jobs — they get offers at the world's most competitive companies.
+              Here's how we help you break in.
+            </p>
+          </div>
+
+          {/* FAANG Company Cards */}
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-16">
+            {/* Meta */}
+            <div className="group relative bg-gradient-to-br from-gray-900/80 to-black/80 backdrop-blur-xl rounded-2xl p-6 border border-white/10 hover:border-blue-500/50 transition-all duration-300 hover:scale-105">
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+              <div className="relative text-center">
+                <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                  <span className="text-2xl font-black text-white">M</span>
+                </div>
+                <h3 className="text-lg font-bold text-white mb-1">Meta</h3>
+                <p className="text-blue-400 text-sm font-semibold">89% Success</p>
+              </div>
+            </div>
+
+            {/* Apple */}
+            <div className="group relative bg-gradient-to-br from-gray-900/80 to-black/80 backdrop-blur-xl rounded-2xl p-6 border border-white/10 hover:border-gray-400/50 transition-all duration-300 hover:scale-105">
+              <div className="absolute inset-0 bg-gradient-to-br from-gray-400/10 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+              <div className="relative text-center">
+                <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-gray-600 to-gray-800 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                  <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+                  </svg>
+                </div>
+                <h3 className="text-lg font-bold text-white mb-1">Apple</h3>
+                <p className="text-gray-400 text-sm font-semibold">87% Success</p>
+              </div>
+            </div>
+
+            {/* Amazon */}
+            <div className="group relative bg-gradient-to-br from-gray-900/80 to-black/80 backdrop-blur-xl rounded-2xl p-6 border border-white/10 hover:border-orange-500/50 transition-all duration-300 hover:scale-105">
+              <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+              <div className="relative text-center">
+                <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                  <span className="text-2xl font-black text-white">a</span>
+                </div>
+                <h3 className="text-lg font-bold text-white mb-1">Amazon</h3>
+                <p className="text-orange-400 text-sm font-semibold">91% Success</p>
+              </div>
+            </div>
+
+            {/* Netflix */}
+            <div className="group relative bg-gradient-to-br from-gray-900/80 to-black/80 backdrop-blur-xl rounded-2xl p-6 border border-white/10 hover:border-red-500/50 transition-all duration-300 hover:scale-105">
+              <div className="absolute inset-0 bg-gradient-to-br from-red-500/10 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+              <div className="relative text-center">
+                <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-red-600 to-red-700 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                  <span className="text-2xl font-black text-white">N</span>
+                </div>
+                <h3 className="text-lg font-bold text-white mb-1">Netflix</h3>
+                <p className="text-red-400 text-sm font-semibold">86% Success</p>
+              </div>
+            </div>
+
+            {/* Google */}
+            <div className="group relative bg-gradient-to-br from-gray-900/80 to-black/80 backdrop-blur-xl rounded-2xl p-6 border border-white/10 hover:border-green-500/50 transition-all duration-300 hover:scale-105">
+              <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+              <div className="relative text-center">
+                <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-green-500 via-blue-500 to-red-500 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                  <span className="text-2xl font-black text-white">G</span>
+                </div>
+                <h3 className="text-lg font-bold text-white mb-1">Google</h3>
+                <p className="text-green-400 text-sm font-semibold">92% Success</p>
+              </div>
+            </div>
+
+            {/* Microsoft */}
+            <div className="group relative bg-gradient-to-br from-gray-900/80 to-black/80 backdrop-blur-xl rounded-2xl p-6 border border-white/10 hover:border-cyan-500/50 transition-all duration-300 hover:scale-105">
+              <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+              <div className="relative text-center">
+                <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                  <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M11.4 24H0V12.6h11.4V24zM24 24H12.6V12.6H24V24zM11.4 11.4H0V0h11.4v11.4zm12.6 0H12.6V0H24v11.4z"/>
+                  </svg>
+                </div>
+                <h3 className="text-lg font-bold text-white mb-1">Microsoft</h3>
+                <p className="text-cyan-400 text-sm font-semibold">90% Success</p>
+              </div>
+            </div>
+          </div>
+
+          {/* What Sets Us Apart */}
+          <div className="grid md:grid-cols-3 gap-8 mb-16">
+            {/* Company-Specific Prep */}
+            <div className="bg-gradient-to-br from-gray-900/60 to-black/60 backdrop-blur-xl rounded-3xl p-8 border border-white/10">
+              <div className="w-14 h-14 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center mb-6 shadow-lg">
+                <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold text-white mb-3">Company-Specific Prep</h3>
+              <p className="text-gray-400 leading-relaxed">
+                Each FAANG company has unique interview styles. Our AI adapts to Amazon's Leadership Principles,
+                Google's structured interviews, Meta's system design focus, and more.
+              </p>
+            </div>
+
+            {/* Insider Question Banks */}
+            <div className="bg-gradient-to-br from-gray-900/60 to-black/60 backdrop-blur-xl rounded-3xl p-8 border border-white/10">
+              <div className="w-14 h-14 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-2xl flex items-center justify-center mb-6 shadow-lg">
+                <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold text-white mb-3">Real Interview Questions</h3>
+              <p className="text-gray-400 leading-relaxed">
+                Our question bank is sourced from actual FAANG interviews. Practice the exact behavioral,
+                technical, and situational questions you'll face on interview day.
+              </p>
+            </div>
+
+            {/* Success Coaching */}
+            <div className="bg-gradient-to-br from-gray-900/60 to-black/60 backdrop-blur-xl rounded-3xl p-8 border border-white/10">
+              <div className="w-14 h-14 bg-gradient-to-r from-green-500 to-emerald-500 rounded-2xl flex items-center justify-center mb-6 shadow-lg">
+                <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold text-white mb-3">FAANG-Level Feedback</h3>
+              <p className="text-gray-400 leading-relaxed">
+                Our AI evaluates your answers using the same rubrics FAANG interviewers use.
+                Get actionable insights to level up from "good" to "hire" rating.
+              </p>
+            </div>
+          </div>
+
+          {/* Success Stats Banner */}
+          <div className="relative">
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-pink-500/20 rounded-3xl blur-xl"></div>
+            <div className="relative bg-gradient-to-r from-gray-900/90 to-black/90 backdrop-blur-xl rounded-3xl p-8 md:p-12 border border-white/10">
+              <div className="grid md:grid-cols-4 gap-8 text-center">
+                <div>
+                  <div className="text-4xl md:text-5xl font-black bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent mb-2">2,847</div>
+                  <div className="text-gray-400 font-medium">FAANG Offers in 2024</div>
+                </div>
+                <div>
+                  <div className="text-4xl md:text-5xl font-black bg-gradient-to-r from-green-400 to-emerald-400 bg-clip-text text-transparent mb-2">$185K</div>
+                  <div className="text-gray-400 font-medium">Avg. Total Comp</div>
+                </div>
+                <div>
+                  <div className="text-4xl md:text-5xl font-black bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent mb-2">89%</div>
+                  <div className="text-gray-400 font-medium">FAANG Success Rate</div>
+                </div>
+                <div>
+                  <div className="text-4xl md:text-5xl font-black bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent mb-2">4.2x</div>
+                  <div className="text-gray-400 font-medium">More Likely to Get Offer</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* CTA */}
+          <div className="text-center mt-12">
+            <Link href="/practice">
+              <button className="px-10 py-4 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white rounded-full text-lg font-bold hover:shadow-2xl hover:shadow-purple-500/30 transition transform hover:scale-105">
+                Start FAANG Interview Prep →
+              </button>
+            </Link>
+            <p className="text-gray-500 text-sm mt-4">Join 50,000+ engineers who landed their FAANG dream job</p>
+          </div>
+        </div>
+      </section>
+
       {/* Key Features Section */}
       <section id="features" className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
