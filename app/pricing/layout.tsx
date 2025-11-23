@@ -27,7 +27,7 @@ const faqSchema = {
       name: 'What happens when I hit my Free tier limits?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'You\'ll be notified when you\'re approaching your monthly limits (3 interviews and 5 AI feedback requests). Once you hit your limits, you can either wait until next month when they reset, or upgrade to Pro for unlimited access.',
+        text: 'You\'ll be notified when you\'re approaching your limits (3 questions per 2 weeks and 3 AI feedback requests per month). Once you hit your limits, you can either wait until they reset, or upgrade to Pro for unlimited access.',
       },
     },
     {
@@ -35,7 +35,7 @@ const faqSchema = {
       name: 'Is there a free trial for Pro or Enterprise?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'All new users start on our Free tier, which gives you a great taste of PrepCoach with 3 interviews and 5 AI feedback requests per month. This lets you experience the platform before committing to a paid plan.',
+        text: 'All new users start on our Free tier, which gives you a taste of PrepCoach with 3 questions per 2 weeks and 3 AI feedback requests per month. This lets you experience the platform before committing to a paid plan.',
       },
     },
     {
@@ -67,7 +67,7 @@ const faqSchema = {
       name: 'What\'s the difference between Pro and Enterprise?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Pro is perfect for individual job seekers who want unlimited practice. Enterprise is designed for teams and organizations, offering team management features for up to 10 users, company-specific interview preparation, dedicated support, and custom integrations.',
+        text: 'Pro is perfect for individual job seekers who want unlimited practice. Enterprise is designed for small teams, offering team management features for up to 4 users, company-specific interview preparation, dedicated support, and custom integrations.',
       },
     },
     {

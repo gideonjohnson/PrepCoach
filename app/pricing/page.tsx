@@ -201,8 +201,8 @@ export default function PricingPage() {
                 What happens when I hit my Free tier limits?
               </h3>
               <p className="text-gray-600 ml-8">
-                You'll be notified when you're approaching your monthly limits (3 interviews and 5 AI feedback requests).
-                Once you hit your limits, you can either wait until next month when they reset, or upgrade to Pro for unlimited access to both features.
+                You'll be notified when you're approaching your limits (3 questions per 2 weeks and 3 AI feedback requests per month).
+                Once you hit your limits, you can either wait until they reset, or upgrade to Pro for unlimited access.
               </p>
             </div>
 
@@ -212,7 +212,7 @@ export default function PricingPage() {
                 Is there a free trial for Pro or Enterprise?
               </h3>
               <p className="text-gray-600 ml-8">
-                All new users start on our Free tier, which gives you a great taste of PrepCoach with 3 interviews and 5 AI feedback requests per month.
+                All new users start on our Free tier, which gives you a taste of PrepCoach with 3 questions per 2 weeks and 3 AI feedback requests per month.
                 This lets you experience the platform before committing to a paid plan. For enterprise trials, please contact our sales team.
               </p>
             </div>
@@ -256,8 +256,8 @@ export default function PricingPage() {
                 What's the difference between Pro and Enterprise?
               </h3>
               <p className="text-gray-600 ml-8">
-                Pro is perfect for individual job seekers who want unlimited practice. Enterprise is designed for teams and organizations,
-                offering team management features for up to 10 users, company-specific interview preparation, dedicated support, and custom integrations.
+                Pro is perfect for individual job seekers who want unlimited practice. Enterprise is designed for small teams,
+                offering team management features for up to 4 users, company-specific interview preparation, dedicated support, and custom integrations.
                 If you're a career coach, recruiting agency, or company training your employees, Enterprise is the right choice.
               </p>
             </div>

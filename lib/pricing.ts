@@ -4,15 +4,15 @@ export const PRICING_TIERS = {
     price: 0,
     interval: 'month',
     features: [
-      '3 interview sessions per month',
-      '5 AI feedback requests per month',
+      '3 questions per 2 weeks',
+      '3 AI feedback requests per month',
       'Access to all 500+ roles',
       'Audio recording & transcription',
       'Basic analytics',
     ],
     limits: {
-      interviewsPerMonth: 3,
-      feedbackPerMonth: 5,
+      interviewsPerTwoWeeks: 3,
+      feedbackPerMonth: 3,
     }
   },
   pro: {
@@ -43,7 +43,7 @@ export const PRICING_TIERS = {
     currency: 'USD',
     features: [
       'Everything in Pro',
-      'Team management (up to 10 users)',
+      'Team management (up to 4 users)',
       'Company-specific interview prep',
       'Dedicated account manager',
       'Custom integrations',
@@ -54,7 +54,7 @@ export const PRICING_TIERS = {
     limits: {
       interviewsPerMonth: -1, // unlimited
       feedbackPerMonth: -1, // unlimited
-      teamMembers: 10
+      teamMembers: 4
     }
   },
   lifetime: {
@@ -86,23 +86,28 @@ export type SubscriptionTier = keyof typeof PRICING_TIERS;
 
 export function canUseFeature(
   tier: SubscriptionTier,
-  interviewsThisMonth: number,
+  interviewsThisPeriod: number,
   feedbackThisMonth: number,
   feature: 'interview' | 'feedback'
 ): { allowed: boolean; reason?: string } {
   // Default to pro if tier is undefined or invalid
   const validTier = PRICING_TIERS[tier as keyof typeof PRICING_TIERS] ? tier : 'pro';
-  const limits = PRICING_TIERS[validTier].limits;
+  const limits = PRICING_TIERS[validTier].limits as Record<string, number>;
 
   if (feature === 'interview') {
+    // Check for unlimited (pro/enterprise)
     if (limits.interviewsPerMonth === -1) {
       return { allowed: true };
     }
-    if (interviewsThisMonth >= limits.interviewsPerMonth) {
-      return {
-        allowed: false,
-        reason: `You've reached your monthly limit of ${limits.interviewsPerMonth} interviews. Upgrade to Pro for unlimited access.`
-      };
+    // Check for 2-week limit (free tier)
+    if (limits.interviewsPerTwoWeeks !== undefined) {
+      if (interviewsThisPeriod >= limits.interviewsPerTwoWeeks) {
+        return {
+          allowed: false,
+          reason: `You've reached your limit of ${limits.interviewsPerTwoWeeks} questions per 2 weeks. Upgrade to Pro for unlimited access.`
+        };
+      }
+      return { allowed: true };
     }
     return { allowed: true };
   }
