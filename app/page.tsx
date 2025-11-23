@@ -148,12 +148,15 @@ export default function Home() {
             </p>
             </div>
 
-            {/* Right: Hero Image */}
+            {/* Right: Hero Video */}
             <div className="relative">
               <div className="relative z-10 rounded-3xl overflow-hidden shadow-2xl">
-                <img
-                  src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&h=600&fit=crop"
-                  alt="Professional using laptop for interview prep"
+                <video
+                  src="/hero-video.mp4"
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
                   className="w-full h-auto object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-orange-500/20 to-transparent"></div>
