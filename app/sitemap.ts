@@ -87,7 +87,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   // Blog posts
   const blogPosts = [
+    'behavioral-interview-questions-answers',
+    'star-method-interview-examples',
     'faang-interview-preparation-guide-2025',
+    'remote-job-interview-tips',
     'ai-revolutionizing-interview-preparation',
     'salary-negotiation-strategies-15k-increase',
     'ai-interview-practice-guide',

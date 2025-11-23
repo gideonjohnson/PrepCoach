@@ -109,3 +109,75 @@ export function SkeletonDashboard() {
     </div>
   );
 }
+
+export function SkeletonBlogCard() {
+  return (
+    <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+      <Skeleton className="h-64 w-full rounded-none" />
+      <div className="p-6 space-y-3">
+        <div className="flex gap-4">
+          <Skeleton className="h-4 w-24" />
+          <Skeleton className="h-4 w-20" />
+        </div>
+        <Skeleton className="h-6 w-full" />
+        <Skeleton className="h-4 w-full" />
+        <Skeleton className="h-4 w-3/4" />
+        <Skeleton className="h-4 w-24 mt-4" />
+      </div>
+    </div>
+  );
+}
+
+export function SkeletonPricing() {
+  return (
+    <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+      {[1, 2, 3].map((i) => (
+        <div key={i} className="bg-white rounded-2xl shadow-lg p-8 space-y-4">
+          <Skeleton className="h-6 w-24" />
+          <Skeleton className="h-12 w-32" />
+          <Skeleton className="h-4 w-full" />
+          <div className="space-y-2 py-4">
+            {[1, 2, 3, 4, 5].map((j) => (
+              <Skeleton key={j} className="h-4 w-full" />
+            ))}
+          </div>
+          <Skeleton className="h-12 w-full rounded-full" />
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export function SkeletonPractice() {
+  return (
+    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {[1, 2, 3, 4, 5, 6].map((i) => (
+        <div key={i} className="bg-white rounded-2xl shadow-lg p-6 space-y-4">
+          <Skeleton className="h-12 w-12 rounded-xl" />
+          <Skeleton className="h-6 w-3/4" />
+          <Skeleton className="h-4 w-full" />
+          <Skeleton className="h-4 w-2/3" />
+          <Skeleton className="h-10 w-full rounded-lg" />
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export function SkeletonBlogPost() {
+  return (
+    <div className="max-w-4xl mx-auto space-y-8">
+      <Skeleton className="h-10 w-3/4" />
+      <div className="flex gap-4">
+        <Skeleton className="h-4 w-32" />
+        <Skeleton className="h-4 w-24" />
+      </div>
+      <Skeleton className="h-80 w-full rounded-2xl" />
+      <div className="space-y-4">
+        {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+          <Skeleton key={i} className="h-4 w-full" />
+        ))}
+      </div>
+    </div>
+  );
+}

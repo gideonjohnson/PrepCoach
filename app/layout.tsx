@@ -52,6 +52,7 @@ export const metadata: Metadata = {
     icon: '/icon.png',
     apple: '/icon.png',
   },
+  manifest: '/manifest.json',
   openGraph: {
     title: "PrepCoach - AI-Powered Interview Practice | Land Your Dream Job",
     description: "Practice interviews with AI, get instant feedback, and land your dream job. 45+ real interview questions for 500+ roles. 95% success rate.",

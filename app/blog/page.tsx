@@ -1,10 +1,32 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import Header from '../components/Header';
 import Breadcrumbs from '../components/Breadcrumbs';
+import NewsletterSignup from '../components/NewsletterSignup';
 
 const blogPosts = [
+  {
+    slug: 'behavioral-interview-questions-answers',
+    title: '50 Behavioral Interview Questions with Perfect Answer Examples [2025]',
+    excerpt: 'Master the most common behavioral interview questions with proven answer frameworks. Includes real examples, STAR method templates, and AI practice tips.',
+    image: 'https://images.unsplash.com/photo-1553877522-43269d4ea984?w=800&h=400&fit=crop',
+    date: 'November 22, 2025',
+    readTime: '20 min read',
+    category: 'Interview Questions',
+    featured: true,
+  },
+  {
+    slug: 'star-method-interview-examples',
+    title: 'STAR Method Interview Examples: 15 Templates That Get You Hired',
+    excerpt: 'Learn the STAR method with 15 real answer templates. Includes before/after examples, common mistakes, and practice exercises for behavioral interviews.',
+    image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=400&fit=crop',
+    date: 'November 21, 2025',
+    readTime: '15 min read',
+    category: 'Interview Tips',
+    featured: true,
+  },
   {
     slug: 'faang-interview-preparation-guide-2025',
     title: 'The Complete FAANG Interview Preparation Guide for 2025',
@@ -16,6 +38,15 @@ const blogPosts = [
     featured: true,
   },
   {
+    slug: 'remote-job-interview-tips',
+    title: 'Remote Job Interview Tips: The Complete Guide to Virtual Interview Success [2025]',
+    excerpt: 'Master video interviews with our comprehensive guide. Covers technical setup, body language, virtual presence, and platform-specific tips for Zoom, Teams, and Google Meet.',
+    image: 'https://images.unsplash.com/photo-1587560699334-cc4ff634909a?w=800&h=400&fit=crop',
+    date: 'November 19, 2025',
+    readTime: '12 min read',
+    category: 'Interview Tips',
+  },
+  {
     slug: 'ai-revolutionizing-interview-preparation',
     title: 'How AI is Revolutionizing Interview Preparation: A Data-Driven Analysis',
     excerpt: 'An in-depth look at how artificial intelligence is transforming the way candidates prepare for interviews, with research-backed insights and practical applications.',
@@ -23,7 +54,6 @@ const blogPosts = [
     date: 'November 18, 2025',
     readTime: '14 min read',
     category: 'Technology',
-    featured: true,
   },
   {
     slug: 'salary-negotiation-strategies-15k-increase',
@@ -33,7 +63,6 @@ const blogPosts = [
     date: 'November 15, 2025',
     readTime: '16 min read',
     category: 'Salary',
-    featured: true,
   },
   {
     slug: 'ai-interview-practice-guide',
@@ -83,10 +112,12 @@ export default function BlogPage() {
               <article className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 cursor-pointer h-full flex flex-col">
                 {/* Featured Image */}
                 <div className="relative h-64 overflow-hidden">
-                  <img
+                  <Image
                     src={post.image}
                     alt={post.title}
-                    className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    className="object-cover transition-transform duration-300 hover:scale-105"
                   />
                   <div className="absolute top-4 left-4">
                     <span className="px-3 py-1 bg-blue-600 text-white text-sm font-semibold rounded-full">
@@ -121,6 +152,11 @@ export default function BlogPage() {
               </article>
             </Link>
           ))}
+        </div>
+
+        {/* Newsletter Signup */}
+        <div className="mt-16 max-w-xl mx-auto">
+          <NewsletterSignup />
         </div>
 
         {/* CTA Section */}

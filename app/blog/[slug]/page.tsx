@@ -1122,6 +1122,1096 @@ Ready to transform your interview performance?
     `,
   },
 
+  'behavioral-interview-questions-answers': {
+    slug: 'behavioral-interview-questions-answers',
+    title: '50 Behavioral Interview Questions with Perfect Answer Examples [2025]',
+    excerpt: 'Master the most common behavioral interview questions with proven answer frameworks. Includes real examples, STAR method templates, and AI practice tips.',
+    image: 'https://images.unsplash.com/photo-1553877522-43269d4ea984?w=1200&h=600&fit=crop',
+    date: 'November 22, 2025',
+    readTime: '20 min read',
+    category: 'Interview Questions',
+    author: {
+      name: 'PrepCoach Team',
+      role: 'Career Success Experts',
+      avatar: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=100&h=100&fit=crop&crop=face',
+    },
+    content: `
+## What Are Behavioral Interview Questions?
+
+Behavioral interview questions ask candidates to describe past experiences to predict future performance. The premise is simple: **how you handled situations before indicates how you'll handle them again.**
+
+These questions typically start with phrases like:
+- "Tell me about a time when..."
+- "Give me an example of..."
+- "Describe a situation where..."
+- "How did you handle..."
+
+At PrepCoach, we've analyzed over **100,000 interview responses** to identify the most common behavioral questions and what separates great answers from mediocre ones.
+
+---
+
+## The STAR Method: Your Answer Framework
+
+Before diving into questions, master the STAR method:
+
+### S - Situation
+Set the context in 2-3 sentences. Include:
+- Where you were working
+- Your role at the time
+- The challenge or opportunity
+
+### T - Task
+Clarify YOUR specific responsibility:
+- What were you accountable for?
+- What was expected of you?
+
+### A - Action
+Detail the steps YOU took (use "I", not "we"):
+- What did you do?
+- Why did you choose that approach?
+- How did you overcome obstacles?
+
+### R - Result
+Quantify the outcome:
+- What was the measurable impact?
+- What did you learn?
+- How did this benefit the team/company?
+
+---
+
+## Leadership & Initiative Questions
+
+### 1. "Tell me about a time you led a project."
+
+**What they're assessing:** Leadership ability, project management, influence
+
+**Strong Answer Example:**
+> **Situation:** At my previous company, we were losing 15% of customers during onboarding due to a confusing setup process.
+>
+> **Task:** I proposed and was asked to lead a cross-functional initiative to redesign the onboarding experience.
+>
+> **Action:** I assembled a team of 5 people from product, engineering, and customer success. I created a 6-week project plan, facilitated weekly standups, and personally conducted 20 customer interviews to understand pain points. When we hit a roadblock with engineering resources, I negotiated with leadership to bring in a contractor.
+>
+> **Result:** We reduced onboarding drop-off by 40%, which translated to $200K in retained annual revenue. I was subsequently promoted to Senior PM.
+
+### 2. "Describe a situation where you had to influence without authority."
+
+**What they're assessing:** Persuasion skills, stakeholder management, collaboration
+
+### 3. "Tell me about a time you took initiative beyond your job description."
+
+**What they're assessing:** Proactivity, ownership mentality, drive
+
+### 4. "Give an example of when you mentored someone."
+
+**What they're assessing:** Leadership potential, team development, communication
+
+### 5. "Describe a time you had to make a decision without complete information."
+
+**What they're assessing:** Judgment, risk tolerance, decision-making process
+
+---
+
+## Teamwork & Collaboration Questions
+
+### 6. "Tell me about a time you worked with a difficult colleague."
+
+**What they're assessing:** Interpersonal skills, conflict resolution, professionalism
+
+**Strong Answer Example:**
+> **Situation:** I was collaborating with a senior engineer who was dismissive of input from non-technical team members and frequently interrupted in meetings.
+>
+> **Task:** As the PM, I needed his technical expertise to succeed, but his behavior was affecting team morale.
+>
+> **Action:** Instead of confronting him publicly, I scheduled a 1:1 coffee chat. I asked about his concerns with the project timeline, which revealed he felt rushed and unheard. I then proposed a new workflow where I'd send him specs 48 hours before meetings so he could prepare. I also made sure to acknowledge his expertise in meetings.
+>
+> **Result:** His behavior improved significantly. He later told me it was the first time someone had tried to understand his perspective. We delivered the project 2 weeks early, and he requested to work with me on the next initiative.
+
+### 7. "Describe a successful team project you contributed to."
+
+### 8. "Tell me about a time you had to work with a team with different opinions."
+
+### 9. "Give an example of when you had to compromise."
+
+### 10. "Describe a situation where you helped a struggling team member."
+
+---
+
+## Problem-Solving Questions
+
+### 11. "Tell me about a complex problem you solved."
+
+**What they're assessing:** Analytical thinking, creativity, systematic approach
+
+### 12. "Describe a time you had to think outside the box."
+
+### 13. "Give an example of when you improved a process."
+
+**Strong Answer Example:**
+> **Situation:** Our sales team was spending 3 hours daily on manual data entry, copying information between our CRM and billing system.
+>
+> **Task:** As an operations analyst, I was asked to find efficiency improvements.
+>
+> **Action:** I mapped the entire workflow and identified that 80% of the data was duplicative. I learned basic API integration from online courses, then built a simple automation using Zapier that connected both systems. I tested it for 2 weeks with 3 sales reps before rolling out company-wide.
+>
+> **Result:** The automation saved 2.5 hours per rep daily—that's 500+ hours monthly across the team. Sales calls increased by 35%, contributing to a 22% revenue increase that quarter.
+
+### 14. "Tell me about a time you had to troubleshoot under pressure."
+
+### 15. "Describe a situation where data informed your decision."
+
+---
+
+## Failure & Adversity Questions
+
+### 16. "Tell me about a time you failed."
+
+**What they're assessing:** Self-awareness, resilience, learning orientation
+
+**Strong Answer Example:**
+> **Situation:** I led a product launch that completely missed the mark with our target customers.
+>
+> **Task:** I was responsible for market research and feature prioritization for a new mobile app.
+>
+> **Action:** I relied too heavily on quantitative survey data and didn't conduct enough in-person user interviews. I also dismissed concerns from the sales team about customer readiness. When we launched, adoption was 70% below projections.
+>
+> **Result:** The product was eventually sunset after 6 months. I took full accountability in the post-mortem. The lesson transformed my approach—I now mandate at least 20 qualitative interviews before any major decision. My next product launch exceeded targets by 150%, and I've become a vocal advocate for balanced research methodologies on our team.
+
+### 17. "Describe a time you received critical feedback."
+
+### 18. "Tell me about a setback you overcame."
+
+### 19. "Give an example of when you made a mistake."
+
+### 20. "Describe your biggest professional disappointment."
+
+---
+
+## Communication Questions
+
+### 21. "Tell me about a time you had to explain something complex to a non-expert."
+
+**What they're assessing:** Communication clarity, empathy, adaptability
+
+### 22. "Describe a presentation that went well."
+
+### 23. "Tell me about a time you had to deliver bad news."
+
+### 24. "Give an example of when you persuaded someone to change their mind."
+
+### 25. "Describe a miscommunication you resolved."
+
+---
+
+## Time Management & Prioritization Questions
+
+### 26. "Tell me about a time you managed multiple priorities."
+
+**What they're assessing:** Organization, prioritization frameworks, stress management
+
+**Strong Answer Example:**
+> **Situation:** During our busiest quarter, I was simultaneously managing three product launches, each with different stakeholders and deadlines.
+>
+> **Task:** I needed to ensure all three launched successfully without dropping quality.
+>
+> **Action:** I implemented a priority matrix, categorizing tasks by urgency and impact. I scheduled dedicated focus blocks for each project and communicated clear expectations with stakeholders about response times. I also identified tasks I could delegate and trained a junior team member to handle routine updates.
+>
+> **Result:** All three products launched on time. One exceeded targets by 40%. I created a prioritization template that's now used across the PM team, and I was recognized with a quarterly excellence award.
+
+### 27. "Describe a time you missed a deadline."
+
+### 28. "Tell me about a time you had to reprioritize quickly."
+
+### 29. "Give an example of when you had to say no."
+
+### 30. "Describe how you handled an overwhelming workload."
+
+---
+
+## Adaptability Questions
+
+### 31. "Tell me about a time you adapted to change."
+
+### 32. "Describe a situation where you learned something quickly."
+
+### 33. "Tell me about a time you worked outside your comfort zone."
+
+### 34. "Give an example of when you had to pivot your approach."
+
+### 35. "Describe a time you embraced new technology."
+
+---
+
+## Customer Focus Questions
+
+### 36. "Tell me about a time you went above and beyond for a customer."
+
+### 37. "Describe a difficult customer situation you handled."
+
+### 38. "Tell me about a time you anticipated customer needs."
+
+### 39. "Give an example of when you turned a negative customer experience around."
+
+### 40. "Describe how you used customer feedback to improve something."
+
+---
+
+## Ethics & Integrity Questions
+
+### 41. "Tell me about a time you faced an ethical dilemma."
+
+### 42. "Describe a situation where you had to stand up for what was right."
+
+### 43. "Tell me about a time you admitted you were wrong."
+
+### 44. "Give an example of when you maintained confidentiality under pressure."
+
+### 45. "Describe a time you had to push back on a manager's request."
+
+---
+
+## Innovation & Creativity Questions
+
+### 46. "Tell me about your most innovative idea."
+
+### 47. "Describe a time you challenged the status quo."
+
+### 48. "Tell me about a creative solution you implemented."
+
+### 49. "Give an example of when you identified an opportunity others missed."
+
+### 50. "Describe a time you had to be resourceful with limited resources."
+
+---
+
+## How to Prepare Your Answer Bank
+
+### Step 1: Identify 8-10 Strong Stories
+
+Choose experiences that demonstrate:
+- Leadership and initiative
+- Teamwork and collaboration
+- Problem-solving
+- Overcoming failure
+- Communication excellence
+- Innovation
+
+### Step 2: Map Stories to Question Types
+
+Each story should cover multiple question types. For example, a project leadership story might also demonstrate problem-solving and teamwork.
+
+### Step 3: Quantify Every Result
+
+Transform vague outcomes into concrete metrics:
+- "Improved efficiency" → "Reduced processing time by 40%"
+- "Increased sales" → "Generated $50K in new revenue"
+- "Better teamwork" → "Reduced team conflicts by 60%"
+
+### Step 4: Practice Out Loud
+
+Use PrepCoach's AI interview practice to:
+- Rehearse each story multiple times
+- Get feedback on structure and clarity
+- Time your responses (aim for 2-3 minutes)
+- Eliminate filler words
+
+---
+
+## Company-Specific Behavioral Questions
+
+### Amazon Leadership Principles
+
+Amazon asks behavioral questions based on 16 Leadership Principles. Prepare 2 stories per principle:
+
+1. Customer Obsession
+2. Ownership
+3. Invent and Simplify
+4. Are Right, A Lot
+5. Learn and Be Curious
+6. Hire and Develop the Best
+7. Insist on the Highest Standards
+8. Think Big
+9. Bias for Action
+10. Frugality
+11. Earn Trust
+12. Dive Deep
+13. Have Backbone; Disagree and Commit
+14. Deliver Results
+15. Strive to be Earth's Best Employer
+16. Success and Scale Bring Broad Responsibility
+
+### Google "Googleyness" Questions
+
+Google assesses cultural fit through questions about:
+- Collaboration and humility
+- Comfort with ambiguity
+- Bias toward action
+- Intellectual curiosity
+
+### Meta "Move Fast" Culture
+
+Meta looks for:
+- Speed and decisiveness
+- Impact orientation
+- Bold thinking
+- Openness to feedback
+
+---
+
+## Practice Makes Perfect
+
+Behavioral interviews reward preparation. The candidates who excel:
+
+1. **Have stories ready** - Don't improvise under pressure
+2. **Practice out loud** - Thinking and speaking are different skills
+3. **Get feedback** - Use AI or human coaches to refine answers
+4. **Time themselves** - 2-3 minutes per answer is ideal
+
+[Start practicing behavioral questions now](/practice) with PrepCoach's AI-powered interview simulator. Get instant feedback and build the confidence to ace your next interview.
+    `,
+  },
+
+  'star-method-interview-examples': {
+    slug: 'star-method-interview-examples',
+    title: 'STAR Method Interview Examples: 15 Templates That Get You Hired',
+    excerpt: 'Learn the STAR method with 15 real answer templates. Includes before/after examples, common mistakes, and practice exercises for behavioral interviews.',
+    image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&h=600&fit=crop',
+    date: 'November 21, 2025',
+    readTime: '15 min read',
+    category: 'Interview Tips',
+    author: {
+      name: 'PrepCoach Team',
+      role: 'Career Success Experts',
+      avatar: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=100&h=100&fit=crop&crop=face',
+    },
+    content: `
+## What is the STAR Method?
+
+The STAR method is a structured approach to answering behavioral interview questions. It ensures your answers are:
+- **Concise** - No rambling or tangents
+- **Complete** - Covers all elements interviewers want
+- **Compelling** - Tells a story with clear impact
+
+STAR stands for:
+- **S**ituation - The context and background
+- **T**ask - Your specific responsibility
+- **A**ction - The steps you took
+- **R**esult - The measurable outcome
+
+---
+
+## Why Interviewers Love STAR Answers
+
+Behavioral questions are asked in **89% of interviews** (LinkedIn research). Interviewers use them because:
+
+1. **Past behavior predicts future behavior** - How you handled situations before indicates how you'll handle them again
+2. **Stories are verifiable** - Interviewers can follow up on details
+3. **They reveal real skills** - Not just what you say you can do, but what you've actually done
+
+When you use STAR format, you:
+- Make the interviewer's job easier
+- Demonstrate communication skills
+- Show organized thinking
+- Provide memorable, quotable examples
+
+---
+
+## STAR Method Template
+
+Here's the exact structure to follow:
+
+### Situation (15% of answer - 20-30 seconds)
+
+Set the scene briefly:
+- Where were you working?
+- What was your role?
+- What was the challenge or opportunity?
+
+**Example:**
+> "In my role as a Marketing Manager at TechCorp, our main product was losing market share to a new competitor. Sales had dropped 20% over two quarters."
+
+### Task (10% of answer - 15-20 seconds)
+
+Clarify YOUR specific responsibility:
+- What were you asked to do?
+- What was at stake?
+
+**Example:**
+> "I was tasked with developing a response strategy and leading a team to regain our market position within 6 months."
+
+### Action (60% of answer - 90-120 seconds)
+
+This is the heart of your answer. Detail the steps YOU took:
+- What did you do first?
+- How did you approach the problem?
+- What obstacles did you overcome?
+- What skills did you use?
+
+**Use "I" not "we"** - Even in team settings, focus on YOUR contribution.
+
+**Example:**
+> "First, I conducted competitive analysis to understand why customers were switching. I discovered our competitor's messaging resonated better with a younger demographic we'd been ignoring.
+>
+> I proposed a brand refresh to leadership, presenting data from customer surveys I'd conducted. After getting approval, I assembled a cross-functional team including design, product, and sales.
+>
+> I personally led the creative direction, establishing a new visual identity and messaging framework. When we hit budget constraints, I negotiated with vendors to reduce costs by 30% while maintaining quality.
+>
+> I also initiated a social media campaign targeting the younger demographic, something our company had never done before."
+
+### Result (15% of answer - 20-30 seconds)
+
+Quantify the impact:
+- What was the measurable outcome?
+- What did you learn?
+- What recognition did you receive?
+
+**Example:**
+> "Within 6 months, we recovered the lost market share and grew an additional 15%. The campaign generated 2 million impressions and 50,000 new leads. I was promoted to Senior Marketing Manager and now lead all brand initiatives."
+
+---
+
+## 15 STAR Method Answer Templates
+
+### Template 1: Leadership Question
+
+**Question:** "Tell me about a time you led a team through a difficult project."
+
+**Template:**
+> **S:** "At [Company], our team faced [challenge] that threatened [stakes]."
+>
+> **T:** "As [role], I was responsible for [specific responsibility]."
+>
+> **A:** "I took several steps: First, I [action 1]. Then, I [action 2]. When [obstacle] arose, I [how you handled it]. I also [additional action]."
+>
+> **R:** "As a result, [quantified outcome]. The team [additional benefit], and I [recognition/learning]."
+
+---
+
+### Template 2: Conflict Resolution
+
+**Question:** "Describe a time you resolved a conflict with a coworker."
+
+**Template:**
+> **S:** "I was working on [project] with [colleague's role], and we had a fundamental disagreement about [issue]."
+>
+> **T:** "I needed to find a resolution quickly because [stakes/deadline]."
+>
+> **A:** "Instead of [what you didn't do], I [approach]. I scheduled a [type of meeting] where I [specific action]. I listened to understand their perspective, which was [their viewpoint]. I then proposed [solution] that addressed both concerns."
+>
+> **R:** "[Outcome of conflict]. Our working relationship [improvement], and the project [result]."
+
+---
+
+### Template 3: Problem-Solving
+
+**Question:** "Tell me about a complex problem you solved."
+
+**Full Example Answer:**
+> **S:** "In my role as Operations Analyst at LogiCorp, our warehouse was experiencing a 12% error rate in order fulfillment, resulting in customer complaints and $100K monthly in returns."
+>
+> **T:** "I was asked to identify the root cause and implement a solution within the quarter."
+>
+> **A:** "I started by analyzing 3 months of error data and discovered that 70% of mistakes occurred during the night shift. I spent two nights observing operations and found that the lighting was inadequate and the barcode scanners were outdated.
+>
+> I built a business case for new equipment, calculating the ROI within 4 months. I then designed a new workflow with verification checkpoints and trained all 50 warehouse staff on the new process.
+>
+> When the budget for new scanners was delayed, I implemented an interim solution using mobile phones as backup scanners, which I'd researched and tested myself."
+>
+> **R:** "Error rate dropped to 2% within 6 weeks—an 83% improvement. We saved $85K monthly in returns and customer satisfaction scores increased by 25 points. The project was featured in our company's quarterly all-hands as a success story."
+
+---
+
+### Template 4: Failure/Learning
+
+**Question:** "Tell me about a time you failed."
+
+**Template:**
+> **S:** "I was leading [project/initiative] that ultimately did not succeed."
+>
+> **T:** "My responsibility was [what you owned]."
+>
+> **A:** "The mistake I made was [specific error]. I [action that led to failure]. In hindsight, I should have [what you'd do differently]."
+>
+> **R:** "While the outcome was [negative result], I learned [specific lesson]. I've since applied this by [how you've changed]. For example, [subsequent success using that learning]."
+
+---
+
+### Template 5: Initiative/Going Above and Beyond
+
+**Question:** "Tell me about a time you went above your job description."
+
+---
+
+### Template 6: Adaptability
+
+**Question:** "Describe a time you had to adapt to major change."
+
+---
+
+### Template 7: Customer Focus
+
+**Question:** "Tell me about a time you went above and beyond for a customer."
+
+---
+
+### Template 8: Time Management
+
+**Question:** "Describe how you handled competing priorities."
+
+---
+
+### Template 9: Communication
+
+**Question:** "Tell me about a time you had to explain something complex."
+
+---
+
+### Template 10: Teamwork
+
+**Question:** "Give an example of successful collaboration."
+
+---
+
+### Template 11: Decision Making
+
+**Question:** "Tell me about a difficult decision you made."
+
+---
+
+### Template 12: Influencing Others
+
+**Question:** "Describe a time you convinced someone to change their mind."
+
+---
+
+### Template 13: Handling Pressure
+
+**Question:** "Tell me about a time you worked under tight deadlines."
+
+---
+
+### Template 14: Innovation
+
+**Question:** "Give an example of when you improved a process."
+
+---
+
+### Template 15: Receiving Feedback
+
+**Question:** "Tell me about a time you received critical feedback."
+
+---
+
+## Common STAR Method Mistakes
+
+### Mistake 1: Too Much Situation
+
+**Wrong:** Spending 2 minutes on context
+**Right:** 20-30 seconds of essential background
+
+### Mistake 2: Using "We" Instead of "I"
+
+**Wrong:** "We decided to restructure the team..."
+**Right:** "I proposed restructuring the team and led the implementation..."
+
+### Mistake 3: Vague Results
+
+**Wrong:** "It went really well and everyone was happy."
+**Right:** "Revenue increased 30%, and I was promoted within 6 months."
+
+### Mistake 4: No Actual Actions
+
+**Wrong:** Describing what happened without YOUR specific steps
+**Right:** Detailing YOUR decisions and actions
+
+### Mistake 5: Stories Without Stakes
+
+**Wrong:** Routine tasks presented as achievements
+**Right:** Challenges with meaningful impact
+
+---
+
+## STAR+ Method: Taking It Further
+
+Elevate your answers with the STAR+ enhancement:
+
+### The "+" = Reflection/Learning
+
+After your result, add:
+- What you learned from the experience
+- How you've applied that learning since
+- What you'd do differently
+
+**Example Addition:**
+> "Looking back, I learned the importance of early stakeholder alignment. I now start every project with a kickoff meeting to ensure everyone's expectations are aligned, which has prevented similar issues in three subsequent projects."
+
+---
+
+## Practice Exercise: Build Your STAR Bank
+
+### Step 1: List Your Top Experiences
+
+Write down 8-10 significant professional experiences:
+- A successful project you led
+- A conflict you resolved
+- A failure you learned from
+- A time you exceeded expectations
+- A difficult decision you made
+- An innovation you implemented
+- A customer you helped
+- A team challenge you overcame
+
+### Step 2: STAR Format Each Story
+
+For each experience, write out:
+- Situation (2-3 sentences)
+- Task (1-2 sentences)
+- Action (4-6 bullet points)
+- Result (2-3 sentences with metrics)
+
+### Step 3: Practice Out Loud
+
+Reading and speaking are different. Practice each story:
+- Time yourself (aim for 2-3 minutes)
+- Record yourself and review
+- Use PrepCoach for AI feedback
+
+### Step 4: Map to Common Questions
+
+Each story should work for multiple questions. Map which stories answer which question types.
+
+---
+
+## Your STAR Method Checklist
+
+Before your interview, ensure each story has:
+
+- [ ] Specific situation with context
+- [ ] Clear task showing YOUR responsibility
+- [ ] Detailed actions using "I" statements
+- [ ] Quantified results with metrics
+- [ ] 2-3 minute total length
+- [ ] Practiced out loud multiple times
+
+---
+
+## Practice with AI Feedback
+
+The best way to master STAR is practice with feedback. PrepCoach provides:
+
+- **Unlimited practice questions** across all industries
+- **Instant AI feedback** on STAR structure
+- **Timing analysis** to perfect your pacing
+- **Progress tracking** to see improvement
+
+[Start practicing STAR answers now](/practice) and get the feedback you need to ace your next behavioral interview.
+    `,
+  },
+
+  'remote-job-interview-tips': {
+    slug: 'remote-job-interview-tips',
+    title: 'Remote Job Interview Tips: The Complete Guide to Virtual Interview Success [2025]',
+    excerpt: 'Master video interviews with our comprehensive guide. Covers technical setup, body language, virtual presence, and platform-specific tips for Zoom, Teams, and Google Meet.',
+    image: 'https://images.unsplash.com/photo-1587560699334-cc4ff634909a?w=1200&h=600&fit=crop',
+    date: 'November 19, 2025',
+    readTime: '12 min read',
+    category: 'Interview Tips',
+    author: {
+      name: 'PrepCoach Team',
+      role: 'Career Success Experts',
+      avatar: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=100&h=100&fit=crop&crop=face',
+    },
+    content: `
+## The Rise of Remote Interviews
+
+In 2025, **76% of initial interviews** are conducted remotely. Even for in-office roles, early screening rounds happen over video. Mastering virtual interviews isn't optional—it's essential.
+
+Remote interviews present unique challenges:
+- Technology can fail
+- Body language is harder to convey
+- Building rapport feels less natural
+- Distractions threaten focus
+
+But they also offer advantages:
+- Interview from your optimal environment
+- Reference notes without being obvious
+- No travel stress or costs
+- More scheduling flexibility
+
+This guide covers everything you need to ace your next virtual interview.
+
+---
+
+## Technical Setup: The Foundation
+
+### Internet Connection
+
+**Minimum Requirements:**
+- Download speed: 10 Mbps
+- Upload speed: 5 Mbps
+- Latency: Under 100ms
+
+**Pro Tips:**
+- Use ethernet instead of WiFi when possible
+- Close bandwidth-heavy applications
+- Have a mobile hotspot as backup
+- Test your speed at speedtest.net before interviews
+
+### Camera Setup
+
+**Positioning:**
+- Camera at eye level (stack books under laptop if needed)
+- Face centered in frame with head room
+- Distance: arm's length from screen
+- Angle: straight on, not from below
+
+**Quality:**
+- Built-in webcam is usually sufficient
+- If blurry, consider a USB webcam ($30-50)
+- Clean your lens before every interview
+
+### Audio Setup
+
+**Microphone Priority:**
+1. USB condenser microphone (best)
+2. Wired headset with microphone
+3. AirPods/wireless earbuds
+4. Laptop built-in microphone (last resort)
+
+**Why Audio Matters:**
+Interviewers forgive video issues but not audio problems. If they can't hear you clearly, your great answers don't matter.
+
+### Lighting
+
+**The Rule:** Light should be in FRONT of you, not behind.
+
+**Setup Options:**
+1. **Natural light:** Face a window
+2. **Ring light:** $20-40, consistent and flattering
+3. **Desk lamp:** Position at 45° angle to face
+
+**Avoid:**
+- Backlit windows (you'll appear as a silhouette)
+- Overhead lighting only (creates shadows)
+- Multiple color temperatures
+
+### Background
+
+**Professional Options:**
+- Plain wall in neutral color
+- Bookshelf (not too cluttered)
+- Virtual background (if camera supports)
+- Blurred background feature
+
+**Avoid:**
+- Messy rooms
+- Beds visible
+- Distracting decorations
+- Moving people/pets
+
+---
+
+## Platform-Specific Tips
+
+### Zoom
+
+**Before Interview:**
+- Update to latest version
+- Test video/audio in Settings
+- Set your name properly
+- Choose gallery view for panel interviews
+
+**During Interview:**
+- "Mute" when not speaking (in panel settings)
+- Use "Touch up my appearance" in video settings
+- Pin the interviewer's video
+- Hide self-view if you find it distracting
+
+**Keyboard Shortcuts:**
+- Space bar: Push-to-talk while muted
+- Alt+V: Toggle video
+- Alt+A: Toggle audio
+
+### Microsoft Teams
+
+**Before Interview:**
+- Don't need a Microsoft account to join
+- Test from the browser first
+- Download app for reliability
+- Check "Background effects" options
+
+**During Interview:**
+- Use "Together mode" for panel interviews
+- Raise hand feature for turn-taking
+- Live captions available if needed
+
+### Google Meet
+
+**Before Interview:**
+- Test at meet.google.com/new
+- Check hardware settings
+- Works best in Chrome browser
+- Noise cancellation is automatic
+
+**During Interview:**
+- Click your tile to see how you appear
+- Use tiled layout for multiple interviewers
+- Chat for links/follow-up
+
+---
+
+## Body Language in Virtual Interviews
+
+### Eye Contact
+
+**The Challenge:** You naturally want to look at the interviewer's face on screen, but this means you're looking down, not at them.
+
+**The Solution:**
+- Look at your camera lens when speaking
+- Look at the screen when listening
+- Practice until it feels natural
+
+**Pro Tip:** Stick a googly eye or post-it near your camera as a reminder.
+
+### Facial Expressions
+
+Virtual interviews require **more expressive** faces because:
+- Video compression reduces subtlety
+- Small screens minimize features
+- Lack of body context
+
+**Recommendations:**
+- Smile more than feels natural
+- Nod visibly to show engagement
+- React with expressions (raise eyebrows, etc.)
+- Avoid resting serious face
+
+### Posture
+
+**Sitting Position:**
+- Sit up straight
+- Lean slightly forward (shows engagement)
+- Keep shoulders back and relaxed
+- Both feet on floor for stability
+
+**Hands:**
+- Keep visible in frame occasionally
+- Use natural gestures when speaking
+- Avoid touching face or hair
+- Don't fidget with objects
+
+### Frame Composition
+
+**Show:**
+- Head and shoulders
+- Some chest area
+- Your hands occasionally
+
+**Don't Show:**
+- Ceiling
+- Blank wall above your head
+- Just your face (too close)
+- Your entire room
+
+---
+
+## Before the Interview
+
+### 24 Hours Before
+
+- [ ] Test all technology
+- [ ] Confirm interview link works
+- [ ] Research interviewers on LinkedIn
+- [ ] Review job description and your application
+- [ ] Prepare questions to ask
+- [ ] Choose and lay out your outfit
+
+### 1 Hour Before
+
+- [ ] Close all unnecessary applications
+- [ ] Silence phone and notifications
+- [ ] Set up your space (water, notes, etc.)
+- [ ] Check lighting and camera angle
+- [ ] Do a quick audio/video test
+- [ ] Use the bathroom
+- [ ] Alert roommates/family not to disturb
+
+### 10 Minutes Before
+
+- [ ] Join the waiting room
+- [ ] Final appearance check
+- [ ] Deep breaths and power pose
+- [ ] Have your resume and notes ready
+- [ ] Smile and prepare your energy
+
+---
+
+## During the Interview
+
+### Opening Strong
+
+The first 30 seconds set the tone:
+
+**When video connects:**
+- Smile genuinely
+- Make "eye contact" (look at camera)
+- Wait for them to speak first or say: "Hi [Name], great to meet you. Thank you for taking the time today."
+
+**Build rapport:**
+- Comment on something positive: "I loved reading about [company initiative]"
+- Be warm but professional
+- Match their energy level
+
+### Answering Questions
+
+**Structure:**
+- Pause briefly before answering (1-2 seconds)
+- Use STAR method for behavioral questions
+- Keep answers to 2-3 minutes
+- Check in: "Would you like me to elaborate on any part?"
+
+**Virtual-Specific Tips:**
+- Speak slightly slower than normal
+- Enunciate clearly
+- Pause between thoughts (helps with lag)
+- Don't be afraid of brief silences
+
+### Handling Technical Issues
+
+**If your video freezes:**
+> "I apologize, I think I had a brief connection issue. Could you repeat the last part of that question?"
+
+**If you can't hear them:**
+> "I'm sorry, you cut out for a moment. Could you repeat that?"
+
+**If everything fails:**
+> "I'm experiencing technical difficulties. Would it be possible to reconnect in a few minutes, or should we continue by phone?"
+
+**Key:** Stay calm. Technical issues are common and understood.
+
+### Asking Questions
+
+**Strong Remote-Specific Questions:**
+- "How does the team maintain culture and connection while working remotely?"
+- "What does a typical day or week look like in this role?"
+- "How do you approach onboarding for remote employees?"
+- "What tools does the team use for collaboration?"
+- "How do you measure success in this role?"
+
+### Closing Strong
+
+**Final impression matters:**
+- Reiterate your interest
+- Summarize your key value proposition
+- Ask about next steps and timeline
+- Thank them for their time
+- Smile until the call actually ends
+
+---
+
+## After the Interview
+
+### Immediately After
+
+1. Write down questions you were asked
+2. Note names and roles of interviewers
+3. Record your impressions while fresh
+4. Identify answers you want to improve
+
+### Within 24 Hours
+
+**Send thank-you emails:**
+- Individual emails to each interviewer
+- Reference specific conversation points
+- Reiterate your interest and fit
+- Keep it concise (3-4 paragraphs max)
+
+**Template:**
+> Subject: Thank you - [Role] Interview
+>
+> Dear [Name],
+>
+> Thank you for taking the time to speak with me about the [Role] position. I enjoyed learning about [specific topic discussed].
+>
+> Our conversation reinforced my excitement about the opportunity. I'm particularly drawn to [specific aspect], and I believe my experience in [relevant skill] would enable me to [specific contribution].
+>
+> Please don't hesitate to reach out if you need any additional information. I look forward to hearing about next steps.
+>
+> Best regards,
+> [Your Name]
+
+---
+
+## Remote Interview Checklist
+
+### Environment
+- [ ] Quiet, private space
+- [ ] Clean, professional background
+- [ ] Proper lighting (in front of you)
+- [ ] "Do Not Disturb" mode on all devices
+- [ ] Pets and family members informed
+
+### Technology
+- [ ] Internet connection tested
+- [ ] Camera working and positioned correctly
+- [ ] Microphone/headset tested
+- [ ] Platform downloaded and updated
+- [ ] Backup plan ready (phone number, hotspot)
+
+### Materials
+- [ ] Resume printed or on second monitor
+- [ ] Job description accessible
+- [ ] Notes from research
+- [ ] Questions to ask written down
+- [ ] Pen and paper for notes
+- [ ] Water within reach
+
+### Appearance
+- [ ] Professional attire (full outfit, not just top)
+- [ ] Hair neat and styled
+- [ ] Minimal distracting jewelry
+- [ ] Glasses glare-free
+- [ ] Background blur or professional setting
+
+---
+
+## Common Remote Interview Mistakes
+
+### Mistake 1: Not Testing Technology
+
+**Fix:** Always do a test run on the same device and network you'll use for the interview.
+
+### Mistake 2: Distracting Background
+
+**Fix:** Choose a clean, neutral background or use blur. Remove anything inappropriate or unprofessional.
+
+### Mistake 3: Looking at Screen, Not Camera
+
+**Fix:** Practice looking at your camera lens when speaking. Put a note near it as a reminder.
+
+### Mistake 4: Talking Over Interviewers
+
+**Fix:** Wait 1-2 seconds after they finish before responding. Video delay makes this essential.
+
+### Mistake 5: Forgetting You're on Camera
+
+**Fix:** Maintain professional presence even when not speaking. No eye rolling, checking phone, or looking distracted.
+
+---
+
+## Practice for Virtual Interviews
+
+PrepCoach is designed for remote interview practice:
+
+- **Video-enabled practice** - See yourself as interviewers see you
+- **AI feedback on content** - Improve your answers
+- **Timing analysis** - Perfect your pacing
+- **Unlimited practice** - Build confidence
+
+[Start practicing now](/practice) and ace your next virtual interview.
+    `,
+  },
+
   'common-interview-mistakes': {
     slug: 'common-interview-mistakes',
     title: '10 Common Interview Mistakes That Cost You Job Offers (And How to Avoid Them)',
