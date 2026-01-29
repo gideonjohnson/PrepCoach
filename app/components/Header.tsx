@@ -19,6 +19,11 @@ export default function Header() {
   // Dropdown menu configurations
   const productItems = [
     { name: 'Interview Practice', href: '/practice', icon: '💬', description: '45+ questions per role' },
+    { name: 'Expert Interviewers', href: '/interviewers', icon: '👔', description: '1-on-1 mock interviews' },
+    { name: 'Coding Problems', href: '/problems', icon: '💻', description: 'LeetCode-style practice' },
+    { name: 'System Design', href: '/system-design', icon: '🏗️', description: 'Architecture practice' },
+    { name: 'Job Matcher', href: '/job-descriptions', icon: '🎯', description: 'JD analysis & prep' },
+    { name: 'Coaching Packages', href: '/coaching', icon: '📦', description: 'Save with bundles' },
     { name: 'Resume Builder', href: '/resume-builder', icon: '📄', description: 'ATS-optimized templates' },
     { name: 'LinkedIn Optimizer', href: '/linkedin', icon: '💼', description: '3x profile visibility' },
     { name: 'Career Roadmap', href: '/roadmap', icon: '🗺️', description: 'Skills & timeline' },
@@ -30,6 +35,9 @@ export default function Header() {
     { name: 'Interview Tips', href: '/help/interview-tips', icon: '💡', description: 'Expert advice' },
     { name: 'Career Guides', href: '/help/career-guides', icon: '📚', description: 'In-depth resources' },
     { name: 'Success Stories', href: '/help/success-stories', icon: '⭐', description: 'Real user results' },
+    { name: 'Become Interviewer', href: '/interviewer/register', icon: '🎓', description: 'Earn by coaching' },
+    { name: 'Talent Marketplace', href: '/talent/opt-in', icon: '🌟', description: 'Get discovered by recruiters' },
+    { name: 'For Recruiters', href: '/recruiter/register', icon: '🏢', description: 'Hire verified engineers' },
   ];
 
   const companyItems = [
@@ -87,6 +95,26 @@ export default function Header() {
           case 'h':
             e.preventDefault();
             router.push('/');
+            break;
+          case 'c':
+            e.preventDefault();
+            router.push('/problems');
+            break;
+          case 's':
+            e.preventDefault();
+            router.push('/system-design');
+            break;
+          case 'j':
+            e.preventDefault();
+            router.push('/job-descriptions');
+            break;
+          case 'i':
+            e.preventDefault();
+            router.push('/interviewers');
+            break;
+          case 'm':
+            e.preventDefault();
+            router.push('/sessions');
             break;
         }
       }
@@ -249,6 +277,16 @@ export default function Header() {
             {session ? (
               <div className="flex items-center space-x-3 ml-4">
                 <Link
+                  href="/sessions"
+                  className={`px-4 py-2 rounded-lg font-medium transition-all ${
+                    isActive('/sessions')
+                      ? 'bg-blue-50 text-blue-600'
+                      : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                  }`}
+                >
+                  My Sessions
+                </Link>
+                <Link
                   href="/profile"
                   className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-50 transition-all"
                 >
@@ -369,6 +407,19 @@ export default function Header() {
               >
                 Dashboard
               </Link>
+              {session && (
+                <Link
+                  href="/sessions"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={`px-4 py-3 rounded-lg font-medium transition-all flex active:bg-blue-100 ${
+                    isActive('/sessions')
+                      ? 'bg-blue-50 text-blue-600'
+                      : 'text-gray-600 hover:bg-gray-50'
+                  }`}
+                >
+                  My Sessions
+                </Link>
+              )}
               <Link
                 href="/pricing"
                 onClick={() => setMobileMenuOpen(false)}

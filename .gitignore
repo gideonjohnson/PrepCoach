@@ -83,3 +83,5 @@ __tests__/__snapshots__/
 !.env.example
 
 .vercel
+
+.env*.local
