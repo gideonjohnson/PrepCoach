@@ -1,11 +1,28 @@
 import Stripe from 'stripe';
 
-// Initialize Stripe
-export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
-  apiVersion: '2024-11-20.acacia',
-  typescript: true,
-  maxNetworkRetries: 3,
-  timeout: 60000, // 60 seconds - increased for reliability
+// Lazy-initialize Stripe to avoid build-time errors when key is not set
+let _stripe: Stripe | null = null;
+
+export function getStripe(): Stripe {
+  if (!_stripe) {
+    if (!process.env.STRIPE_SECRET_KEY) {
+      throw new Error('STRIPE_SECRET_KEY is not configured');
+    }
+    _stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+      apiVersion: '2024-11-20.acacia',
+      typescript: true,
+      maxNetworkRetries: 3,
+      timeout: 60000,
+    });
+  }
+  return _stripe;
+}
+
+// Backwards-compatible export
+export const stripe = new Proxy({} as Stripe, {
+  get(_target, prop) {
+    return (getStripe() as any)[prop];
+  },
 });
 
 // Stripe price IDs from environment
