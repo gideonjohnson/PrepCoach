@@ -3,10 +3,10 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '../../auth/[...nextauth]/route';
 import { prisma } from '@/lib/prisma';
 
-// GET /api/sessions/[sessionId] - Get a specific session
+// GET /api/sessions/[id] - Get a specific session
 export async function GET(
   request: NextRequest,
-  { params }: { params: Promise<{ sessionId: string }> }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -18,11 +18,11 @@ export async function GET(
       );
     }
 
-    const { sessionId } = await params;
+    const { id } = await params;
 
     const interviewSession = await prisma.interviewSession.findFirst({
       where: {
-        id: sessionId,
+        id,
         userId: session.user.id
       },
       include: {
@@ -70,10 +70,10 @@ export async function GET(
   }
 }
 
-// PATCH /api/sessions/[sessionId] - Update a session
+// PATCH /api/sessions/[id] - Update a session
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: Promise<{ sessionId: string }> }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -85,13 +85,13 @@ export async function PATCH(
       );
     }
 
-    const { sessionId } = await params;
+    const { id } = await params;
     const { responses } = await request.json();
 
     // Verify session belongs to user
     const existingSession = await prisma.interviewSession.findFirst({
       where: {
-        id: sessionId,
+        id,
         userId: session.user.id
       }
     });
@@ -110,13 +110,13 @@ export async function PATCH(
     // Delete existing responses and create new ones
     await prisma.response.deleteMany({
       where: {
-        sessionId: sessionId
+        sessionId: id
       }
     });
 
     const updatedSession = await prisma.interviewSession.update({
       where: {
-        id: sessionId
+        id
       },
       data: {
         answeredQuestions,
