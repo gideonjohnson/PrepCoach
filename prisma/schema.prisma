@@ -22,6 +22,9 @@ model User {
   image         String?
   isAdmin       Boolean   @default(false)
 
+  // User roles
+  role          String    @default("user") // user, interviewer, recruiter
+
   // Subscription fields
   subscriptionTier  String   @default("free") // free, pro, enterprise, lifetime
   subscriptionStatus String  @default("inactive") // inactive, active, cancelled, expired
@@ -37,12 +40,29 @@ model User {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
+  // Core relations
   sessions      InterviewSession[]
   accounts      Account[]
   resumes       Resume[]
   verificationTokens VerificationToken[]
   passwordResetTokens PasswordResetToken[]
   stageProgress StageProgress[]
+
+  // Phase 1: AI Enhancements
+  sessionRecordings SessionRecording[]
+  codingSessions    CodingSession[]
+  systemDesignSessions SystemDesignSession[]
+  jobDescriptions   JobDescription[]
+
+  // Phase 2: Expert Mocks
+  interviewer       Interviewer?
+  candidateSessions ExpertSession[] @relation("CandidateSessions")
+  interviewerReviews InterviewerReview[]
+  coachingPackages  CoachingPackage[]
+
+  // Phase 3: Marketplace
+  talentProfile     TalentProfile?
+  recruiter         Recruiter?
 }
 
 model VerificationToken {
@@ -106,6 +126,7 @@ model InterviewSession {
 
   user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   responses Response[]
+  recording SessionRecording?
 
   @@index([userId])
   @@index([date])
@@ -193,5 +214,715 @@ model StageProgress {
   @@unique([userId, roleCategory, stage])
   @@index([userId])
   @@index([roleCategory])
+}
+
+// ============================================
+// PHASE 1: AI ENHANCEMENTS
+// ============================================
+
+model SessionRecording {
+  id              String   @id @default(cuid())
+  userId          String
+  sessionId       String   @unique // Links to InterviewSession
+  sessionType     String   // "interview", "coding", "system_design"
+
+  // Recording URLs (stored in S3/R2)
+  audioUrl        String?
+  videoUrl        String?
+  screenUrl       String?
+
+  // Recording metadata
+  duration        Int      @default(0) // Duration in seconds
+  fileSize        Int      @default(0) // Total file size in bytes
+  status          String   @default("processing") // processing, ready, failed
+
+  // Timestamps for replay synchronization
+  timestamps      String   @default("[]") // JSON array of {time, event, data}
+
+  // Transcription
+  transcription   String?  // Full text transcription
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  interviewSession InterviewSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([sessionId])
+  @@index([status])
+}
+
+model CodingSession {
+  id              String   @id @default(cuid())
+  userId          String
+  problemId       String?  // Optional link to Problem
+
+  // Code state
+  language        String   @default("javascript")
+  code            String   @default("")
+
+  // Snapshots for replay (JSON array of {timestamp, code, cursor})
+  codeSnapshots   String   @default("[]")
+
+  // Test execution results
+  testResults     String   @default("[]") // JSON array of test results
+  lastTestRun     DateTime?
+
+  // AI assistance
+  hintsUsed       Int      @default(0)
+  aiHints         String   @default("[]") // JSON array of hints given
+
+  // Session state
+  status          String   @default("active") // active, completed, abandoned
+  startedAt       DateTime @default(now())
+  completedAt     DateTime?
+  duration        Int      @default(0) // Duration in seconds
+
+  // Scoring
+  score           Int?     // 0-100
+  aiAnalysis      String?  // AI feedback on code quality
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  problem Problem? @relation(fields: [problemId], references: [id])
+
+  @@index([userId])
+  @@index([problemId])
+  @@index([status])
+}
+
+model SystemDesignSession {
+  id              String   @id @default(cuid())
+  userId          String
+  problemId       String?  // Optional link to SystemDesignProblem
+
+  // Diagram data (Excalidraw/TLDraw format)
+  diagramData     String   @default("{}") // JSON diagram state
+  diagramSnapshots String  @default("[]") // JSON array for replay
+
+  // Notes and requirements tracking
+  notes           String   @default("")
+  requirements    String   @default("[]") // JSON array of tracked requirements
+
+  // AI analysis
+  aiAnalysis      String?  // AI feedback on design
+  strengthsWeaknesses String? // JSON {strengths: [], weaknesses: []}
+
+  // Session state
+  status          String   @default("active") // active, completed, abandoned
+  startedAt       DateTime @default(now())
+  completedAt     DateTime?
+  duration        Int      @default(0)
+
+  // Scoring
+  score           Int?     // 0-100
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  user    User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  problem SystemDesignProblem?  @relation(fields: [problemId], references: [id])
+
+  @@index([userId])
+  @@index([problemId])
+  @@index([status])
+}
+
+model Problem {
+  id              String   @id @default(cuid())
+  slug            String   @unique
+  title           String
+  description     String
+
+  // Problem metadata
+  difficulty      String   // easy, medium, hard
+  category        String   // arrays, strings, trees, graphs, dp, etc.
+  companies       String   @default("[]") // JSON array of company names
+  tags            String   @default("[]") // JSON array of tags
+
+  // Problem content
+  constraints     String   @default("[]") // JSON array of constraints
+  examples        String   @default("[]") // JSON array of {input, output, explanation}
+  hints           String   @default("[]") // JSON array of progressive hints
+
+  // Test cases
+  testCases       String   @default("[]") // JSON array of {input, expectedOutput, isHidden}
+
+  // Solutions
+  solution        String?  // Reference solution code
+  solutionExplanation String? // Explanation of solution approach
+  timeComplexity  String?  // e.g., "O(n log n)"
+  spaceComplexity String?  // e.g., "O(n)"
+
+  // Stats
+  totalAttempts   Int      @default(0)
+  successfulAttempts Int   @default(0)
+
+  // Visibility
+  isPublic        Boolean  @default(true)
+  isPremium       Boolean  @default(false)
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  codingSessions  CodingSession[]
+
+  @@index([difficulty])
+  @@index([category])
+  @@index([isPublic])
+}
+
+model SystemDesignProblem {
+  id              String   @id @default(cuid())
+  slug            String   @unique
+  title           String
+  description     String
+
+  // Problem metadata
+  difficulty      String   // easy, medium, hard
+  category        String   // distributed_systems, databases, web_services, etc.
+  companies       String   @default("[]") // JSON array of company names
+  tags            String   @default("[]") // JSON array of tags
+
+  // Requirements
+  functionalReqs  String   @default("[]") // JSON array of functional requirements
+  nonFunctionalReqs String @default("[]") // JSON array of non-functional requirements
+  constraints     String   @default("[]") // JSON array of constraints (scale, latency, etc.)
+
+  // Reference solution
+  solutionDiagram String?  // Reference diagram data
+  solutionExplanation String? // Detailed explanation
+  keyComponents   String   @default("[]") // JSON array of key components to include
+
+  // Evaluation rubric
+  rubric          String   @default("[]") // JSON array of {criterion, maxPoints, description}
+
+  // Stats
+  totalAttempts   Int      @default(0)
+
+  // Visibility
+  isPublic        Boolean  @default(true)
+  isPremium       Boolean  @default(false)
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  sessions        SystemDesignSession[]
+
+  @@index([difficulty])
+  @@index([category])
+  @@index([isPublic])
+}
+
+model JobDescription {
+  id              String   @id @default(cuid())
+  userId          String
+
+  // Original JD
+  title           String
+  company         String?
+  rawText         String   // Original JD text
+
+  // Parsed data
+  skills          String   @default("[]") // JSON array of extracted skills
+  requirements    String   @default("[]") // JSON array of requirements
+  responsibilities String  @default("[]") // JSON array of responsibilities
+  experience      String?  // Required experience level
+
+  // AI-generated content
+  customQuestions String   @default("[]") // JSON array of tailored interview questions
+  prepSuggestions String   @default("[]") // JSON array of preparation suggestions
+  companyInsights String?  // AI insights about the company
+
+  // Matching
+  matchScore      Int?     // How well user's resume matches (0-100)
+  gapAnalysis     String?  // JSON analysis of skill gaps
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([company])
+}
+
+// ============================================
+// PHASE 2: HUMAN-LED ANONYMOUS MOCKS
+// ============================================
+
+model Interviewer {
+  id              String   @id @default(cuid())
+  userId          String   @unique
+
+  // Profile
+  displayName     String   // Anonymous display name
+  bio             String?
+  profileImage    String?  // Can be generated avatar
+
+  // Credentials
+  currentCompany  String?  // Current employer (verified)
+  previousCompanies String @default("[]") // JSON array of previous FAANG/top companies
+  yearsExperience Int      @default(0)
+  currentRole     String?  // e.g., "Staff Engineer", "Engineering Manager"
+
+  // Expertise
+  expertise       String   @default("[]") // JSON array: coding, system_design, behavioral, etc.
+  specializations String   @default("[]") // JSON array of specific topics
+  languages       String   @default("[]") // JSON array of programming languages
+
+  // Verification
+  verificationStatus String @default("pending") // pending, verified, rejected
+  verifiedAt      DateTime?
+  verificationNotes String? // Admin notes
+  linkedinUrl     String?  // For verification purposes (not shown publicly)
+
+  // Availability
+  isActive        Boolean  @default(false)
+  timezone        String   @default("UTC")
+  availability    String   @default("[]") // JSON array of available time slots
+
+  // Ratings
+  averageRating   Float    @default(0)
+  totalSessions   Int      @default(0)
+  completedSessions Int    @default(0)
+
+  // Pricing (in cents)
+  ratePerHour     Int      @default(10000) // Default $100/hour
+  customRates     String   @default("{}") // JSON object for session type specific rates
+
+  // Stripe Connect
+  stripeConnectId String?  @unique
+  payoutsEnabled  Boolean  @default(false)
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expertSessions  ExpertSession[]
+  reviews         InterviewerReview[]
+  payouts         InterviewerPayout[]
+
+  @@index([verificationStatus])
+  @@index([isActive])
+  @@index([averageRating])
+}
+
+model ExpertSession {
+  id              String   @id @default(cuid())
+
+  // Participants (anonymous until reveal)
+  candidateId     String
+  interviewerId   String
+
+  // Session details
+  sessionType     String   // coding_30min, coding_60min, system_design_60min, behavioral_30min, etc.
+  scheduledAt     DateTime
+  duration        Int      // Duration in minutes
+
+  // Session state
+  status          String   @default("scheduled") // scheduled, in_progress, completed, cancelled, no_show
+  startedAt       DateTime?
+  completedAt     DateTime?
+  actualDuration  Int?     // Actual duration in minutes
+
+  // Room
+  roomId          String?  // WebRTC room identifier
+  roomUrl         String?  // Room URL for joining
+
+  // Recording
+  recordingUrl    String?
+  recordingConsent Boolean @default(false)
+
+  // Anonymous identity
+  candidateAlias  String   // Generated anonymous name for candidate
+  interviewerAlias String  // Generated anonymous name for interviewer
+
+  // Feedback (stored as JSON)
+  interviewerFeedback String? // Structured feedback from interviewer
+  candidateFeedback String?  // Session rating from candidate
+
+  // Reveal status
+  revealRequested Boolean  @default(false)
+  revealAccepted  Boolean  @default(false)
+  revealedAt      DateTime?
+
+  // Payment
+  priceInCents    Int      // Total price charged
+  payoutInCents   Int      // Amount to interviewer
+  paymentStatus   String   @default("pending") // pending, paid, refunded
+  paymentIntentId String?  // Stripe payment intent
+  coachingPackageId String? // If paid via coaching package
+
+  // Cancellation / Refund
+  cancellationReason String?
+  cancelledAt     DateTime?
+  refundId        String?  // Stripe refund ID
+  refundAmount    Int?     // Refund amount in cents
+
+  // Code/Design shared during session
+  sharedCode      String?
+  sharedDiagram   String?
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  candidate       User        @relation("CandidateSessions", fields: [candidateId], references: [id], onDelete: Cascade)
+  interviewer     Interviewer @relation(fields: [interviewerId], references: [id], onDelete: Cascade)
+
+  @@index([candidateId])
+  @@index([interviewerId])
+  @@index([status])
+  @@index([scheduledAt])
+}
+
+model InterviewerReview {
+  id              String   @id @default(cuid())
+  sessionId       String
+  interviewerId   String
+  reviewerId      String   // The candidate who left the review
+
+  // Ratings (1-5)
+  overallRating   Int
+  technicalRating Int?
+  communicationRating Int?
+  helpfulnessRating Int?
+
+  // Review content
+  review          String?  // Written review
+  isAnonymous     Boolean  @default(true)
+
+  // Moderation
+  isPublic        Boolean  @default(true)
+  flagged         Boolean  @default(false)
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  interviewer     Interviewer @relation(fields: [interviewerId], references: [id], onDelete: Cascade)
+  reviewer        User        @relation(fields: [reviewerId], references: [id], onDelete: Cascade)
+
+  @@unique([sessionId, reviewerId])
+  @@index([interviewerId])
+  @@index([reviewerId])
+}
+
+model InterviewerPayout {
+  id              String   @id @default(cuid())
+  interviewerId   String
+
+  // Payout details
+  amountInCents   Int
+  currency        String   @default("usd")
+
+  // Sessions included in this payout
+  sessionIds      String   @default("[]") // JSON array of session IDs
+
+  // Stripe transfer
+  stripeTransferId String?
+  status          String   @default("pending") // pending, processing, completed, failed
+
+  // Dates
+  periodStart     DateTime
+  periodEnd       DateTime
+  paidAt          DateTime?
+
+  // Notes
+  notes           String?
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  interviewer     Interviewer @relation(fields: [interviewerId], references: [id], onDelete: Cascade)
+
+  @@index([interviewerId])
+  @@index([status])
+}
+
+model CoachingPackage {
+  id              String   @id @default(cuid())
+  userId          String
+
+  // Package details
+  packageType     String   // 3_session, 5_session, 10_session
+  totalSessions   Int
+  usedSessions    Int      @default(0)
+  remainingSessions Int    @default(0)
+
+  // Pricing
+  priceInCents    Int
+
+  // Validity
+  purchasedAt     DateTime @default(now())
+  expiresAt       DateTime // Packages expire after 6 months
+  status          String   @default("active") // active, exhausted, expired
+
+  // Payment
+  paymentIntentId String?
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([status])
+}
+
+// ============================================
+// PHASE 3: HIRING MARKETPLACE
+// ============================================
+
+model TalentProfile {
+  id              String   @id @default(cuid())
+  userId          String   @unique
+
+  // Opt-in status
+  isOptedIn       Boolean  @default(false)
+  optedInAt       DateTime?
+
+  // Anonymous profile
+  anonymousId     String   @unique @default(cuid()) // Public-facing ID
+  displayTitle    String?  // e.g., "Senior Full-Stack Engineer"
+
+  // Aggregated scores (calculated from AI sessions)
+  codingScore     Int?     // 0-100
+  systemDesignScore Int?   // 0-100
+  behavioralScore Int?     // 0-100
+  overallScore    Int?     // Weighted average
+
+  // Skills (verified through practice)
+  verifiedSkills  String   @default("[]") // JSON array of verified skills
+  skillLevels     String   @default("{}") // JSON object {skill: level}
+
+  // Preferences
+  jobPreferences  String   @default("{}") // JSON {roles, locations, remote, salary_min, etc.}
+  availability    String   @default("immediately") // immediately, 2_weeks, 1_month, exploring
+
+  // Work authorization
+  workAuthorization String @default("[]") // JSON array of countries
+  requiresSponsorship Boolean @default(false)
+
+  // Experience summary (anonymized)
+  yearsExperience Int?
+  seniorityLevel  String?  // junior, mid, senior, staff, principal
+
+  // Stats
+  totalSessions   Int      @default(0)
+  totalPracticeHours Int   @default(0)
+  profileViews    Int      @default(0)
+  interviewRequestCount Int @default(0)
+
+  // Visibility
+  isPublic        Boolean  @default(true)
+  lastActiveAt    DateTime @default(now())
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  recruiterViews  RecruiterView[]
+  interviewRequests InterviewRequest[]
+  profileReveals  ProfileReveal[]
+
+  @@index([isOptedIn])
+  @@index([overallScore])
+  @@index([isPublic])
+}
+
+model RecruiterCompany {
+  id              String   @id @default(cuid())
+
+  // Company details
+  name            String
+  website         String?
+  logo            String?
+  description     String?
+
+  // Verification
+  verificationStatus String @default("pending") // pending, verified, rejected
+  verifiedAt      DateTime?
+  verificationDocs String?  // URL to verification documents
+
+  // Contact
+  contactEmail    String
+  contactPhone    String?
+
+  // Address
+  address         String?
+  city            String?
+  country         String?
+
+  // Settings
+  isActive        Boolean  @default(true)
+
+  // Credits
+  creditBalance   Int      @default(0)
+
+  // Billing
+  stripeCustomerId String? @unique
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  recruiters      Recruiter[]
+  creditPurchases CreditPurchase[]
+  interviewRequests InterviewRequest[]
+
+  @@index([verificationStatus])
+  @@index([isActive])
+}
+
+model Recruiter {
+  id              String   @id @default(cuid())
+  userId          String   @unique
+  companyId       String
+
+  // Profile
+  name            String
+  email           String
+  phone           String?
+  title           String?  // e.g., "Senior Technical Recruiter"
+
+  // Permissions
+  role            String   @default("recruiter") // admin, recruiter
+  canPurchaseCredits Boolean @default(false)
+  canInviteTeam   Boolean  @default(false)
+
+  // Stats
+  profilesViewed  Int      @default(0)
+  requestsSent    Int      @default(0)
+  successfulHires Int      @default(0)
+
+  // Status
+  isActive        Boolean  @default(true)
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  company         RecruiterCompany @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  views           RecruiterView[]
+  interviewRequests InterviewRequest[]
+
+  @@index([companyId])
+  @@index([isActive])
+}
+
+model RecruiterView {
+  id              String   @id @default(cuid())
+  recruiterId     String
+  talentProfileId String
+
+  // View details
+  viewedAt        DateTime @default(now())
+  isStarred       Boolean  @default(false)
+  notes           String?  // Recruiter's private notes
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  recruiter       Recruiter     @relation(fields: [recruiterId], references: [id], onDelete: Cascade)
+  talentProfile   TalentProfile @relation(fields: [talentProfileId], references: [id], onDelete: Cascade)
+
+  @@unique([recruiterId, talentProfileId])
+  @@index([recruiterId])
+  @@index([talentProfileId])
+}
+
+model InterviewRequest {
+  id              String   @id @default(cuid())
+  recruiterId     String
+  companyId       String
+  talentProfileId String
+
+  // Request details
+  roleTitle       String
+  roleDescription String?
+  salaryRange     String?  // e.g., "$150k-$200k"
+  location        String?  // Remote, SF, NYC, etc.
+
+  // Message
+  message         String?  // Personal message to candidate
+
+  // Status
+  status          String   @default("pending") // pending, accepted, declined, expired, withdrawn
+  respondedAt     DateTime?
+
+  // Expiration
+  expiresAt       DateTime // Requests expire after 7 days
+
+  // Credit tracking
+  creditUsed      Boolean  @default(false)
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  recruiter       Recruiter     @relation(fields: [recruiterId], references: [id], onDelete: Cascade)
+  company         RecruiterCompany @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  talentProfile   TalentProfile @relation(fields: [talentProfileId], references: [id], onDelete: Cascade)
+  reveals         ProfileReveal[]
+
+  @@index([recruiterId])
+  @@index([talentProfileId])
+  @@index([status])
+}
+
+model ProfileReveal {
+  id              String   @id @default(cuid())
+  interviewRequestId String
+  talentProfileId String
+
+  // Reveal status
+  candidateConsent Boolean @default(false)
+  recruiterConsent Boolean @default(true) // Recruiter initiates, so default true
+
+  // Revealed data
+  candidateRevealed Boolean @default(false)
+  recruiterRevealed Boolean @default(false)
+  revealedAt      DateTime?
+
+  // Revealed information (populated after mutual consent)
+  candidateName   String?
+  candidateEmail  String?
+  candidateLinkedin String?
+  candidateResume String?  // URL to resume
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  interviewRequest InterviewRequest @relation(fields: [interviewRequestId], references: [id], onDelete: Cascade)
+  talentProfile   TalentProfile @relation(fields: [talentProfileId], references: [id], onDelete: Cascade)
+
+  @@unique([interviewRequestId, talentProfileId])
+  @@index([talentProfileId])
+}
+
+model CreditPurchase {
+  id              String   @id @default(cuid())
+  companyId       String
+
+  // Purchase details
+  packageType     String   // starter, growth, enterprise
+  creditsAmount   Int
+  priceInCents    Int
+
+  // Payment
+  paymentIntentId String?
+  paymentStatus   String   @default("pending") // pending, completed, failed, refunded
+
+  // Dates
+  purchasedAt     DateTime?
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  company         RecruiterCompany @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  @@index([companyId])
+  @@index([paymentStatus])
 }
 
