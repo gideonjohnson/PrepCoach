@@ -3,6 +3,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import prisma from '@/lib/prisma';
 import { z } from 'zod';
+import { safeJsonParse } from '@/lib/utils';
 import Anthropic from '@anthropic-ai/sdk';
 
 const anthropic = new Anthropic();
@@ -66,13 +67,13 @@ export async function GET(
       // Parse JSON fields
       const parsedProblem = {
         ...problem,
-        companies: JSON.parse(problem.companies),
-        tags: JSON.parse(problem.tags),
-        functionalReqs: JSON.parse(problem.functionalReqs),
-        nonFunctionalReqs: JSON.parse(problem.nonFunctionalReqs),
-        constraints: JSON.parse(problem.constraints),
-        keyComponents: JSON.parse(problem.keyComponents),
-        rubric: JSON.parse(problem.rubric),
+        companies: safeJsonParse(problem.companies, []),
+        tags: safeJsonParse(problem.tags, []),
+        functionalReqs: safeJsonParse(problem.functionalReqs, []),
+        nonFunctionalReqs: safeJsonParse(problem.nonFunctionalReqs, []),
+        constraints: safeJsonParse(problem.constraints, []),
+        keyComponents: safeJsonParse(problem.keyComponents, []),
+        rubric: safeJsonParse(problem.rubric, []),
       };
 
       return NextResponse.json({ problem: parsedProblem });
@@ -110,21 +111,21 @@ export async function GET(
     // Parse JSON fields
     const response = {
       ...designSession,
-      diagramData: JSON.parse(designSession.diagramData),
-      diagramSnapshots: JSON.parse(designSession.diagramSnapshots),
-      requirements: JSON.parse(designSession.requirements),
+      diagramData: safeJsonParse(designSession.diagramData, {}),
+      diagramSnapshots: safeJsonParse(designSession.diagramSnapshots, []),
+      requirements: safeJsonParse(designSession.requirements, []),
       strengthsWeaknesses: designSession.strengthsWeaknesses
-        ? JSON.parse(designSession.strengthsWeaknesses)
+        ? safeJsonParse(designSession.strengthsWeaknesses, null)
         : null,
       problem: designSession.problem ? {
         ...designSession.problem,
-        companies: JSON.parse(designSession.problem.companies),
-        tags: JSON.parse(designSession.problem.tags),
-        functionalReqs: JSON.parse(designSession.problem.functionalReqs),
-        nonFunctionalReqs: JSON.parse(designSession.problem.nonFunctionalReqs),
-        constraints: JSON.parse(designSession.problem.constraints),
-        keyComponents: JSON.parse(designSession.problem.keyComponents),
-        rubric: JSON.parse(designSession.problem.rubric),
+        companies: safeJsonParse(designSession.problem.companies, []),
+        tags: safeJsonParse(designSession.problem.tags, []),
+        functionalReqs: safeJsonParse(designSession.problem.functionalReqs, []),
+        nonFunctionalReqs: safeJsonParse(designSession.problem.nonFunctionalReqs, []),
+        constraints: safeJsonParse(designSession.problem.constraints, []),
+        keyComponents: safeJsonParse(designSession.problem.keyComponents, []),
+        rubric: safeJsonParse(designSession.problem.rubric, []),
       } : null,
     };
 
@@ -212,7 +213,7 @@ export async function PATCH(
 
     // Add diagram snapshot if requested
     if (validated.addSnapshot && validated.diagramData) {
-      const snapshots = JSON.parse(existingSession.diagramSnapshots);
+      const snapshots = safeJsonParse(existingSession.diagramSnapshots, []);
       snapshots.push({
         timestamp: Date.now(),
         data: validated.diagramData,
@@ -224,7 +225,7 @@ export async function PATCH(
     if (validated.requestAnalysis && validated.diagramData) {
       try {
         const rubric = existingSession.problem
-          ? JSON.parse(existingSession.problem.rubric)
+          ? safeJsonParse(existingSession.problem.rubric, [])
           : [];
 
         const rubricText = rubric.length > 0
@@ -306,11 +307,11 @@ Provide analysis in the following JSON format:
     return NextResponse.json({
       session: {
         ...updatedSession,
-        diagramData: JSON.parse(updatedSession.diagramData),
-        diagramSnapshots: JSON.parse(updatedSession.diagramSnapshots),
-        requirements: JSON.parse(updatedSession.requirements),
+        diagramData: safeJsonParse(updatedSession.diagramData, {}),
+        diagramSnapshots: safeJsonParse(updatedSession.diagramSnapshots, []),
+        requirements: safeJsonParse(updatedSession.requirements, []),
         strengthsWeaknesses: updatedSession.strengthsWeaknesses
-          ? JSON.parse(updatedSession.strengthsWeaknesses)
+          ? safeJsonParse(updatedSession.strengthsWeaknesses, null)
           : null,
       },
     });

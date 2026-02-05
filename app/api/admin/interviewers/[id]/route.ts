@@ -3,6 +3,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import prisma from '@/lib/prisma';
 import { z } from 'zod';
+import { safeJsonParse } from '@/lib/utils';
 
 const updateSchema = z.object({
   verificationStatus: z.enum(['pending', 'verified', 'rejected']).optional(),
@@ -63,12 +64,12 @@ export async function GET(
 
     const parsed = {
       ...interviewer,
-      previousCompanies: JSON.parse(interviewer.previousCompanies),
-      expertise: JSON.parse(interviewer.expertise),
-      specializations: JSON.parse(interviewer.specializations),
-      languages: JSON.parse(interviewer.languages),
-      availability: JSON.parse(interviewer.availability),
-      customRates: JSON.parse(interviewer.customRates),
+      previousCompanies: safeJsonParse(interviewer.previousCompanies, []),
+      expertise: safeJsonParse(interviewer.expertise, []),
+      specializations: safeJsonParse(interviewer.specializations, []),
+      languages: safeJsonParse(interviewer.languages, []),
+      availability: safeJsonParse(interviewer.availability, []),
+      customRates: safeJsonParse(interviewer.customRates, {}),
     };
 
     return NextResponse.json({ interviewer: parsed });
@@ -162,12 +163,12 @@ export async function PATCH(
     return NextResponse.json({
       interviewer: {
         ...updated,
-        previousCompanies: JSON.parse(updated.previousCompanies),
-        expertise: JSON.parse(updated.expertise),
-        specializations: JSON.parse(updated.specializations),
-        languages: JSON.parse(updated.languages),
-        availability: JSON.parse(updated.availability),
-        customRates: JSON.parse(updated.customRates),
+        previousCompanies: safeJsonParse(updated.previousCompanies, []),
+        expertise: safeJsonParse(updated.expertise, []),
+        specializations: safeJsonParse(updated.specializations, []),
+        languages: safeJsonParse(updated.languages, []),
+        availability: safeJsonParse(updated.availability, []),
+        customRates: safeJsonParse(updated.customRates, {}),
       },
       message: `Interviewer ${validated.verificationStatus === 'verified' ? 'verified' : validated.verificationStatus === 'rejected' ? 'rejected' : 'updated'} successfully`,
     });

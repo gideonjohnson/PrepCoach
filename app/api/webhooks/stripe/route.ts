@@ -44,7 +44,7 @@ export async function POST(req: NextRequest) {
           });
 
           // TODO: Send confirmation emails to both candidate and interviewer
-          console.log(`Expert session ${sessionId} payment completed`);
+          // Expert session payment completed
         }
 
         if (type === 'coaching_package' && sessionId) {
@@ -58,7 +58,7 @@ export async function POST(req: NextRequest) {
             },
           });
 
-          console.log(`Coaching package ${sessionId} purchased`);
+          // Coaching package purchased
         }
 
         if (type === 'credit_purchase') {
@@ -80,7 +80,7 @@ export async function POST(req: NextRequest) {
                 },
               }),
             ]);
-            console.log(`Credit purchase ${purchaseId}: ${credits} credits added to company ${companyId}`);
+            // Credit purchase completed
           }
         }
 
@@ -107,7 +107,7 @@ export async function POST(req: NextRequest) {
 
       case 'payment_intent.payment_failed': {
         const paymentIntent = event.data.object as Stripe.PaymentIntent;
-        console.log(`Payment failed for intent ${paymentIntent.id}`);
+        console.warn(`Payment failed for intent ${paymentIntent.id}`);
         break;
       }
 
@@ -120,7 +120,7 @@ export async function POST(req: NextRequest) {
             data: { paymentStatus: 'refunded' },
           });
         }
-        console.log(`Refund processed for charge ${charge.id}`);
+        // Refund processed
         break;
       }
 
@@ -135,14 +135,14 @@ export async function POST(req: NextRequest) {
               payoutsEnabled: account.payouts_enabled,
             },
           });
-          console.log(`Connect account ${account.id} updated, payouts_enabled: ${account.payouts_enabled}`);
+          // Connect account updated
         }
         break;
       }
 
       case 'transfer.created': {
         const transfer = event.data.object as Stripe.Transfer;
-        console.log(`Transfer ${transfer.id} created for ${transfer.amount / 100} USD`);
+        // Transfer created
         break;
       }
 
@@ -157,7 +157,7 @@ export async function POST(req: NextRequest) {
               paidAt: new Date(),
             },
           });
-          console.log(`Transfer ${transfer.id} paid successfully`);
+          // Transfer paid
         }
         break;
       }
@@ -171,7 +171,7 @@ export async function POST(req: NextRequest) {
             status: 'failed',
           },
         });
-        console.log(`Transfer ${transfer.id} failed`);
+        console.warn(`Transfer ${transfer.id} failed`);
         break;
       }
     }

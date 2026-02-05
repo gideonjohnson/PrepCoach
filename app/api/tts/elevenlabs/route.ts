@@ -11,14 +11,10 @@ const VOICE_ID = process.env.ELEVENLABS_VOICE_ID || '21m00Tcm4TlvDq8ikWAM'; // R
 
 export async function POST(request: NextRequest) {
   try {
-    // Optional: Log if user is authenticated (but don't block)
     const session = await getServerSession(authOptions);
-    console.log('🔊 ElevenLabs TTS request - User authenticated:', !!session?.user?.id);
 
     // Check if API key is configured
     if (!ELEVENLABS_API_KEY || ELEVENLABS_API_KEY === 'your_elevenlabs_api_key_here') {
-      console.warn('⚠️ ElevenLabs API key not configured, falling back to browser TTS');
-      console.log('Current API key value:', ELEVENLABS_API_KEY ? `${ELEVENLABS_API_KEY.substring(0, 10)}...` : 'undefined');
       return NextResponse.json(
         {
           error: 'ElevenLabs not configured',
@@ -27,8 +23,6 @@ export async function POST(request: NextRequest) {
         { status: 503 }
       );
     }
-
-    console.log('✅ ElevenLabs API key configured, attempting to generate speech...');
 
     const { text } = await request.json();
 
@@ -73,7 +67,6 @@ export async function POST(request: NextRequest) {
 
     // Get the audio buffer
     const audioBuffer = await response.arrayBuffer();
-    console.log('✅ ElevenLabs TTS success! Audio size:', audioBuffer.byteLength, 'bytes');
 
     // Return the audio as MP3
     return new NextResponse(audioBuffer, {

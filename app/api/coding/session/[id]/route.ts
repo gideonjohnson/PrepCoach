@@ -4,6 +4,7 @@ import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import prisma from '@/lib/prisma';
 import { z } from 'zod';
 import Anthropic from '@anthropic-ai/sdk';
+import { safeJsonParse } from '@/lib/utils';
 
 const anthropic = new Anthropic();
 
@@ -49,17 +50,17 @@ export async function GET(
     // Parse JSON fields
     const response = {
       ...codingSession,
-      codeSnapshots: JSON.parse(codingSession.codeSnapshots),
-      testResults: JSON.parse(codingSession.testResults),
-      aiHints: JSON.parse(codingSession.aiHints),
+      codeSnapshots: safeJsonParse(codingSession.codeSnapshots, []),
+      testResults: safeJsonParse(codingSession.testResults, []),
+      aiHints: safeJsonParse(codingSession.aiHints, []),
       problem: codingSession.problem ? {
         ...codingSession.problem,
-        companies: JSON.parse(codingSession.problem.companies),
-        tags: JSON.parse(codingSession.problem.tags),
-        constraints: JSON.parse(codingSession.problem.constraints),
-        examples: JSON.parse(codingSession.problem.examples),
-        hints: JSON.parse(codingSession.problem.hints),
-        testCases: JSON.parse(codingSession.problem.testCases),
+        companies: safeJsonParse(codingSession.problem.companies, []),
+        tags: safeJsonParse(codingSession.problem.tags, []),
+        constraints: safeJsonParse(codingSession.problem.constraints, []),
+        examples: safeJsonParse(codingSession.problem.examples, []),
+        hints: safeJsonParse(codingSession.problem.hints, []),
+        testCases: safeJsonParse(codingSession.problem.testCases, []),
       } : null,
     };
 
@@ -140,7 +141,7 @@ export async function PATCH(
 
         // Score the session
         const codeToScore = validated.code || existingSession.code;
-        const testResults = JSON.parse(existingSession.testResults || '[]');
+        const testResults = safeJsonParse(existingSession.testResults || '[]', []);
         const totalTests = testResults.length;
         const passedTests = testResults.filter((t: { passed: boolean }) => t.passed).length;
 
@@ -212,7 +213,7 @@ Respond in JSON format:
 
     // Add code snapshot if requested
     if (validated.addSnapshot && validated.code) {
-      const snapshots = JSON.parse(existingSession.codeSnapshots);
+      const snapshots = safeJsonParse(existingSession.codeSnapshots, []);
       snapshots.push({
         timestamp: Date.now(),
         code: validated.code,

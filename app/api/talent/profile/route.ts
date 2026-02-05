@@ -3,6 +3,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import prisma from '@/lib/prisma';
 import { z } from 'zod';
+import { safeJsonParse } from '@/lib/utils';
 
 const profileUpdateSchema = z.object({
   displayTitle: z.string().max(100).optional(),
@@ -42,10 +43,10 @@ export async function GET() {
     return NextResponse.json({
       profile: {
         ...profile,
-        verifiedSkills: JSON.parse(profile.verifiedSkills),
-        skillLevels: JSON.parse(profile.skillLevels),
-        jobPreferences: JSON.parse(profile.jobPreferences),
-        workAuthorization: JSON.parse(profile.workAuthorization),
+        verifiedSkills: safeJsonParse(profile.verifiedSkills, []),
+        skillLevels: safeJsonParse(profile.skillLevels, {}),
+        jobPreferences: safeJsonParse(profile.jobPreferences, {}),
+        workAuthorization: safeJsonParse(profile.workAuthorization, []),
       },
       isOptedIn: profile.isOptedIn,
     });
@@ -108,10 +109,10 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({
       profile: {
         ...profile,
-        verifiedSkills: JSON.parse(profile.verifiedSkills),
-        skillLevels: JSON.parse(profile.skillLevels),
-        jobPreferences: JSON.parse(profile.jobPreferences),
-        workAuthorization: JSON.parse(profile.workAuthorization),
+        verifiedSkills: safeJsonParse(profile.verifiedSkills, []),
+        skillLevels: safeJsonParse(profile.skillLevels, {}),
+        jobPreferences: safeJsonParse(profile.jobPreferences, {}),
+        workAuthorization: safeJsonParse(profile.workAuthorization, []),
       },
       message: 'Talent profile created successfully!',
     }, { status: 201 });
@@ -179,10 +180,10 @@ export async function PATCH(req: NextRequest) {
     return NextResponse.json({
       profile: {
         ...profile,
-        verifiedSkills: JSON.parse(profile.verifiedSkills),
-        skillLevels: JSON.parse(profile.skillLevels),
-        jobPreferences: JSON.parse(profile.jobPreferences),
-        workAuthorization: JSON.parse(profile.workAuthorization),
+        verifiedSkills: safeJsonParse(profile.verifiedSkills, []),
+        skillLevels: safeJsonParse(profile.skillLevels, {}),
+        jobPreferences: safeJsonParse(profile.jobPreferences, {}),
+        workAuthorization: safeJsonParse(profile.workAuthorization, []),
       },
     });
   } catch (error) {

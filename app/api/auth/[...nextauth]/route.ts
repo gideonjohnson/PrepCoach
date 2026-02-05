@@ -23,7 +23,6 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
-          console.log('[AUTH] Missing credentials');
           return null;
         }
 
@@ -32,8 +31,6 @@ export const authOptions: NextAuthOptions = {
           const email = credentials.email.toLowerCase().trim();
           const password = credentials.password.trim();
 
-          console.log('[AUTH] Attempting login for:', email);
-
           const user = await prisma.user.findUnique({
             where: {
               email: email
@@ -41,12 +38,10 @@ export const authOptions: NextAuthOptions = {
           });
 
           if (!user) {
-            console.log('[AUTH] User not found:', email);
             return null;
           }
 
           if (!user.password) {
-            console.log('[AUTH] User has no password:', email);
             return null;
           }
 
@@ -56,11 +51,9 @@ export const authOptions: NextAuthOptions = {
           );
 
           if (!isCorrectPassword) {
-            console.log('[AUTH] Password mismatch for:', email);
             return null;
           }
 
-          console.log('[AUTH] Login successful for:', email);
           return {
             id: user.id,
             email: user.email!,
@@ -78,6 +71,7 @@ export const authOptions: NextAuthOptions = {
   },
   session: {
     strategy: 'jwt',
+    maxAge: 24 * 60 * 60, // 24 hours
   },
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
@@ -128,7 +122,6 @@ export const authOptions: NextAuthOptions = {
                   lastResetDate: new Date(),
                 }
               });
-              console.log('[AUTH] Created new OAuth user:', existingUser.id);
             } catch (createError: unknown) {
               // Handle race condition: user was created by another request
               const prismaError = createError as { code?: string };
@@ -139,7 +132,7 @@ export const authOptions: NextAuthOptions = {
                 if (!existingUser) {
                   throw createError; // Re-throw if still not found
                 }
-                console.log('[AUTH] User created concurrently, using existing:', existingUser.id);
+                // User was created concurrently by another request
               } else {
                 throw createError; // Re-throw other errors
               }
@@ -181,7 +174,6 @@ export const authOptions: NextAuthOptions = {
                 session_state: account.session_state,
               }
             });
-            console.log('[AUTH] Linked OAuth account:', account.provider);
           }
 
           // Update user object with database ID for JWT token

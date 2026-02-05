@@ -110,7 +110,8 @@ export function getRateLimiterByTier(
 // Helper function to check rate limit
 export async function checkRateLimit(
   identifier: string,
-  subscriptionTier?: string
+  subscriptionTier?: string,
+  options?: { failClosed?: boolean }
 ): Promise<{
   success: boolean;
   limit: number;
@@ -120,8 +121,17 @@ export async function checkRateLimit(
 }> {
   const ratelimit = getRateLimiterByTier(subscriptionTier);
 
-  // If no Redis configured, allow all requests
+  // If no Redis configured, allow all requests (unless failClosed)
   if (!ratelimit) {
+    if (options?.failClosed) {
+      return {
+        success: false,
+        limit: 0,
+        remaining: 0,
+        reset: Date.now() + 60000,
+        error: "Rate limiter unavailable",
+      };
+    }
     return {
       success: true,
       limit: 999999,
@@ -143,6 +153,15 @@ export async function checkRateLimit(
     };
   } catch (error) {
     console.error("Rate limit check failed:", error);
+    if (options?.failClosed) {
+      return {
+        success: false,
+        limit: 0,
+        remaining: 0,
+        reset: Date.now() + 60000,
+        error: "Rate limit check failed",
+      };
+    }
     // Fail open - allow request if rate limiting fails
     return {
       success: true,
@@ -157,7 +176,8 @@ export async function checkRateLimit(
 // Helper to check API-specific rate limits
 export async function checkApiRateLimit(
   apiName: keyof typeof apiRateLimiters,
-  identifier: string
+  identifier: string,
+  options?: { failClosed?: boolean }
 ): Promise<{
   success: boolean;
   limit: number;
@@ -167,8 +187,17 @@ export async function checkApiRateLimit(
 }> {
   const ratelimit = apiRateLimiters[apiName];
 
-  // If no Redis configured, allow all requests
+  // If no Redis configured, allow all requests (unless failClosed)
   if (!ratelimit) {
+    if (options?.failClosed) {
+      return {
+        success: false,
+        limit: 0,
+        remaining: 0,
+        reset: Date.now() + 60000,
+        error: "Rate limiter unavailable",
+      };
+    }
     return {
       success: true,
       limit: 999999,
@@ -190,6 +219,15 @@ export async function checkApiRateLimit(
     };
   } catch (error) {
     console.error(`Rate limit check failed for ${apiName}:`, error);
+    if (options?.failClosed) {
+      return {
+        success: false,
+        limit: 0,
+        remaining: 0,
+        reset: Date.now() + 60000,
+        error: "Rate limit check failed",
+      };
+    }
     // Fail open - allow request if rate limiting fails
     return {
       success: true,

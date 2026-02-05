@@ -71,7 +71,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       {
         error: 'Failed to execute code',
-        message: error?.message || 'Unknown error',
+        message: process.env.NODE_ENV === 'development' ? (error?.message || 'Unknown error') : 'An internal error occurred',
       },
       { status: 500 }
     );

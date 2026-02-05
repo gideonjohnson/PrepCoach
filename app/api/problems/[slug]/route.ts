@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import prisma from '@/lib/prisma';
+import { safeJsonParse } from '@/lib/utils';
 
 // GET /api/problems/[slug] - Get a single problem by slug
 export async function GET(
@@ -53,12 +54,12 @@ export async function GET(
     // Parse JSON fields
     const parsedProblem = {
       ...problem,
-      companies: JSON.parse(problem.companies),
-      tags: JSON.parse(problem.tags),
-      constraints: JSON.parse(problem.constraints),
-      examples: JSON.parse(problem.examples),
-      hints: JSON.parse(problem.hints),
-      testCases: JSON.parse(problem.testCases).filter(
+      companies: safeJsonParse(problem.companies, []),
+      tags: safeJsonParse(problem.tags, []),
+      constraints: safeJsonParse(problem.constraints, []),
+      examples: safeJsonParse(problem.examples, []),
+      hints: safeJsonParse(problem.hints, []),
+      testCases: safeJsonParse(problem.testCases, []).filter(
         (tc: { isHidden?: boolean }) => !tc.isHidden
       ), // Only return visible test cases
       successRate: problem.totalAttempts > 0
@@ -141,12 +142,12 @@ export async function POST(req: NextRequest) {
     // Parse JSON fields
     const parsedProblem = {
       ...problem,
-      companies: JSON.parse(problem.companies),
-      tags: JSON.parse(problem.tags),
-      constraints: JSON.parse(problem.constraints),
-      examples: JSON.parse(problem.examples),
-      hints: JSON.parse(problem.hints),
-      testCases: JSON.parse(problem.testCases).filter(
+      companies: safeJsonParse(problem.companies, []),
+      tags: safeJsonParse(problem.tags, []),
+      constraints: safeJsonParse(problem.constraints, []),
+      examples: safeJsonParse(problem.examples, []),
+      hints: safeJsonParse(problem.hints, []),
+      testCases: safeJsonParse(problem.testCases, []).filter(
         (tc: { isHidden?: boolean }) => !tc.isHidden
       ),
     };

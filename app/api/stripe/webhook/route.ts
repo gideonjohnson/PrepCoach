@@ -65,7 +65,7 @@ export async function POST(req: NextRequest) {
             },
           });
 
-          console.log(`✅ Subscription activated for user ${userId}, customer ${customerId}`);
+          // Subscription activated
         }
         break;
       }
@@ -92,7 +92,7 @@ export async function POST(req: NextRequest) {
             },
           });
 
-          console.log(`✅ Subscription updated for user ${user.id}: ${status}`);
+          // Subscription updated
         }
         break;
       }
@@ -115,7 +115,7 @@ export async function POST(req: NextRequest) {
             },
           });
 
-          console.log(`✅ Subscription cancelled for user ${user.id}`);
+          // Subscription cancelled
         }
         break;
       }
@@ -137,7 +137,7 @@ export async function POST(req: NextRequest) {
             },
           });
 
-          console.log(`✅ Payment succeeded for user ${user.id}`);
+          // Payment succeeded
         }
         break;
       }
@@ -159,13 +159,13 @@ export async function POST(req: NextRequest) {
             },
           });
 
-          console.log(`⚠️ Payment failed for user ${user.id}`);
+          console.warn(`Payment failed for user ${user.id}`);
         }
         break;
       }
 
       default:
-        console.log(`Unhandled event type: ${event.type}`);
+        // Unhandled event type
     }
 
     return NextResponse.json({ received: true });
