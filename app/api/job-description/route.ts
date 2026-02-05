@@ -20,11 +20,13 @@ export async function GET(req: NextRequest) {
     }
 
     const { searchParams } = new URL(req.url);
+    const page = Math.max(1, parseInt(searchParams.get('page') || '1'));
     const limit = Math.min(parseInt(searchParams.get('limit') || '20'), 100);
 
     const jobDescriptions = await prisma.jobDescription.findMany({
       where: { userId: session.user.id },
       orderBy: { createdAt: 'desc' },
+      skip: (page - 1) * limit,
       take: limit,
     });
 

@@ -108,6 +108,7 @@ model Account {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
+  @@index([userId])
 }
 
 model InterviewSession {
@@ -373,6 +374,7 @@ model Problem {
   @@index([difficulty])
   @@index([category])
   @@index([isPublic])
+  @@index([difficulty, category, isPublic])
 }
 
 model SystemDesignProblem {
@@ -415,6 +417,7 @@ model SystemDesignProblem {
   @@index([difficulty])
   @@index([category])
   @@index([isPublic])
+  @@index([difficulty, category, isPublic])
 }
 
 model JobDescription {
@@ -577,6 +580,8 @@ model ExpertSession {
   @@index([interviewerId])
   @@index([status])
   @@index([scheduledAt])
+  @@index([candidateId, status])
+  @@index([interviewerId, status])
 }
 
 model InterviewerReview {
@@ -731,6 +736,9 @@ model TalentProfile {
   @@index([isOptedIn])
   @@index([overallScore])
   @@index([isPublic])
+  @@index([isOptedIn, lastActiveAt])
+  @@index([seniorityLevel])
+  @@index([isOptedIn, overallScore, isPublic])
 }
 
 model RecruiterCompany {
@@ -869,6 +877,9 @@ model InterviewRequest {
   @@index([recruiterId])
   @@index([talentProfileId])
   @@index([status])
+  @@index([recruiterId, status])
+  @@index([talentProfileId, status])
+  @@index([status, expiresAt])
 }
 
 model ProfileReveal {

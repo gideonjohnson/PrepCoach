@@ -92,25 +92,31 @@ export async function GET(req: NextRequest) {
       verifiedSkills: JSON.parse(p.verifiedSkills),
     }));
 
-    // Track views
-    for (const profile of profiles) {
-      await prisma.recruiterView.upsert({
-        where: {
-          recruiterId_talentProfileId: {
-            recruiterId: recruiter.id,
-            talentProfileId: profile.id,
-          },
-        },
-        update: { viewedAt: new Date() },
-        create: {
+    // Track views in batch (replaces N+1 per-profile loop)
+    const profileIds = profiles.map((p) => p.id);
+
+    if (profileIds.length > 0) {
+      // Batch create new views (skip existing)
+      await prisma.recruiterView.createMany({
+        data: profileIds.map((id) => ({
           recruiterId: recruiter.id,
-          talentProfileId: profile.id,
-        },
+          talentProfileId: id,
+        })),
+        skipDuplicates: true,
       });
 
-      // Increment profile view count
-      await prisma.talentProfile.update({
-        where: { id: profile.id },
+      // Batch update viewedAt for existing views
+      await prisma.recruiterView.updateMany({
+        where: {
+          recruiterId: recruiter.id,
+          talentProfileId: { in: profileIds },
+        },
+        data: { viewedAt: new Date() },
+      });
+
+      // Batch increment profile view counts
+      await prisma.talentProfile.updateMany({
+        where: { id: { in: profileIds } },
         data: { profileViews: { increment: 1 } },
       });
     }
