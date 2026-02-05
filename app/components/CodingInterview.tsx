@@ -1,8 +1,13 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import Editor from '@monaco-editor/react';
+import dynamic from 'next/dynamic';
 import toast from 'react-hot-toast';
+
+const Editor = dynamic(() => import('@monaco-editor/react'), {
+  ssr: false,
+  loading: () => <div className="h-96 w-full bg-gray-100 animate-pulse rounded-lg" />,
+});
 
 export type Language = 'javascript' | 'python' | 'java' | 'typescript' | 'cpp' | 'go';
 

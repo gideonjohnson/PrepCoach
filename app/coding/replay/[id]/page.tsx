@@ -3,7 +3,12 @@
 import { useState, useEffect, useRef, useCallback, use } from 'react';
 import { useRouter } from 'next/navigation';
 import Header from '@/app/components/Header';
-import Editor from '@monaco-editor/react';
+import dynamic from 'next/dynamic';
+
+const Editor = dynamic(() => import('@monaco-editor/react'), {
+  ssr: false,
+  loading: () => <div className="h-96 w-full bg-gray-100 animate-pulse rounded-lg" />,
+});
 
 interface CodeSnapshot {
   timestamp: number;
