@@ -3,6 +3,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { stripe, STRIPE_PRICE_IDS, isStripeConfigured } from '@/lib/stripe';
 import { checkApiRateLimit } from '@/lib/rate-limit';
+import crypto from 'crypto';
 
 export async function POST(req: NextRequest) {
   try {
@@ -62,7 +63,15 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Create Stripe checkout session
+    // Generate idempotency key from userId + tier + 10-minute time window
+    const userId = (session.user as any).id;
+    const timeWindow = Math.floor(Date.now() / (10 * 60 * 1000));
+    const idempotencyKey = crypto
+      .createHash('sha256')
+      .update(`${userId}-${tier}-${timeWindow}`)
+      .digest('hex');
+
+    // Create Stripe checkout session with idempotency
     const checkoutSession = await stripe.checkout.sessions.create({
       mode: 'subscription',
       payment_method_types: ['card'],
@@ -76,15 +85,17 @@ export async function POST(req: NextRequest) {
       cancel_url: `${process.env.NEXTAUTH_URL}/payment/cancel`,
       customer_email: session.user.email,
       metadata: {
-        userId: (session.user as any).id,
+        userId,
         tier,
       },
       subscription_data: {
         metadata: {
-          userId: (session.user as any).id,
+          userId,
           tier,
         },
       },
+    }, {
+      idempotencyKey,
     });
 
     return NextResponse.json({

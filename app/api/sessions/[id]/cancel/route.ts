@@ -82,6 +82,8 @@ export async function POST(
     let refundAmount = 0;
 
     // Handle refund for paid sessions
+    const cancelledBy = isCandidate ? 'candidate' : 'interviewer';
+
     if (expertSession.paymentStatus === 'paid' && expertSession.paymentIntentId) {
       if (expertSession.coachingPackageId) {
         // Return session to coaching package if 24+ hours notice
@@ -115,20 +117,59 @@ export async function POST(
             { status: 500 }
           );
         }
+
+        // Atomically update DB after successful Stripe refund
+        try {
+          const updatedSession = await prisma.expertSession.update({
+            where: { id },
+            data: {
+              status: 'cancelled',
+              cancellationReason: reason || `Cancelled by ${cancelledBy}: ${refundPolicy.reason}`,
+              cancelledAt: new Date(),
+              paymentStatus: 'refunded',
+              refundId,
+              refundAmount,
+            },
+          });
+
+          return NextResponse.json({
+            session: updatedSession,
+            refund: {
+              percentage: refundPolicy.refundPercentage,
+              amount: refundAmount,
+              reason: refundPolicy.reason,
+              refundId,
+              packageSessionReturned: false,
+            },
+            message: `Session cancelled. ${refundPolicy.reason}`,
+          });
+        } catch (dbError) {
+          // CRITICAL: Stripe refund succeeded but DB update failed
+          // Log for manual reconciliation
+          console.error('CRITICAL: Stripe refund succeeded but DB update failed', {
+            sessionId: id,
+            refundId,
+            refundAmount,
+            error: dbError,
+          });
+          return NextResponse.json(
+            { error: 'Refund processed but session update failed. Please contact support.' },
+            { status: 500 }
+          );
+        }
       }
     }
 
-    // Update session status
-    const cancelledBy = isCandidate ? 'candidate' : 'interviewer';
+    // Update session status (no-refund path or unpaid sessions)
     const updatedSession = await prisma.expertSession.update({
       where: { id },
       data: {
         status: 'cancelled',
         cancellationReason: reason || `Cancelled by ${cancelledBy}: ${refundPolicy.reason}`,
         cancelledAt: new Date(),
-        paymentStatus: refundId ? 'refunded' : expertSession.paymentStatus,
-        refundId,
-        refundAmount: refundAmount || null,
+        paymentStatus: expertSession.paymentStatus,
+        refundId: null,
+        refundAmount: null,
       },
     });
 

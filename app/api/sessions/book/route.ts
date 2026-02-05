@@ -61,40 +61,6 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Check for conflicting sessions
-    const endTime = new Date(scheduledAt.getTime() + validated.duration * 60 * 1000);
-    const conflictingSession = await prisma.expertSession.findFirst({
-      where: {
-        interviewerId: validated.interviewerId,
-        status: { in: ['scheduled', 'in_progress'] },
-        OR: [
-          {
-            scheduledAt: {
-              gte: scheduledAt,
-              lt: endTime,
-            },
-          },
-          {
-            AND: [
-              { scheduledAt: { lte: scheduledAt } },
-              {
-                scheduledAt: {
-                  gt: new Date(scheduledAt.getTime() - 120 * 60 * 1000), // 2 hour buffer
-                },
-              },
-            ],
-          },
-        ],
-      },
-    });
-
-    if (conflictingSession) {
-      return NextResponse.json(
-        { error: 'This time slot is not available' },
-        { status: 400 }
-      );
-    }
-
     // Calculate price
     const pricePerHour = interviewer.ratePerHour;
     const totalAmount = Math.round(pricePerHour * (validated.duration / 60));
@@ -106,21 +72,54 @@ export async function POST(req: NextRequest) {
     const candidateAlias = aliases?.candidateAlias || 'Candidate';
     const interviewerAlias = aliases?.interviewerAlias || 'Interviewer';
 
-    // Create the session
-    const expertSession = await prisma.expertSession.create({
-      data: {
-        candidateId: userId,
-        interviewerId: validated.interviewerId,
-        sessionType: validated.sessionType,
-        scheduledAt,
-        duration: validated.duration,
-        status: 'pending_payment',
-        candidateAlias,
-        interviewerAlias,
-        priceInCents: totalAmount,
-        payoutInCents: interviewerPayout,
-      },
-    });
+    // Use serializable transaction to prevent race conditions on double-booking
+    const endTime = new Date(scheduledAt.getTime() + validated.duration * 60 * 1000);
+
+    const expertSession = await prisma.$transaction(async (tx) => {
+      const conflictingSession = await tx.expertSession.findFirst({
+        where: {
+          interviewerId: validated.interviewerId,
+          status: { in: ['scheduled', 'in_progress'] },
+          OR: [
+            {
+              scheduledAt: {
+                gte: scheduledAt,
+                lt: endTime,
+              },
+            },
+            {
+              AND: [
+                { scheduledAt: { lte: scheduledAt } },
+                {
+                  scheduledAt: {
+                    gt: new Date(scheduledAt.getTime() - 120 * 60 * 1000), // 2 hour buffer
+                  },
+                },
+              ],
+            },
+          ],
+        },
+      });
+
+      if (conflictingSession) {
+        throw new Error('SLOT_CONFLICT');
+      }
+
+      return tx.expertSession.create({
+        data: {
+          candidateId: userId,
+          interviewerId: validated.interviewerId,
+          sessionType: validated.sessionType,
+          scheduledAt,
+          duration: validated.duration,
+          status: 'pending_payment',
+          candidateAlias,
+          interviewerAlias,
+          priceInCents: totalAmount,
+          payoutInCents: interviewerPayout,
+        },
+      });
+    }, { isolationLevel: 'Serializable' });
 
     return NextResponse.json({
       session: expertSession,
@@ -131,6 +130,12 @@ export async function POST(req: NextRequest) {
       return NextResponse.json(
         { error: 'Validation failed', details: error.issues },
         { status: 400 }
+      );
+    }
+    if (error instanceof Error && error.message === 'SLOT_CONFLICT') {
+      return NextResponse.json(
+        { error: 'This time slot is no longer available' },
+        { status: 409 }
       );
     }
     console.error('Error booking session:', error);

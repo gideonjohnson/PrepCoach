@@ -47,7 +47,7 @@ export async function POST(req: NextRequest) {
       }
 
       default:
-        console.log(`Unhandled Paystack event type: ${event.event}`);
+        // Unhandled event type
     }
 
     return NextResponse.json({ received: true });
@@ -62,8 +62,7 @@ async function handleChargeSuccess(data: any) {
   const tier = data.metadata?.tier;
 
   if (!userId || !tier) {
-    console.error('Missing userId or tier in charge metadata');
-    return;
+    throw new Error('Missing userId or tier in charge metadata');
   }
 
   // Update user subscription
@@ -77,7 +76,6 @@ async function handleChargeSuccess(data: any) {
     },
   });
 
-  console.log(`✅ Payment successful for user ${userId}: ${tier}`);
 }
 
 async function handleSubscriptionCreate(data: any) {
@@ -85,8 +83,7 @@ async function handleSubscriptionCreate(data: any) {
   const planCode = data.plan?.plan_code;
 
   if (!userId || !planCode) {
-    console.error('Missing userId or plan code in subscription metadata');
-    return;
+    throw new Error('Missing userId or plan code in subscription metadata');
   }
 
   const tier = getSubscriptionTier(planCode);
@@ -101,15 +98,13 @@ async function handleSubscriptionCreate(data: any) {
     },
   });
 
-  console.log(`✅ Subscription created for user ${userId}: ${tier}`);
 }
 
 async function handleSubscriptionDisable(data: any) {
   const userId = data.customer?.metadata?.userId;
 
   if (!userId) {
-    console.error('Missing userId in subscription metadata');
-    return;
+    throw new Error('Missing userId in subscription disable metadata');
   }
 
   await prisma.user.update({
@@ -120,15 +115,13 @@ async function handleSubscriptionDisable(data: any) {
     },
   });
 
-  console.log(`✅ Subscription disabled for user ${userId}`);
 }
 
 async function handleSubscriptionNotRenew(data: any) {
   const userId = data.customer?.metadata?.userId;
 
   if (!userId) {
-    console.error('Missing userId in subscription metadata');
-    return;
+    throw new Error('Missing userId in subscription not-renew metadata');
   }
 
   await prisma.user.update({
@@ -138,15 +131,13 @@ async function handleSubscriptionNotRenew(data: any) {
     },
   });
 
-  console.log(`✅ Subscription not renewed for user ${userId}`);
 }
 
 async function handleInvoicePaymentFailed(data: any) {
   const userId = data.customer?.metadata?.userId;
 
   if (!userId) {
-    console.error('Missing userId in invoice metadata');
-    return;
+    throw new Error('Missing userId in invoice payment failed metadata');
   }
 
   await prisma.user.update({
@@ -156,5 +147,4 @@ async function handleInvoicePaymentFailed(data: any) {
     },
   });
 
-  console.log(`⚠️  Payment failed for user ${userId}`);
 }

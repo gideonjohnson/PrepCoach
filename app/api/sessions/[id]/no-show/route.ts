@@ -89,7 +89,45 @@ export async function POST(
             });
             refundId = refund.id;
           } catch (stripeError) {
-            console.error('Stripe refund failed:', stripeError);
+            console.error('Stripe refund failed for no-show:', stripeError);
+            return NextResponse.json(
+              { error: 'Failed to process refund. Please contact support.' },
+              { status: 500 }
+            );
+          }
+
+          // Atomically update DB after successful Stripe refund
+          try {
+            const updatedSession = await prisma.expertSession.update({
+              where: { id },
+              data: {
+                status: 'no_show',
+                cancellationReason: `No-show by ${reportedParty}`,
+                paymentStatus: 'refunded',
+                refundId,
+                refundAmount,
+              },
+            });
+
+            return NextResponse.json({
+              session: updatedSession,
+              noShowParty: reportedParty,
+              refunded: true,
+              refundAmount,
+              message: 'Interviewer no-show reported. A full refund has been initiated.',
+            });
+          } catch (dbError) {
+            // CRITICAL: Stripe refund succeeded but DB update failed
+            console.error('CRITICAL: Stripe refund succeeded but DB update failed', {
+              sessionId: id,
+              refundId,
+              refundAmount,
+              error: dbError,
+            });
+            return NextResponse.json(
+              { error: 'Refund processed but session update failed. Please contact support.' },
+              { status: 500 }
+            );
           }
         }
       }
@@ -97,21 +135,21 @@ export async function POST(
     // Candidate no-show: interviewer still gets paid, no refund
 
     const updatedSession = await prisma.expertSession.update({
-      where: { id: id },
+      where: { id },
       data: {
         status: 'no_show',
         cancellationReason: `No-show by ${reportedParty}`,
-        paymentStatus: refundId ? 'refunded' : expertSession.paymentStatus,
-        refundId,
-        refundAmount: refundAmount || null,
+        paymentStatus: expertSession.paymentStatus,
+        refundId: null,
+        refundAmount: null,
       },
     });
 
     return NextResponse.json({
       session: updatedSession,
       noShowParty: reportedParty,
-      refunded: !!refundId || !!(expertSession.coachingPackageId && reportedParty === 'interviewer'),
-      refundAmount,
+      refunded: !!(expertSession.coachingPackageId && reportedParty === 'interviewer'),
+      refundAmount: 0,
       message: reportedParty === 'interviewer'
         ? 'Interviewer no-show reported. A full refund has been initiated.'
         : 'Candidate no-show reported. The interviewer will still be compensated.',
