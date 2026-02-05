@@ -1,22 +1,39 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import bcrypt from 'bcryptjs';
+import { checkApiRateLimit } from '@/lib/rate-limit';
+import { getClientIP } from '@/lib/api-middleware';
 
 /**
  * POST /api/admin/grant-root
  *
  * Grants root admin access with lifetime subscription to a user
  *
- * SECURITY: This endpoint should only be called once during setup
- * and then removed or properly secured.
+ * SECURITY: Requires ADMIN_SETUP_SECRET env var to be set.
  */
 export async function POST(request: NextRequest) {
   try {
-    const { email, secretKey } = await request.json();
+    // Rate limit to prevent brute force
+    const identifier = getClientIP(request);
+    const rateLimitResult = await checkApiRateLimit('auth', identifier, { failClosed: true });
 
-    // Basic security check - require a secret key
-    // In production, you should remove this endpoint after setup
-    const SETUP_SECRET = process.env.ADMIN_SETUP_SECRET || 'setup-prepcoach-admin-2025';
+    if (!rateLimitResult.success) {
+      return NextResponse.json(
+        { error: 'Too many attempts. Please try again later.' },
+        { status: 429 }
+      );
+    }
+
+    const SETUP_SECRET = process.env.ADMIN_SETUP_SECRET;
+
+    if (!SETUP_SECRET) {
+      return NextResponse.json(
+        { error: 'Admin setup is not configured' },
+        { status: 503 }
+      );
+    }
+
+    const { email, secretKey } = await request.json();
 
     if (secretKey !== SETUP_SECRET) {
       return NextResponse.json(
@@ -32,8 +49,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    console.log(`🔐 Granting root access to: ${email}`);
-
     // Check if user exists
     const existingUser = await prisma.user.findUnique({
       where: { email },
@@ -42,9 +57,6 @@ export async function POST(request: NextRequest) {
     let user;
 
     if (existingUser) {
-      // Update existing user
-      console.log('✓ User found, updating permissions...');
-
       user = await prisma.user.update({
         where: { email },
         data: {
@@ -59,12 +71,7 @@ export async function POST(request: NextRequest) {
         },
       });
 
-      console.log('✅ Existing user updated with root access');
-
     } else {
-      // Create new user with root access
-      console.log('✓ User not found, creating new account with root access...');
-
       // Generate a random secure password (they'll use Google OAuth anyway)
       const randomPassword = Math.random().toString(36).slice(-16) + Math.random().toString(36).slice(-16);
       const hashedPassword = await bcrypt.hash(randomPassword, 12);
@@ -85,7 +92,6 @@ export async function POST(request: NextRequest) {
         },
       });
 
-      console.log('✅ New user created with root access');
     }
 
     return NextResponse.json({

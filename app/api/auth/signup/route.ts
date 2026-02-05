@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
   try {
     // Apply rate limiting to prevent brute force attacks
     const identifier = getClientIP(request);
-    const rateLimitResult = await checkApiRateLimit('auth', identifier);
+    const rateLimitResult = await checkApiRateLimit('auth', identifier, { failClosed: true });
 
     if (!rateLimitResult.success) {
       const resetDate = new Date(rateLimitResult.reset);
@@ -50,10 +50,15 @@ export async function POST(request: NextRequest) {
     });
 
     if (existingUser) {
-      return NextResponse.json(
-        { error: 'User already exists' },
-        { status: 400 }
-      );
+      // Return generic success to prevent email enumeration
+      return NextResponse.json({
+        user: {
+          id: existingUser.id,
+          name: existingUser.name,
+          email: existingUser.email,
+        },
+        message: 'Account created! Please check your email to verify your account.',
+      });
     }
 
     // Hash password

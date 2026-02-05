@@ -36,6 +36,8 @@ pnpm-debug.log*
 .env.test.local
 .env.production.local
 .env.production
+.env.preview
+.env.prod
 
 # Credentials and test files - DO NOT COMMIT
 YOUR_CREDENTIALS.md
