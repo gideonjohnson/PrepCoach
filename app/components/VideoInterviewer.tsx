@@ -47,9 +47,9 @@ export default function VideoInterviewer({
     try {
       // Realistic video is disabled - use animated avatar with audio
       await generateAudioOnly();
-    } catch (err: any) {
+    } catch (err) {
       console.error('Media generation error:', err);
-      const errorMessage = err.message || 'Failed to generate interviewer media';
+      const errorMessage = err instanceof Error ? err.message : 'Failed to generate interviewer media';
       setError(errorMessage);
       // Fallback to browser TTS
       playWithBrowserTTS();

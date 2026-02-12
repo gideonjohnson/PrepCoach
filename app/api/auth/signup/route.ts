@@ -39,7 +39,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { name, email, password } = validation.data;
+    const { name, email, password, role } = validation.data;
 
     // Normalize email to lowercase to prevent duplicates
     const normalizedEmail = email.toLowerCase().trim();
@@ -67,12 +67,16 @@ export async function POST(request: NextRequest) {
     // Check if email service is configured
     const emailServiceConfigured = process.env.RESEND_API_KEY && process.env.RESEND_API_KEY !== 'your_resend_api_key_here';
 
+    // Map 'candidate' to 'user' for database (database uses 'user' for job seekers)
+    const dbRole = role === 'candidate' ? 'user' : role;
+
     // Create user - auto-verify if email service not configured
     const user = await prisma.user.create({
       data: {
         name,
         email: normalizedEmail,
         password: hashedPassword,
+        role: dbRole,
         emailVerified: emailServiceConfigured ? null : new Date(), // Auto-verify if no email service
       }
     });

@@ -23,7 +23,7 @@ export async function GET(req: NextRequest) {
     const result = await verifyTransaction(reference);
 
     if (result.status && result.data.status === 'success') {
-      const { metadata, plan } = result.data;
+      const { metadata } = result.data;
       const userId = metadata.userId;
       const tier = metadata.tier;
 
@@ -51,10 +51,11 @@ export async function GET(req: NextRequest) {
       { error: 'Payment verification failed' },
       { status: 400 }
     );
-  } catch (error: any) {
+  } catch (error) {
     console.error('Paystack verification error:', error);
+    const message = error instanceof Error ? error.message : 'Failed to verify payment';
     return NextResponse.json(
-      { error: error.message || 'Failed to verify payment' },
+      { error: message },
       { status: 500 }
     );
   }

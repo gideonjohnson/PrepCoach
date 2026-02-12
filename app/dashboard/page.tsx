@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useMemo } from 'react';
 import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Header from '../components/Header';
 import Breadcrumbs from '../components/Breadcrumbs';
@@ -44,10 +45,25 @@ interface InterviewSession {
 }
 
 export default function DashboardPage() {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
+  const router = useRouter();
   const [sessions, setSessions] = useState<InterviewSession[]>([]);
   const [filter, setFilter] = useState<'all' | 'completed' | 'in-progress'>('all');
   const [loading, setLoading] = useState(true);
+
+  // Role-based redirect
+  useEffect(() => {
+    if (status === 'authenticated' && session?.user?.role) {
+      if (session.user.role === 'interviewer') {
+        router.replace('/interviewer/profile');
+        return;
+      }
+      if (session.user.role === 'recruiter') {
+        router.replace('/recruiter/dashboard');
+        return;
+      }
+    }
+  }, [status, session?.user?.role, router]);
 
   // Get category emoji
   const getCategoryEmoji = (category: string) => {

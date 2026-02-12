@@ -2,17 +2,34 @@
 
 import { useState } from 'react';
 import { signIn } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
+import { Suspense } from 'react';
 
-export default function SignUpPage() {
+function SignUpForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const role = searchParams.get('role') || 'candidate';
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+
+  // Get role display info
+  const getRoleInfo = () => {
+    switch (role) {
+      case 'interviewer':
+        return { title: 'Expert Interviewer', color: 'from-blue-500 to-purple-600', description: 'Start earning by conducting mock interviews' };
+      case 'recruiter':
+        return { title: 'Recruiter', color: 'from-green-500 to-emerald-600', description: 'Access pre-vetted engineering talent' };
+      default:
+        return { title: 'Job Seeker', color: 'from-orange-500 to-red-500', description: 'Create your account and start practicing' };
+    }
+  };
+
+  const roleInfo = getRoleInfo();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -21,13 +38,13 @@ export default function SignUpPage() {
     setIsLoading(true);
 
     try {
-      // Create user account
+      // Create user account with role
       const response = await fetch('/api/auth/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ name, email, password }),
+        body: JSON.stringify({ name, email, password, role }),
       });
 
       const data = await response.json();
@@ -80,11 +97,16 @@ export default function SignUpPage() {
         {/* Logo/Header */}
         <div className="text-center mb-8">
           <Link href="/">
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent mb-2 cursor-pointer">
+            <h1 className={`text-4xl font-bold bg-gradient-to-r ${roleInfo.color} bg-clip-text text-transparent mb-2 cursor-pointer`}>
               PrepCoach
             </h1>
           </Link>
-          <p className="text-gray-300">Create your account and start practicing</p>
+          {role !== 'candidate' && (
+            <div className={`inline-block mb-2 px-3 py-1 bg-gradient-to-r ${roleInfo.color} rounded-full`}>
+              <span className="text-white text-sm font-semibold">{roleInfo.title}</span>
+            </div>
+          )}
+          <p className="text-gray-300">{roleInfo.description}</p>
         </div>
 
         {/* Sign Up Form */}
@@ -164,7 +186,7 @@ export default function SignUpPage() {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full px-6 py-3 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-lg font-semibold hover:from-orange-600 hover:to-red-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md hover:shadow-lg"
+              className={`w-full px-6 py-3 bg-gradient-to-r ${roleInfo.color} text-white rounded-lg font-semibold hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md hover:shadow-lg`}
             >
               {isLoading ? 'Creating account...' : 'Sign Up'}
             </button>
@@ -190,7 +212,7 @@ export default function SignUpPage() {
               <div className="space-y-3">
                 <button
                   type="button"
-                  onClick={() => signIn('google', { callbackUrl: '/auth/welcome' })}
+                  onClick={() => signIn('google', { callbackUrl: `/auth/welcome?role=${role}` })}
                   disabled={isLoading}
                   className="w-full flex items-center justify-center gap-3 px-6 py-3 bg-white border-2 border-gray-300 rounded-lg font-semibold text-gray-700 hover:bg-gray-50 hover:border-gray-400 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                 >
@@ -205,7 +227,7 @@ export default function SignUpPage() {
 
                 <button
                   type="button"
-                  onClick={() => signIn('github', { callbackUrl: '/auth/welcome' })}
+                  onClick={() => signIn('github', { callbackUrl: `/auth/welcome?role=${role}` })}
                   disabled={isLoading}
                   className="w-full flex items-center justify-center gap-3 px-6 py-3 bg-gray-900 border-2 border-gray-900 rounded-lg font-semibold text-white hover:bg-gray-800 hover:border-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                 >
@@ -229,5 +251,17 @@ export default function SignUpPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function SignUpPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-black flex items-center justify-center">
+        <div className="w-8 h-8 border-2 border-orange-500 border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    }>
+      <SignUpForm />
+    </Suspense>
   );
 }

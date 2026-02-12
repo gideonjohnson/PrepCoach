@@ -78,7 +78,7 @@ function PracticeContent() {
   const [selectedExperienceLevel, setSelectedExperienceLevel] = useState<ExperienceLevel>('entry');
   const [selectedStage, setSelectedStage] = useState<1 | 2 | 3>(1);
   const [showStageModal, setShowStageModal] = useState(false);
-  const [stageProgress, setStageProgress] = useState<any[]>([]);
+  const [stageProgress, setStageProgress] = useState<{ stage: number; isUnlocked: boolean; completionPercentage: number }[]>([]);
 
   // Removed payment gate - free tier users now get 3 interviews/month
   // Limits are enforced by /api/user/check-limits endpoint
@@ -101,7 +101,7 @@ function PracticeContent() {
 
             if (role) {
               // Find first unanswered question
-              const firstUnanswered = session.responses.findIndex((r: any) => !r.audioURL);
+              const firstUnanswered = session.responses.findIndex((r: { audioURL?: string }) => !r.audioURL);
               const startQuestion = firstUnanswered >= 0 ? firstUnanswered : session.responses.length - 1;
 
               setResumeData({
@@ -1128,12 +1128,12 @@ function InterviewSession({
           duration: 3000,
         });
       }
-    } catch (error: any) {
+    } catch (error) {
       console.error('Error getting feedback:', error);
       toast.dismiss(transcribeToast);
 
       // Check if it's a transcription error
-      if (error?.message?.includes('transcribe')) {
+      if (error instanceof Error && error.message?.includes('transcribe')) {
         toast.error('Failed to transcribe audio. Please ensure your microphone is working and try recording again.', {
           duration: 5000,
         });
@@ -1425,8 +1425,8 @@ function InterviewSession({
                     setResponses(updatedResponses);
                     setShowFeedback(true);
                     toast.success('Code review complete!');
-                  } catch (error: any) {
-                    toast.error(error.message || 'Failed to analyze code');
+                  } catch (error) {
+                    toast.error(error instanceof Error ? error.message : 'Failed to analyze code');
                   } finally {
                     setIsAnalyzing(false);
                   }

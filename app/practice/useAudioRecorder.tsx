@@ -68,11 +68,11 @@ export function useAudioRecorder(): UseAudioRecorderReturn {
     if (support.supported && navigator.permissions) {
       navigator.permissions.query({ name: 'microphone' as PermissionName })
         .then(permissionObj => {
-          setPermissionStatus(permissionObj.state as any);
+          setPermissionStatus(permissionObj.state as 'granted' | 'denied' | 'prompt');
 
           // Listen for permission changes
           permissionObj.onchange = () => {
-            setPermissionStatus(permissionObj.state as any);
+            setPermissionStatus(permissionObj.state as 'granted' | 'denied' | 'prompt');
           };
         })
         .catch(err => {
@@ -179,7 +179,7 @@ export function useAudioRecorder(): UseAudioRecorderReturn {
         }
       };
 
-      mediaRecorder.onerror = (event: any) => {
+      mediaRecorder.onerror = (event) => {
         console.error('MediaRecorder error:', event);
         toast.error('Recording error occurred. Please try again.', { duration: 5000 });
         setIsRecording(false);
@@ -200,11 +200,12 @@ export function useAudioRecorder(): UseAudioRecorderReturn {
       timerRef.current = setInterval(() => {
         setRecordingTime(prev => prev + 1);
       }, 1000);
-    } catch (error: any) {
+    } catch (error) {
       console.error('Error accessing microphone:', error);
 
       // Detailed error handling with user-friendly messages
-      if (error.name === 'NotAllowedError' || error.name === 'PermissionDeniedError') {
+      const err = error as { name?: string; message?: string };
+      if (err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError') {
         setPermissionStatus('denied');
         toast.error(
           (t) => (
@@ -220,24 +221,24 @@ export function useAudioRecorder(): UseAudioRecorderReturn {
           ),
           { duration: 7000 }
         );
-      } else if (error.name === 'NotFoundError' || error.name === 'DevicesNotFoundError') {
+      } else if (err.name === 'NotFoundError' || err.name === 'DevicesNotFoundError') {
         toast.error(
           'No microphone found. Please connect a microphone and try again.',
           { duration: 6000 }
         );
-      } else if (error.name === 'NotReadableError' || error.name === 'TrackStartError') {
+      } else if (err.name === 'NotReadableError' || err.name === 'TrackStartError') {
         toast.error(
           'Microphone is already in use. Please close other applications using your microphone and try again.',
           { duration: 6000 }
         );
-      } else if (error.name === 'OverconstrainedError') {
+      } else if (err.name === 'OverconstrainedError') {
         toast.error(
           'Your microphone does not meet the requirements. Try using a different microphone.',
           { duration: 6000 }
         );
       } else {
         toast.error(
-          `Unable to access microphone: ${error.message || 'Unknown error'}`,
+          `Unable to access microphone: ${err.message || 'Unknown error'}`,
           { duration: 5000 }
         );
       }
@@ -301,11 +302,11 @@ export function useAudioRecorder(): UseAudioRecorderReturn {
       }
 
       return data.transcript || '[No speech detected]';
-    } catch (error: any) {
+    } catch (error) {
       console.error('Transcription error:', error);
 
       // Re-throw with the original error message if available
-      if (error.message) {
+      if (error instanceof Error && error.message) {
         throw error;
       }
 

@@ -62,7 +62,7 @@ export async function GET(request: NextRequest) {
     }
 
     return NextResponse.json({ stages }, { status: 200 });
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error fetching stage progress:', error);
     return NextResponse.json(
       { error: 'Failed to fetch stage progress' },
@@ -142,7 +142,7 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json({ progress }, { status: 200 });
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error updating stage progress:', error);
     return NextResponse.json(
       { error: 'Failed to update stage progress' },

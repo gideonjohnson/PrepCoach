@@ -8,7 +8,10 @@ import {
   JobOffer,
   CompensationBreakdown,
   NegotiationScript,
+  NegotiationLeverage,
   MarketData,
+  ExperienceLevel,
+  Location,
   EXPERIENCE_LEVELS,
   LOCATIONS,
 } from './types';
@@ -63,7 +66,7 @@ function SalaryNegotiationContent() {
 
   const [offers, setOffers] = useState<JobOffer[]>([]);
   const [selectedScripts, setSelectedScripts] = useState<NegotiationScript[]>([]);
-  const [negotiationLeverage, setNegotiationLeverage] = useState<any>(null);
+  const [negotiationLeverage, setNegotiationLeverage] = useState<NegotiationLeverage | null>(null);
 
   // Redirect if not authenticated
   useEffect(() => {
@@ -78,8 +81,8 @@ function SalaryNegotiationContent() {
     try {
       const data = await getMarketData(
         marketForm.role,
-        marketForm.level as any,
-        marketForm.location as any
+        marketForm.level as ExperienceLevel,
+        marketForm.location as Location
       );
       setMarketData(data);
     } catch (error) {
@@ -212,7 +215,7 @@ function SalaryNegotiationContent() {
           ].map((tab) => (
             <button
               key={tab.id}
-              onClick={() => setActiveTab(tab.id as any)}
+              onClick={() => setActiveTab(tab.id as 'market' | 'calculator' | 'scripts' | 'compare')}
               className={`px-6 py-3 rounded-lg font-medium transition-all duration-200 ${
                 activeTab === tab.id
                   ? 'bg-blue-600 text-white shadow-md'

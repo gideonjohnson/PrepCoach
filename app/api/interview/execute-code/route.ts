@@ -66,18 +66,22 @@ export async function POST(request: NextRequest) {
     });
     */
 
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error executing code:', error);
+    const message = process.env.NODE_ENV === 'development'
+      ? (error instanceof Error ? error.message : 'Unknown error')
+      : 'An internal error occurred';
     return NextResponse.json(
       {
         error: 'Failed to execute code',
-        message: process.env.NODE_ENV === 'development' ? (error?.message || 'Unknown error') : 'An internal error occurred',
+        message,
       },
       { status: 500 }
     );
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function getFileExtension(language: string): string {
   const extensions: Record<string, string> = {
     javascript: 'js',

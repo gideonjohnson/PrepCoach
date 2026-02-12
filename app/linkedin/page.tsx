@@ -57,7 +57,7 @@ function LinkedInOptimizerContent() {
         headline: parsed.headline || '',
         about: parsed.about || '',
         experience: parsed.experience && parsed.experience.length > 0
-          ? parsed.experience.map((exp: any) => ({
+          ? parsed.experience.map((exp: { title?: string; company?: string; duration?: string; description?: string }) => ({
               title: exp.title || '',
               company: exp.company || '',
               duration: exp.duration || '',
@@ -74,9 +74,9 @@ function LinkedInOptimizerContent() {
       setShowImportModal(false);
       setImportText('');
       alert('Profile imported successfully! Review the fields and make any adjustments.');
-    } catch (error: any) {
+    } catch (error) {
       console.error('Import error:', error);
-      alert(error.message || 'Failed to import profile. Please try again.');
+      alert(error instanceof Error ? error.message : 'Failed to import profile. Please try again.');
     } finally {
       setIsImporting(false);
     }
@@ -189,7 +189,7 @@ function LinkedInOptimizerContent() {
             ].map((tab) => (
               <button
                 key={tab.id}
-                onClick={() => setActiveTab(tab.id as any)}
+                onClick={() => setActiveTab(tab.id as 'input' | 'optimize' | 'skills' | 'connect' | 'visibility')}
                 className={`px-6 py-3 rounded-lg font-medium text-sm whitespace-nowrap transition-all snap-start active:scale-95 ${
                   activeTab === tab.id
                     ? 'bg-blue-600 text-white shadow-sm'
@@ -539,8 +539,15 @@ function LinkedInOptimizerContent() {
   );
 }
 
+interface OptimizationTabProps {
+  profile: LinkedInProfile;
+  optimizedProfile: Partial<OptimizedProfile>;
+  profileScore: ProfileScore;
+  keywordAnalysis: KeywordAnalysis;
+}
+
 // Optimization Tab Component
-function OptimizationTab({ profile, optimizedProfile, profileScore, keywordAnalysis }: any) {
+function OptimizationTab({ profile, optimizedProfile, profileScore, keywordAnalysis }: OptimizationTabProps) {
   const [copiedSection, setCopiedSection] = useState<string | null>(null);
   const assessment = generateProfileAssessment(profileScore);
 
@@ -694,8 +701,15 @@ function ScoreCard({ label, score }: { label: string; score: number }) {
   );
 }
 
+interface SkillsTabProps {
+  profile: LinkedInProfile;
+  skillRecommendations: SkillRecommendation[];
+  keywordAnalysis: KeywordAnalysis;
+  targetRole: string;
+}
+
 // Skills Tab Component
-function SkillsTab({ profile, skillRecommendations, keywordAnalysis, targetRole }: any) {
+function SkillsTab({ profile, skillRecommendations, keywordAnalysis, targetRole }: SkillsTabProps) {
   const skillsGap = generateSkillsGapSummary(profile, skillRecommendations);
   const { reorderedSkills, reasoning } = optimizeSkillsOrder(profile.skills || [], keywordAnalysis, targetRole);
 
@@ -784,7 +798,7 @@ function ConnectionTab() {
   const templates = getConnectionTemplates();
   const [selectedTemplate, setSelectedTemplate] = useState(templates[0]);
   const [customizedMessage, setCustomizedMessage] = useState('');
-  const [messageScore, setMessageScore] = useState<any>(null);
+  const [messageScore, setMessageScore] = useState<{ score: number; strengths: string[]; improvements: string[] } | null>(null);
 
   const handleCustomize = () => {
     const score = scoreConnectionMessage(customizedMessage);

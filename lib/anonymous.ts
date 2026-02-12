@@ -29,7 +29,7 @@ export function generateSessionAliases(): {
   candidateAlias: string;
   interviewerAlias: string;
 } {
-  let candidateAlias = generateAnonymousAlias();
+  const candidateAlias = generateAnonymousAlias();
   let interviewerAlias = generateAnonymousAlias();
 
   // Ensure they're different

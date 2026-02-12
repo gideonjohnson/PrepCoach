@@ -32,11 +32,25 @@ export interface UseMediaPipeReturn {
   cleanup: () => void;
 }
 
+// MediaPipe model interfaces
+interface MediaPipeModel {
+  setOptions: (options: Record<string, unknown>) => void;
+  initialize: () => Promise<void>;
+  onResults: (callback: (results: MediaPipeResults) => void) => void;
+  send: (input: { image: HTMLCanvasElement }) => void;
+  close: () => void;
+}
+
+interface MediaPipeResults {
+  multiFaceLandmarks?: Array<Array<{ x: number; y: number; z: number }>>;
+  poseLandmarks?: Array<{ x: number; y: number; z: number; visibility?: number }>;
+}
+
 export function useMediaPipe(): UseMediaPipeReturn {
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const faceMeshRef = useRef<any>(null);
-  const poseRef = useRef<any>(null);
+  const faceMeshRef = useRef<MediaPipeModel | null>(null);
+  const poseRef = useRef<MediaPipeModel | null>(null);
   const isInitializing = useRef(false);
 
   // Initialize MediaPipe models
@@ -84,8 +98,8 @@ export function useMediaPipe(): UseMediaPipeReturn {
             await faceMesh.initialize();
             faceMeshRef.current = faceMesh;
             console.log('✅ Face Mesh loaded');
-          } catch (err: any) {
-            console.warn('Face Mesh initialization failed:', err.message);
+          } catch (err) {
+            console.warn('Face Mesh initialization failed:', err instanceof Error ? err.message : String(err));
           }
         }
 
@@ -110,8 +124,8 @@ export function useMediaPipe(): UseMediaPipeReturn {
             await pose.initialize();
             poseRef.current = pose;
             console.log('✅ Pose detection loaded');
-          } catch (err: any) {
-            console.warn('Pose initialization failed:', err.message);
+          } catch (err) {
+            console.warn('Pose initialization failed:', err instanceof Error ? err.message : String(err));
           }
         }
 
@@ -122,12 +136,13 @@ export function useMediaPipe(): UseMediaPipeReturn {
         } else {
           throw new Error('No MediaPipe models could be initialized');
         }
-      } catch (err: any) {
+      } catch (err) {
         console.error('❌ Failed to load MediaPipe:', err);
+        const errMessage = err instanceof Error ? err.message : 'Failed to initialize MediaPipe models';
         const errorMessage =
-          err.message?.includes('arguments_')
+          errMessage.includes('arguments_')
             ? 'Visual analytics temporarily unavailable. Vocal analysis will continue.'
-            : err.message || 'Failed to initialize MediaPipe models';
+            : errMessage;
         setError(errorMessage);
         setIsLoaded(false);
       }
@@ -166,15 +181,15 @@ export function useMediaPipe(): UseMediaPipeReturn {
       ctx.putImageData(imageData, 0, 0);
 
       // Run face mesh detection
-      const results = await new Promise<any>((resolve) => {
-        faceMeshRef.current.onResults(resolve);
-        faceMeshRef.current.send({ image: canvas });
+      const results = await new Promise<MediaPipeResults>((resolve) => {
+        faceMeshRef.current!.onResults(resolve);
+        faceMeshRef.current!.send({ image: canvas });
       });
 
       if (results.multiFaceLandmarks && results.multiFaceLandmarks.length > 0) {
         const landmarks = results.multiFaceLandmarks[0];
         return {
-          landmarks: landmarks.map((lm: any) => ({
+          landmarks: landmarks.map((lm: { x: number; y: number; z: number }) => ({
             x: lm.x,
             y: lm.y,
             z: lm.z,
@@ -205,19 +220,19 @@ export function useMediaPipe(): UseMediaPipeReturn {
       ctx.putImageData(imageData, 0, 0);
 
       // Run pose detection
-      const results = await new Promise<any>((resolve) => {
-        poseRef.current.onResults(resolve);
-        poseRef.current.send({ image: canvas });
+      const results = await new Promise<MediaPipeResults>((resolve) => {
+        poseRef.current!.onResults(resolve);
+        poseRef.current!.send({ image: canvas });
       });
 
       if (results.poseLandmarks && results.poseLandmarks.length > 0) {
         return {
-          landmarks: results.poseLandmarks.map((lm: any) => ({
+          landmarks: results.poseLandmarks.map((lm: { x: number; y: number; z: number; visibility?: number }) => ({
             x: lm.x,
             y: lm.y,
             z: lm.z,
           })),
-          visibility: results.poseLandmarks.map((lm: any) => lm.visibility || 0),
+          visibility: results.poseLandmarks.map((lm: { visibility?: number }) => lm.visibility || 0),
         };
       }
 

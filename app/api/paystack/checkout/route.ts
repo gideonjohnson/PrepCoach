@@ -46,7 +46,7 @@ export async function POST(req: NextRequest) {
       amount,
       planCode,
       {
-        userId: (session.user as any).id,
+        userId: (session.user as { id: string }).id,
         tier,
         cancel_action: `${process.env.NEXTAUTH_URL}/payment/cancel`,
       }
@@ -61,10 +61,11 @@ export async function POST(req: NextRequest) {
     } else {
       throw new Error('Failed to initialize transaction');
     }
-  } catch (error: any) {
+  } catch (error) {
     console.error('Paystack checkout error:', error);
+    const message = error instanceof Error ? error.message : 'Failed to create checkout session';
     return NextResponse.json(
-      { error: error.message || 'Failed to create checkout session' },
+      { error: message },
       { status: 500 }
     );
   }

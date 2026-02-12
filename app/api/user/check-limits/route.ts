@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../../auth/[...nextauth]/route';
 import { prisma } from '@/lib/prisma';
-import { canUseFeature, PRICING_TIERS } from '@/lib/pricing';
+import { canUseFeature, PRICING_TIERS, SubscriptionTier } from '@/lib/pricing';
 
 // GET /api/user/check-limits - Check if user can use a feature
 export async function GET(request: NextRequest) {
@@ -67,7 +67,7 @@ export async function GET(request: NextRequest) {
     }
 
     const result = canUseFeature(
-      user.subscriptionTier as any,
+      user.subscriptionTier as SubscriptionTier,
       interviewsThisMonth,
       feedbackThisMonth,
       feature

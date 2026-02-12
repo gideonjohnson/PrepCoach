@@ -3,6 +3,7 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import toast from 'react-hot-toast';
+import { systemDesignTemplates, DiagramTemplate } from '@/lib/system-design-templates';
 
 // Dynamically import Excalidraw to avoid SSR issues
 const Excalidraw = dynamic(
@@ -48,8 +49,14 @@ export default function SystemDesignCanvas({
   } | null>(null);
   const [showAnalysis, setShowAnalysis] = useState(false);
   const [checkedRequirements, setCheckedRequirements] = useState<Set<number>>(new Set());
-  const excalidrawRef = useRef<{ getSceneElements: () => unknown[]; getAppState: () => Record<string, unknown> } | null>(null);
+  const [showTemplates, setShowTemplates] = useState(false);
+  const excalidrawRef = useRef<{
+    getSceneElements: () => unknown[];
+    getAppState: () => Record<string, unknown>;
+    updateScene: (scene: { elements: unknown[] }) => void;
+  } | null>(null);
   const snapshotIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const templateDropdownRef = useRef<HTMLDivElement>(null);
 
   // Auto-save snapshots every 60 seconds
   useEffect(() => {
@@ -114,6 +121,61 @@ export default function SystemDesignCanvas({
     });
   };
 
+  const loadTemplate = (template: DiagramTemplate) => {
+    if (!excalidrawRef.current) return;
+
+    // Get current elements to merge with template
+    const currentElements = excalidrawRef.current.getSceneElements();
+
+    // Calculate offset to avoid overlapping with existing elements
+    let offsetX = 0;
+    if (currentElements && currentElements.length > 0) {
+      const maxX = Math.max(
+        ...(currentElements as Array<{ x: number; width?: number }>).map(
+          (el) => el.x + (el.width || 0)
+        )
+      );
+      offsetX = maxX + 100;
+    }
+
+    // Apply offset to template elements
+    const offsetElements = (template.elements as Array<{ x: number; [key: string]: unknown }>).map(
+      (el) => ({
+        ...el,
+        x: el.x + offsetX,
+      })
+    );
+
+    // Merge with existing elements
+    const mergedElements = [...(currentElements as unknown[]), ...offsetElements];
+
+    excalidrawRef.current.updateScene({ elements: mergedElements });
+    setShowTemplates(false);
+    toast.success(`Loaded "${template.name}" template`);
+  };
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (templateDropdownRef.current && !templateDropdownRef.current.contains(event.target as Node)) {
+        setShowTemplates(false);
+      }
+    };
+
+    if (showTemplates) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [showTemplates]);
+
+  // Group templates by category
+  const templatesByCategory = systemDesignTemplates.reduce((acc, template) => {
+    const category = template.category;
+    if (!acc[category]) acc[category] = [];
+    acc[category].push(template);
+    return acc;
+  }, {} as Record<string, DiagramTemplate[]>);
+
   return (
     <div className="flex h-full bg-white rounded-xl overflow-hidden border-2 border-gray-200">
       {/* Sidebar - Requirements */}
@@ -173,8 +235,55 @@ export default function SystemDesignCanvas({
       <div className="flex-1 flex flex-col">
         {/* Toolbar */}
         <div className="flex items-center justify-between px-4 py-2 border-b border-gray-200 bg-gray-50">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-4">
             <span className="text-sm font-medium text-gray-700">System Design Canvas</span>
+
+            {/* Template Selector */}
+            {!readOnly && (
+              <div className="relative" ref={templateDropdownRef}>
+                <button
+                  onClick={() => setShowTemplates(!showTemplates)}
+                  className="flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-gray-700 hover:text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
+                  </svg>
+                  Templates
+                  <svg className={`w-4 h-4 transition-transform ${showTemplates ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+
+                {/* Dropdown */}
+                {showTemplates && (
+                  <div className="absolute top-full left-0 mt-2 w-80 bg-white rounded-xl shadow-xl border border-gray-200 z-50 max-h-96 overflow-y-auto">
+                    <div className="p-3 border-b border-gray-100">
+                      <p className="text-xs text-gray-500">
+                        Click a template to add it to your canvas. Templates will be placed next to existing elements.
+                      </p>
+                    </div>
+
+                    {Object.entries(templatesByCategory).map(([category, templates]) => (
+                      <div key={category} className="py-2">
+                        <div className="px-3 py-1 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                          {category}
+                        </div>
+                        {templates.map((template) => (
+                          <button
+                            key={template.id}
+                            onClick={() => loadTemplate(template)}
+                            className="w-full px-3 py-2 text-left hover:bg-orange-50 transition-colors flex flex-col"
+                          >
+                            <span className="font-medium text-gray-900 text-sm">{template.name}</span>
+                            <span className="text-xs text-gray-500">{template.description}</span>
+                          </button>
+                        ))}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
           </div>
 
           <div className="flex items-center gap-2">
@@ -217,7 +326,7 @@ export default function SystemDesignCanvas({
         {/* Canvas */}
         <div className="flex-1 relative">
           <Excalidraw
-            ref={excalidrawRef as unknown as React.RefObject<{ getSceneElements: () => unknown[]; getAppState: () => Record<string, unknown> }>}
+            ref={excalidrawRef as unknown as React.RefObject<{ getSceneElements: () => unknown[]; getAppState: () => Record<string, unknown>; updateScene: (scene: { elements: unknown[] }) => void }>}
             initialData={initialData ? {
               elements: initialData.elements as unknown[],
               appState: initialData.appState as Record<string, unknown>,

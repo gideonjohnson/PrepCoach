@@ -65,13 +65,14 @@ async function testPaystackConnection() {
     if (response.status === 200) {
       log('✅ API Keys are valid!\n', 'green');
     }
-  } catch (error: any) {
-    if (error.response?.status === 401) {
+  } catch (error) {
+    const axiosError = error as { response?: { status?: number } };
+    if (axiosError.response?.status === 401) {
       log('❌ Invalid API Keys', 'red');
       log('   Please check your Paystack secret key\n', 'yellow');
       process.exit(1);
     } else {
-      log(`✅ API Keys are valid! (${error.response?.status || 'Unknown status'})\n`, 'green');
+      log(`✅ API Keys are valid! (${axiosError.response?.status || 'Unknown status'})\n`, 'green');
     }
   }
 
@@ -92,7 +93,7 @@ async function testPaystackConnection() {
         log('   You need to create subscription plans in Paystack Dashboard\n', 'yellow');
       } else {
         log(`✅ Found ${plans.length} plan(s):`, 'green');
-        plans.forEach((plan: any) => {
+        plans.forEach((plan: { name: string; amount: number; interval: string; plan_code: string }) => {
           const amount = plan.amount / 100; // Convert from kobo to naira
           log(`   • ${plan.name} - ₦${amount.toLocaleString()}/${plan.interval}`, 'blue');
           log(`     Plan Code: ${plan.plan_code}`, 'blue');
@@ -100,9 +101,9 @@ async function testPaystackConnection() {
         log('');
       }
     }
-  } catch (error: any) {
+  } catch (error) {
     log('❌ Failed to fetch plans', 'red');
-    log(`   Error: ${error.message}\n`, 'red');
+    log(`   Error: ${error instanceof Error ? error.message : String(error)}\n`, 'red');
   }
 
   // Test 3: Check Environment Variables

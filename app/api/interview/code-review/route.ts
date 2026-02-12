@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Apply rate limiting for AI code review endpoint
-    const identifier = (session?.user as any)?.id;
+    const identifier = (session?.user as { id: string })?.id;
     const rateLimit = await checkApiRateLimit('aiFeedback', identifier);
 
     if (!rateLimit.success) {
@@ -137,12 +137,13 @@ Be honest, specific, and focus on helping them improve. Reference actual code fr
     }
 
     return NextResponse.json({ feedback });
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error reviewing code:', error);
+    const message = error instanceof Error ? error.message : 'Unknown error';
     return NextResponse.json(
       {
         error: 'Failed to review code',
-        message: error?.message || 'Unknown error',
+        message,
       },
       { status: 500 }
     );

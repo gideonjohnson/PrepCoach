@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
     const session = await getServerSession(authOptions);
 
     // Apply rate limiting for AI TTS endpoint
-    const identifier = (session?.user as any)?.id || req.headers.get('x-forwarded-for') || 'unknown';
+    const identifier = (session?.user as { id?: string })?.id || req.headers.get('x-forwarded-for') || 'unknown';
     const rateLimit = await checkApiRateLimit('aiFeedback', identifier);
 
     if (!rateLimit.success) {

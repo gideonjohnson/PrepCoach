@@ -158,7 +158,7 @@ function CareerRoadmapContent() {
             ].map((tab) => (
               <button
                 key={tab.id}
-                onClick={() => setActiveTab(tab.id as any)}
+                onClick={() => setActiveTab(tab.id as 'input' | 'gap-analysis' | 'learning-paths' | 'timeline' | 'certifications')}
                 className={`px-6 py-3 rounded-lg font-medium text-sm whitespace-nowrap transition-all snap-start active:scale-95 ${
                   activeTab === tab.id
                     ? 'bg-blue-600 text-white shadow-sm'
@@ -276,7 +276,7 @@ function CareerRoadmapContent() {
                 <div>
                   <select
                     value={selectedCategory}
-                    onChange={(e) => setSelectedCategory(e.target.value as any)}
+                    onChange={(e) => setSelectedCategory(e.target.value as 'technical' | 'soft' | 'domain' | 'leadership')}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                   >
                     <option value="technical">Technical</option>
@@ -289,7 +289,7 @@ function CareerRoadmapContent() {
                 <div>
                   <select
                     value={selectedProficiency}
-                    onChange={(e) => setSelectedProficiency(parseInt(e.target.value) as any)}
+                    onChange={(e) => setSelectedProficiency(parseInt(e.target.value) as 0 | 1 | 2 | 3 | 4 | 5)}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                   >
                     <option value="1">1 - Beginner</option>

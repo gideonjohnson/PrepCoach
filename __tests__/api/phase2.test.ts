@@ -10,60 +10,59 @@
  * - Feedback system
  */
 
-import { describe, it, expect, beforeAll, afterAll, vi } from 'vitest';
-
 // Mock next-auth
-vi.mock('next-auth', () => ({
-  getServerSession: vi.fn(),
+jest.mock('next-auth', () => ({
+  getServerSession: jest.fn(),
 }));
 
 // Mock Prisma
-vi.mock('@/lib/prisma', () => ({
+jest.mock('@/lib/prisma', () => ({
+  __esModule: true,
   default: {
     interviewer: {
-      findUnique: vi.fn(),
-      findMany: vi.fn(),
-      create: vi.fn(),
-      update: vi.fn(),
-      count: vi.fn(),
+      findUnique: jest.fn(),
+      findMany: jest.fn(),
+      create: jest.fn(),
+      update: jest.fn(),
+      count: jest.fn(),
     },
     user: {
-      findUnique: vi.fn(),
-      update: vi.fn(),
+      findUnique: jest.fn(),
+      update: jest.fn(),
     },
     expertSession: {
-      findUnique: vi.fn(),
-      findMany: vi.fn(),
-      findFirst: vi.fn(),
-      create: vi.fn(),
-      update: vi.fn(),
+      findUnique: jest.fn(),
+      findMany: jest.fn(),
+      findFirst: jest.fn(),
+      create: jest.fn(),
+      update: jest.fn(),
     },
     interviewerReview: {
-      create: vi.fn(),
-      findMany: vi.fn(),
-      findFirst: vi.fn(),
+      create: jest.fn(),
+      findMany: jest.fn(),
+      findFirst: jest.fn(),
     },
     coachingPackage: {
-      create: vi.fn(),
-      update: vi.fn(),
+      create: jest.fn(),
+      update: jest.fn(),
     },
   },
 }));
 
 // Mock Stripe
-vi.mock('stripe', () => {
+jest.mock('stripe', () => {
   return {
-    default: vi.fn().mockImplementation(() => ({
+    default: jest.fn().mockImplementation(() => ({
       checkout: {
         sessions: {
-          create: vi.fn().mockResolvedValue({
+          create: jest.fn().mockResolvedValue({
             id: 'cs_test_123',
             url: 'https://checkout.stripe.com/test',
           }),
         },
       },
       webhooks: {
-        constructEvent: vi.fn(),
+        constructEvent: jest.fn(),
       },
     })),
   };
@@ -75,16 +74,16 @@ import prisma from '@/lib/prisma';
 describe('Phase 2: Human-Led Anonymous Mock Interviews', () => {
   beforeAll(() => {
     // Reset all mocks before tests
-    vi.clearAllMocks();
+    jest.clearAllMocks();
   });
 
   afterAll(() => {
-    vi.restoreAllMocks();
+    jest.restoreAllMocks();
   });
 
   describe('Interviewer Registration', () => {
     it('should require authentication for registration', async () => {
-      (getServerSession as ReturnType<typeof vi.fn>).mockResolvedValue(null);
+      (getServerSession as jest.Mock).mockResolvedValue(null);
 
       // Test that unauthenticated requests are rejected
       const result = { status: 401, error: 'Unauthorized' };
@@ -106,9 +105,9 @@ describe('Phase 2: Human-Led Anonymous Mock Interviews', () => {
 
     it('should create interviewer profile with pending status', async () => {
       const mockUser = { id: 'user_123', email: 'test@example.com' };
-      (getServerSession as ReturnType<typeof vi.fn>).mockResolvedValue({ user: mockUser });
-      (prisma.interviewer.findUnique as ReturnType<typeof vi.fn>).mockResolvedValue(null);
-      (prisma.interviewer.create as ReturnType<typeof vi.fn>).mockResolvedValue({
+      (getServerSession as jest.Mock).mockResolvedValue({ user: mockUser });
+      (prisma.interviewer.findUnique as jest.Mock).mockResolvedValue(null);
+      (prisma.interviewer.create as jest.Mock).mockResolvedValue({
         id: 'interviewer_123',
         userId: mockUser.id,
         verificationStatus: 'pending',
@@ -132,7 +131,7 @@ describe('Phase 2: Human-Led Anonymous Mock Interviews', () => {
 
     it('should prevent duplicate registration', async () => {
       const mockUser = { id: 'user_123' };
-      (prisma.interviewer.findUnique as ReturnType<typeof vi.fn>).mockResolvedValue({
+      (prisma.interviewer.findUnique as jest.Mock).mockResolvedValue({
         id: 'existing_interviewer',
         userId: mockUser.id,
       });
@@ -158,7 +157,7 @@ describe('Phase 2: Human-Led Anonymous Mock Interviews', () => {
         customRates: '{}',
       };
 
-      (prisma.interviewer.findUnique as ReturnType<typeof vi.fn>).mockResolvedValue(mockInterviewer);
+      (prisma.interviewer.findUnique as jest.Mock).mockResolvedValue(mockInterviewer);
 
       const result = await prisma.interviewer.findUnique({
         where: { id: 'interviewer_123' },
@@ -180,7 +179,7 @@ describe('Phase 2: Human-Led Anonymous Mock Interviews', () => {
         ratePerHour: 20000,
       };
 
-      (prisma.interviewer.update as ReturnType<typeof vi.fn>).mockResolvedValue({
+      (prisma.interviewer.update as jest.Mock).mockResolvedValue({
         ...updateData,
         id: 'interviewer_123',
       });
@@ -210,7 +209,7 @@ describe('Phase 2: Human-Led Anonymous Mock Interviews', () => {
   describe('Admin Verification', () => {
     it('should require admin role for verification actions', async () => {
       const mockUser = { id: 'user_123', role: 'user' };
-      (prisma.user.findUnique as ReturnType<typeof vi.fn>).mockResolvedValue(mockUser);
+      (prisma.user.findUnique as jest.Mock).mockResolvedValue(mockUser);
 
       const user = await prisma.user.findUnique({
         where: { id: 'user_123' },
@@ -220,7 +219,7 @@ describe('Phase 2: Human-Led Anonymous Mock Interviews', () => {
     });
 
     it('should update verification status correctly', async () => {
-      (prisma.interviewer.update as ReturnType<typeof vi.fn>).mockResolvedValue({
+      (prisma.interviewer.update as jest.Mock).mockResolvedValue({
         id: 'interviewer_123',
         verificationStatus: 'verified',
         isActive: true,
@@ -239,7 +238,7 @@ describe('Phase 2: Human-Led Anonymous Mock Interviews', () => {
     });
 
     it('should deactivate on rejection', async () => {
-      (prisma.interviewer.update as ReturnType<typeof vi.fn>).mockResolvedValue({
+      (prisma.interviewer.update as jest.Mock).mockResolvedValue({
         id: 'interviewer_123',
         verificationStatus: 'rejected',
         isActive: false,
@@ -311,7 +310,7 @@ describe('Phase 2: Human-Led Anonymous Mock Interviews', () => {
         totalAmount: 15000,
       };
 
-      (prisma.expertSession.create as ReturnType<typeof vi.fn>).mockResolvedValue(mockSession);
+      (prisma.expertSession.create as jest.Mock).mockResolvedValue(mockSession);
 
       const result = await prisma.expertSession.create({
         data: mockSession,
@@ -379,7 +378,7 @@ describe('Phase 2: Human-Led Anonymous Mock Interviews', () => {
     });
 
     it('should update session status on successful payment', async () => {
-      (prisma.expertSession.update as ReturnType<typeof vi.fn>).mockResolvedValue({
+      (prisma.expertSession.update as jest.Mock).mockResolvedValue({
         id: 'session_123',
         status: 'scheduled',
         paidAt: new Date(),
@@ -398,7 +397,7 @@ describe('Phase 2: Human-Led Anonymous Mock Interviews', () => {
     });
 
     it('should cancel session on payment expiry', async () => {
-      (prisma.expertSession.update as ReturnType<typeof vi.fn>).mockResolvedValue({
+      (prisma.expertSession.update as jest.Mock).mockResolvedValue({
         id: 'session_123',
         status: 'cancelled',
         cancellationReason: 'Payment expired',
@@ -425,7 +424,7 @@ describe('Phase 2: Human-Led Anonymous Mock Interviews', () => {
         validDays: 30,
       };
 
-      (prisma.coachingPackage.create as ReturnType<typeof vi.fn>).mockResolvedValue({
+      (prisma.coachingPackage.create as jest.Mock).mockResolvedValue({
         id: 'package_123',
         packageType: packageData.type,
         totalSessions: packageData.sessions,
@@ -502,7 +501,7 @@ describe('Phase 2: Human-Led Anonymous Mock Interviews', () => {
     });
 
     it('should prevent duplicate feedback', async () => {
-      (prisma.expertSession.findUnique as ReturnType<typeof vi.fn>).mockResolvedValue({
+      (prisma.expertSession.findUnique as jest.Mock).mockResolvedValue({
         id: 'session_123',
         feedbackFromCandidate: 'Already provided',
       });

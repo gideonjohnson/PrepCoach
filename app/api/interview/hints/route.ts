@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Apply rate limiting for AI hints endpoint
-    const identifier = (session?.user as any)?.id;
+    const identifier = (session?.user as { id: string })?.id;
     const rateLimit = await checkApiRateLimit('aiFeedback', identifier);
 
     if (!rateLimit.success) {
@@ -133,18 +133,19 @@ IMPORTANT: Return ONLY valid JSON, no other text.`;
     let hintsData;
     try {
       hintsData = JSON.parse(responseText);
-    } catch (parseError) {
+    } catch {
       console.error('Failed to parse AI response:', responseText);
       return NextResponse.json({ error: 'Invalid AI response' }, { status: 500 });
     }
 
     return NextResponse.json(hintsData);
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error generating hints:', error);
+    const message = error instanceof Error ? error.message : 'Unknown error';
     return NextResponse.json(
       {
         error: 'Failed to generate hints',
-        message: error?.message || 'Unknown error',
+        message,
       },
       { status: 500 }
     );

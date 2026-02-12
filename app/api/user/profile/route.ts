@@ -4,7 +4,8 @@ import { authOptions } from '../../auth/[...nextauth]/route';
 import { prisma } from '@/lib/prisma';
 
 // GET /api/user/profile - Get user profile
-export async function GET(request: NextRequest) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export async function GET(_request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
 
@@ -87,7 +88,8 @@ export async function PATCH(request: NextRequest) {
 }
 
 // DELETE /api/user/profile - Delete user account
-export async function DELETE(request: NextRequest) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export async function DELETE(_request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
 

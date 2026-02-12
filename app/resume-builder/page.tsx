@@ -7,6 +7,7 @@ import Link from 'next/link';
 import toast from 'react-hot-toast';
 import Header from '../components/Header';
 import Breadcrumbs from '../components/Breadcrumbs';
+import ResumePreview from '../components/ResumePreview';
 
 interface Experience {
   company: string;
@@ -31,6 +32,19 @@ interface Project {
   description: string;
   technologies: string;
   link?: string;
+}
+
+interface TransformedData {
+  atsScore: number;
+  impactAnalysis?: {
+    strengths: string[];
+    weaknesses: string[];
+  };
+  keywordAnalysis?: {
+    matchScore: number;
+    missingKeywords?: string[];
+  };
+  recommendations?: string[];
 }
 
 export default function ResumeBuilder() {
@@ -102,10 +116,12 @@ export default function ResumeBuilder() {
 
   // Resume Transformation
   const [isTransforming, setIsTransforming] = useState(false);
-  const [transformedData, setTransformedData] = useState<any>(null);
+  const [transformedData, setTransformedData] = useState<TransformedData | null>(null);
   const [targetRole, setTargetRole] = useState('');
   const [targetCompany, setTargetCompany] = useState('');
   const [showTransformSection, setShowTransformSection] = useState(true);
+  const [isExporting, setIsExporting] = useState(false);
+  const [showPreview, setShowPreview] = useState(false);
 
   // Check subscription access on mount
   // Resume Builder is a Pro-only feature
@@ -468,6 +484,60 @@ export default function ResumeBuilder() {
     }
   };
 
+  const handleExportPDF = async () => {
+    if (!fullName) {
+      toast.error('Please add your name before exporting', { duration: 3000 });
+      return;
+    }
+
+    setIsExporting(true);
+    const loadingToast = toast.loading('Generating PDF...');
+
+    try {
+      const resumeData = {
+        fullName,
+        email,
+        phone,
+        location,
+        linkedin,
+        github,
+        website,
+        summary,
+        experience: experience.filter(exp => exp.company || exp.position),
+        education: education.filter(edu => edu.school || edu.degree),
+        skills: skills.filter(s => s.trim()),
+        projects: projects.filter(proj => proj.name || proj.description),
+        template
+      };
+
+      const response = await fetch('/api/resume/export?format=pdf', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(resumeData)
+      });
+
+      if (response.ok) {
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `${fullName.replace(/\s+/g, '_')}_Resume.pdf`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(url);
+        toast.success('Resume downloaded!', { id: loadingToast, duration: 3000 });
+      } else {
+        toast.error('Failed to export resume', { id: loadingToast, duration: 4000 });
+      }
+    } catch (error) {
+      console.error('Export error:', error);
+      toast.error('Failed to export resume', { id: loadingToast, duration: 4000 });
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
@@ -503,8 +573,67 @@ export default function ResumeBuilder() {
               </svg>
               Start Interview
             </Link>
+            <button
+              onClick={() => setShowPreview(!showPreview)}
+              className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                showPreview
+                  ? 'bg-orange-600 text-white hover:bg-orange-700'
+                  : 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50'
+              }`}
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+              </svg>
+              {showPreview ? 'Hide Preview' : 'Live Preview'}
+            </button>
           </div>
         </div>
+
+        {/* Live Preview Panel */}
+        {showPreview && (
+          <div className="fixed right-0 top-20 w-[500px] h-[calc(100vh-5rem)] bg-gray-100 border-l border-gray-200 shadow-xl z-40 overflow-y-auto p-4">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="font-semibold text-gray-900">Live Preview</h3>
+              <div className="flex items-center gap-2">
+                <select
+                  value={template}
+                  onChange={(e) => setTemplate(e.target.value)}
+                  className="text-sm border border-gray-300 rounded px-2 py-1"
+                >
+                  <option value="modern">Modern</option>
+                  <option value="classic">Classic</option>
+                  <option value="minimal">Minimal</option>
+                  <option value="creative">Creative</option>
+                </select>
+                <button
+                  onClick={() => setShowPreview(false)}
+                  className="p-1 hover:bg-gray-200 rounded"
+                >
+                  <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <ResumePreview
+              fullName={fullName}
+              email={email}
+              phone={phone}
+              location={location}
+              linkedin={linkedin}
+              github={github}
+              website={website}
+              summary={summary}
+              experience={experience}
+              education={education}
+              skills={skills}
+              projects={projects}
+              template={template as 'modern' | 'classic' | 'minimal' | 'creative'}
+              scale={0.5}
+            />
+          </div>
+        )}
         {/* Resume Transformation Hero Section */}
         <div className="mb-8 bg-white border border-gray-200 rounded-lg p-8 shadow-sm">
           <div className="flex items-center justify-between mb-6">
@@ -954,8 +1083,12 @@ export default function ResumeBuilder() {
             <div className="bg-white rounded-lg p-8 shadow-sm border border-gray-200">
               <div className="mb-4 flex items-center justify-between">
                 <h2 className="text-xl font-bold text-gray-900">Preview</h2>
-                <button className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition">
-                  Export PDF
+                <button
+                  onClick={handleExportPDF}
+                  disabled={isExporting}
+                  className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition disabled:opacity-50"
+                >
+                  {isExporting ? 'Exporting...' : 'Export PDF'}
                 </button>
               </div>
 

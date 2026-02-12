@@ -5,6 +5,7 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Header from '@/app/components/Header';
+import BookingCalendar from '@/app/components/BookingCalendar';
 
 type Interviewer = {
   id: string;
@@ -33,39 +34,6 @@ const DURATION_OPTIONS = [
   { value: 90, label: '90 min', multiplier: 1.5 },
 ];
 
-const DAYS_MAP: Record<string, number> = {
-  sunday: 0, monday: 1, tuesday: 2, wednesday: 3, thursday: 4, friday: 5, saturday: 6
-};
-
-function getNextAvailableSlots(availability: { day: string; startTime: string; endTime: string }[], days: number = 14): Date[] {
-  const slots: Date[] = [];
-  const now = new Date();
-
-  for (let d = 0; d < days; d++) {
-    const date = new Date(now);
-    date.setDate(now.getDate() + d);
-    const dayName = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'][date.getDay()];
-
-    const dayAvailability = availability.find(a => a.day === dayName);
-    if (!dayAvailability) continue;
-
-    const [startHour, startMin] = dayAvailability.startTime.split(':').map(Number);
-    const [endHour, endMin] = dayAvailability.endTime.split(':').map(Number);
-
-    for (let hour = startHour; hour < endHour; hour++) {
-      const slotDate = new Date(date);
-      slotDate.setHours(hour, 0, 0, 0);
-
-      // Skip past slots
-      if (slotDate <= now) continue;
-
-      slots.push(slotDate);
-    }
-  }
-
-  return slots;
-}
-
 export default function BookingPage({ params }: { params: Promise<{ interviewerId: string }> }) {
   const { interviewerId } = use(params);
   const { data: session, status } = useSession();
@@ -79,7 +47,6 @@ export default function BookingPage({ params }: { params: Promise<{ interviewerI
   const [step, setStep] = useState(1);
   const [sessionType, setSessionType] = useState('');
   const [duration, setDuration] = useState(60);
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedSlot, setSelectedSlot] = useState<Date | null>(null);
   const [isAnonymous, setIsAnonymous] = useState(true);
   const [notes, setNotes] = useState('');
@@ -100,14 +67,6 @@ export default function BookingPage({ params }: { params: Promise<{ interviewerI
       setLoading(false);
     }
   };
-
-  const availableSlots = interviewer ? getNextAvailableSlots(interviewer.availability) : [];
-  const groupedSlots = availableSlots.reduce((acc, slot) => {
-    const dateKey = slot.toDateString();
-    if (!acc[dateKey]) acc[dateKey] = [];
-    acc[dateKey].push(slot);
-    return acc;
-  }, {} as Record<string, Date[]>);
 
   const totalPrice = interviewer
     ? Math.round(interviewer.ratePerHour * (duration / 60))
@@ -290,50 +249,18 @@ export default function BookingPage({ params }: { params: Promise<{ interviewerI
                 </div>
               )}
 
-              {/* Step 2: Date & Time */}
+              {/* Step 2: Date & Time with Calendar */}
               {step === 2 && (
                 <div className="space-y-4">
                   <h2 className="text-lg font-semibold text-white">Select Date & Time</h2>
-                  <p className="text-gray-400 text-sm">Times shown in {interviewer.timezone}</p>
 
-                  {Object.keys(groupedSlots).length === 0 ? (
-                    <div className="text-center py-8">
-                      <p className="text-gray-400">No available slots in the next 2 weeks.</p>
-                    </div>
-                  ) : (
-                    <div className="space-y-4 max-h-96 overflow-y-auto">
-                      {Object.entries(groupedSlots).map(([dateStr, slots]) => (
-                        <div key={dateStr}>
-                          <h3 className="text-white font-medium mb-2">
-                            {new Date(dateStr).toLocaleDateString('en-US', {
-                              weekday: 'long',
-                              month: 'short',
-                              day: 'numeric',
-                            })}
-                          </h3>
-                          <div className="flex flex-wrap gap-2">
-                            {slots.map((slot) => (
-                              <button
-                                key={slot.toISOString()}
-                                onClick={() => setSelectedSlot(slot)}
-                                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                                  selectedSlot?.toISOString() === slot.toISOString()
-                                    ? 'bg-orange-500 text-white'
-                                    : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
-                                }`}
-                              >
-                                {slot.toLocaleTimeString('en-US', {
-                                  hour: 'numeric',
-                                  minute: '2-digit',
-                                  hour12: true,
-                                })}
-                              </button>
-                            ))}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
+                  <BookingCalendar
+                    availability={interviewer.availability}
+                    timezone={interviewer.timezone}
+                    selectedSlot={selectedSlot}
+                    onSelectSlot={setSelectedSlot}
+                    weeksToShow={4}
+                  />
 
                   <div className="flex gap-3 pt-4">
                     <button

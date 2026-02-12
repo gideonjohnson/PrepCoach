@@ -3,6 +3,34 @@ import { headers } from 'next/headers';
 import { verifyWebhookSignature, getSubscriptionTier } from '@/lib/paystack';
 import { prisma } from '@/lib/prisma';
 
+interface PaystackMetadata {
+  userId?: string;
+  tier?: string;
+}
+
+interface PaystackCustomer {
+  metadata?: PaystackMetadata;
+}
+
+interface PaystackPlan {
+  plan_code?: string;
+}
+
+interface PaystackChargeData {
+  metadata?: PaystackMetadata;
+}
+
+interface PaystackSubscriptionData {
+  customer?: PaystackCustomer;
+  plan?: PaystackPlan;
+  createdAt?: string;
+  next_payment_date?: string;
+}
+
+interface PaystackInvoiceData {
+  customer?: PaystackCustomer;
+}
+
 export async function POST(req: NextRequest) {
   const body = await req.text();
   const signature = (await headers()).get('x-paystack-signature');
@@ -51,13 +79,14 @@ export async function POST(req: NextRequest) {
     }
 
     return NextResponse.json({ received: true });
-  } catch (error: any) {
+  } catch (error) {
     console.error('Paystack webhook handler error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    const message = error instanceof Error ? error.message : 'Unknown error';
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
 
-async function handleChargeSuccess(data: any) {
+async function handleChargeSuccess(data: PaystackChargeData) {
   const userId = data.metadata?.userId;
   const tier = data.metadata?.tier;
 
@@ -78,7 +107,7 @@ async function handleChargeSuccess(data: any) {
 
 }
 
-async function handleSubscriptionCreate(data: any) {
+async function handleSubscriptionCreate(data: PaystackSubscriptionData) {
   const userId = data.customer?.metadata?.userId;
   const planCode = data.plan?.plan_code;
 
@@ -100,7 +129,7 @@ async function handleSubscriptionCreate(data: any) {
 
 }
 
-async function handleSubscriptionDisable(data: any) {
+async function handleSubscriptionDisable(data: PaystackSubscriptionData) {
   const userId = data.customer?.metadata?.userId;
 
   if (!userId) {
@@ -117,7 +146,7 @@ async function handleSubscriptionDisable(data: any) {
 
 }
 
-async function handleSubscriptionNotRenew(data: any) {
+async function handleSubscriptionNotRenew(data: PaystackSubscriptionData) {
   const userId = data.customer?.metadata?.userId;
 
   if (!userId) {
@@ -133,7 +162,7 @@ async function handleSubscriptionNotRenew(data: any) {
 
 }
 
-async function handleInvoicePaymentFailed(data: any) {
+async function handleInvoicePaymentFailed(data: PaystackInvoiceData) {
   const userId = data.customer?.metadata?.userId;
 
   if (!userId) {

@@ -58,6 +58,7 @@ export const authOptions: NextAuthOptions = {
             id: user.id,
             email: user.email!,
             name: user.name,
+            role: user.role,
           };
         } catch (error) {
           console.error('[AUTH] Error:', error);
@@ -78,12 +79,14 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user, account }) {
       if (user) {
         token.id = user.id;
+        token.role = (user as { role?: string }).role;
       }
       return token;
     },
     async session({ session, token }) {
       if (session.user) {
-        (session.user as { id?: string }).id = token.id as string;
+        (session.user as { id?: string; role?: string }).id = token.id as string;
+        (session.user as { id?: string; role?: string }).role = token.role as string;
       }
       return session;
     },
@@ -176,8 +179,9 @@ export const authOptions: NextAuthOptions = {
             });
           }
 
-          // Update user object with database ID for JWT token
+          // Update user object with database ID and role for JWT token
           user.id = existingUser.id;
+          (user as { role?: string }).role = existingUser.role;
 
           return true;
         } catch (error) {

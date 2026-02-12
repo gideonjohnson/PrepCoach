@@ -104,7 +104,7 @@ export async function PATCH(
     }
 
     // Calculate new completion metrics
-    const answeredQuestions = responses?.filter((r: any) => r.audioURL).length || 0;
+    const answeredQuestions = responses?.filter((r: { audioURL?: string }) => r.audioURL).length || 0;
     const completionRate = Math.round((answeredQuestions / existingSession.totalQuestions) * 100);
 
     // Delete existing responses and create new ones
@@ -122,7 +122,7 @@ export async function PATCH(
         answeredQuestions,
         completionRate,
         responses: {
-          create: responses?.map((r: any) => ({
+          create: responses?.map((r: { question: string; audioURL?: string; duration?: number; feedback?: string; timestamp?: number }) => ({
             question: r.question,
             audioURL: r.audioURL,
             duration: r.duration || 0,

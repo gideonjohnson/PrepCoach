@@ -7,6 +7,8 @@ import Link from 'next/link';
 export default function Home() {
   const { data: session } = useSession();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeFeatureTab, setActiveFeatureTab] = useState<'seekers' | 'interviewers' | 'recruiters'>('seekers');
+  const [getStartedOpen, setGetStartedOpen] = useState(false);
 
   return (
     <div className="min-h-screen bg-black relative overflow-hidden">
@@ -33,12 +35,25 @@ export default function Home() {
               </Link>
             </div>
             {/* Desktop menu */}
-            <div className="hidden md:flex items-center space-x-8">
+            <div className="hidden md:flex items-center space-x-6">
+              {/* Role-specific links - only show for non-logged-in users */}
+              {!session && (
+                <>
+                  <Link href="/auth/signup?role=candidate" className="text-gray-300 hover:text-orange-400 transition font-medium">
+                    Job Seekers
+                  </Link>
+                  <Link href="/auth/signup?role=interviewer" className="text-gray-300 hover:text-blue-400 transition font-medium">
+                    Interviewers
+                  </Link>
+                  <Link href="/auth/signup?role=recruiter" className="text-gray-300 hover:text-green-400 transition font-medium">
+                    Recruiters
+                  </Link>
+                </>
+              )}
               <Link href="/pricing" className="text-gray-300 hover:text-white transition">Pricing</Link>
-              <Link href="/careers" className="text-gray-300 hover:text-white transition">Careers</Link>
-              <Link href="/dashboard" className="text-gray-300 hover:text-white transition">Dashboard</Link>
               {session ? (
                 <div className="flex items-center space-x-4">
+                  <Link href="/dashboard" className="text-gray-300 hover:text-white transition">Dashboard</Link>
                   <span className="text-gray-300">{session.user?.email}</span>
                   <button
                     onClick={() => signOut()}
@@ -52,11 +67,65 @@ export default function Home() {
                   <Link href="/auth/signin" className="text-gray-300 hover:text-white transition">
                     Sign In
                   </Link>
-                  <Link href="/practice">
-                    <button className="px-6 py-2 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-full font-medium hover:shadow-lg hover:shadow-orange-500/50 transition">
+                  {/* Get Started Dropdown */}
+                  <div className="relative">
+                    <button
+                      onClick={() => setGetStartedOpen(!getStartedOpen)}
+                      onBlur={() => setTimeout(() => setGetStartedOpen(false), 150)}
+                      className="px-6 py-2 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-full font-medium hover:shadow-lg hover:shadow-orange-500/50 transition flex items-center gap-2"
+                    >
                       Get Started
+                      <svg className={`w-4 h-4 transition-transform ${getStartedOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
                     </button>
-                  </Link>
+                    {getStartedOpen && (
+                      <div className="absolute right-0 mt-2 w-56 bg-black/90 backdrop-blur-xl rounded-xl border border-white/10 shadow-2xl overflow-hidden">
+                        <Link
+                          href="/auth/signup?role=candidate"
+                          className="flex items-center gap-3 px-4 py-3 text-white hover:bg-orange-500/20 transition"
+                        >
+                          <span className="w-8 h-8 rounded-lg bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center">
+                            <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                            </svg>
+                          </span>
+                          <div>
+                            <div className="font-semibold">Job Seeker</div>
+                            <div className="text-xs text-gray-400">Practice interviews</div>
+                          </div>
+                        </Link>
+                        <Link
+                          href="/auth/signup?role=interviewer"
+                          className="flex items-center gap-3 px-4 py-3 text-white hover:bg-blue-500/20 transition"
+                        >
+                          <span className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
+                            <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                          </span>
+                          <div>
+                            <div className="font-semibold">Interviewer</div>
+                            <div className="text-xs text-gray-400">Earn $50-500/hr</div>
+                          </div>
+                        </Link>
+                        <Link
+                          href="/auth/signup?role=recruiter"
+                          className="flex items-center gap-3 px-4 py-3 text-white hover:bg-green-500/20 transition"
+                        >
+                          <span className="w-8 h-8 rounded-lg bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center">
+                            <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                          </span>
+                          <div>
+                            <div className="font-semibold">Recruiter</div>
+                            <div className="text-xs text-gray-400">Find top talent</div>
+                          </div>
+                        </Link>
+                      </div>
+                    )}
+                  </div>
                 </div>
               )}
             </div>
@@ -77,34 +146,69 @@ export default function Home() {
           {/* Mobile menu */}
           {mobileMenuOpen && (
             <div className="md:hidden py-4 border-t border-white/10">
-              <div className="flex flex-col space-y-4">
-                <Link href="/pricing" onClick={() => setMobileMenuOpen(false)} className="text-gray-300 hover:text-white transition">Pricing</Link>
-                <Link href="/careers" onClick={() => setMobileMenuOpen(false)} className="text-gray-300 hover:text-white transition">Careers</Link>
-                <Link href="/dashboard" onClick={() => setMobileMenuOpen(false)} className="text-gray-300 hover:text-white transition">Dashboard</Link>
+              <div className="flex flex-col space-y-3">
+                {/* Role-specific signup options - only for non-logged-in users */}
+                {!session && (
+                  <div className="pb-3 border-b border-white/10">
+                    <p className="text-xs text-gray-500 uppercase tracking-wide mb-2 px-1">Get Started As</p>
+                    <Link
+                      href="/auth/signup?role=candidate"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="flex items-center gap-3 py-2 text-white hover:text-orange-400 transition"
+                    >
+                      <span className="w-8 h-8 rounded-lg bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center">
+                        <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                      </span>
+                      <span className="font-medium">Job Seeker</span>
+                    </Link>
+                    <Link
+                      href="/auth/signup?role=interviewer"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="flex items-center gap-3 py-2 text-white hover:text-blue-400 transition"
+                    >
+                      <span className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
+                        <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                      </span>
+                      <span className="font-medium">Interviewer</span>
+                    </Link>
+                    <Link
+                      href="/auth/signup?role=recruiter"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="flex items-center gap-3 py-2 text-white hover:text-green-400 transition"
+                    >
+                      <span className="w-8 h-8 rounded-lg bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center">
+                        <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                      </span>
+                      <span className="font-medium">Recruiter</span>
+                    </Link>
+                  </div>
+                )}
+
+                <Link href="/pricing" onClick={() => setMobileMenuOpen(false)} className="text-gray-300 hover:text-white transition py-1">Pricing</Link>
                 {session ? (
                   <>
-                    <span className="text-gray-300 text-sm">{session.user?.email}</span>
+                    <Link href="/dashboard" onClick={() => setMobileMenuOpen(false)} className="text-gray-300 hover:text-white transition py-1">Dashboard</Link>
+                    <span className="text-gray-400 text-sm py-1">{session.user?.email}</span>
                     <button
                       onClick={() => {
                         setMobileMenuOpen(false);
                         signOut();
                       }}
-                      className="w-full px-6 py-2 bg-white/10 text-white rounded-full font-medium hover:bg-white/20 transition backdrop-blur-sm border border-white/10"
+                      className="w-full px-6 py-2 bg-white/10 text-white rounded-full font-medium hover:bg-white/20 transition backdrop-blur-sm border border-white/10 mt-2"
                     >
                       Sign Out
                     </button>
                   </>
                 ) : (
-                  <>
-                    <Link href="/auth/signin" onClick={() => setMobileMenuOpen(false)} className="text-gray-300 hover:text-white transition">
-                      Sign In
-                    </Link>
-                    <Link href="/practice" onClick={() => setMobileMenuOpen(false)}>
-                      <button className="w-full px-6 py-2 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-full font-medium hover:shadow-lg hover:shadow-orange-500/50 transition">
-                        Get Started
-                      </button>
-                    </Link>
-                  </>
+                  <Link href="/auth/signin" onClick={() => setMobileMenuOpen(false)} className="text-gray-300 hover:text-white transition py-1">
+                    Sign In
+                  </Link>
                 )}
               </div>
             </div>
@@ -112,173 +216,420 @@ export default function Home() {
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <section className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 relative">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-12 items-center mb-16">
-            {/* Left: Hero Content */}
-            <div className="text-center lg:text-left">
-            <div className="inline-block mb-6 px-4 py-2 bg-black/50 backdrop-blur-xl border border-orange-500/30 rounded-full">
-              <span className="text-orange-400 font-semibold text-sm">Join 500,000+ candidates who aced their interviews</span>
-            </div>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white mb-6 leading-tight" style={{textShadow: '0 0 80px rgba(255,255,255,0.3)'}}>
-              Stop Guessing.{" "}
-              <span className="bg-gradient-to-r from-orange-400 via-red-500 to-pink-500 bg-clip-text text-transparent animate-pulse">
-                Start Winning Interviews
+      {/* Hero Section - Role Selection */}
+      <section className="pt-32 pb-16 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+        {/* Background Video - Blurred */}
+        <div className="absolute inset-0 z-0">
+          <video
+            src="/hero-video.mp4"
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="w-full h-full object-cover blur-[2px] opacity-50"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/60"></div>
+        </div>
+
+        <div className="max-w-7xl mx-auto relative z-10">
+          {/* Hero Header */}
+          <div className="text-center mb-12">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-black text-white mb-4 leading-tight" style={{textShadow: '0 0 80px rgba(255,255,255,0.3)'}}>
+              The Complete{" "}
+              <span className="bg-gradient-to-r from-orange-400 via-red-500 to-pink-500 bg-clip-text text-transparent">
+                Interview Platform
               </span>
             </h1>
-            <p className="text-base sm:text-lg md:text-xl text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
-              Practice with <strong className="text-white">45+ real interview questions</strong> for your role. Get instant AI feedback. Land offers at top companies.
-              <span className="block mt-2 text-lg font-semibold text-white">95% success rate. 24/7 access. Zero awkwardness.</span>
+            <p className="text-xl sm:text-2xl text-gray-300 mb-8">
+              I am a...
             </p>
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start items-stretch sm:items-center mb-8">
-              <Link href="/auth/signup" className="w-full sm:w-auto">
-                <button className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-full text-base sm:text-lg font-semibold hover:shadow-2xl transition transform hover:scale-105 min-h-[48px]">
-                  Start Practicing Free →
-                </button>
-              </Link>
-              <Link href="/pricing" className="w-full sm:w-auto">
-                <button className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-white/5 backdrop-blur-xl text-white border-2 border-white/20 rounded-full text-base sm:text-lg font-semibold hover:bg-white/10 hover:border-white/40 transition min-h-[48px]">
-                  See Plans & Pricing
-                </button>
-              </Link>
-            </div>
-            <p className="text-sm text-gray-400 mb-4">
-              Get started in under 60 seconds • No credit card required
-            </p>
-            </div>
-
-            {/* Right: Hero Video */}
-            <div className="relative">
-              <div className="relative z-10 rounded-3xl overflow-hidden shadow-2xl">
-                <video
-                  src="/hero-video.mp4"
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  className="w-full h-auto object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-orange-500/20 to-transparent"></div>
-              </div>
-              {/* Floating Elements */}
-              <div className="absolute -top-6 -left-6 w-24 h-24 bg-gradient-to-br from-orange-400 to-red-400 rounded-2xl opacity-20 blur-xl"></div>
-              <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-gradient-to-br from-purple-400 to-blue-400 rounded-2xl opacity-20 blur-xl"></div>
-            </div>
           </div>
 
-          {/* 3D Feature Buttons Section */}
+          {/* Role Selection Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto mb-12">
+            {/* Job Seeker Card */}
+            <Link href="/auth/signup?role=candidate">
+              <div className="group relative bg-gradient-to-br from-orange-500 to-red-600 rounded-2xl p-8 shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-2 cursor-pointer h-full"
+                   style={{
+                     transformStyle: 'preserve-3d',
+                     boxShadow: '0 20px 60px rgba(249, 115, 22, 0.4), 0 10px 20px rgba(0, 0, 0, 0.15)'
+                   }}>
+                <div className="absolute inset-0 bg-gradient-to-br from-orange-400 to-red-500 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity blur-xl"></div>
+                <div className="relative z-10 flex flex-col items-center text-center">
+                  <div className="w-20 h-20 bg-white/20 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform backdrop-blur-sm">
+                    <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                  </div>
+                  <h3 className="text-2xl font-bold text-white mb-3">Job Seeker</h3>
+                  <p className="text-white/90 text-base mb-6 leading-relaxed">
+                    Practice & ace your interviews with AI-powered mock sessions and instant feedback
+                  </p>
+                  <div className="mt-auto">
+                    <span className="inline-flex items-center gap-2 px-6 py-3 bg-white/20 hover:bg-white/30 rounded-full text-white font-semibold transition-all backdrop-blur-sm">
+                      Get Started Free
+                      <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </Link>
+
+            {/* Expert Interviewer Card */}
+            <Link href="/auth/signup?role=interviewer">
+              <div className="group relative bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl p-8 shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-2 cursor-pointer h-full"
+                   style={{
+                     transformStyle: 'preserve-3d',
+                     boxShadow: '0 20px 60px rgba(59, 130, 246, 0.4), 0 10px 20px rgba(0, 0, 0, 0.15)'
+                   }}>
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-400 to-purple-500 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity blur-xl"></div>
+                <div className="relative z-10 flex flex-col items-center text-center">
+                  <div className="w-20 h-20 bg-white/20 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform backdrop-blur-sm">
+                    <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                  </div>
+                  <h3 className="text-2xl font-bold text-white mb-3">Expert Interviewer</h3>
+                  <p className="text-white/90 text-base mb-6 leading-relaxed">
+                    Earn $50-500/hour conducting mock interviews for candidates
+                  </p>
+                  <div className="mt-auto">
+                    <span className="inline-flex items-center gap-2 px-6 py-3 bg-white/20 hover:bg-white/30 rounded-full text-white font-semibold transition-all backdrop-blur-sm">
+                      Apply Now
+                      <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </Link>
+
+            {/* Recruiter Card */}
+            <Link href="/auth/signup?role=recruiter">
+              <div className="group relative bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl p-8 shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-2 cursor-pointer h-full"
+                   style={{
+                     transformStyle: 'preserve-3d',
+                     boxShadow: '0 20px 60px rgba(34, 197, 94, 0.4), 0 10px 20px rgba(0, 0, 0, 0.15)'
+                   }}>
+                <div className="absolute inset-0 bg-gradient-to-br from-green-400 to-emerald-500 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity blur-xl"></div>
+                <div className="relative z-10 flex flex-col items-center text-center">
+                  <div className="w-20 h-20 bg-white/20 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform backdrop-blur-sm">
+                    <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                  </div>
+                  <h3 className="text-2xl font-bold text-white mb-3">Recruiter</h3>
+                  <p className="text-white/90 text-base mb-6 leading-relaxed">
+                    Find pre-vetted engineering talent with verified interview performance
+                  </p>
+                  <div className="mt-auto">
+                    <span className="inline-flex items-center gap-2 px-6 py-3 bg-white/20 hover:bg-white/30 rounded-full text-white font-semibold transition-all backdrop-blur-sm">
+                      Get Access
+                      <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </Link>
+          </div>
+
+          {/* Social Proof */}
+          <p className="text-center text-gray-400 font-medium mb-8">
+            Join 500,000+ professionals on PrepCoach
+          </p>
+
+          {/* Features Section with Role Tabs */}
           <div className="mt-20 mb-12">
             <div className="text-center mb-8">
               <h2 className="text-3xl md:text-4xl font-black text-white mb-3" style={{textShadow: '0 0 60px rgba(255,255,255,0.2)'}}>
-                Your Complete Career Arsenal
+                Tools For Everyone
               </h2>
-              <p className="text-lg text-gray-400">
-                From interview prep to salary negotiation — we've got you covered
+              <p className="text-lg text-gray-400 mb-8">
+                Powerful features tailored to your role
               </p>
+
+              {/* Role Tabs */}
+              <div className="flex flex-wrap justify-center gap-2 sm:gap-4 max-w-2xl mx-auto">
+                <button
+                  onClick={() => setActiveFeatureTab('seekers')}
+                  className={`px-6 py-3 rounded-full font-semibold transition-all ${
+                    activeFeatureTab === 'seekers'
+                      ? 'bg-gradient-to-r from-orange-500 to-red-500 text-white shadow-lg shadow-orange-500/30'
+                      : 'bg-white/10 text-gray-300 hover:bg-white/20'
+                  }`}
+                >
+                  Job Seekers
+                </button>
+                <button
+                  onClick={() => setActiveFeatureTab('interviewers')}
+                  className={`px-6 py-3 rounded-full font-semibold transition-all ${
+                    activeFeatureTab === 'interviewers'
+                      ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg shadow-blue-500/30'
+                      : 'bg-white/10 text-gray-300 hover:bg-white/20'
+                  }`}
+                >
+                  Interviewers
+                </button>
+                <button
+                  onClick={() => setActiveFeatureTab('recruiters')}
+                  className={`px-6 py-3 rounded-full font-semibold transition-all ${
+                    activeFeatureTab === 'recruiters'
+                      ? 'bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-lg shadow-green-500/30'
+                      : 'bg-white/10 text-gray-300 hover:bg-white/20'
+                  }`}
+                >
+                  Recruiters
+                </button>
+              </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6 max-w-7xl mx-auto">
-              {/* Interview Prep Button */}
-              <Link href="/practice">
-                <div className="group relative bg-gradient-to-br from-orange-500 to-red-600 rounded-2xl p-6 shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-2 cursor-pointer"
-                     style={{
-                       transformStyle: 'preserve-3d',
-                       boxShadow: '0 20px 60px rgba(249, 115, 22, 0.4), 0 10px 20px rgba(0, 0, 0, 0.15)'
-                     }}>
-                  <div className="absolute inset-0 bg-gradient-to-br from-orange-400 to-red-500 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity blur-xl"></div>
-                  <div className="relative z-10 flex flex-col items-center text-center">
-                    <div className="w-16 h-16 bg-white/20 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform backdrop-blur-sm">
-                      <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
-                      </svg>
+            {/* Job Seekers Features */}
+            {activeFeatureTab === 'seekers' && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6 max-w-7xl mx-auto animate-fadeIn">
+                <Link href="/practice">
+                  <div className="group relative bg-gradient-to-br from-orange-500 to-red-600 rounded-2xl p-6 shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-2 cursor-pointer"
+                       style={{ transformStyle: 'preserve-3d', boxShadow: '0 20px 60px rgba(249, 115, 22, 0.4), 0 10px 20px rgba(0, 0, 0, 0.15)' }}>
+                    <div className="absolute inset-0 bg-gradient-to-br from-orange-400 to-red-500 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity blur-xl"></div>
+                    <div className="relative z-10 flex flex-col items-center text-center">
+                      <div className="w-16 h-16 bg-white/20 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform backdrop-blur-sm">
+                        <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                        </svg>
+                      </div>
+                      <h3 className="text-xl font-bold text-white mb-2">Interview Prep</h3>
+                      <p className="text-white/90 text-sm">45+ Questions</p>
                     </div>
-                    <h3 className="text-xl font-bold text-white mb-2">Interview Prep</h3>
-                    <p className="text-white/90 text-sm">45+ Questions</p>
                   </div>
-                </div>
-              </Link>
+                </Link>
+                <Link href="/linkedin">
+                  <div className="group relative bg-gradient-to-br from-blue-600 to-purple-700 rounded-2xl p-6 shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-2 cursor-pointer"
+                       style={{ transformStyle: 'preserve-3d', boxShadow: '0 20px 60px rgba(37, 99, 235, 0.4), 0 10px 20px rgba(0, 0, 0, 0.15)' }}>
+                    <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity blur-xl"></div>
+                    <div className="relative z-10 flex flex-col items-center text-center">
+                      <div className="w-16 h-16 bg-white/20 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform backdrop-blur-sm">
+                        <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                        </svg>
+                      </div>
+                      <h3 className="text-xl font-bold text-white mb-2">LinkedIn Optimizer</h3>
+                      <p className="text-white/90 text-sm">3x Profile Views</p>
+                    </div>
+                  </div>
+                </Link>
+                <Link href="/roadmap">
+                  <div className="group relative bg-gradient-to-br from-indigo-600 to-purple-700 rounded-2xl p-6 shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-2 cursor-pointer"
+                       style={{ transformStyle: 'preserve-3d', boxShadow: '0 20px 60px rgba(99, 102, 241, 0.4), 0 10px 20px rgba(0, 0, 0, 0.15)' }}>
+                    <div className="absolute inset-0 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity blur-xl"></div>
+                    <div className="relative z-10 flex flex-col items-center text-center">
+                      <div className="w-16 h-16 bg-white/20 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform backdrop-blur-sm">
+                        <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+                        </svg>
+                      </div>
+                      <h3 className="text-xl font-bold text-white mb-2">Career Roadmap</h3>
+                      <p className="text-white/90 text-sm">Skills & Timeline</p>
+                    </div>
+                  </div>
+                </Link>
+                <Link href="/salary">
+                  <div className="group relative bg-gradient-to-br from-green-500 to-emerald-700 rounded-2xl p-6 shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-2 cursor-pointer"
+                       style={{ transformStyle: 'preserve-3d', boxShadow: '0 20px 60px rgba(34, 197, 94, 0.4), 0 10px 20px rgba(0, 0, 0, 0.15)' }}>
+                    <div className="absolute inset-0 bg-gradient-to-br from-green-400 to-emerald-600 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity blur-xl"></div>
+                    <div className="relative z-10 flex flex-col items-center text-center">
+                      <div className="w-16 h-16 bg-white/20 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform backdrop-blur-sm">
+                        <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                      </div>
+                      <h3 className="text-xl font-bold text-white mb-2">Salary Hub</h3>
+                      <p className="text-white/90 text-sm">$15K+ Increase</p>
+                    </div>
+                  </div>
+                </Link>
+                <Link href="/resume-builder">
+                  <div className="group relative bg-gradient-to-br from-gray-700 to-slate-900 rounded-2xl p-6 shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-2 cursor-pointer"
+                       style={{ transformStyle: 'preserve-3d', boxShadow: '0 20px 60px rgba(71, 85, 105, 0.4), 0 10px 20px rgba(0, 0, 0, 0.15)' }}>
+                    <div className="absolute inset-0 bg-gradient-to-br from-gray-600 to-slate-800 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity blur-xl"></div>
+                    <div className="relative z-10 flex flex-col items-center text-center">
+                      <div className="w-16 h-16 bg-white/20 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform backdrop-blur-sm">
+                        <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                      </div>
+                      <h3 className="text-xl font-bold text-white mb-2">Resume Builder</h3>
+                      <p className="text-white/90 text-sm">ATS-Optimized</p>
+                    </div>
+                  </div>
+                </Link>
+              </div>
+            )}
 
-              {/* LinkedIn Optimizer Button */}
-              <Link href="/linkedin">
-                <div className="group relative bg-gradient-to-br from-blue-600 to-purple-700 rounded-2xl p-6 shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-2 cursor-pointer"
-                     style={{
-                       transformStyle: 'preserve-3d',
-                       boxShadow: '0 20px 60px rgba(37, 99, 235, 0.4), 0 10px 20px rgba(0, 0, 0, 0.15)'
-                     }}>
-                  <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity blur-xl"></div>
-                  <div className="relative z-10 flex flex-col items-center text-center">
-                    <div className="w-16 h-16 bg-white/20 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform backdrop-blur-sm">
-                      <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                      </svg>
+            {/* Interviewers Features */}
+            {activeFeatureTab === 'interviewers' && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6 max-w-7xl mx-auto animate-fadeIn">
+                <Link href="/interviewer/profile">
+                  <div className="group relative bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl p-6 shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-2 cursor-pointer"
+                       style={{ transformStyle: 'preserve-3d', boxShadow: '0 20px 60px rgba(59, 130, 246, 0.4), 0 10px 20px rgba(0, 0, 0, 0.15)' }}>
+                    <div className="absolute inset-0 bg-gradient-to-br from-blue-400 to-purple-500 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity blur-xl"></div>
+                    <div className="relative z-10 flex flex-col items-center text-center">
+                      <div className="w-16 h-16 bg-white/20 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform backdrop-blur-sm">
+                        <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                      </div>
+                      <h3 className="text-xl font-bold text-white mb-2">My Profile</h3>
+                      <p className="text-white/90 text-sm">Showcase Expertise</p>
                     </div>
-                    <h3 className="text-xl font-bold text-white mb-2">LinkedIn Optimizer</h3>
-                    <p className="text-white/90 text-sm">3x Profile Views</p>
                   </div>
-                </div>
-              </Link>
+                </Link>
+                <Link href="/interviewer/sessions">
+                  <div className="group relative bg-gradient-to-br from-purple-500 to-indigo-600 rounded-2xl p-6 shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-2 cursor-pointer"
+                       style={{ transformStyle: 'preserve-3d', boxShadow: '0 20px 60px rgba(139, 92, 246, 0.4), 0 10px 20px rgba(0, 0, 0, 0.15)' }}>
+                    <div className="absolute inset-0 bg-gradient-to-br from-purple-400 to-indigo-500 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity blur-xl"></div>
+                    <div className="relative z-10 flex flex-col items-center text-center">
+                      <div className="w-16 h-16 bg-white/20 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform backdrop-blur-sm">
+                        <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                      </div>
+                      <h3 className="text-xl font-bold text-white mb-2">Sessions</h3>
+                      <p className="text-white/90 text-sm">Manage Bookings</p>
+                    </div>
+                  </div>
+                </Link>
+                <Link href="/interviewer/availability">
+                  <div className="group relative bg-gradient-to-br from-cyan-500 to-blue-600 rounded-2xl p-6 shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-2 cursor-pointer"
+                       style={{ transformStyle: 'preserve-3d', boxShadow: '0 20px 60px rgba(6, 182, 212, 0.4), 0 10px 20px rgba(0, 0, 0, 0.15)' }}>
+                    <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity blur-xl"></div>
+                    <div className="relative z-10 flex flex-col items-center text-center">
+                      <div className="w-16 h-16 bg-white/20 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform backdrop-blur-sm">
+                        <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                      </div>
+                      <h3 className="text-xl font-bold text-white mb-2">Availability</h3>
+                      <p className="text-white/90 text-sm">Set Your Hours</p>
+                    </div>
+                  </div>
+                </Link>
+                <Link href="/interviewer/payouts">
+                  <div className="group relative bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl p-6 shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-2 cursor-pointer"
+                       style={{ transformStyle: 'preserve-3d', boxShadow: '0 20px 60px rgba(34, 197, 94, 0.4), 0 10px 20px rgba(0, 0, 0, 0.15)' }}>
+                    <div className="absolute inset-0 bg-gradient-to-br from-green-400 to-emerald-500 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity blur-xl"></div>
+                    <div className="relative z-10 flex flex-col items-center text-center">
+                      <div className="w-16 h-16 bg-white/20 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform backdrop-blur-sm">
+                        <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                      </div>
+                      <h3 className="text-xl font-bold text-white mb-2">Payouts</h3>
+                      <p className="text-white/90 text-sm">Track Earnings</p>
+                    </div>
+                  </div>
+                </Link>
+                <Link href="/interviewer/reviews">
+                  <div className="group relative bg-gradient-to-br from-yellow-500 to-orange-600 rounded-2xl p-6 shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-2 cursor-pointer"
+                       style={{ transformStyle: 'preserve-3d', boxShadow: '0 20px 60px rgba(234, 179, 8, 0.4), 0 10px 20px rgba(0, 0, 0, 0.15)' }}>
+                    <div className="absolute inset-0 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity blur-xl"></div>
+                    <div className="relative z-10 flex flex-col items-center text-center">
+                      <div className="w-16 h-16 bg-white/20 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform backdrop-blur-sm">
+                        <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                        </svg>
+                      </div>
+                      <h3 className="text-xl font-bold text-white mb-2">Reviews</h3>
+                      <p className="text-white/90 text-sm">Build Reputation</p>
+                    </div>
+                  </div>
+                </Link>
+              </div>
+            )}
 
-              {/* Career Roadmap Button */}
-              <Link href="/roadmap">
-                <div className="group relative bg-gradient-to-br from-indigo-600 to-purple-700 rounded-2xl p-6 shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-2 cursor-pointer"
-                     style={{
-                       transformStyle: 'preserve-3d',
-                       boxShadow: '0 20px 60px rgba(99, 102, 241, 0.4), 0 10px 20px rgba(0, 0, 0, 0.15)'
-                     }}>
-                  <div className="absolute inset-0 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity blur-xl"></div>
-                  <div className="relative z-10 flex flex-col items-center text-center">
-                    <div className="w-16 h-16 bg-white/20 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform backdrop-blur-sm">
-                      <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
-                      </svg>
+            {/* Recruiters Features */}
+            {activeFeatureTab === 'recruiters' && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6 max-w-7xl mx-auto animate-fadeIn">
+                <Link href="/recruiter/talent">
+                  <div className="group relative bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl p-6 shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-2 cursor-pointer"
+                       style={{ transformStyle: 'preserve-3d', boxShadow: '0 20px 60px rgba(34, 197, 94, 0.4), 0 10px 20px rgba(0, 0, 0, 0.15)' }}>
+                    <div className="absolute inset-0 bg-gradient-to-br from-green-400 to-emerald-500 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity blur-xl"></div>
+                    <div className="relative z-10 flex flex-col items-center text-center">
+                      <div className="w-16 h-16 bg-white/20 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform backdrop-blur-sm">
+                        <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                      </div>
+                      <h3 className="text-xl font-bold text-white mb-2">Talent Search</h3>
+                      <p className="text-white/90 text-sm">Find Candidates</p>
                     </div>
-                    <h3 className="text-xl font-bold text-white mb-2">Career Roadmap</h3>
-                    <p className="text-white/90 text-sm">Skills & Timeline</p>
                   </div>
-                </div>
-              </Link>
-
-              {/* Salary Hub Button */}
-              <Link href="/salary">
-                <div className="group relative bg-gradient-to-br from-green-500 to-emerald-700 rounded-2xl p-6 shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-2 cursor-pointer"
-                     style={{
-                       transformStyle: 'preserve-3d',
-                       boxShadow: '0 20px 60px rgba(34, 197, 94, 0.4), 0 10px 20px rgba(0, 0, 0, 0.15)'
-                     }}>
-                  <div className="absolute inset-0 bg-gradient-to-br from-green-400 to-emerald-600 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity blur-xl"></div>
-                  <div className="relative z-10 flex flex-col items-center text-center">
-                    <div className="w-16 h-16 bg-white/20 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform backdrop-blur-sm">
-                      <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
+                </Link>
+                <Link href="/recruiter/requests">
+                  <div className="group relative bg-gradient-to-br from-teal-500 to-cyan-600 rounded-2xl p-6 shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-2 cursor-pointer"
+                       style={{ transformStyle: 'preserve-3d', boxShadow: '0 20px 60px rgba(20, 184, 166, 0.4), 0 10px 20px rgba(0, 0, 0, 0.15)' }}>
+                    <div className="absolute inset-0 bg-gradient-to-br from-teal-400 to-cyan-500 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity blur-xl"></div>
+                    <div className="relative z-10 flex flex-col items-center text-center">
+                      <div className="w-16 h-16 bg-white/20 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform backdrop-blur-sm">
+                        <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                        </svg>
+                      </div>
+                      <h3 className="text-xl font-bold text-white mb-2">Requests</h3>
+                      <p className="text-white/90 text-sm">Manage Outreach</p>
                     </div>
-                    <h3 className="text-xl font-bold text-white mb-2">Salary Hub</h3>
-                    <p className="text-white/90 text-sm">$15K+ Increase</p>
                   </div>
-                </div>
-              </Link>
-
-              {/* Resume Builder Button */}
-              <Link href="/resume-builder">
-                <div className="group relative bg-gradient-to-br from-gray-700 to-slate-900 rounded-2xl p-6 shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-2 cursor-pointer"
-                     style={{
-                       transformStyle: 'preserve-3d',
-                       boxShadow: '0 20px 60px rgba(71, 85, 105, 0.4), 0 10px 20px rgba(0, 0, 0, 0.15)'
-                     }}>
-                  <div className="absolute inset-0 bg-gradient-to-br from-gray-600 to-slate-800 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity blur-xl"></div>
-                  <div className="relative z-10 flex flex-col items-center text-center">
-                    <div className="w-16 h-16 bg-white/20 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform backdrop-blur-sm">
-                      <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                      </svg>
+                </Link>
+                <Link href="/recruiter/credits">
+                  <div className="group relative bg-gradient-to-br from-emerald-500 to-green-700 rounded-2xl p-6 shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-2 cursor-pointer"
+                       style={{ transformStyle: 'preserve-3d', boxShadow: '0 20px 60px rgba(16, 185, 129, 0.4), 0 10px 20px rgba(0, 0, 0, 0.15)' }}>
+                    <div className="absolute inset-0 bg-gradient-to-br from-emerald-400 to-green-600 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity blur-xl"></div>
+                    <div className="relative z-10 flex flex-col items-center text-center">
+                      <div className="w-16 h-16 bg-white/20 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform backdrop-blur-sm">
+                        <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                        </svg>
+                      </div>
+                      <h3 className="text-xl font-bold text-white mb-2">Credits</h3>
+                      <p className="text-white/90 text-sm">Buy & Manage</p>
                     </div>
-                    <h3 className="text-xl font-bold text-white mb-2">Resume Builder</h3>
-                    <p className="text-white/90 text-sm">ATS-Optimized</p>
                   </div>
-                </div>
-              </Link>
-            </div>
+                </Link>
+                <Link href="/recruiter/company">
+                  <div className="group relative bg-gradient-to-br from-lime-500 to-green-600 rounded-2xl p-6 shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-2 cursor-pointer"
+                       style={{ transformStyle: 'preserve-3d', boxShadow: '0 20px 60px rgba(132, 204, 22, 0.4), 0 10px 20px rgba(0, 0, 0, 0.15)' }}>
+                    <div className="absolute inset-0 bg-gradient-to-br from-lime-400 to-green-500 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity blur-xl"></div>
+                    <div className="relative z-10 flex flex-col items-center text-center">
+                      <div className="w-16 h-16 bg-white/20 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform backdrop-blur-sm">
+                        <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                        </svg>
+                      </div>
+                      <h3 className="text-xl font-bold text-white mb-2">Company</h3>
+                      <p className="text-white/90 text-sm">Profile & Team</p>
+                    </div>
+                  </div>
+                </Link>
+                <Link href="/recruiter/analytics">
+                  <div className="group relative bg-gradient-to-br from-green-600 to-teal-700 rounded-2xl p-6 shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-2 cursor-pointer"
+                       style={{ transformStyle: 'preserve-3d', boxShadow: '0 20px 60px rgba(22, 163, 74, 0.4), 0 10px 20px rgba(0, 0, 0, 0.15)' }}>
+                    <div className="absolute inset-0 bg-gradient-to-br from-green-500 to-teal-600 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity blur-xl"></div>
+                    <div className="relative z-10 flex flex-col items-center text-center">
+                      <div className="w-16 h-16 bg-white/20 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform backdrop-blur-sm">
+                        <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                        </svg>
+                      </div>
+                      <h3 className="text-xl font-bold text-white mb-2">Analytics</h3>
+                      <p className="text-white/90 text-sm">Hiring Insights</p>
+                    </div>
+                  </div>
+                </Link>
+              </div>
+            )}
           </div>
 
             {/* Stats Section */}

@@ -90,11 +90,12 @@ export async function POST(request: NextRequest) {
     });
 
     return NextResponse.json({ transcript: transcription.text });
-  } catch (error: any) {
+  } catch (error) {
     console.error('Transcription error:', error);
 
     // Handle quota exceeded error
-    if (error?.status === 429 || error?.code === 'insufficient_quota') {
+    const err = error as { status?: number; code?: string; message?: string };
+    if (err.status === 429 || err.code === 'insufficient_quota') {
       return NextResponse.json(
         {
           error: 'OpenAI quota exceeded',
@@ -106,7 +107,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Handle rate limit errors
-    if (error?.status === 429) {
+    if (err.status === 429) {
       return NextResponse.json(
         {
           error: 'Rate limit exceeded',
@@ -121,7 +122,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       {
         error: 'Failed to transcribe audio',
-        message: error?.message || 'An unexpected error occurred during transcription',
+        message: err.message || 'An unexpected error occurred during transcription',
         code: 'transcription_failed'
       },
       { status: 500 }

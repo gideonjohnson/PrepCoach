@@ -40,10 +40,14 @@ const tokenSchema = z
   .length(64, 'Invalid token format')
   .regex(/^[a-f0-9]{64}$/, 'Invalid token format');
 
+// Role validation for signup
+const roleSchema = z.enum(['candidate', 'interviewer', 'recruiter']).optional().default('candidate');
+
 export const signupSchema = z.object({
   name: nameSchema,
   email: emailSchema,
   password: passwordSchema,
+  role: roleSchema,
 });
 
 export const loginSchema = z.object({

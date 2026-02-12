@@ -35,8 +35,8 @@ export interface UseTensorFlowVisionReturn {
 export function useTensorFlowVision(): UseTensorFlowVisionReturn {
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const faceDetectorRef = useRef<any>(null);
-  const poseDetectorRef = useRef<any>(null);
+  const faceDetectorRef = useRef<{ estimateFaces: (canvas: HTMLCanvasElement, options?: { flipHorizontal?: boolean }) => Promise<Array<{ keypoints: Array<{ x: number; y: number; z?: number }>; box?: { xMin: number; yMin: number; width: number; height: number } }>> } | null>(null);
+  const poseDetectorRef = useRef<{ estimatePoses: (canvas: HTMLCanvasElement, options?: { flipHorizontal?: boolean }) => Promise<Array<{ keypoints: Array<{ x: number; y: number; score?: number }> }>> } | null>(null);
   const isInitializing = useRef(false);
 
   // Initialize TensorFlow.js models
@@ -77,8 +77,8 @@ export function useTensorFlowVision(): UseTensorFlowVisionReturn {
 
           faceDetectorRef.current = faceDetector;
           console.log('✅ Face landmarks detector loaded');
-        } catch (err: any) {
-          console.warn('Face detector initialization failed:', err.message);
+        } catch (err) {
+          console.warn('Face detector initialization failed:', err instanceof Error ? err.message : String(err));
         }
 
         // Initialize Pose Detection
@@ -96,8 +96,8 @@ export function useTensorFlowVision(): UseTensorFlowVisionReturn {
 
           poseDetectorRef.current = detector;
           console.log('✅ Pose detector loaded');
-        } catch (err: any) {
-          console.warn('Pose detector initialization failed:', err.message);
+        } catch (err) {
+          console.warn('Pose detector initialization failed:', err instanceof Error ? err.message : String(err));
         }
 
         // Consider loaded if at least one model is available
@@ -107,9 +107,9 @@ export function useTensorFlowVision(): UseTensorFlowVisionReturn {
         } else {
           throw new Error('No vision models could be initialized');
         }
-      } catch (err: any) {
+      } catch (err) {
         console.error('❌ Failed to load TensorFlow.js:', err);
-        const errorMessage = err.message || 'Failed to initialize TensorFlow.js models';
+        const errorMessage = err instanceof Error ? err.message : 'Failed to initialize TensorFlow.js models';
         setError(errorMessage);
         setIsLoaded(false);
       }
@@ -152,7 +152,7 @@ export function useTensorFlowVision(): UseTensorFlowVisionReturn {
         const face = faces[0];
 
         // Convert keypoints to our format
-        const landmarks: FaceLandmark[] = face.keypoints.map((kp: any) => ({
+        const landmarks: FaceLandmark[] = face.keypoints.map((kp: { x: number; y: number; z?: number }) => ({
           x: kp.x / imageData.width,  // Normalize to 0-1
           y: kp.y / imageData.height,
           z: kp.z || 0,
@@ -200,13 +200,13 @@ export function useTensorFlowVision(): UseTensorFlowVisionReturn {
         const pose = poses[0];
 
         // Convert keypoints to our format
-        const landmarks: FaceLandmark[] = pose.keypoints.map((kp: any) => ({
+        const landmarks: FaceLandmark[] = pose.keypoints.map((kp: { x: number; y: number; score?: number }) => ({
           x: kp.x / imageData.width,  // Normalize to 0-1
           y: kp.y / imageData.height,
           z: 0,
         }));
 
-        const visibility = pose.keypoints.map((kp: any) => kp.score || 0);
+        const visibility = pose.keypoints.map((kp: { score?: number }) => kp.score || 0);
 
         return {
           landmarks,

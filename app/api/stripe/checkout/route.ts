@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Apply strict rate limiting for payment endpoints
-    const identifier = (session?.user as any)?.id;
+    const identifier = (session?.user as { id: string })?.id;
     const rateLimit = await checkApiRateLimit('auth', identifier);
 
     if (!rateLimit.success) {
@@ -64,7 +64,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Generate idempotency key from userId + tier + 10-minute time window
-    const userId = (session.user as any).id;
+    const userId = (session.user as { id: string }).id;
     const timeWindow = Math.floor(Date.now() / (10 * 60 * 1000));
     const idempotencyKey = crypto
       .createHash('sha256')
@@ -102,21 +102,26 @@ export async function POST(req: NextRequest) {
       sessionId: checkoutSession.id,
       url: checkoutSession.url,
     });
-  } catch (error: any) {
+  } catch (error) {
     console.error('Stripe checkout error:', error);
 
     // Provide more specific error messages
     let errorMessage = 'Failed to create checkout session';
-    if (error.type === 'StripeAuthenticationError') {
-      errorMessage = 'Invalid Stripe API key. Please contact support.';
-    } else if (error.type === 'StripeAPIError') {
-      errorMessage = 'Stripe service temporarily unavailable. Please try again.';
-    } else if (error.message) {
+    let errorType = 'unknown';
+
+    if (error instanceof Error) {
       errorMessage = error.message;
+      const stripeError = error as Error & { type?: string };
+      if (stripeError.type === 'StripeAuthenticationError') {
+        errorMessage = 'Invalid Stripe API key. Please contact support.';
+      } else if (stripeError.type === 'StripeAPIError') {
+        errorMessage = 'Stripe service temporarily unavailable. Please try again.';
+      }
+      errorType = stripeError.type || 'unknown';
     }
 
     return NextResponse.json(
-      { error: errorMessage, details: error.type || 'unknown' },
+      { error: errorMessage, details: errorType },
       { status: 500 }
     );
   }

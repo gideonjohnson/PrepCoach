@@ -4,7 +4,8 @@ import { authOptions } from '../auth/[...nextauth]/route';
 import { prisma } from '@/lib/prisma';
 
 // GET /api/sessions - Get all sessions for the current user
-export async function GET(request: NextRequest) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export async function GET(_request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
 
@@ -89,7 +90,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const answeredQuestions = responses?.filter((r: any) => r && r.audioURL).length || 0;
+    const answeredQuestions = responses?.filter((r: { audioURL?: string }) => r && r.audioURL).length || 0;
     const completionRate = Math.round((answeredQuestions / totalQuestions) * 100);
 
     const interviewSession = await prisma.interviewSession.create({
@@ -103,7 +104,7 @@ export async function POST(request: NextRequest) {
         answeredQuestions,
         completionRate,
         responses: {
-          create: responses?.filter((r: any) => r && r.question).map((r: any) => ({
+          create: responses?.filter((r: { question?: string }) => r && r.question).map((r: { question: string; audioURL?: string; duration?: number; feedback?: string; timestamp?: number }) => ({
             question: r.question,
             audioURL: r.audioURL,
             duration: r.duration || 0,

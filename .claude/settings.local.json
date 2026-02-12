@@ -17,7 +17,22 @@
       "Bash(npx prisma generate:*)",
       "Bash(npx next build)",
       "Bash(curl:*)",
-      "Bash(npm test)"
+      "Bash(npm test)",
+      "Bash(python3:*)",
+      "Bash(taskkill:*)",
+      "Bash(npm run dev)",
+      "Bash(ls:*)",
+      "Bash(find app/api -name \"*.ts\" -type f -exec sh -c 'lines=$\\(grep -c \"\"console\\\\.log\"\" \"\"$1\"\" 2>/dev/null || echo 0\\); if [ \"\"$lines\"\" -gt 0 ]; then echo \"\"$lines: $1\"\"; fi' _ {} ;)",
+      "Bash(grep:*)",
+      "Bash(find:*)",
+      "Bash(git fetch:*)",
+      "Bash(npx jest:*)",
+      "Bash(gh browse:*)",
+      "Bash(npx next dev)",
+      "Bash(start:*)",
+      "Bash(node -e:*)",
+      "Bash(npx tsc:*)",
+      "Bash(npx eslint:*)"
     ],
     "deny": [],
     "ask": []

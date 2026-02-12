@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { useSession, signOut } from 'next-auth/react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
@@ -15,6 +15,48 @@ export default function Header() {
   const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const isActive = (path: string) => pathname === path;
+  const userRole = session?.user?.role || 'user';
+
+  // Role-based navigation items
+  const candidateNav = [
+    { name: 'Dashboard', href: '/dashboard' },
+    { name: 'Practice', href: '/practice' },
+    { name: 'Problems', href: '/problems' },
+    { name: 'Interviewers', href: '/interviewers' },
+  ];
+
+  const interviewerNav = [
+    { name: 'My Profile', href: '/interviewer/profile' },
+    { name: 'Sessions', href: '/interviewer/sessions' },
+    { name: 'Availability', href: '/interviewer/availability' },
+    { name: 'Payouts', href: '/interviewer/payouts' },
+  ];
+
+  const recruiterNav = [
+    { name: 'Talent Search', href: '/recruiter/talent' },
+    { name: 'Requests', href: '/recruiter/requests' },
+    { name: 'Credits', href: '/recruiter/credits' },
+    { name: 'Company', href: '/recruiter/company' },
+  ];
+
+  const navItems = useMemo(() => {
+    if (userRole === 'interviewer') return interviewerNav;
+    if (userRole === 'recruiter') return recruiterNav;
+    return candidateNav;
+  }, [userRole]);
+
+  // Role badge info
+  const getRoleBadge = () => {
+    if (userRole === 'interviewer') {
+      return { text: 'Interviewer', bgColor: 'bg-blue-500/20', textColor: 'text-blue-400' };
+    }
+    if (userRole === 'recruiter') {
+      return { text: 'Recruiter', bgColor: 'bg-green-500/20', textColor: 'text-green-400' };
+    }
+    return null;
+  };
+
+  const roleBadge = getRoleBadge();
 
   // Dropdown menu configurations
   const productItems = [
@@ -276,16 +318,20 @@ export default function Header() {
 
             {session ? (
               <div className="flex items-center space-x-3 ml-4">
-                <Link
-                  href="/sessions"
-                  className={`px-4 py-2 rounded-lg font-medium transition-all ${
-                    isActive('/sessions')
-                      ? 'bg-blue-50 text-blue-600'
-                      : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
-                  }`}
-                >
-                  My Sessions
-                </Link>
+                {/* Role-specific nav items */}
+                {navItems.slice(0, 2).map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className={`px-4 py-2 rounded-lg font-medium transition-all ${
+                      isActive(item.href)
+                        ? 'bg-blue-50 text-blue-600'
+                        : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                    }`}
+                  >
+                    {item.name}
+                  </Link>
+                ))}
                 <Link
                   href="/profile"
                   className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-50 transition-all"
@@ -296,6 +342,11 @@ export default function Header() {
                   <span className="text-sm font-medium text-gray-700 hidden lg:block">
                     {session.user?.email?.split('@')[0]}
                   </span>
+                  {roleBadge && (
+                    <span className={`px-2 py-1 ${roleBadge.bgColor} ${roleBadge.textColor} text-xs font-semibold rounded-full hidden lg:inline`}>
+                      {roleBadge.text}
+                    </span>
+                  )}
                 </Link>
                 <button
                   onClick={() => signOut()}
@@ -394,32 +445,36 @@ export default function Header() {
               ))}
             </div>
 
+            {/* Role-specific navigation for logged-in users */}
+            {session && (
+              <div className="pt-2 border-t border-gray-100">
+                <div className="px-4 py-2 font-semibold text-gray-900 text-sm uppercase tracking-wide flex items-center gap-2">
+                  Quick Links
+                  {roleBadge && (
+                    <span className={`px-2 py-0.5 ${roleBadge.bgColor} ${roleBadge.textColor} text-xs font-semibold rounded-full`}>
+                      {roleBadge.text}
+                    </span>
+                  )}
+                </div>
+                {navItems.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className={`px-4 py-3 rounded-lg font-medium transition-all flex active:bg-blue-100 ml-2 ${
+                      isActive(item.href)
+                        ? 'bg-blue-50 text-blue-600'
+                        : 'text-gray-600 hover:bg-gray-50'
+                    }`}
+                  >
+                    {item.name}
+                  </Link>
+                ))}
+              </div>
+            )}
+
             {/* Other Links */}
             <div className="pt-2 border-t border-gray-100">
-              <Link
-                href="/dashboard"
-                onClick={() => setMobileMenuOpen(false)}
-                className={`px-4 py-3 rounded-lg font-medium transition-all flex active:bg-blue-100 ${
-                  isActive('/dashboard')
-                    ? 'bg-blue-50 text-blue-600'
-                    : 'text-gray-600 hover:bg-gray-50'
-                }`}
-              >
-                Dashboard
-              </Link>
-              {session && (
-                <Link
-                  href="/sessions"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className={`px-4 py-3 rounded-lg font-medium transition-all flex active:bg-blue-100 ${
-                    isActive('/sessions')
-                      ? 'bg-blue-50 text-blue-600'
-                      : 'text-gray-600 hover:bg-gray-50'
-                  }`}
-                >
-                  My Sessions
-                </Link>
-              )}
               <Link
                 href="/pricing"
                 onClick={() => setMobileMenuOpen(false)}
@@ -438,9 +493,14 @@ export default function Header() {
                   <Link
                     href="/profile"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="px-4 py-2 rounded-lg text-gray-600 hover:bg-gray-50 font-medium transition-all"
+                    className="px-4 py-2 rounded-lg text-gray-600 hover:bg-gray-50 font-medium transition-all flex items-center gap-2"
                   >
                     Profile
+                    {roleBadge && (
+                      <span className={`px-2 py-0.5 ${roleBadge.bgColor} ${roleBadge.textColor} text-xs font-semibold rounded-full`}>
+                        {roleBadge.text}
+                      </span>
+                    )}
                   </Link>
                   <button
                     onClick={() => {

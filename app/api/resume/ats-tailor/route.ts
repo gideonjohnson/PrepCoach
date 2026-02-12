@@ -104,7 +104,43 @@ Respond in JSON format:
   }
 }
 
-function formatResumeData(data: any): string {
+interface ResumeExperience {
+  position?: string;
+  company?: string;
+  startDate?: string;
+  endDate?: string;
+  current?: boolean;
+  description?: string;
+}
+
+interface ResumeEducation {
+  degree?: string;
+  field?: string;
+  school?: string;
+  startDate?: string;
+  endDate?: string;
+  gpa?: string;
+}
+
+interface ResumeProject {
+  name?: string;
+  description?: string;
+  technologies?: string;
+}
+
+interface ResumeData {
+  fullName?: string;
+  email?: string;
+  phone?: string;
+  location?: string;
+  summary?: string;
+  skills?: string[];
+  experience?: ResumeExperience[];
+  education?: ResumeEducation[];
+  projects?: ResumeProject[];
+}
+
+function formatResumeData(data: ResumeData): string {
   let text = `Name: ${data.fullName}\n`;
   text += `Email: ${data.email}\n`;
   if (data.phone) text += `Phone: ${data.phone}\n`;
@@ -121,7 +157,7 @@ function formatResumeData(data: any): string {
 
   if (data.experience && data.experience.length > 0) {
     text += 'Experience:\n';
-    data.experience.forEach((exp: any) => {
+    data.experience.forEach((exp: ResumeExperience) => {
       if (exp.position || exp.company) {
         text += `${exp.position} at ${exp.company}\n`;
         text += `${exp.startDate} - ${exp.current ? 'Present' : exp.endDate}\n`;
@@ -133,7 +169,7 @@ function formatResumeData(data: any): string {
 
   if (data.education && data.education.length > 0) {
     text += 'Education:\n';
-    data.education.forEach((edu: any) => {
+    data.education.forEach((edu: ResumeEducation) => {
       if (edu.degree || edu.school) {
         text += `${edu.degree} in ${edu.field} - ${edu.school}\n`;
         text += `${edu.startDate} - ${edu.endDate}\n`;
@@ -145,7 +181,7 @@ function formatResumeData(data: any): string {
 
   if (data.projects && data.projects.length > 0) {
     text += 'Projects:\n';
-    data.projects.forEach((proj: any) => {
+    data.projects.forEach((proj: ResumeProject) => {
       if (proj.name) {
         text += `${proj.name}\n`;
         if (proj.description) text += `${proj.description}\n`;

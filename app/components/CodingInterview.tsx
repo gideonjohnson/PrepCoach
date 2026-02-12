@@ -108,7 +108,7 @@ export default function CodingInterview({
   const [isRunning, setIsRunning] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showOutput, setShowOutput] = useState(false);
-  const editorRef = useRef<any>(null);
+  const editorRef = useRef<unknown>(null);
 
   // Update code when language changes
   useEffect(() => {
@@ -118,14 +118,18 @@ export default function CodingInterview({
     setShowOutput(false);
   }, [selectedLanguage, starterCode]);
 
-  const handleEditorDidMount = (editor: any) => {
+  const handleEditorDidMount = (editor: unknown) => {
     editorRef.current = editor;
 
     // Add keybindings
-    editor.addCommand(
-      monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter,
-      () => handleRunCode()
-    );
+    const typedEditor = editor as { addCommand: (keybinding: number, handler: () => void) => void };
+    const monaco = (window as { monaco?: { KeyMod: { CtrlCmd: number }; KeyCode: { Enter: number } } }).monaco;
+    if (monaco) {
+      typedEditor.addCommand(
+        monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter,
+        () => handleRunCode()
+      );
+    }
   };
 
   const handleRunCode = async () => {
@@ -148,8 +152,8 @@ export default function CodingInterview({
         setOutput(`✅ Output:\n${result.output}`);
         toast.success('Code executed successfully!');
       }
-    } catch (error: any) {
-      setOutput(`❌ Execution Error:\n${error.message || 'Unknown error'}`);
+    } catch (error) {
+      setOutput(`❌ Execution Error:\n${error instanceof Error ? error.message : 'Unknown error'}`);
       toast.error('Failed to execute code');
     } finally {
       setIsRunning(false);
@@ -167,8 +171,8 @@ export default function CodingInterview({
     try {
       await onSubmit(code, selectedLanguage);
       toast.success('Solution submitted! Getting AI feedback...');
-    } catch (error: any) {
-      toast.error(error.message || 'Failed to submit solution');
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'Failed to submit solution');
     } finally {
       setIsSubmitting(false);
     }

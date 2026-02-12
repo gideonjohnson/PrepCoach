@@ -11,7 +11,8 @@ const VOICE_ID = process.env.ELEVENLABS_VOICE_ID || '21m00Tcm4TlvDq8ikWAM'; // R
 
 export async function POST(request: NextRequest) {
   try {
-    const session = await getServerSession(authOptions);
+    // Verify authentication (session not used but validates user)
+    await getServerSession(authOptions);
 
     // Check if API key is configured
     if (!ELEVENLABS_API_KEY || ELEVENLABS_API_KEY === 'your_elevenlabs_api_key_here') {
@@ -76,12 +77,12 @@ export async function POST(request: NextRequest) {
         'Content-Length': audioBuffer.byteLength.toString(),
       },
     });
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error generating speech:', error);
     return NextResponse.json(
       {
         error: 'Failed to generate speech',
-        message: error?.message || 'Unknown error',
+        message: error instanceof Error ? error.message : 'Unknown error',
         fallback: true,
       },
       { status: 500 }

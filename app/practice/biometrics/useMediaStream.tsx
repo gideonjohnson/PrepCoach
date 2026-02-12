@@ -70,7 +70,7 @@ export function useMediaStream(): UseMediaStreamReturn {
 
       // Setup audio analysis
       if (config.audio) {
-        const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+        const AudioContextClass = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
         const ctx = new AudioContextClass();
         const analyserNode = ctx.createAnalyser();
         analyserNode.fftSize = 2048;
@@ -90,19 +90,20 @@ export function useMediaStream(): UseMediaStreamReturn {
 
       setIsStreaming(true);
       toast.success('Camera and microphone connected!', { duration: 2000 });
-    } catch (error: any) {
+    } catch (error) {
       console.error('Error accessing media devices:', error);
+      const err = error as { name?: string; message?: string };
 
-      if (error.name === 'NotAllowedError') {
+      if (err.name === 'NotAllowedError') {
         toast.error('Camera/microphone permission denied. Please allow access and try again.', {
           duration: 6000,
         });
-      } else if (error.name === 'NotFoundError') {
+      } else if (err.name === 'NotFoundError') {
         toast.error('No camera or microphone found. Please connect devices and try again.', {
           duration: 6000,
         });
       } else {
-        toast.error(`Failed to access media devices: ${error.message}`, { duration: 5000 });
+        toast.error(`Failed to access media devices: ${err.message || 'Unknown error'}`, { duration: 5000 });
       }
     }
   }, []);
