@@ -6,9 +6,10 @@ import prisma from '@/lib/prisma';
 // POST /api/talent/requests/[id]/respond - Accept or decline an interview request
 export async function POST(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id: requestId } = await params;
     const session = await getServerSession(authOptions);
     if (!session?.user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -31,7 +32,7 @@ export async function POST(
     }
 
     const request = await prisma.interviewRequest.findUnique({
-      where: { id: params.id },
+      where: { id: requestId },
     });
 
     if (!request || request.talentProfileId !== talentProfile.id) {
@@ -49,7 +50,7 @@ export async function POST(
       // Accept the request and create a profile reveal record
       const [updatedRequest, reveal] = await prisma.$transaction([
         prisma.interviewRequest.update({
-          where: { id: params.id },
+          where: { id: requestId },
           data: {
             status: 'accepted',
             respondedAt: new Date(),
@@ -57,7 +58,7 @@ export async function POST(
         }),
         prisma.profileReveal.create({
           data: {
-            interviewRequestId: params.id,
+            interviewRequestId: requestId,
             talentProfileId: talentProfile.id,
             recruiterConsent: true,
             candidateConsent: false, // Candidate needs to explicitly consent to reveal
@@ -73,7 +74,7 @@ export async function POST(
     } else {
       // Decline the request
       const updatedRequest = await prisma.interviewRequest.update({
-        where: { id: params.id },
+        where: { id: requestId },
         data: {
           status: 'declined',
           respondedAt: new Date(),

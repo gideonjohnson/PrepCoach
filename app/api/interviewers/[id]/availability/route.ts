@@ -4,11 +4,12 @@ import prisma from '@/lib/prisma';
 // GET /api/interviewers/[id]/availability - Get public availability for booking
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const interviewer = await prisma.interviewer.findUnique({
-      where: { id: params.id },
+      where: { id },
       select: {
         id: true,
         timezone: true,
@@ -30,7 +31,7 @@ export async function GET(
 
     const bookedSessions = await prisma.expertSession.findMany({
       where: {
-        interviewerId: params.id,
+        interviewerId: id,
         status: { in: ['scheduled', 'in_progress'] },
         scheduledAt: {
           gte: now,

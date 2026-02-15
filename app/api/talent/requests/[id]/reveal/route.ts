@@ -6,9 +6,10 @@ import prisma from '@/lib/prisma';
 // POST /api/talent/requests/[id]/reveal - Consent to profile reveal
 export async function POST(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id: requestId } = await params;
     const session = await getServerSession(authOptions);
     if (!session?.user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -29,7 +30,7 @@ export async function POST(
     });
 
     const request = await prisma.interviewRequest.findUnique({
-      where: { id: params.id },
+      where: { id: requestId },
       include: { reveals: true },
     });
 
@@ -124,9 +125,10 @@ export async function POST(
 // GET /api/talent/requests/[id]/reveal - Get reveal status
 export async function GET(
   _req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id: requestId } = await params;
     const session = await getServerSession(authOptions);
     if (!session?.user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -135,7 +137,7 @@ export async function GET(
     const userId = (session.user as { id: string }).id;
 
     const request = await prisma.interviewRequest.findUnique({
-      where: { id: params.id },
+      where: { id: requestId },
       include: {
         reveals: true,
         company: { select: { name: true } },

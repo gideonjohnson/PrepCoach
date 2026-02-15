@@ -16,9 +16,10 @@ const requestSchema = z.object({
 // POST /api/talent/[id]/request - Send interview request to a talent profile
 export async function POST(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id: talentId } = await params;
     const session = await getServerSession(authOptions);
     if (!session?.user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -52,7 +53,7 @@ export async function POST(
 
     // Verify talent profile exists and is public
     const talentProfile = await prisma.talentProfile.findUnique({
-      where: { id: params.id },
+      where: { id: talentId },
     });
 
     if (!talentProfile || !talentProfile.isOptedIn || !talentProfile.isPublic) {
@@ -63,7 +64,7 @@ export async function POST(
     const existingRequest = await prisma.interviewRequest.findFirst({
       where: {
         recruiterId: recruiter.id,
-        talentProfileId: params.id,
+        talentProfileId: talentId,
         status: 'pending',
       },
     });
@@ -84,7 +85,7 @@ export async function POST(
         data: {
           recruiterId: recruiter.id,
           companyId: recruiter.companyId,
-          talentProfileId: params.id,
+          talentProfileId: talentId,
           roleTitle: validated.roleTitle,
           roleDescription: validated.roleDescription || null,
           salaryRange: validated.salaryRange || null,
@@ -103,7 +104,7 @@ export async function POST(
         data: { requestsSent: { increment: 1 } },
       }),
       prisma.talentProfile.update({
-        where: { id: params.id },
+        where: { id: talentId },
         data: { interviewRequestCount: { increment: 1 } },
       }),
     ]);
