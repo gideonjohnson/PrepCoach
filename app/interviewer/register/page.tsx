@@ -5,6 +5,7 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Header from '@/app/components/Header';
+import { INTERVIEWER_TIERS, type InterviewerTier } from '@/lib/pricing';
 
 const EXPERTISE_OPTIONS = [
   { value: 'coding', label: 'Coding Interviews', icon: '💻' },
@@ -41,6 +42,7 @@ type FormData = {
   linkedinUrl: string;
   timezone: string;
   ratePerHour: number;
+  listingTier: InterviewerTier;
 };
 
 export default function InterviewerRegisterPage() {
@@ -63,6 +65,7 @@ export default function InterviewerRegisterPage() {
     linkedinUrl: '',
     timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
     ratePerHour: 15000, // $150 default
+    listingTier: 'interviewer_featured',
   });
 
   const [newSpecialization, setNewSpecialization] = useState('');
@@ -104,7 +107,7 @@ export default function InterviewerRegisterPage() {
       case 2:
         return formData.expertise.length >= 1;
       case 3:
-        return formData.ratePerHour >= 5000;
+        return formData.ratePerHour >= 5000 && !!formData.listingTier;
       default:
         return true;
     }
@@ -226,7 +229,7 @@ export default function InterviewerRegisterPage() {
             Step {step} of 3:{' '}
             {step === 1 && 'Basic Information'}
             {step === 2 && 'Expertise & Skills'}
-            {step === 3 && 'Pricing & Availability'}
+            {step === 3 && 'Listing Tier & Pricing'}
           </div>
         </div>
 
@@ -446,14 +449,68 @@ export default function InterviewerRegisterPage() {
             </div>
           )}
 
-          {/* Step 3: Pricing & Availability */}
+          {/* Step 3: Listing Tier & Pricing */}
           {step === 3 && (
             <div className="space-y-6">
+              {/* Listing Tier Selection */}
               <div>
                 <label className="block text-sm font-semibold text-gray-300 mb-2">
-                  Hourly Rate (USD) <span className="text-red-500">*</span>
+                  Listing Tier <span className="text-red-500">*</span>
                 </label>
-                <p className="text-gray-500 text-sm mb-3">Set your rate for 1-hour interview sessions. Platform takes 15% commission.</p>
+                <p className="text-gray-500 text-sm mb-4">Choose your directory listing tier. This controls your visibility and features. You still set your own session rates.</p>
+                <div className="grid grid-cols-1 gap-4">
+                  {(Object.entries(INTERVIEWER_TIERS) as [InterviewerTier, typeof INTERVIEWER_TIERS[InterviewerTier]][]).map(([key, tier]) => {
+                    const isSelected = formData.listingTier === key;
+                    const isPopular = 'popular' in tier && tier.popular;
+                    return (
+                      <button
+                        key={key}
+                        type="button"
+                        onClick={() => updateFormData('listingTier', key)}
+                        className={`relative text-left p-5 rounded-xl border-2 transition-all ${
+                          isSelected
+                            ? 'border-orange-500 bg-orange-500/10'
+                            : 'border-white/10 bg-gray-800/30 hover:border-white/20'
+                        }`}
+                      >
+                        {isPopular && (
+                          <span className="absolute -top-3 right-4 bg-yellow-400 text-white px-3 py-0.5 rounded-full text-xs font-bold">
+                            RECOMMENDED
+                          </span>
+                        )}
+                        <div className="flex items-center justify-between mb-2">
+                          <div className="flex items-center gap-3">
+                            <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
+                              isSelected ? 'border-orange-500' : 'border-gray-600'
+                            }`}>
+                              {isSelected && <div className="w-3 h-3 rounded-full bg-orange-500" />}
+                            </div>
+                            <h4 className="text-lg font-bold text-white">{tier.name}</h4>
+                          </div>
+                          <span className="text-2xl font-bold text-orange-400">${tier.price}<span className="text-sm text-gray-500">/mo</span></span>
+                        </div>
+                        <ul className="ml-8 space-y-1">
+                          {tier.features.map((feature, i) => (
+                            <li key={i} className="text-sm text-gray-400 flex items-center gap-2">
+                              <svg className="w-4 h-4 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                              </svg>
+                              {feature}
+                            </li>
+                          ))}
+                        </ul>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Session Rate */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-300 mb-2">
+                  Session Rate (USD/hour) <span className="text-red-500">*</span>
+                </label>
+                <p className="text-gray-500 text-sm mb-3">Set your rate for 1-hour interview sessions. Platform takes 20% commission on sessions.</p>
                 <div className="relative">
                   <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg">$</span>
                   <input
@@ -468,17 +525,17 @@ export default function InterviewerRegisterPage() {
                 </div>
                 <div className="mt-3 p-4 bg-gray-800/50 rounded-lg">
                   <div className="flex justify-between text-sm mb-2">
-                    <span className="text-gray-400">Your rate</span>
+                    <span className="text-gray-400">Your session rate</span>
                     <span className="text-white">${(formData.ratePerHour / 100).toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between text-sm mb-2">
-                    <span className="text-gray-400">Platform fee (15%)</span>
-                    <span className="text-red-400">-${(formData.ratePerHour * 0.15 / 100).toFixed(2)}</span>
+                    <span className="text-gray-400">Platform fee (20%)</span>
+                    <span className="text-red-400">-${(formData.ratePerHour * 0.20 / 100).toFixed(2)}</span>
                   </div>
                   <div className="border-t border-white/10 pt-2 mt-2">
                     <div className="flex justify-between text-sm font-semibold">
-                      <span className="text-gray-300">You receive</span>
-                      <span className="text-green-400">${(formData.ratePerHour * 0.85 / 100).toFixed(2)}</span>
+                      <span className="text-gray-300">You receive per session</span>
+                      <span className="text-green-400">${(formData.ratePerHour * 0.80 / 100).toFixed(2)}</span>
                     </div>
                   </div>
                 </div>
@@ -524,11 +581,11 @@ export default function InterviewerRegisterPage() {
                     <span className="text-white">{formData.expertise.length} areas</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-400">Languages</span>
-                    <span className="text-white">{formData.languages.length} languages</span>
+                    <span className="text-gray-400">Listing Tier</span>
+                    <span className="text-orange-400">{INTERVIEWER_TIERS[formData.listingTier].name} (${INTERVIEWER_TIERS[formData.listingTier].price}/mo)</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-400">Hourly Rate</span>
+                    <span className="text-gray-400">Session Rate</span>
                     <span className="text-orange-400">${(formData.ratePerHour / 100).toFixed(0)}/hr</span>
                   </div>
                 </div>
@@ -537,7 +594,7 @@ export default function InterviewerRegisterPage() {
               <div className="p-4 bg-yellow-500/10 border border-yellow-500/30 rounded-lg">
                 <p className="text-yellow-400 text-sm">
                   <strong>Note:</strong> Your profile will be reviewed by our team before you can start accepting sessions.
-                  This usually takes 1-2 business days.
+                  This usually takes 1-2 business days. Your listing subscription begins after approval.
                 </p>
               </div>
             </div>

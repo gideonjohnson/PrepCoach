@@ -26,12 +26,21 @@ export const stripe = new Proxy({} as Stripe, {
 });
 
 // Stripe price IDs from environment
-export const STRIPE_PRICE_IDS = {
+export const STRIPE_PRICE_IDS: Record<string, string> = {
+  // Job Seeker tiers
   pro: process.env.STRIPE_PRO_MONTHLY_PRICE_ID || '',
   enterprise: process.env.STRIPE_ENTERPRISE_MONTHLY_PRICE_ID || '',
+  // Interviewer tiers
+  interviewer_basic: process.env.STRIPE_PRICE_ID_INTERVIEWER_BASIC || '',
+  interviewer_featured: process.env.STRIPE_PRICE_ID_INTERVIEWER_FEATURED || '',
+  interviewer_premium: process.env.STRIPE_PRICE_ID_INTERVIEWER_PREMIUM || '',
+  // Recruiter tiers
+  recruiter_starter: process.env.STRIPE_PRICE_ID_RECRUITER_STARTER || '',
+  recruiter_growth: process.env.STRIPE_PRICE_ID_RECRUITER_GROWTH || '',
+  recruiter_scale: process.env.STRIPE_PRICE_ID_RECRUITER_SCALE || '',
 };
 
-// Check if Stripe is configured
+// Check if Stripe is configured (at minimum, the secret key and seeker tiers)
 export function isStripeConfigured(): boolean {
   return !!(
     process.env.STRIPE_SECRET_KEY &&
@@ -41,8 +50,9 @@ export function isStripeConfigured(): boolean {
 }
 
 // Get subscription tier from Stripe price ID
-export function getSubscriptionTier(priceId: string): 'pro' | 'enterprise' {
-  if (priceId === STRIPE_PRICE_IDS.pro) return 'pro';
-  if (priceId === STRIPE_PRICE_IDS.enterprise) return 'enterprise';
+export function getSubscriptionTier(priceId: string): string {
+  for (const [tier, id] of Object.entries(STRIPE_PRICE_IDS)) {
+    if (id && id === priceId) return tier;
+  }
   return 'pro'; // Default to pro
 }

@@ -82,81 +82,35 @@ export default function PaymentGate({ children, feature = 'this feature' }: Paym
             <div className="bg-gradient-to-br from-purple-50 to-blue-50 rounded-2xl p-6 mb-8 border border-purple-200">
               <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
                 <span className="text-2xl">🚀</span>
-                What You&apos;ll Get
+                What You&apos;ll Get with Pro
               </h3>
               <div className="grid md:grid-cols-2 gap-4">
-                <div className="flex items-start gap-3">
-                  <div className="flex-shrink-0 mt-1">
-                    <svg className="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                    </svg>
+                {[
+                  { title: 'Unlimited Interviews', desc: 'Practice with all 500+ roles' },
+                  { title: 'AI Feedback', desc: 'Detailed insights on every response' },
+                  { title: 'Coding Practice', desc: 'Live coding interview prep' },
+                  { title: 'System Design', desc: 'Architecture interview practice' },
+                  { title: 'Resume Builder', desc: 'ATS-optimized templates' },
+                  { title: 'LinkedIn Optimizer', desc: '3x more profile views' },
+                ].map(({ title, desc }) => (
+                  <div key={title} className="flex items-start gap-3">
+                    <div className="flex-shrink-0 mt-1">
+                      <svg className="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-gray-900">{title}</h4>
+                      <p className="text-sm text-gray-600">{desc}</p>
+                    </div>
                   </div>
-                  <div>
-                    <h4 className="font-semibold text-gray-900">Unlimited Interviews</h4>
-                    <p className="text-sm text-gray-600">Practice with 45+ questions per role</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <div className="flex-shrink-0 mt-1">
-                    <svg className="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-gray-900">AI Feedback</h4>
-                    <p className="text-sm text-gray-600">Get detailed insights on every response</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <div className="flex-shrink-0 mt-1">
-                    <svg className="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-gray-900">LinkedIn Optimizer</h4>
-                    <p className="text-sm text-gray-600">3x more profile views</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <div className="flex-shrink-0 mt-1">
-                    <svg className="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-gray-900">Career Roadmap</h4>
-                    <p className="text-sm text-gray-600">Personalized growth plans</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <div className="flex-shrink-0 mt-1">
-                    <svg className="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-gray-900">Salary Negotiation</h4>
-                    <p className="text-sm text-gray-600">$15K+ average increase</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <div className="flex-shrink-0 mt-1">
-                    <svg className="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-gray-900">Resume Builder</h4>
-                    <p className="text-sm text-gray-600">ATS-optimized templates</p>
-                  </div>
-                </div>
+                ))}
               </div>
             </div>
 
             {/* Pricing Highlight */}
             <div className="bg-gradient-to-r from-orange-500 to-red-500 rounded-2xl p-6 mb-8 text-white text-center">
-              <p className="text-sm font-semibold uppercase tracking-wide mb-2 opacity-90">Special Offer</p>
+              <p className="text-sm font-semibold uppercase tracking-wide mb-2 opacity-90">Pro Plan</p>
               <div className="flex items-center justify-center gap-3 mb-2">
                 <span className="text-4xl font-bold">$19</span>
                 <span className="text-xl opacity-90">/month</span>
@@ -170,13 +124,13 @@ export default function PaymentGate({ children, feature = 'this feature' }: Paym
                 href="/pricing"
                 className="w-full px-8 py-4 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-xl text-lg font-bold hover:from-orange-600 hover:to-red-600 transition-all shadow-lg hover:shadow-xl text-center transform hover:scale-105"
               >
-                View Pricing & Subscribe
+                View Pricing &amp; Subscribe
               </Link>
               <Link
                 href="/dashboard"
                 className="w-full px-8 py-4 bg-white text-gray-700 border-2 border-gray-300 rounded-xl text-lg font-semibold hover:bg-gray-50 transition-all text-center"
               >
-                ← Back to Dashboard
+                &larr; Back to Dashboard
               </Link>
             </div>
 

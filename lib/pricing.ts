@@ -1,5 +1,5 @@
 // ============================================
-// SUBSCRIPTION TIERS
+// JOB SEEKER SUBSCRIPTION TIERS
 // ============================================
 
 export const PRICING_TIERS = {
@@ -8,41 +8,58 @@ export const PRICING_TIERS = {
     price: 0,
     interval: 'month',
     features: [
-      '3 questions per 2 weeks',
-      '3 AI feedback requests per month',
-      'Access to all 500+ roles',
-      'Audio recording & transcription',
-      'Basic analytics',
+      '3 questions total',
+      '1 role only',
+      'Basic question practice',
     ],
     limits: {
-      interviewsPerTwoWeeks: 3,
-      feedbackPerMonth: 3,
+      questionsTotal: 3,
+      rolesAllowed: 1,
+      aiFeedback: false,
+      coding: false,
+      systemDesign: false,
+      resume: false,
+      linkedin: false,
+      jdAnalysis: false,
+      recording: false,
+      export: false,
     }
   },
   pro: {
     name: 'Pro',
-    price: 25,
+    price: 19,
     interval: 'month',
     currency: 'USD',
     features: [
       'Unlimited interview sessions',
       'Unlimited AI feedback',
       'Access to all 500+ roles',
+      'Coding interview practice',
+      'System design practice',
       'Audio recording & transcription',
-      'Advanced analytics & insights',
-      'Export to PDF & CSV',
-      'Priority support',
       'AI Resume Builder',
-      'Custom role creation (coming soon)'
+      'LinkedIn Optimizer',
+      'JD Analysis',
+      'Export to PDF & CSV',
+      'Advanced analytics & insights',
+      'Priority support',
     ],
     limits: {
-      interviewsPerMonth: -1, // unlimited
-      feedbackPerMonth: -1, // unlimited,
+      questionsTotal: -1, // unlimited
+      rolesAllowed: -1, // unlimited
+      aiFeedback: true,
+      coding: true,
+      systemDesign: true,
+      resume: true,
+      linkedin: true,
+      jdAnalysis: true,
+      recording: true,
+      export: true,
     }
   },
   enterprise: {
     name: 'Enterprise',
-    price: 65,
+    price: 59,
     interval: 'month',
     currency: 'USD',
     features: [
@@ -53,12 +70,20 @@ export const PRICING_TIERS = {
       'Custom integrations',
       'Advanced reporting & analytics',
       'SLA & 24/7 support',
-      'Custom branding'
+      'Custom branding',
     ],
     limits: {
-      interviewsPerMonth: -1, // unlimited
-      feedbackPerMonth: -1, // unlimited
-      teamMembers: 4
+      questionsTotal: -1, // unlimited
+      rolesAllowed: -1, // unlimited
+      aiFeedback: true,
+      coding: true,
+      systemDesign: true,
+      resume: true,
+      linkedin: true,
+      jdAnalysis: true,
+      recording: true,
+      export: true,
+      teamMembers: 4,
     }
   },
   lifetime: {
@@ -69,24 +94,157 @@ export const PRICING_TIERS = {
       'LIFETIME ACCESS - No expiration!',
       'Unlimited interview sessions forever',
       'Unlimited AI feedback forever',
-      'Access to all 350+ roles',
+      'Access to all 500+ roles',
       'Audio recording & transcription',
       'Advanced analytics & insights',
       'Export to PDF & CSV',
       'Priority support',
       'All future features included',
-      'Celebrity AI interviewers',
-      'ATS resume optimization',
-      'Resume builder with AI'
     ],
     limits: {
-      interviewsPerMonth: -1, // unlimited
-      feedbackPerMonth: -1, // unlimited
+      questionsTotal: -1,
+      rolesAllowed: -1,
+      aiFeedback: true,
+      coding: true,
+      systemDesign: true,
+      resume: true,
+      linkedin: true,
+      jdAnalysis: true,
+      recording: true,
+      export: true,
     }
   }
 } as const;
 
 export type SubscriptionTier = keyof typeof PRICING_TIERS;
+
+// ============================================
+// INTERVIEWER LISTING TIERS
+// ============================================
+
+export const INTERVIEWER_TIERS = {
+  interviewer_basic: {
+    name: 'Basic',
+    price: 19,
+    interval: 'month',
+    currency: 'USD',
+    features: [
+      'Listed in interviewer directory',
+      'Up to 5 active listings',
+      'Basic profile badge',
+      'Standard search ranking',
+    ],
+    limits: {
+      activeListings: 5,
+      featuredPlacement: false,
+      prioritySupport: false,
+      analyticsDashboard: false,
+    },
+  },
+  interviewer_featured: {
+    name: 'Featured',
+    price: 39,
+    interval: 'month',
+    currency: 'USD',
+    popular: true,
+    features: [
+      'Everything in Basic',
+      'Up to 15 active listings',
+      'Featured badge & highlight',
+      'Boosted search ranking',
+      'Analytics dashboard',
+    ],
+    limits: {
+      activeListings: 15,
+      featuredPlacement: true,
+      prioritySupport: false,
+      analyticsDashboard: true,
+    },
+  },
+  interviewer_premium: {
+    name: 'Premium',
+    price: 79,
+    interval: 'month',
+    currency: 'USD',
+    features: [
+      'Everything in Featured',
+      'Unlimited active listings',
+      'Premium badge & top placement',
+      'Priority support',
+      'Advanced analytics dashboard',
+      'Custom profile URL',
+    ],
+    limits: {
+      activeListings: -1, // unlimited
+      featuredPlacement: true,
+      prioritySupport: true,
+      analyticsDashboard: true,
+    },
+  },
+} as const;
+
+export type InterviewerTier = keyof typeof INTERVIEWER_TIERS;
+
+// ============================================
+// RECRUITER SUBSCRIPTION TIERS
+// ============================================
+
+export const RECRUITER_TIERS = {
+  recruiter_starter: {
+    name: 'Starter',
+    price: 50,
+    interval: 'month',
+    currency: 'USD',
+    credits: 3,
+    extraCreditPrice: 20, // $20 per extra credit
+    features: [
+      '3 candidate credits/month',
+      'Browse candidate profiles',
+      'Basic search filters',
+      'Email support',
+    ],
+  },
+  recruiter_growth: {
+    name: 'Growth',
+    price: 75,
+    interval: 'month',
+    currency: 'USD',
+    credits: 8,
+    extraCreditPrice: 15,
+    popular: true,
+    features: [
+      '8 candidate credits/month',
+      'Advanced search & filters',
+      'Candidate shortlists',
+      'Priority support',
+      'Team collaboration (2 seats)',
+    ],
+  },
+  recruiter_scale: {
+    name: 'Scale',
+    price: 150,
+    interval: 'month',
+    currency: 'USD',
+    credits: 20,
+    extraCreditPrice: 10,
+    features: [
+      '20 candidate credits/month',
+      'Unlimited search & filters',
+      'ATS integration',
+      'Dedicated account manager',
+      'Team collaboration (5 seats)',
+      'Custom reporting',
+    ],
+  },
+} as const;
+
+export type RecruiterTier = keyof typeof RECRUITER_TIERS;
+
+// ============================================
+// ALL TIER TYPES (for checkout)
+// ============================================
+
+export type AllTierTypes = SubscriptionTier | InterviewerTier | RecruiterTier;
 
 export type FeatureType =
   | 'interview'
@@ -94,84 +252,122 @@ export type FeatureType =
   | 'coding_session'
   | 'system_design'
   | 'job_description'
-  | 'recording';
+  | 'recording'
+  | 'resume'
+  | 'linkedin'
+  | 'export';
 
-// Phase 1 feature limits per tier
+// Phase 1 feature limits per tier (for gated features)
 const PHASE1_LIMITS: Record<string, Record<string, number>> = {
   free: {
-    coding_session: 3,     // 3 coding sessions per month
-    system_design: 2,      // 2 system design sessions per month
-    job_description: 2,    // 2 JD analyses per month
-    recording: 1,          // 1 recording per month
+    coding_session: 0,     // blocked
+    system_design: 0,      // blocked
+    job_description: 0,    // blocked
+    recording: 0,          // blocked
+    resume: 0,             // blocked
+    linkedin: 0,           // blocked
+    export: 0,             // blocked
   },
   pro: {
     coding_session: -1,    // unlimited
     system_design: -1,
     job_description: -1,
     recording: -1,
+    resume: -1,
+    linkedin: -1,
+    export: -1,
   },
   enterprise: {
     coding_session: -1,
     system_design: -1,
     job_description: -1,
     recording: -1,
+    resume: -1,
+    linkedin: -1,
+    export: -1,
   },
   lifetime: {
     coding_session: -1,
     system_design: -1,
     job_description: -1,
     recording: -1,
+    resume: -1,
+    linkedin: -1,
+    export: -1,
   },
 };
 
 export function canUseFeature(
   tier: SubscriptionTier,
-  interviewsThisPeriod: number,
+  questionsUsed: number,
   feedbackThisMonth: number,
   feature: FeatureType,
-  featureUsageThisMonth?: number
+  featureUsageThisMonth?: number,
+  currentRoleCount?: number
 ): { allowed: boolean; reason?: string } {
   // Default to pro if tier is undefined or invalid
   const validTier = PRICING_TIERS[tier as keyof typeof PRICING_TIERS] ? tier : 'pro';
-  const limits = PRICING_TIERS[validTier].limits as Record<string, number>;
+  const limits = PRICING_TIERS[validTier].limits as Record<string, number | boolean>;
 
   if (feature === 'interview') {
-    if (limits.interviewsPerMonth === -1) {
+    const questionsTotal = limits.questionsTotal as number;
+    if (questionsTotal === -1) {
       return { allowed: true };
     }
-    if (limits.interviewsPerTwoWeeks !== undefined) {
-      if (interviewsThisPeriod >= limits.interviewsPerTwoWeeks) {
+    if (questionsUsed >= questionsTotal) {
+      return {
+        allowed: false,
+        reason: `You've used all ${questionsTotal} free questions. Upgrade to Pro for unlimited access.`
+      };
+    }
+    // Check role lock for free tier
+    if (validTier === 'free' && currentRoleCount !== undefined) {
+      const rolesAllowed = limits.rolesAllowed as number;
+      if (rolesAllowed !== -1 && currentRoleCount >= rolesAllowed) {
         return {
           allowed: false,
-          reason: `You've reached your limit of ${limits.interviewsPerTwoWeeks} questions per 2 weeks. Upgrade to Pro for unlimited access.`
+          reason: `Free tier is limited to ${rolesAllowed} role. Upgrade to Pro to access all 500+ roles.`
         };
       }
-      return { allowed: true };
     }
     return { allowed: true };
   }
 
   if (feature === 'feedback') {
-    if (limits.feedbackPerMonth === -1) {
-      return { allowed: true };
-    }
-    if (feedbackThisMonth >= limits.feedbackPerMonth) {
+    const aiFeedback = limits.aiFeedback as boolean;
+    if (!aiFeedback) {
       return {
         allowed: false,
-        reason: `You've reached your monthly limit of ${limits.feedbackPerMonth} AI feedback requests. Upgrade to Pro for unlimited access.`
+        reason: 'AI feedback is a Pro feature. Upgrade to Pro for unlimited AI feedback.'
       };
     }
     return { allowed: true };
   }
 
-  // Phase 1 features
-  const phase1Features: FeatureType[] = ['coding_session', 'system_design', 'job_description', 'recording'];
+  // Phase 1 features (all gated behind Pro for free users)
+  const phase1Features: FeatureType[] = ['coding_session', 'system_design', 'job_description', 'recording', 'resume', 'linkedin', 'export'];
   if (phase1Features.includes(feature)) {
     const tierLimits = PHASE1_LIMITS[validTier] || PHASE1_LIMITS.free;
     const limit = tierLimits[feature];
 
     if (limit === -1) {
       return { allowed: true };
+    }
+
+    if (limit === 0) {
+      const featureNames: Record<string, string> = {
+        coding_session: 'Coding interview practice',
+        system_design: 'System design practice',
+        job_description: 'JD analysis',
+        recording: 'Session recording',
+        resume: 'AI Resume Builder',
+        linkedin: 'LinkedIn Optimizer',
+        export: 'Export to PDF/CSV',
+      };
+      return {
+        allowed: false,
+        reason: `${featureNames[feature]} is a Pro feature. Upgrade to Pro to unlock it.`
+      };
     }
 
     const usage = featureUsageThisMonth ?? 0;
@@ -181,6 +377,9 @@ export function canUseFeature(
         system_design: 'system design sessions',
         job_description: 'job description analyses',
         recording: 'session recordings',
+        resume: 'resume builds',
+        linkedin: 'LinkedIn optimizations',
+        export: 'exports',
       };
       return {
         allowed: false,
@@ -285,45 +484,6 @@ export const COACHING_PACKAGES = {
 export type CoachingPackageType = keyof typeof COACHING_PACKAGES;
 
 // ============================================
-// PHASE 3: MARKETPLACE CREDITS
-// ============================================
-
-export const MARKETPLACE_CREDITS = {
-  // Cost per action
-  interview_request: 1, // 1 credit per interview request
-  profile_unlock: 0, // Viewing profiles is free, requesting interview costs credit
-
-  // Credit packs
-  credit_packs: {
-    starter: {
-      name: 'Starter Pack',
-      credits: 5,
-      price: 250000, // $2,500
-      pricePerCredit: 50000, // $500/credit
-      description: 'For small teams starting to hire',
-    },
-    growth: {
-      name: 'Growth Pack',
-      credits: 12,
-      price: 500000, // $5,000
-      pricePerCredit: 41667, // ~$417/credit
-      savings: '17%',
-      description: 'For growing teams with active hiring',
-    },
-    enterprise: {
-      name: 'Enterprise Pack',
-      credits: 30,
-      price: 1000000, // $10,000
-      pricePerCredit: 33333, // ~$333/credit
-      savings: '33%',
-      description: 'For large-scale hiring initiatives',
-    },
-  },
-} as const;
-
-export type CreditPackType = keyof typeof MARKETPLACE_CREDITS['credit_packs'];
-
-// ============================================
 // HELPER FUNCTIONS
 // ============================================
 
@@ -353,19 +513,53 @@ export function getCoachingPackagePrice(packageType: CoachingPackageType): {
   };
 }
 
-export function getCreditPackPrice(packType: CreditPackType): {
-  totalPrice: number;
-  credits: number;
-  pricePerCredit: number;
-} {
-  const pack = MARKETPLACE_CREDITS.credit_packs[packType];
-  return {
-    totalPrice: pack.price,
-    credits: pack.credits,
-    pricePerCredit: pack.pricePerCredit,
-  };
+export function getInterviewerTier(tier: InterviewerTier) {
+  return INTERVIEWER_TIERS[tier];
 }
 
-export function calculateMarketplaceCreditCost(action: 'interview_request'): number {
-  return MARKETPLACE_CREDITS[action];
+export function getRecruiterTier(tier: RecruiterTier) {
+  return RECRUITER_TIERS[tier];
 }
+
+export function getRoleForTier(tier: AllTierTypes): 'seeker' | 'interviewer' | 'recruiter' {
+  if (tier.startsWith('interviewer_')) return 'interviewer';
+  if (tier.startsWith('recruiter_')) return 'recruiter';
+  return 'seeker';
+}
+
+// ============================================
+// BACKWARD COMPATIBILITY: MARKETPLACE_CREDITS
+// (Used by recruiter credits and talent request APIs)
+// ============================================
+
+export const MARKETPLACE_CREDITS = {
+  interview_request: 1,
+  profile_unlock: 0,
+  credit_packs: {
+    starter: {
+      name: 'Starter Pack',
+      credits: RECRUITER_TIERS.recruiter_starter.credits,
+      price: RECRUITER_TIERS.recruiter_starter.price * 100, // cents
+      pricePerCredit: Math.round((RECRUITER_TIERS.recruiter_starter.price * 100) / RECRUITER_TIERS.recruiter_starter.credits),
+      description: 'For small teams starting to hire',
+    },
+    growth: {
+      name: 'Growth Pack',
+      credits: RECRUITER_TIERS.recruiter_growth.credits,
+      price: RECRUITER_TIERS.recruiter_growth.price * 100,
+      pricePerCredit: Math.round((RECRUITER_TIERS.recruiter_growth.price * 100) / RECRUITER_TIERS.recruiter_growth.credits),
+      savings: '17%',
+      description: 'For growing teams with active hiring',
+    },
+    enterprise: {
+      name: 'Enterprise Pack',
+      credits: RECRUITER_TIERS.recruiter_scale.credits,
+      price: RECRUITER_TIERS.recruiter_scale.price * 100,
+      pricePerCredit: Math.round((RECRUITER_TIERS.recruiter_scale.price * 100) / RECRUITER_TIERS.recruiter_scale.credits),
+      savings: '33%',
+      description: 'For large-scale hiring initiatives',
+    },
+  },
+} as const;
+
+export type CreditPackType = keyof typeof MARKETPLACE_CREDITS['credit_packs'];

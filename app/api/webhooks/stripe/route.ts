@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import prisma from '@/lib/prisma';
-import { getStripe } from '@/lib/stripe';
+import { getStripe, getSubscriptionTier } from '@/lib/stripe';
 
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET || '';
 
@@ -22,39 +22,51 @@ export async function POST(req: NextRequest) {
     switch (event.type) {
       case 'checkout.session.completed': {
         const session = event.data.object as Stripe.Checkout.Session;
-        const { sessionId, type } = session.metadata || {};
+        const metadata = session.metadata || {};
 
-        if (type === 'expert_session' && sessionId) {
-          // Update expert session status
+        // Handle subscription-based tiers (job seeker, interviewer, recruiter)
+        // All subscription data is stored on the User model
+        if (metadata.tier && metadata.userId) {
+          const { userId, tier } = metadata;
+
+          await prisma.user.update({
+            where: { id: userId },
+            data: {
+              subscriptionTier: tier,
+              subscriptionStatus: 'active',
+              subscriptionStart: new Date(),
+              stripeCustomerId: session.customer as string || undefined,
+            },
+          });
+        }
+
+        // Handle expert session payment
+        if (metadata.type === 'expert_session' && metadata.sessionId) {
           await prisma.expertSession.update({
-            where: { id: sessionId },
+            where: { id: metadata.sessionId },
             data: {
               status: 'scheduled',
               paymentIntentId: session.payment_intent as string,
               paymentStatus: 'paid',
             },
           });
-
-          // TODO: Send confirmation emails to both candidate and interviewer
-          // Expert session payment completed
         }
 
-        if (type === 'coaching_package' && sessionId) {
-          // Handle coaching package purchase
+        // Handle coaching package purchase
+        if (metadata.type === 'coaching_package' && metadata.sessionId) {
           await prisma.coachingPackage.update({
-            where: { id: sessionId },
+            where: { id: metadata.sessionId },
             data: {
               status: 'active',
               purchasedAt: new Date(),
               paymentIntentId: session.payment_intent as string,
             },
           });
-
-          // Coaching package purchased
         }
 
-        if (type === 'credit_purchase') {
-          const { purchaseId, companyId, credits } = session.metadata || {};
+        // Handle credit purchase (legacy)
+        if (metadata.type === 'credit_purchase') {
+          const { purchaseId, companyId, credits } = metadata;
           if (purchaseId && companyId && credits) {
             await prisma.$transaction([
               prisma.creditPurchase.update({
@@ -72,10 +84,40 @@ export async function POST(req: NextRequest) {
                 },
               }),
             ]);
-            // Credit purchase completed
           }
         }
 
+        break;
+      }
+
+      case 'customer.subscription.updated': {
+        const subscription = event.data.object as Stripe.Subscription;
+        const { userId } = subscription.metadata || {};
+
+        if (userId) {
+          const newTier = getSubscriptionTier(
+            subscription.items.data[0]?.price?.id || ''
+          );
+          const status = subscription.status === 'active' ? 'active' : 'cancelled';
+
+          await prisma.user.update({
+            where: { id: userId },
+            data: { subscriptionTier: newTier, subscriptionStatus: status },
+          });
+        }
+        break;
+      }
+
+      case 'customer.subscription.deleted': {
+        const subscription = event.data.object as Stripe.Subscription;
+        const { userId } = subscription.metadata || {};
+
+        if (userId) {
+          await prisma.user.update({
+            where: { id: userId },
+            data: { subscriptionTier: 'free', subscriptionStatus: 'cancelled' },
+          });
+        }
         break;
       }
 
@@ -84,7 +126,6 @@ export async function POST(req: NextRequest) {
         const { sessionId, type } = session.metadata || {};
 
         if (type === 'expert_session' && sessionId) {
-          // Cancel the session if payment wasn't completed
           await prisma.expertSession.update({
             where: { id: sessionId },
             data: {
@@ -105,21 +146,18 @@ export async function POST(req: NextRequest) {
 
       case 'charge.refunded': {
         const charge = event.data.object as Stripe.Charge;
-        // Update any expert sessions with this payment intent to refunded status
         if (charge.payment_intent) {
           await prisma.expertSession.updateMany({
             where: { paymentIntentId: charge.payment_intent as string },
             data: { paymentStatus: 'refunded' },
           });
         }
-        // Refund processed
         break;
       }
 
       // Stripe Connect events
       case 'account.updated': {
         const account = event.data.object as Stripe.Account;
-        // Update interviewer's Connect account status
         if (account.metadata?.interviewerId) {
           await prisma.interviewer.update({
             where: { id: account.metadata.interviewerId },
@@ -127,20 +165,12 @@ export async function POST(req: NextRequest) {
               payoutsEnabled: account.payouts_enabled,
             },
           });
-          // Connect account updated
         }
         break;
       }
 
       case 'transfer.created': {
         const transfer = event.data.object as Stripe.Transfer;
-        // Transfer created
-        break;
-      }
-
-      case 'transfer.created': {
-        const transfer = event.data.object as Stripe.Transfer;
-        // Update payout status to completed
         if (transfer.metadata?.interviewerId) {
           await prisma.interviewerPayout.updateMany({
             where: { stripeTransferId: transfer.id },
@@ -149,14 +179,12 @@ export async function POST(req: NextRequest) {
               paidAt: new Date(),
             },
           });
-          // Transfer paid
         }
         break;
       }
 
       case 'transfer.reversed': {
         const transfer = event.data.object as Stripe.Transfer;
-        // Update payout status to failed
         await prisma.interviewerPayout.updateMany({
           where: { stripeTransferId: transfer.id },
           data: {

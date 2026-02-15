@@ -126,7 +126,7 @@ export default function AffiliatePage() {
   const faq = [
     {
       question: 'How much can I realistically earn?',
-      answer: 'Top affiliates earn $3,000-$10,000/month. Average active affiliates earn $500-$2,000/month. Your earnings depend on your audience size and promotion efforts. With just 20 Pro subscribers ($25/month), you earn $150/month recurring.',
+      answer: 'Top affiliates earn $3,000-$10,000/month. Average active affiliates earn $500-$2,000/month. Your earnings depend on your audience size and promotion efforts. With just 20 Pro subscribers ($19/month), you earn $114/month recurring.',
     },
     {
       question: 'When and how do I get paid?',
@@ -289,8 +289,8 @@ export default function AffiliatePage() {
             <div className="relative text-center p-10 bg-gradient-to-br from-gray-900/80 to-black/80 backdrop-blur-2xl rounded-3xl border-2 border-white/10 overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-transparent"></div>
               <p className="relative text-xl text-gray-300 leading-relaxed">
-                <strong className="text-white">Example:</strong> Refer 25 customers to our Pro plan ($25/month) and earn{' '}
-                <strong className="text-orange-400 text-2xl">$156.25/month</strong> in recurring commissions = <strong className="text-orange-400 text-2xl">$1,875/year</strong>
+                <strong className="text-white">Example:</strong> Refer 25 customers to our Pro plan ($19/month) and earn{' '}
+                <strong className="text-orange-400 text-2xl">$142.50/month</strong> in recurring commissions = <strong className="text-orange-400 text-2xl">$1,710/year</strong>
               </p>
             </div>
           </div>

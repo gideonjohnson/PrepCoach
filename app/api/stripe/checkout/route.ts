@@ -3,7 +3,14 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { stripe, STRIPE_PRICE_IDS, isStripeConfigured } from '@/lib/stripe';
 import { checkApiRateLimit } from '@/lib/rate-limit';
+import { getRoleForTier, type AllTierTypes } from '@/lib/pricing';
 import crypto from 'crypto';
+
+const VALID_TIERS: AllTierTypes[] = [
+  'pro', 'enterprise',
+  'interviewer_basic', 'interviewer_featured', 'interviewer_premium',
+  'recruiter_starter', 'recruiter_growth', 'recruiter_scale',
+];
 
 export async function POST(req: NextRequest) {
   try {
@@ -46,7 +53,7 @@ export async function POST(req: NextRequest) {
     const { tier } = await req.json();
 
     // Validate tier
-    if (!['pro', 'enterprise'].includes(tier)) {
+    if (!VALID_TIERS.includes(tier)) {
       return NextResponse.json(
         { error: 'Invalid subscription tier' },
         { status: 400 }
@@ -54,7 +61,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Get the correct price ID
-    const priceId = tier === 'pro' ? STRIPE_PRICE_IDS.pro : STRIPE_PRICE_IDS.enterprise;
+    const priceId = STRIPE_PRICE_IDS[tier];
 
     if (!priceId) {
       return NextResponse.json(
@@ -70,6 +77,8 @@ export async function POST(req: NextRequest) {
       .createHash('sha256')
       .update(`${userId}-${tier}-${timeWindow}`)
       .digest('hex');
+
+    const role = getRoleForTier(tier as AllTierTypes);
 
     // Create Stripe checkout session with idempotency
     const checkoutSession = await stripe.checkout.sessions.create({
@@ -87,11 +96,13 @@ export async function POST(req: NextRequest) {
       metadata: {
         userId,
         tier,
+        role,
       },
       subscription_data: {
         metadata: {
           userId,
           tier,
+          role,
         },
       },
     }, {

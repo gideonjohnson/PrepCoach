@@ -13,15 +13,10 @@ import { canUseFeature } from '@/lib/pricing';
 
 describe('Feature Gates', () => {
   describe('canUseFeature - coding_session', () => {
-    it('should allow free tier under limit', () => {
-      const result = canUseFeature('free', 0, 0, 'coding_session', 2);
-      expect(result.allowed).toBe(true);
-    });
-
-    it('should block free tier at limit', () => {
-      const result = canUseFeature('free', 0, 0, 'coding_session', 3);
+    it('should block free tier (Pro-only feature)', () => {
+      const result = canUseFeature('free', 0, 0, 'coding_session', 0);
       expect(result.allowed).toBe(false);
-      expect(result.reason).toContain('coding sessions');
+      expect(result.reason).toContain('Pro feature');
     });
 
     it('should allow pro tier unlimited', () => {
@@ -36,14 +31,10 @@ describe('Feature Gates', () => {
   });
 
   describe('canUseFeature - system_design', () => {
-    it('should allow free tier under limit', () => {
-      const result = canUseFeature('free', 0, 0, 'system_design', 1);
-      expect(result.allowed).toBe(true);
-    });
-
-    it('should block free tier at limit', () => {
-      const result = canUseFeature('free', 0, 0, 'system_design', 2);
+    it('should block free tier (Pro-only feature)', () => {
+      const result = canUseFeature('free', 0, 0, 'system_design', 0);
       expect(result.allowed).toBe(false);
+      expect(result.reason).toContain('Pro feature');
     });
 
     it('should allow pro tier unlimited', () => {
@@ -53,14 +44,10 @@ describe('Feature Gates', () => {
   });
 
   describe('canUseFeature - job_description', () => {
-    it('should allow free tier under limit', () => {
-      const result = canUseFeature('free', 0, 0, 'job_description', 1);
-      expect(result.allowed).toBe(true);
-    });
-
-    it('should block free tier at limit', () => {
-      const result = canUseFeature('free', 0, 0, 'job_description', 2);
+    it('should block free tier (Pro-only feature)', () => {
+      const result = canUseFeature('free', 0, 0, 'job_description', 0);
       expect(result.allowed).toBe(false);
+      expect(result.reason).toContain('Pro feature');
     });
 
     it('should allow lifetime tier unlimited', () => {
@@ -70,24 +57,39 @@ describe('Feature Gates', () => {
   });
 
   describe('canUseFeature - recording', () => {
-    it('should allow free tier under limit', () => {
+    it('should block free tier (Pro-only feature)', () => {
       const result = canUseFeature('free', 0, 0, 'recording', 0);
-      expect(result.allowed).toBe(true);
-    });
-
-    it('should block free tier at limit', () => {
-      const result = canUseFeature('free', 0, 0, 'recording', 1);
       expect(result.allowed).toBe(false);
+      expect(result.reason).toContain('Pro feature');
     });
   });
 
-  describe('canUseFeature - legacy features', () => {
-    it('should handle interview feature for free tier', () => {
-      const result = canUseFeature('free', 5, 0, 'interview');
-      expect(result.allowed).toBe(false);
+  describe('canUseFeature - interview (questions)', () => {
+    it('should allow free tier under 3 questions', () => {
+      const result = canUseFeature('free', 2, 0, 'interview');
+      expect(result.allowed).toBe(true);
     });
 
-    it('should handle feedback feature for pro tier', () => {
+    it('should block free tier at 3 questions', () => {
+      const result = canUseFeature('free', 3, 0, 'interview');
+      expect(result.allowed).toBe(false);
+      expect(result.reason).toContain('3 free questions');
+    });
+
+    it('should allow pro tier unlimited', () => {
+      const result = canUseFeature('pro', 999, 0, 'interview');
+      expect(result.allowed).toBe(true);
+    });
+  });
+
+  describe('canUseFeature - feedback', () => {
+    it('should block free tier (Pro-only feature)', () => {
+      const result = canUseFeature('free', 0, 0, 'feedback');
+      expect(result.allowed).toBe(false);
+      expect(result.reason).toContain('Pro feature');
+    });
+
+    it('should allow pro tier', () => {
       const result = canUseFeature('pro', 0, 999, 'feedback');
       expect(result.allowed).toBe(true);
     });

@@ -27,7 +27,7 @@ const faqSchema = {
       name: 'What happens when I hit my Free tier limits?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'You\'ll be notified when you\'re approaching your limits (3 questions per 2 weeks and 3 AI feedback requests per month). Once you hit your limits, you can either wait until they reset, or upgrade to Pro for unlimited access.',
+        text: 'The Free tier includes 3 total interview questions in 1 role. Once you\'ve used all 3 questions, you can upgrade to Pro for unlimited access to all features.',
       },
     },
     {
@@ -35,7 +35,7 @@ const faqSchema = {
       name: 'Is there a free trial for Pro or Enterprise?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'All new users start on our Free tier, which gives you a taste of PrepCoach with 3 questions per 2 weeks and 3 AI feedback requests per month. This lets you experience the platform before committing to a paid plan.',
+        text: 'All new users start on our Free tier, which gives you a taste of PrepCoach with 3 total interview questions in 1 role. This lets you experience the platform before committing to a paid plan.',
       },
     },
     {

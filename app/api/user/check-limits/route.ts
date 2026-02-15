@@ -2,7 +2,12 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
-import { canUseFeature, PRICING_TIERS, SubscriptionTier } from '@/lib/pricing';
+import { canUseFeature, PRICING_TIERS, SubscriptionTier, FeatureType } from '@/lib/pricing';
+
+const VALID_FEATURES: FeatureType[] = [
+  'interview', 'feedback', 'coding_session', 'system_design',
+  'job_description', 'recording', 'resume', 'linkedin', 'export',
+];
 
 // GET /api/user/check-limits - Check if user can use a feature
 export async function GET(request: NextRequest) {
@@ -17,11 +22,11 @@ export async function GET(request: NextRequest) {
     }
 
     const { searchParams } = new URL(request.url);
-    const feature = searchParams.get('feature') as 'interview' | 'feedback';
+    const feature = searchParams.get('feature') as FeatureType;
 
-    if (!feature || !['interview', 'feedback'].includes(feature)) {
+    if (!feature || !VALID_FEATURES.includes(feature)) {
       return NextResponse.json(
-        { error: 'Invalid feature parameter' },
+        { error: 'Invalid feature parameter. Valid: ' + VALID_FEATURES.join(', ') },
         { status: 400 }
       );
     }
@@ -43,54 +48,48 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // Check if usage needs to be reset (new month)
-    const now = new Date();
-    const lastReset = new Date(user.lastResetDate);
-    const shouldReset = now.getMonth() !== lastReset.getMonth() ||
-                        now.getFullYear() !== lastReset.getFullYear();
+    const tier = (user.subscriptionTier || 'free') as SubscriptionTier;
+    const tierConfig = PRICING_TIERS[tier as keyof typeof PRICING_TIERS];
 
-    let interviewsThisMonth = user.interviewsThisMonth;
-    let feedbackThisMonth = user.feedbackThisMonth;
+    // For free tier, questions don't reset (total lifetime limit)
+    // For paid tiers, no limits apply
+    const questionsUsed = user.interviewsThisMonth;
+    const feedbackThisMonth = user.feedbackThisMonth;
 
-    if (shouldReset) {
-      // Reset usage counters
-      await prisma.user.update({
-        where: { id: session.user.id },
-        data: {
-          interviewsThisMonth: 0,
-          feedbackThisMonth: 0,
-          lastResetDate: now,
-        }
+    // Count distinct roles used (for free tier role lock)
+    let currentRoleCount = 0;
+    if (tier === 'free') {
+      const distinctRoles = await prisma.interviewSession.groupBy({
+        by: ['roleTitle'],
+        where: { userId: session.user.id },
       });
-      interviewsThisMonth = 0;
-      feedbackThisMonth = 0;
+      currentRoleCount = distinctRoles.length;
     }
 
     const result = canUseFeature(
-      user.subscriptionTier as SubscriptionTier,
-      interviewsThisMonth,
+      tier,
+      questionsUsed,
       feedbackThisMonth,
-      feature
+      feature,
+      undefined,
+      currentRoleCount
     );
-
-    const tier = PRICING_TIERS[user.subscriptionTier as keyof typeof PRICING_TIERS];
 
     return NextResponse.json({
       allowed: result.allowed,
       reason: result.reason,
       usage: {
-        interviews: {
-          used: interviewsThisMonth,
-          limit: 'interviewsPerMonth' in tier.limits ? tier.limits.interviewsPerMonth : ('interviewsPerTwoWeeks' in tier.limits ? tier.limits.interviewsPerTwoWeeks : 0),
-          unlimited: 'interviewsPerMonth' in tier.limits && tier.limits.interviewsPerMonth === -1
+        questions: {
+          used: questionsUsed,
+          limit: tierConfig ? (tierConfig.limits.questionsTotal as number) : 3,
+          unlimited: tierConfig ? (tierConfig.limits.questionsTotal as number) === -1 : false,
         },
         feedback: {
-          used: feedbackThisMonth,
-          limit: tier.limits.feedbackPerMonth,
-          unlimited: tier.limits.feedbackPerMonth === -1
-        }
+          available: tierConfig ? !!tierConfig.limits.aiFeedback : false,
+        },
+        rolesUsed: currentRoleCount,
       },
-      tier: user.subscriptionTier
+      tier,
     });
   } catch (error) {
     console.error('Check limits error:', error);
