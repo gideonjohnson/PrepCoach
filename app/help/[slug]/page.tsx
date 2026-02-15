@@ -942,7 +942,7 @@ export default function HelpArticlePage() {
               </svg>
               <div>
                 <div className="font-semibold">Contact Support</div>
-                <div className="text-sm text-white/80">We're here to help</div>
+                <div className="text-sm text-white/80">We&apos;re here to help</div>
               </div>
             </a>
           </div>

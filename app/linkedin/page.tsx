@@ -472,10 +472,10 @@ function LinkedInOptimizerContent() {
               <h3 className="font-semibold text-white mb-3">How to import your LinkedIn profile:</h3>
               <ol className="list-decimal list-inside space-y-2 text-sm text-gray-300">
                 <li>Go to your LinkedIn profile page</li>
-                <li>Click "More" button, then select "Save to PDF"</li>
+                <li>Click &quot;More&quot; button, then select &quot;Save to PDF&quot;</li>
                 <li>Open the PDF and copy ALL the text (Ctrl+A, then Ctrl+C)</li>
                 <li>Paste it in the text area below</li>
-                <li>Click "Parse & Import" - our AI will extract everything automatically</li>
+                <li>Click &quot;Parse &amp; Import&quot; - our AI will extract everything automatically</li>
               </ol>
               <p className="text-xs text-gray-500 mt-3">
                 <strong>Alternative:</strong> You can also manually copy-paste sections from your LinkedIn profile page

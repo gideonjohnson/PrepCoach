@@ -2335,7 +2335,7 @@ export default function BlogPostPage() {
         <Header />
         <div className="max-w-4xl mx-auto px-4 py-20 text-center">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">Post Not Found</h1>
-          <p className="text-gray-600 mb-8">The blog post you're looking for doesn't exist.</p>
+          <p className="text-gray-600 mb-8">The blog post you&apos;re looking for doesn&apos;t exist.</p>
           <Link href="/blog">
             <button className="px-6 py-3 bg-blue-600 text-white rounded-full font-semibold hover:bg-blue-700 transition">
               Back to Blog

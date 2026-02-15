@@ -73,7 +73,7 @@ export default function PricingPage() {
             Choose Your <span className="bg-gradient-to-r from-orange-400 via-red-500 to-pink-500 bg-clip-text text-transparent animate-pulse">Perfect Plan</span>
           </h1>
           <p className="text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto mb-8 px-4">
-            Simple, transparent pricing. Start practicing today with our free tier, upgrade when you're ready.
+            Simple, transparent pricing. Start practicing today with our free tier, upgrade when you&apos;re ready.
           </p>
 
           {/* Hero Image */}
@@ -190,8 +190,8 @@ export default function PricingPage() {
                 Can I change plans anytime?
               </h3>
               <p className="text-gray-600 ml-8">
-                Yes! You can upgrade or downgrade your plan at any time. When you upgrade, you'll get immediate access to all the features.
-                When you downgrade, changes take effect at the end of your current billing period, so you won't lose access to features you've already paid for.
+                Yes! You can upgrade or downgrade your plan at any time. When you upgrade, you&apos;ll get immediate access to all the features.
+                When you downgrade, changes take effect at the end of your current billing period, so you won&apos;t lose access to features you&apos;ve already paid for.
               </p>
             </div>
 
@@ -201,7 +201,7 @@ export default function PricingPage() {
                 What happens when I hit my Free tier limits?
               </h3>
               <p className="text-gray-600 ml-8">
-                You'll be notified when you're approaching your limits (3 questions per 2 weeks and 3 AI feedback requests per month).
+                You&apos;ll be notified when you&apos;re approaching your limits (3 questions per 2 weeks and 3 AI feedback requests per month).
                 Once you hit your limits, you can either wait until they reset, or upgrade to Pro for unlimited access.
               </p>
             </div>
@@ -234,8 +234,8 @@ export default function PricingPage() {
                 Can I cancel my subscription anytime?
               </h3>
               <p className="text-gray-600 ml-8">
-                Absolutely! You can cancel your subscription at any time from your account settings. When you cancel, you'll continue to have access
-                to your paid features until the end of your current billing period. After that, you'll automatically be moved to the Free tier.
+                Absolutely! You can cancel your subscription at any time from your account settings. When you cancel, you&apos;ll continue to have access
+                to your paid features until the end of your current billing period. After that, you&apos;ll automatically be moved to the Free tier.
               </p>
             </div>
 
@@ -253,12 +253,12 @@ export default function PricingPage() {
             <div className="bg-white rounded-xl p-6 shadow-md border border-gray-100 hover:shadow-lg transition-shadow duration-300">
               <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-start gap-3">
                 <span className="text-orange-500 text-xl">Q:</span>
-                What's the difference between Pro and Enterprise?
+                What&apos;s the difference between Pro and Enterprise?
               </h3>
               <p className="text-gray-600 ml-8">
                 Pro is perfect for individual job seekers who want unlimited practice. Enterprise is designed for small teams,
                 offering team management features for up to 4 users, company-specific interview preparation, dedicated support, and custom integrations.
-                If you're a career coach, recruiting agency, or company training your employees, Enterprise is the right choice.
+                If you&apos;re a career coach, recruiting agency, or company training your employees, Enterprise is the right choice.
               </p>
             </div>
 
@@ -268,8 +268,8 @@ export default function PricingPage() {
                 Do you offer refunds?
               </h3>
               <p className="text-gray-600 ml-8">
-                We offer a 7-day money-back guarantee for all paid plans. If you're not satisfied with PrepCoach within the first 7 days of your subscription,
-                contact our support team and we'll issue a full refund, no questions asked.
+                We offer a 7-day money-back guarantee for all paid plans. If you&apos;re not satisfied with PrepCoach within the first 7 days of your subscription,
+                contact our support team and we&apos;ll issue a full refund, no questions asked.
               </p>
             </div>
           </div>

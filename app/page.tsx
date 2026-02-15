@@ -675,7 +675,7 @@ export default function Home() {
               Nail the Interview. <span className="bg-gradient-to-r from-green-400 to-emerald-500 bg-clip-text text-transparent">Maximize the Offer.</span>
             </h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              Don't just get the job — get the job with the salary you deserve
+              Don&apos;t just get the job — get the job with the salary you deserve
             </p>
           </div>
 
@@ -879,7 +879,7 @@ export default function Home() {
                 </div>
 
                 <p className="text-gray-300 text-base mb-6 leading-relaxed">
-                  Don't leave money on the table. Get word-for-word scripts and real market data that help you negotiate <strong>$15K+ more on average</strong>.
+                  Don&apos;t leave money on the table. Get word-for-word scripts and real market data that help you negotiate <strong>$15K+ more on average</strong>.
                 </p>
 
                 <div className="grid grid-cols-2 gap-3 mb-6">
@@ -977,8 +977,8 @@ export default function Home() {
               </span>
             </h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-              Our users don't just get jobs — they get offers at the world's most competitive companies.
-              Here's how we help you break in.
+              Our users don&apos;t just get jobs — they get offers at the world&apos;s most competitive companies.
+              Here&apos;s how we help you break in.
             </p>
           </div>
 
@@ -1072,8 +1072,8 @@ export default function Home() {
               </div>
               <h3 className="text-xl font-bold text-white mb-3">Company-Specific Prep</h3>
               <p className="text-gray-400 leading-relaxed">
-                Each FAANG company has unique interview styles. Our AI adapts to Amazon's Leadership Principles,
-                Google's structured interviews, Meta's system design focus, and more.
+                Each FAANG company has unique interview styles. Our AI adapts to Amazon&apos;s Leadership Principles,
+                Google&apos;s structured interviews, Meta&apos;s system design focus, and more.
               </p>
             </div>
 
@@ -1087,7 +1087,7 @@ export default function Home() {
               <h3 className="text-xl font-bold text-white mb-3">Real Interview Questions</h3>
               <p className="text-gray-400 leading-relaxed">
                 Our question bank is sourced from actual FAANG interviews. Practice the exact behavioral,
-                technical, and situational questions you'll face on interview day.
+                technical, and situational questions you&apos;ll face on interview day.
               </p>
             </div>
 
@@ -1101,7 +1101,7 @@ export default function Home() {
               <h3 className="text-xl font-bold text-white mb-3">FAANG-Level Feedback</h3>
               <p className="text-gray-400 leading-relaxed">
                 Our AI evaluates your answers using the same rubrics FAANG interviewers use.
-                Get actionable insights to level up from "good" to "hire" rating.
+                Get actionable insights to level up from &quot;good&quot; to &quot;hire&quot; rating.
               </p>
             </div>
           </div>
@@ -1190,7 +1190,7 @@ export default function Home() {
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-3">Record & Review Your Answers</h3>
               <p className="text-gray-600 leading-relaxed">
-                Hear how you actually sound. Practice out loud, get instant transcriptions, and catch those "ums" and "ahs" before the real interview.
+                Hear how you actually sound. Practice out loud, get instant transcriptions, and catch those &quot;ums&quot; and &quot;ahs&quot; before the real interview.
               </p>
             </div>
 
@@ -1203,7 +1203,7 @@ export default function Home() {
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-3">Track Your Progress</h3>
               <p className="text-gray-600 leading-relaxed">
-                See yourself getting better. Visual dashboards show exactly where you're improving and what needs work. Watch your confidence grow with every session.
+                See yourself getting better. Visual dashboards show exactly where you&apos;re improving and what needs work. Watch your confidence grow with every session.
               </p>
             </div>
 
@@ -1227,7 +1227,7 @@ export default function Home() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Practice Until You're Perfect</h3>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">Practice Until You&apos;re Perfect</h3>
               <p className="text-gray-600 leading-relaxed">
                 No limits. No restrictions. Practice 10 times or 100 times—whatever it takes to walk into that interview room with unshakeable confidence.
               </p>
@@ -1330,7 +1330,7 @@ export default function Home() {
                 </div>
                 <h3 className="text-2xl font-bold text-gray-900 mb-4">Practice Out Loud</h3>
                 <p className="text-gray-600 mb-4">
-                  Answer questions like you're in the real interview. Record your voice, get instant transcriptions, and practice until it feels natural.
+                  Answer questions like you&apos;re in the real interview. Record your voice, get instant transcriptions, and practice until it feels natural.
                 </p>
                 <ul className="text-sm text-gray-600 space-y-2">
                   <li className="flex items-start gap-2">
@@ -1356,7 +1356,7 @@ export default function Home() {
                 </div>
                 <h3 className="text-2xl font-bold text-gray-900 mb-4">See What to Fix</h3>
                 <p className="text-gray-600 mb-4">
-                  Get instant, specific feedback on every answer. Know exactly what's working and what needs improvement. Track your progress as you get better.
+                  Get instant, specific feedback on every answer. Know exactly what&apos;s working and what needs improvement. Track your progress as you get better.
                 </p>
                 <ul className="text-sm text-gray-600 space-y-2">
                   <li className="flex items-start gap-2">
@@ -1392,7 +1392,7 @@ export default function Home() {
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
               Real People. Real Offers. Real Results.
             </h2>
-            <p className="text-xl text-gray-600">Here's what happened when they stopped overthinking and started practicing</p>
+            <p className="text-xl text-gray-600">Here&apos;s what happened when they stopped overthinking and started practicing</p>
           </div>
 
           {/* Testimonial Hero Image */}

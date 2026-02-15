@@ -55,7 +55,7 @@ export default function PaymentCancelPage() {
 
           {/* Quick Feature Comparison */}
           <div className="text-left space-y-3 mb-6">
-            <h3 className="font-semibold text-gray-900 text-center mb-4">What You're Missing:</h3>
+            <h3 className="font-semibold text-gray-900 text-center mb-4">What You&apos;re Missing:</h3>
             <div className="flex items-center gap-3 text-gray-600">
               <svg className="w-5 h-5 text-orange-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
@@ -101,7 +101,7 @@ export default function PaymentCancelPage() {
         <div className="bg-purple-50 border border-purple-200 rounded-lg p-6 mb-8">
           <h3 className="font-semibold text-purple-900 mb-2">Have Questions?</h3>
           <p className="text-sm text-purple-800 mb-4">
-            We're here to help! If you encountered any issues or have questions about our plans, please reach out.
+            We&apos;re here to help! If you encountered any issues or have questions about our plans, please reach out.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link href="/contact" className="text-sm text-purple-700 font-semibold hover:text-purple-900">

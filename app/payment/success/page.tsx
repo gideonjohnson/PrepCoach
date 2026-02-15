@@ -45,7 +45,7 @@ function PaymentSuccessForm() {
 
         {/* Features Unlocked */}
         <div className="bg-white rounded-2xl shadow-lg p-8 mb-8 border-2 border-green-200">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">What's Unlocked</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">What&apos;s Unlocked</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
             <div className="flex items-start gap-3">
               <div className="flex-shrink-0 mt-1">
