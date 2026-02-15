@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { authOptions } from '@/lib/auth';
 import { stripe, STRIPE_PRICE_IDS, isStripeConfigured } from '@/lib/stripe';
 import { checkApiRateLimit } from '@/lib/rate-limit';
 import crypto from 'crypto';

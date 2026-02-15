@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { authOptions } from '@/lib/auth';
 import { initializeTransaction, isPaystackConfigured, PAYSTACK_PLAN_CODES, PAYSTACK_PRICING } from '@/lib/paystack';
 
 export async function POST(req: NextRequest) {
