@@ -144,7 +144,7 @@ export async function POST(
     }
 
     // Create or get room
-    let roomUrl = expertSession.meetingUrl;
+    let roomUrl = expertSession.roomUrl;
     let roomName = `session-${id}`;
 
     if (!roomUrl) {
@@ -157,23 +157,20 @@ export async function POST(
       await prisma.expertSession.update({
         where: { id },
         data: {
-          meetingUrl: roomUrl,
+          roomUrl: roomUrl,
           status: 'in_progress',
         },
       });
     }
 
-    // Determine participant name (anonymous or real)
-    let participantName: string;
-    if (expertSession.isAnonymous) {
-      participantName = isCandidate
-        ? expertSession.candidateAnonymousName || 'Candidate'
-        : expertSession.interviewerAnonymousName || 'Interviewer';
-    } else {
-      participantName = isCandidate
-        ? expertSession.candidate.name || 'Candidate'
-        : expertSession.interviewer.displayName;
-    }
+    // Determine participant name (use anonymous alias until revealed)
+    const participantName = expertSession.revealedAt
+      ? (isCandidate
+          ? expertSession.candidate.name || 'Candidate'
+          : expertSession.interviewer.displayName)
+      : (isCandidate
+          ? expertSession.candidateAlias || 'Candidate'
+          : expertSession.interviewerAlias || 'Interviewer');
 
     // Create meeting token
     const tokenResponse = await createMeetingToken(roomName, participantName, isInterviewer);

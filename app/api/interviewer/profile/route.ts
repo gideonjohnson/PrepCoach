@@ -81,7 +81,7 @@ const updateSchema = z.object({
     startTime: z.string(), // "09:00"
     endTime: z.string(),   // "17:00"
   })).optional(),
-  customRates: z.record(z.number()).optional(),
+  customRates: z.record(z.string(), z.number()).optional(),
 });
 
 // PATCH /api/interviewer/profile - Update own interviewer profile

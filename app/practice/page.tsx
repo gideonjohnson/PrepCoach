@@ -9,7 +9,7 @@ import AIAvatar from './AIAvatar';
 import { roles, categories, type Role } from './roles';
 import { getQuestionsForRole } from './questions';
 import { getQuestionsForRoleAndLevel, type ExperienceLevel } from './questions-by-level';
-import { getQuestionsByStage, type Stage, STAGE_CONFIG, getStageColor } from './stage-system';
+import { type Stage, STAGE_CONFIG, getStageColor } from './stage-system';
 import { getQuestionsByStage as getQuestionsByStageHelper } from './questions-by-stage';
 import Link from 'next/link';
 import InterviewerConfig, { InterviewerSettings } from '../components/InterviewerConfig';

@@ -64,8 +64,8 @@ export function useTensorFlowVision(): UseTensorFlowVisionReturn {
         // Initialize Face Landmarks Detection
         try {
           const faceModel = faceLandmarksDetection.SupportedModels.MediaPipeFaceMesh;
-          const faceDetectorConfig: faceLandmarksDetection.MediaPipeFaceMeshTfjsModelConfig = {
-            runtime: 'tfjs',
+          const faceDetectorConfig = {
+            runtime: 'tfjs' as const,
             maxFaces: 1,
             refineLandmarks: true,
           };
@@ -84,7 +84,7 @@ export function useTensorFlowVision(): UseTensorFlowVisionReturn {
         // Initialize Pose Detection
         try {
           const poseModel = poseDetection.SupportedModels.MoveNet;
-          const poseDetectorConfig: poseDetection.MoveNetModelConfig = {
+          const poseDetectorConfig = {
             modelType: poseDetection.movenet.modelType.SINGLEPOSE_LIGHTNING, // Fastest model
             enableSmoothing: true,
           };

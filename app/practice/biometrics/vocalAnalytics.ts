@@ -128,7 +128,7 @@ export class VocalAnalyzer {
       totalEnergy += energy;
     });
 
-    const averageEnergy = totalEnergy / recentFrames.length / freqData.length;
+    const averageEnergy = totalEnergy / recentFrames.length / recentFrames[0].length;
     return Math.min(100, Math.round(averageEnergy / 2.55));
   }
 

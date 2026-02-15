@@ -192,7 +192,6 @@ Analyze the design covering:
             where: { id },
             data: {
               aiAnalysis: fullText,
-              lastAnalyzedAt: new Date(),
             },
           }).catch(err => console.error('Failed to save analysis:', err));
 

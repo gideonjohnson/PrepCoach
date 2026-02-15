@@ -3,16 +3,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import prisma from '@/lib/prisma';
 import { MARKETPLACE_CREDITS, type CreditPackType } from '@/lib/pricing';
-import Stripe from 'stripe';
-
-function getStripe() {
-  if (!process.env.STRIPE_SECRET_KEY) {
-    throw new Error('STRIPE_SECRET_KEY is not configured');
-  }
-  return new Stripe(process.env.STRIPE_SECRET_KEY, {
-    apiVersion: '2023-10-16',
-  });
-}
+import { getStripe } from '@/lib/stripe';
 
 // GET /api/recruiter/credits - Get credit balance and purchase history
 export async function GET() {

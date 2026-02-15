@@ -32,14 +32,6 @@ export async function POST(
       return NextResponse.json({ error: 'Session not found' }, { status: 404 });
     }
 
-    // Check if session was anonymous
-    if (!expertSession.isAnonymous) {
-      return NextResponse.json(
-        { error: 'Session was not anonymous' },
-        { status: 400 }
-      );
-    }
-
     // Session must be completed
     if (expertSession.status !== 'completed') {
       return NextResponse.json(
@@ -56,64 +48,52 @@ export async function POST(
       return NextResponse.json({ error: 'Not authorized' }, { status: 403 });
     }
 
-    // Update reveal consent
-    const updateField = isCandidate ? 'candidateRevealConsent' : 'interviewerRevealConsent';
-
-    await prisma.expertSession.update({
-      where: { id },
-      data: { [updateField]: true },
-    });
-
-    // Refresh session to check if both consented
-    const updatedSession = await prisma.expertSession.findUnique({
-      where: { id },
-      include: {
-        interviewer: {
-          include: { user: true },
-        },
-        candidate: true,
-      },
-    });
-
-    if (!updatedSession) {
-      return NextResponse.json({ error: 'Session not found' }, { status: 404 });
-    }
-
-    // Check if both parties consented
-    const bothConsented =
-      updatedSession.candidateRevealConsent && updatedSession.interviewerRevealConsent;
-
-    if (bothConsented) {
-      // Update session to mark identity as revealed
+    // If reveal not yet requested, mark as requested
+    if (!expertSession.revealRequested) {
       await prisma.expertSession.update({
         where: { id },
-        data: { identityRevealed: true },
+        data: { revealRequested: true },
+      });
+
+      return NextResponse.json({
+        revealed: false,
+        yourConsent: true,
+        otherPartyConsent: false,
+        message: 'Your reveal request recorded. Waiting for the other party.',
+      });
+    }
+
+    // If already requested, this is the acceptance
+    if (!expertSession.revealAccepted) {
+      await prisma.expertSession.update({
+        where: { id },
+        data: {
+          revealAccepted: true,
+          revealedAt: new Date(),
+        },
       });
 
       return NextResponse.json({
         revealed: true,
         message: 'Both parties consented. Identities revealed!',
         candidate: {
-          name: updatedSession.candidate.name,
-          email: updatedSession.candidate.email,
-          image: updatedSession.candidate.image,
+          name: expertSession.candidate.name,
+          email: expertSession.candidate.email,
+          image: expertSession.candidate.image,
         },
         interviewer: {
-          name: updatedSession.interviewer.displayName,
-          email: updatedSession.interviewer.user.email,
-          company: updatedSession.interviewer.currentCompany,
-          linkedinUrl: updatedSession.interviewer.linkedinUrl,
+          name: expertSession.interviewer.displayName,
+          email: expertSession.interviewer.user.email,
+          company: expertSession.interviewer.currentCompany,
+          linkedinUrl: expertSession.interviewer.linkedinUrl,
         },
       });
     }
 
+    // Already fully revealed
     return NextResponse.json({
-      revealed: false,
-      yourConsent: true,
-      otherPartyConsent: isCandidate
-        ? updatedSession.interviewerRevealConsent
-        : updatedSession.candidateRevealConsent,
-      message: 'Your consent recorded. Waiting for the other party.',
+      revealed: true,
+      message: 'Identities already revealed.',
     });
   } catch (error) {
     console.error('Error processing reveal:', error);
@@ -161,32 +141,12 @@ export async function GET(
       return NextResponse.json({ error: 'Not authorized' }, { status: 403 });
     }
 
-    // If not anonymous, always reveal
-    if (!expertSession.isAnonymous) {
+    // If revealed, return full info
+    if (expertSession.revealedAt) {
       return NextResponse.json({
-        isAnonymous: false,
         revealed: true,
-        candidate: {
-          name: expertSession.candidate.name,
-          email: expertSession.candidate.email,
-          image: expertSession.candidate.image,
-        },
-        interviewer: {
-          name: expertSession.interviewer.displayName,
-          email: expertSession.interviewer.user.email,
-          company: expertSession.interviewer.currentCompany,
-          linkedinUrl: expertSession.interviewer.linkedinUrl,
-        },
-      });
-    }
-
-    // Anonymous session
-    if (expertSession.identityRevealed) {
-      return NextResponse.json({
-        isAnonymous: true,
-        revealed: true,
-        candidateRevealConsent: expertSession.candidateRevealConsent,
-        interviewerRevealConsent: expertSession.interviewerRevealConsent,
+        revealRequested: expertSession.revealRequested,
+        revealAccepted: expertSession.revealAccepted,
         candidate: {
           name: expertSession.candidate.name,
           email: expertSession.candidate.email,
@@ -203,16 +163,11 @@ export async function GET(
 
     // Not yet revealed
     return NextResponse.json({
-      isAnonymous: true,
       revealed: false,
-      yourConsent: isCandidate
-        ? expertSession.candidateRevealConsent
-        : expertSession.interviewerRevealConsent,
-      otherPartyConsent: isCandidate
-        ? expertSession.interviewerRevealConsent
-        : expertSession.candidateRevealConsent,
-      candidateAnonymousName: expertSession.candidateAnonymousName,
-      interviewerAnonymousName: expertSession.interviewerAnonymousName,
+      revealRequested: expertSession.revealRequested,
+      revealAccepted: expertSession.revealAccepted,
+      candidateAlias: expertSession.candidateAlias,
+      interviewerAlias: expertSession.interviewerAlias,
     });
   } catch (error) {
     console.error('Error getting reveal status:', error);

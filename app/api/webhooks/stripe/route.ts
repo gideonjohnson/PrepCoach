@@ -1,15 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import prisma from '@/lib/prisma';
-
-function getStripe() {
-  if (!process.env.STRIPE_SECRET_KEY) {
-    throw new Error('STRIPE_SECRET_KEY is not configured');
-  }
-  return new Stripe(process.env.STRIPE_SECRET_KEY, {
-    apiVersion: '2023-10-16',
-  });
-}
+import { getStripe } from '@/lib/stripe';
 
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET || '';
 
@@ -39,7 +31,7 @@ export async function POST(req: NextRequest) {
             data: {
               status: 'scheduled',
               paymentIntentId: session.payment_intent as string,
-              paidAt: new Date(),
+              paymentStatus: 'paid',
             },
           });
 
@@ -146,7 +138,7 @@ export async function POST(req: NextRequest) {
         break;
       }
 
-      case 'transfer.paid': {
+      case 'transfer.created': {
         const transfer = event.data.object as Stripe.Transfer;
         // Update payout status to completed
         if (transfer.metadata?.interviewerId) {
@@ -162,7 +154,7 @@ export async function POST(req: NextRequest) {
         break;
       }
 
-      case 'transfer.failed': {
+      case 'transfer.reversed': {
         const transfer = event.data.object as Stripe.Transfer;
         // Update payout status to failed
         await prisma.interviewerPayout.updateMany({

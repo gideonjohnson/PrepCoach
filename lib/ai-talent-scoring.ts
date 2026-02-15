@@ -5,14 +5,14 @@ const anthropic = new Anthropic();
 interface TalentProfile {
   id: string;
   anonymousId: string;
-  displayTitle: string;
-  codingScore: number;
-  systemDesignScore: number;
-  behavioralScore: number;
-  overallScore: number;
+  displayTitle: string | null;
+  codingScore: number | null;
+  systemDesignScore: number | null;
+  behavioralScore: number | null;
+  overallScore: number | null;
   verifiedSkills: string[];
-  seniorityLevel: string;
-  yearsExperience: number;
+  seniorityLevel: string | null;
+  yearsExperience: number | null;
   availability: string;
   totalSessions: number;
   totalPracticeHours: number;
@@ -141,15 +141,15 @@ function calculateBasicRelevance(
   }
 
   // Experience level matching
-  if (requirements.minYearsExperience && profile.yearsExperience >= requirements.minYearsExperience) {
+  if (requirements.minYearsExperience && profile.yearsExperience != null && profile.yearsExperience >= requirements.minYearsExperience) {
     score += 10;
     reasons.push(`Has ${profile.yearsExperience} years experience (required: ${requirements.minYearsExperience}+)`);
-  } else if (requirements.minYearsExperience && profile.yearsExperience < requirements.minYearsExperience) {
+  } else if (requirements.minYearsExperience && profile.yearsExperience != null && profile.yearsExperience < requirements.minYearsExperience) {
     gaps.push(`Only ${profile.yearsExperience} years experience (required: ${requirements.minYearsExperience}+)`);
   }
 
   // Bonus for high interview scores
-  if (profile.overallScore >= 80) {
+  if (profile.overallScore != null && profile.overallScore >= 80) {
     score += 5;
     reasons.push('High interview performance scores');
   }

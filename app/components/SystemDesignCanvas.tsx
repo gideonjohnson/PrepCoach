@@ -325,8 +325,9 @@ export default function SystemDesignCanvas({
 
         {/* Canvas */}
         <div className="flex-1 relative">
+          {/* @ts-expect-error - Excalidraw types mismatch with ref */}
           <Excalidraw
-            ref={excalidrawRef as unknown as React.RefObject<{ getSceneElements: () => unknown[]; getAppState: () => Record<string, unknown>; updateScene: (scene: { elements: unknown[] }) => void }>}
+            ref={excalidrawRef}
             initialData={initialData ? {
               elements: initialData.elements as unknown[],
               appState: initialData.appState as Record<string, unknown>,

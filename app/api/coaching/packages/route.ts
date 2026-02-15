@@ -3,16 +3,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import prisma from '@/lib/prisma';
 import { COACHING_PACKAGES } from '@/lib/pricing';
-import Stripe from 'stripe';
-
-function getStripe() {
-  if (!process.env.STRIPE_SECRET_KEY) {
-    throw new Error('STRIPE_SECRET_KEY is not configured');
-  }
-  return new Stripe(process.env.STRIPE_SECRET_KEY, {
-    apiVersion: '2023-10-16',
-  });
-}
+import { getStripe } from '@/lib/stripe';
 
 // GET /api/coaching/packages - List available coaching packages
 export async function GET() {
@@ -37,7 +28,7 @@ export async function POST(req: NextRequest) {
     const { packageType, interviewerId } = await req.json();
 
     // Find the package
-    const pkg = COACHING_PACKAGES.find(p => p.type === packageType);
+    const pkg = COACHING_PACKAGES[packageType as keyof typeof COACHING_PACKAGES];
     if (!pkg) {
       return NextResponse.json({ error: 'Invalid package type' }, { status: 400 });
     }
@@ -54,7 +45,7 @@ export async function POST(req: NextRequest) {
 
     // Calculate expiry date
     const expiresAt = new Date();
-    expiresAt.setDate(expiresAt.getDate() + pkg.validDays);
+    expiresAt.setDate(expiresAt.getDate() + pkg.validityDays);
 
     // Create the coaching package record
     const coachingPackage = await prisma.coachingPackage.create({

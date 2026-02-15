@@ -4,7 +4,8 @@ import { authOptions } from '@/lib/auth';
 import { checkApiRateLimit } from '@/lib/rate-limit';
 import { resumeContentTransformSchema, safeValidateData, formatZodError } from '@/lib/validation';
 import OpenAI from 'openai';
-import * as pdfParse from 'pdf-parse';
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const pdfParse = require('pdf-parse');
 import mammoth from 'mammoth';
 
 const openai = new OpenAI({

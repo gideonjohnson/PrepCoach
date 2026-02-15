@@ -185,6 +185,7 @@ model Resume {
   aiSuggestions String? // JSON array of AI suggestions
 
   // Metadata
+  metadata     String?  // JSON for versioning and other metadata
   isPublic     Boolean  @default(false)
   isPrimary    Boolean  @default(false)
   createdAt    DateTime @default(now())

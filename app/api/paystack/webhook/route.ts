@@ -122,8 +122,8 @@ async function handleSubscriptionCreate(data: PaystackSubscriptionData) {
     data: {
       subscriptionTier: tier,
       subscriptionStatus: 'active',
-      subscriptionStart: new Date(data.createdAt),
-      subscriptionEnd: new Date(data.next_payment_date),
+      subscriptionStart: data.createdAt ? new Date(data.createdAt) : new Date(),
+      subscriptionEnd: data.next_payment_date ? new Date(data.next_payment_date) : null,
     },
   });
 

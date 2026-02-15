@@ -2,16 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import prisma from '@/lib/prisma';
-import Stripe from 'stripe';
-
-function getStripe() {
-  if (!process.env.STRIPE_SECRET_KEY) {
-    throw new Error('STRIPE_SECRET_KEY is not configured');
-  }
-  return new Stripe(process.env.STRIPE_SECRET_KEY, {
-    apiVersion: '2023-10-16',
-  });
-}
+import { getStripe } from '@/lib/stripe';
 
 // POST /api/interviewer/connect - Create Stripe Connect account and onboarding link
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -45,7 +36,7 @@ export async function POST(_req: NextRequest) {
       );
     }
 
-    let stripeAccountId = interviewer.stripeAccountId;
+    let stripeAccountId = interviewer.stripeConnectId;
 
     // Create Stripe Connect account if doesn't exist
     if (!stripeAccountId) {
@@ -69,7 +60,7 @@ export async function POST(_req: NextRequest) {
       // Save account ID to database
       await prisma.interviewer.update({
         where: { id: interviewer.id },
-        data: { stripeAccountId },
+        data: { stripeConnectId: stripeAccountId },
       });
     }
 
@@ -116,7 +107,7 @@ export async function GET() {
       );
     }
 
-    if (!interviewer.stripeAccountId) {
+    if (!interviewer.stripeConnectId) {
       return NextResponse.json({
         connected: false,
         payoutsEnabled: false,
@@ -125,11 +116,11 @@ export async function GET() {
     }
 
     // Get account details from Stripe
-    const account = await getStripe().accounts.retrieve(interviewer.stripeAccountId);
+    const account = await getStripe().accounts.retrieve(interviewer.stripeConnectId);
 
     return NextResponse.json({
       connected: true,
-      accountId: interviewer.stripeAccountId,
+      accountId: interviewer.stripeConnectId,
       payoutsEnabled: account.payouts_enabled,
       chargesEnabled: account.charges_enabled,
       detailsSubmitted: account.details_submitted,

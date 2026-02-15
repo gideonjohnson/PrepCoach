@@ -55,7 +55,7 @@ export async function POST(req: NextRequest) {
 
     // Rate limiting
     const identifier = getClientIP(req);
-    const rateLimitResult = await checkApiRateLimit('ai', identifier);
+    const rateLimitResult = await checkApiRateLimit('aiFeedback', identifier);
 
     if (!rateLimitResult.success) {
       return NextResponse.json(

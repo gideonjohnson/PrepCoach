@@ -213,7 +213,7 @@ Respond in JSON format:
 
     // Add code snapshot if requested
     if (validated.addSnapshot && validated.code) {
-      const snapshots = safeJsonParse(existingSession.codeSnapshots, []);
+      const snapshots = safeJsonParse<Array<{ timestamp: number; code: string }>>(existingSession.codeSnapshots, []);
       snapshots.push({
         timestamp: Date.now(),
         code: validated.code,
@@ -230,7 +230,7 @@ Respond in JSON format:
   } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json(
-        { error: 'Validation failed', details: error.errors },
+        { error: 'Validation failed', details: error.issues },
         { status: 400 }
       );
     }

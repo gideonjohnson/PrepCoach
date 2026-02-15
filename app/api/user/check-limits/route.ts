@@ -81,8 +81,8 @@ export async function GET(request: NextRequest) {
       usage: {
         interviews: {
           used: interviewsThisMonth,
-          limit: tier.limits.interviewsPerMonth,
-          unlimited: tier.limits.interviewsPerMonth === -1
+          limit: 'interviewsPerMonth' in tier.limits ? tier.limits.interviewsPerMonth : ('interviewsPerTwoWeeks' in tier.limits ? tier.limits.interviewsPerTwoWeeks : 0),
+          unlimited: 'interviewsPerMonth' in tier.limits && tier.limits.interviewsPerMonth === -1
         },
         feedback: {
           used: feedbackThisMonth,

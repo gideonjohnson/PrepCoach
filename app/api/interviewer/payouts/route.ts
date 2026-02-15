@@ -2,16 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import prisma from '@/lib/prisma';
-import Stripe from 'stripe';
-
-function getStripe() {
-  if (!process.env.STRIPE_SECRET_KEY) {
-    throw new Error('STRIPE_SECRET_KEY is not configured');
-  }
-  return new Stripe(process.env.STRIPE_SECRET_KEY, {
-    apiVersion: '2023-10-16',
-  });
-}
+import { getStripe } from '@/lib/stripe';
 
 // GET /api/interviewer/payouts - Get payout history and stats
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -48,7 +39,7 @@ export async function GET(_req: NextRequest) {
       where: {
         interviewerId: interviewer.id,
         status: 'completed',
-        payoutId: null,
+        paymentStatus: 'paid',
       },
       orderBy: { completedAt: 'desc' },
     });
@@ -59,7 +50,7 @@ export async function GET(_req: NextRequest) {
         interviewerId: interviewer.id,
         status: 'completed',
       },
-      _sum: { amount: true },
+      _sum: { amountInCents: true },
     });
 
     const pendingAmount = pendingSessions.reduce(
@@ -75,16 +66,16 @@ export async function GET(_req: NextRequest) {
           gte: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
         },
       },
-      _sum: { amount: true },
+      _sum: { amountInCents: true },
     });
 
     return NextResponse.json({
       payouts,
       pendingSessions,
       stats: {
-        totalEarnings: totalEarnings._sum.amount || 0,
+        totalEarnings: totalEarnings._sum.amountInCents || 0,
         pendingAmount,
-        thisMonthEarnings: thisMonthEarnings._sum.amount || 0,
+        thisMonthEarnings: thisMonthEarnings._sum.amountInCents || 0,
         completedSessions: interviewer.totalSessions,
       },
     });
@@ -120,7 +111,7 @@ export async function POST(_req: NextRequest) {
       );
     }
 
-    if (!interviewer.stripeAccountId) {
+    if (!interviewer.stripeConnectId) {
       return NextResponse.json(
         { error: 'Stripe Connect account not set up' },
         { status: 400 }
@@ -128,7 +119,7 @@ export async function POST(_req: NextRequest) {
     }
 
     // Verify Connect account is ready for payouts
-    const account = await getStripe().accounts.retrieve(interviewer.stripeAccountId);
+    const account = await getStripe().accounts.retrieve(interviewer.stripeConnectId);
     if (!account.payouts_enabled) {
       return NextResponse.json(
         { error: 'Stripe account not ready for payouts. Complete onboarding first.' },
@@ -141,7 +132,7 @@ export async function POST(_req: NextRequest) {
       where: {
         interviewerId: interviewer.id,
         status: 'completed',
-        payoutId: null,
+        paymentStatus: 'paid',
       },
     });
 
@@ -169,7 +160,7 @@ export async function POST(_req: NextRequest) {
     const transfer = await getStripe().transfers.create({
       amount: totalAmount,
       currency: 'usd',
-      destination: interviewer.stripeAccountId,
+      destination: interviewer.stripeConnectId,
       metadata: {
         interviewerId: interviewer.id,
         sessionCount: pendingSessions.length.toString(),
@@ -181,20 +172,22 @@ export async function POST(_req: NextRequest) {
     const payout = await prisma.interviewerPayout.create({
       data: {
         interviewerId: interviewer.id,
-        amount: totalAmount,
+        amountInCents: totalAmount,
         currency: 'usd',
         status: 'pending',
         stripeTransferId: transfer.id,
-        sessionsIncluded: pendingSessions.length,
+        sessionIds: JSON.stringify(pendingSessions.map((s) => s.id)),
+        periodStart: new Date(Math.min(...pendingSessions.map(s => s.createdAt.getTime()))),
+        periodEnd: new Date(),
       },
     });
 
-    // Update sessions with payout ID
+    // Mark sessions as transferred
     await prisma.expertSession.updateMany({
       where: {
         id: { in: pendingSessions.map((s) => s.id) },
       },
-      data: { payoutId: payout.id },
+      data: { paymentStatus: 'transferred' },
     });
 
     return NextResponse.json({

@@ -141,7 +141,7 @@ export async function GET(
 
 // PATCH /api/system-design/[id] - Update a session
 const updateSessionSchema = z.object({
-  diagramData: z.record(z.unknown()).optional(),
+  diagramData: z.record(z.string(), z.unknown()).optional(),
   notes: z.string().optional(),
   requirements: z.array(z.string()).optional(),
   status: z.enum(['active', 'completed', 'abandoned']).optional(),
@@ -213,7 +213,7 @@ export async function PATCH(
 
     // Add diagram snapshot if requested
     if (validated.addSnapshot && validated.diagramData) {
-      const snapshots = safeJsonParse(existingSession.diagramSnapshots, []);
+      const snapshots = safeJsonParse<Array<{ timestamp: number; data: Record<string, unknown> }>>(existingSession.diagramSnapshots, []);
       snapshots.push({
         timestamp: Date.now(),
         data: validated.diagramData,
@@ -318,7 +318,7 @@ Provide analysis in the following JSON format:
   } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json(
-        { error: 'Validation failed', details: error.errors },
+        { error: 'Validation failed', details: error.issues },
         { status: 400 }
       );
     }

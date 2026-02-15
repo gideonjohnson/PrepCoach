@@ -98,7 +98,7 @@ export async function GET(req: NextRequest) {
           id: true,
           status: true,
           sessionType: true,
-          rating: true,
+          candidateFeedback: true,
           duration: true,
           createdAt: true,
           completedAt: true,
@@ -109,7 +109,7 @@ export async function GET(req: NextRequest) {
       // Problems attempted (via coding sessions)
       prisma.problem.findMany({
         where: {
-          sessions: {
+          codingSessions: {
             some: {
               userId,
               createdAt: { gte: startDate },
@@ -145,7 +145,12 @@ export async function GET(req: NextRequest) {
 
     // Calculate expert session statistics
     const completedExpertSessions = expertSessions.filter(s => s.status === 'completed');
-    const expertRatings = completedExpertSessions.map(s => s.rating).filter(Boolean) as number[];
+    const expertRatings = completedExpertSessions.map(s => {
+      try {
+        const feedback = s.candidateFeedback ? JSON.parse(s.candidateFeedback) : null;
+        return feedback?.rating ?? null;
+      } catch { return null; }
+    }).filter(Boolean) as number[];
 
     // Problem difficulty breakdown
     const problemsByDifficulty = problems.reduce((acc, p) => {

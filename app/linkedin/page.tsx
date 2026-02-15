@@ -604,16 +604,16 @@ function OptimizationTab({ profile, optimizedProfile, profileScore, keywordAnaly
           <div className="space-y-4">
             <div>
               <h3 className="font-medium text-gray-300 mb-2">Original:</h3>
-              <p className="p-4 bg-gray-50 rounded-lg text-gray-800">{optimizedProfile.headline.original}</p>
+              <p className="p-4 bg-gray-50 rounded-lg text-gray-800">{optimizedProfile.headline?.original}</p>
             </div>
             <div>
               <h3 className="font-medium text-gray-300 mb-2">Optimized:</h3>
               <div className="relative">
                 <p className="p-4 bg-blue-50 border border-blue-200 rounded-lg text-white font-medium">
-                  {optimizedProfile.headline.optimized}
+                  {optimizedProfile.headline?.optimized}
                 </p>
                 <button
-                  onClick={() => copyToClipboard(optimizedProfile.headline.optimized, 'headline')}
+                  onClick={() => copyToClipboard(optimizedProfile.headline?.optimized ?? '', 'headline')}
                   className="absolute top-2 right-2 px-3 py-1 bg-white text-blue-600 rounded-lg text-sm hover:bg-blue-50 transition"
                 >
                   {copiedSection === 'headline' ? '✓ Copied!' : 'Copy'}
@@ -623,7 +623,7 @@ function OptimizationTab({ profile, optimizedProfile, profileScore, keywordAnaly
             <div>
               <h3 className="font-medium text-gray-300 mb-2">Improvements:</h3>
               <ul className="list-disc list-inside space-y-1">
-                {optimizedProfile.headline.improvements.map((imp: string, index: number) => (
+                {optimizedProfile.headline?.improvements?.map((imp: string, index: number) => (
                   <li key={index} className="text-gray-300">{imp}</li>
                 ))}
               </ul>
@@ -641,10 +641,10 @@ function OptimizationTab({ profile, optimizedProfile, profileScore, keywordAnaly
               <h3 className="font-medium text-gray-300 mb-2">Optimized:</h3>
               <div className="relative">
                 <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg text-white whitespace-pre-wrap">
-                  {optimizedProfile.about.optimized}
+                  {optimizedProfile.about?.optimized}
                 </div>
                 <button
-                  onClick={() => copyToClipboard(optimizedProfile.about.optimized, 'about')}
+                  onClick={() => copyToClipboard(optimizedProfile.about?.optimized ?? '', 'about')}
                   className="absolute top-2 right-2 px-3 py-1 bg-white text-blue-600 rounded-lg text-sm hover:bg-blue-50 transition"
                 >
                   {copiedSection === 'about' ? '✓ Copied!' : 'Copy'}
@@ -654,7 +654,7 @@ function OptimizationTab({ profile, optimizedProfile, profileScore, keywordAnaly
             <div>
               <h3 className="font-medium text-gray-300 mb-2">Keywords Added:</h3>
               <div className="flex flex-wrap gap-2">
-                {optimizedProfile.about.keywordsAdded.map((keyword: string, index: number) => (
+                {optimizedProfile.about?.keywordsAdded?.map((keyword: string, index: number) => (
                   <span key={index} className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm">
                     {keyword}
                   </span>
