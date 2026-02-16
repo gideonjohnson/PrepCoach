@@ -50,6 +50,9 @@ export default function Home() {
                   </Link>
                 </>
               )}
+              <Link href="/opportunities" className="text-gray-300 hover:text-teal-400 transition font-medium">
+                Opportunities
+              </Link>
               <Link href="/pricing" className="text-gray-300 hover:text-white transition">Pricing</Link>
               {session ? (
                 <div className="flex items-center space-x-4">
@@ -186,6 +189,18 @@ export default function Home() {
                         </svg>
                       </span>
                       <span className="font-medium">Recruiter</span>
+                    </Link>
+                    <Link
+                      href="/opportunities"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="flex items-center gap-3 py-2 text-white hover:text-teal-400 transition"
+                    >
+                      <span className="w-8 h-8 rounded-lg bg-gradient-to-br from-teal-500 to-cyan-500 flex items-center justify-center">
+                        <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                        </svg>
+                      </span>
+                      <span className="font-medium">Opportunities</span>
                     </Link>
                   </div>
                 )}

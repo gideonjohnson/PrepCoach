@@ -8,7 +8,7 @@ import { PRICING_TIERS, INTERVIEWER_TIERS, RECRUITER_TIERS } from '@/lib/pricing
 import Header from '../components/Header';
 import Breadcrumbs from '../components/Breadcrumbs';
 
-type Audience = 'seekers' | 'interviewers' | 'recruiters';
+type Audience = 'seekers' | 'interviewers' | 'recruiters' | 'opportunities';
 
 export default function PricingPage() {
   const { data: session, status } = useSession();
@@ -114,6 +114,7 @@ export default function PricingPage() {
               { key: 'seekers' as Audience, label: 'Job Seekers', icon: '🎯' },
               { key: 'interviewers' as Audience, label: 'Interviewers', icon: '🎤' },
               { key: 'recruiters' as Audience, label: 'Recruiters', icon: '🏢' },
+              { key: 'opportunities' as Audience, label: 'Job Opportunities', icon: '🚀' },
             ]).map(({ key, label, icon }) => (
               <button
                 key={key}
@@ -324,6 +325,87 @@ export default function PricingPage() {
                   </div>
                 );
               })}
+            </div>
+          </>
+        )}
+
+        {/* ============================== */}
+        {/* JOB OPPORTUNITIES SECTION */}
+        {/* ============================== */}
+        {activeTab === 'opportunities' && (
+          <>
+            <div className="text-center mb-8">
+              <p className="text-gray-400 max-w-2xl mx-auto">
+                Browse live remote job listings. Free to search &mdash; upgrade for interview prep tools.
+              </p>
+            </div>
+            <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto mb-20 overflow-x-hidden">
+              {/* Free Explorer */}
+              <div className="bg-gray-900/80 backdrop-blur-xl rounded-2xl shadow-lg p-6 sm:p-8 border-2 border-white/10 hover:border-white/20 transition-all duration-300">
+                <div className="mb-6">
+                  <h3 className="text-xl sm:text-2xl font-bold text-white mb-2">Free Explorer</h3>
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-4xl sm:text-5xl font-bold text-white">$0</span>
+                    <span className="text-gray-500">/forever</span>
+                  </div>
+                </div>
+                <ul className="space-y-4 mb-8">
+                  {['Browse all jobs', 'Search & filter', 'Apply directly', 'Remotive-powered listings'].map((feature, index) => (
+                    <li key={index} className="flex items-start gap-3">
+                      <CheckIcon className="text-gray-500" />
+                      <span className="text-gray-400">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+                <Link href="/opportunities">
+                  <button className="w-full px-6 py-3 sm:py-4 bg-gray-800 text-white rounded-lg font-semibold hover:bg-gray-700 transition min-h-[48px] text-base sm:text-lg">
+                    Browse Jobs Free
+                  </button>
+                </Link>
+              </div>
+
+              {/* Pro - Most Popular */}
+              <div className="bg-gradient-to-br from-orange-500 to-red-500 rounded-2xl shadow-2xl p-6 sm:p-8 border-2 border-orange-600 md:transform md:scale-105 relative transition-all duration-300 hover:shadow-3xl md:hover:scale-[1.07]">
+                <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-yellow-400 text-white px-4 py-1 rounded-full text-sm font-bold shadow-lg">
+                  MOST POPULAR
+                </div>
+                <div className="mb-6">
+                  <h3 className="text-xl sm:text-2xl font-bold text-white mb-2">Pro</h3>
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-4xl sm:text-5xl font-bold text-white">$19</span>
+                    <span className="text-orange-100">/month</span>
+                  </div>
+                </div>
+                <ul className="space-y-4 mb-8">
+                  {['Everything Free +', 'Unlimited mock interviews', 'AI resume tailoring', 'Salary insights', 'Job-specific practice'].map((feature, index) => (
+                    <li key={index} className="flex items-start gap-3">
+                      <CheckIcon className="text-yellow-300" />
+                      <span className="text-white">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+                <UpgradeButton tier="pro" label="Upgrade to Pro" variant="primary" />
+              </div>
+
+              {/* Enterprise */}
+              <div className="bg-white rounded-2xl shadow-lg p-6 sm:p-8 border-2 border-purple-200 hover:border-purple-400 transition-all duration-300 hover:shadow-xl">
+                <div className="mb-6">
+                  <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">Enterprise</h3>
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-4xl sm:text-5xl font-bold text-gray-900">$49</span>
+                    <span className="text-gray-500">/month</span>
+                  </div>
+                </div>
+                <ul className="space-y-4 mb-8">
+                  {['Everything Pro +', 'Team job boards', 'Priority coaching', 'Dedicated support', 'Custom prep plans'].map((feature, index) => (
+                    <li key={index} className="flex items-start gap-3">
+                      <CheckIcon className="text-purple-500" />
+                      <span className="text-gray-700">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+                <UpgradeButton tier="enterprise" label="Upgrade to Enterprise" variant="secondary" />
+              </div>
             </div>
           </>
         )}
