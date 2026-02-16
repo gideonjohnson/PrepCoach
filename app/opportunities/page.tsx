@@ -6,7 +6,7 @@ import { useSearchParams } from 'next/navigation';
 import Header from '../components/Header';
 
 interface Job {
-  id: number;
+  id: string;
   title: string;
   company: string;
   companyLogo: string;
@@ -17,6 +17,7 @@ interface Job {
   category: string;
   type: string;
   date: string;
+  source: string;
 }
 
 const CATEGORIES = [
@@ -315,14 +316,9 @@ function OpportunitiesContent() {
         <div className="text-center mt-12 pt-8 border-t border-white/10">
           <p className="text-gray-500 text-sm">
             Jobs provided by{' '}
-            <a
-              href="https://remotive.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-teal-400 hover:text-teal-300 underline transition"
-            >
-              Remotive
-            </a>
+            <a href="https://remotive.com" target="_blank" rel="noopener noreferrer" className="text-teal-400 hover:text-teal-300 underline transition">Remotive</a>,{' '}
+            <a href="https://www.arbeitnow.com" target="_blank" rel="noopener noreferrer" className="text-teal-400 hover:text-teal-300 underline transition">Arbeitnow</a>, &{' '}
+            <a href="https://jobicy.com" target="_blank" rel="noopener noreferrer" className="text-teal-400 hover:text-teal-300 underline transition">Jobicy</a>
           </p>
         </div>
       </main>
