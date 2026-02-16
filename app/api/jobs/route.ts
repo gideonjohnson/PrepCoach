@@ -35,7 +35,7 @@ interface CacheEntry {
 }
 
 const CACHE_TTL = 60 * 60 * 1000; // 1 hour
-let cache: CacheEntry | null = null;
+const cache = new Map<string, CacheEntry>();
 
 function normalizeJob(job: RemotiveJob): NormalizedJob {
   return {
@@ -54,17 +54,19 @@ function normalizeJob(job: RemotiveJob): NormalizedJob {
 }
 
 export async function GET(request: NextRequest) {
-  try {
-    const { searchParams } = new URL(request.url);
-    const search = searchParams.get('search') || '';
-    const category = searchParams.get('category') || '';
-    const cacheKey = `${search}:${category}`;
+  const { searchParams } = new URL(request.url);
+  const search = searchParams.get('search') || '';
+  const category = searchParams.get('category') || '';
+  const cacheKey = `${search}:${category}`;
 
-    if (cache && cache.key === cacheKey && Date.now() - cache.timestamp < CACHE_TTL) {
+  try {
+
+    const cached = cache.get(cacheKey);
+    if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
       return NextResponse.json({
-        jobs: cache.data,
+        jobs: cached.data,
         source: 'remotive',
-        total: cache.data.length,
+        total: cached.data.length,
         cached: true,
       });
     }
@@ -72,7 +74,7 @@ export async function GET(request: NextRequest) {
     const params = new URLSearchParams();
     if (search) params.set('search', search);
     if (category && category !== 'all') params.set('category', category);
-    params.set('limit', '50');
+    params.set('limit', '250');
 
     const apiUrl = `https://remotive.com/api/remote-jobs?${params.toString()}`;
     const response = await fetch(apiUrl, {
@@ -87,7 +89,7 @@ export async function GET(request: NextRequest) {
     const data = await response.json();
     const jobs: NormalizedJob[] = (data.jobs || []).map(normalizeJob);
 
-    cache = { data: jobs, timestamp: Date.now(), key: cacheKey };
+    cache.set(cacheKey, { data: jobs, timestamp: Date.now(), key: cacheKey });
 
     return NextResponse.json({
       jobs,
@@ -98,11 +100,12 @@ export async function GET(request: NextRequest) {
   } catch (error) {
     console.error('Jobs API error:', error);
 
-    if (cache) {
+    const stale = cache.get(cacheKey);
+    if (stale) {
       return NextResponse.json({
-        jobs: cache.data,
+        jobs: stale.data,
         source: 'remotive',
-        total: cache.data.length,
+        total: stale.data.length,
         cached: true,
         stale: true,
       });

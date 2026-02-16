@@ -86,6 +86,7 @@ function OpportunitiesContent() {
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState(initialCategory);
   const [debouncedSearch, setDebouncedSearch] = useState('');
+  const [visibleCount, setVisibleCount] = useState(24);
 
   // Debounce search input
   useEffect(() => {
@@ -104,6 +105,7 @@ function OpportunitiesContent() {
       if (!res.ok) throw new Error('Failed to fetch jobs');
       const data = await res.json();
       setJobs(data.jobs || []);
+      setVisibleCount(24);
     } catch {
       setError('Unable to load job listings. Please try again later.');
     } finally {
@@ -216,8 +218,9 @@ function OpportunitiesContent() {
 
         {/* Job Cards Grid */}
         {!loading && !error && jobs.length > 0 && (
+          <>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {jobs.map((job) => (
+            {jobs.slice(0, visibleCount).map((job) => (
               <div
                 key={job.id}
                 className="group bg-white/5 border border-white/10 rounded-2xl p-6 hover:bg-white/[0.08] hover:border-teal-500/30 transition-all duration-300"
@@ -295,6 +298,17 @@ function OpportunitiesContent() {
               </div>
             ))}
           </div>
+          {visibleCount < jobs.length && (
+            <div className="text-center mt-8">
+              <button
+                onClick={() => setVisibleCount((prev) => prev + 24)}
+                className="px-8 py-3 bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-500 hover:to-cyan-500 text-white font-semibold rounded-full transition-all transform hover:scale-105"
+              >
+                Show More ({jobs.length - visibleCount} remaining)
+              </button>
+            </div>
+          )}
+        </>
         )}
 
         {/* Attribution */}
