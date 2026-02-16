@@ -32,7 +32,13 @@
       "Bash(start:*)",
       "Bash(node -e:*)",
       "Bash(npx tsc:*)",
-      "Bash(npx eslint:*)"
+      "Bash(npx eslint:*)",
+      "WebSearch",
+      "WebFetch(domain:rapidapi.com)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:www.openwebninja.com)",
+      "WebFetch(domain:publicapis.io)",
+      "WebFetch(domain:developer.adzuna.com)"
     ],
     "deny": [],
     "ask": []

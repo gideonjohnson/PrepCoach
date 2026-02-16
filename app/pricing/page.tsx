@@ -109,7 +109,7 @@ export default function PricingPage() {
 
         {/* Tab Switcher */}
         <div className="flex justify-center mb-12">
-          <div className="inline-flex bg-gray-900/80 backdrop-blur-xl rounded-xl p-1.5 border border-white/10">
+          <div className="flex flex-col sm:flex-row sm:inline-flex w-full sm:w-auto bg-gray-900/80 backdrop-blur-xl rounded-xl p-1.5 border border-white/10">
             {([
               { key: 'seekers' as Audience, label: 'Job Seekers', icon: '🎯' },
               { key: 'interviewers' as Audience, label: 'Interviewers', icon: '🎤' },
@@ -118,13 +118,13 @@ export default function PricingPage() {
               <button
                 key={key}
                 onClick={() => setActiveTab(key)}
-                className={`px-5 py-3 rounded-lg text-sm sm:text-base font-semibold transition-all ${
+                className={`px-5 py-3.5 sm:py-3 rounded-lg text-base font-semibold transition-all ${
                   activeTab === key
                     ? 'bg-gradient-to-r from-orange-500 to-red-500 text-white shadow-lg'
                     : 'text-gray-400 hover:text-white'
                 }`}
               >
-                <span className="mr-2">{icon}</span>
+                <span className="hidden sm:inline mr-2">{icon}</span>
                 {label}
               </button>
             ))}
@@ -135,13 +135,13 @@ export default function PricingPage() {
         {/* JOB SEEKERS SECTION */}
         {/* ============================== */}
         {activeTab === 'seekers' && (
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto mb-20">
+          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto mb-20 overflow-x-hidden">
             {/* Free Tier */}
             <div className="bg-gray-900/80 backdrop-blur-xl rounded-2xl shadow-lg p-6 sm:p-8 border-2 border-white/10 hover:border-white/20 transition-all duration-300">
               <div className="mb-6">
-                <h3 className="text-2xl font-bold text-white mb-2">{PRICING_TIERS.free.name}</h3>
+                <h3 className="text-xl sm:text-2xl font-bold text-white mb-2">{PRICING_TIERS.free.name}</h3>
                 <div className="flex items-baseline gap-2">
-                  <span className="text-5xl font-bold text-white">$0</span>
+                  <span className="text-4xl sm:text-5xl font-bold text-white">$0</span>
                   <span className="text-gray-500">/forever</span>
                 </div>
               </div>
@@ -173,14 +173,14 @@ export default function PricingPage() {
             </div>
 
             {/* Pro Tier - Most Popular */}
-            <div className="bg-gradient-to-br from-orange-500 to-red-500 rounded-2xl shadow-2xl p-6 sm:p-8 border-2 border-orange-600 md:transform md:scale-105 relative transition-all duration-300 hover:shadow-3xl md:hover:scale-110">
+            <div className="bg-gradient-to-br from-orange-500 to-red-500 rounded-2xl shadow-2xl p-6 sm:p-8 border-2 border-orange-600 md:transform md:scale-105 relative transition-all duration-300 hover:shadow-3xl md:hover:scale-[1.07]">
               <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-yellow-400 text-white px-4 py-1 rounded-full text-sm font-bold shadow-lg">
                 MOST POPULAR
               </div>
               <div className="mb-6">
-                <h3 className="text-2xl font-bold text-white mb-2">{PRICING_TIERS.pro.name}</h3>
+                <h3 className="text-xl sm:text-2xl font-bold text-white mb-2">{PRICING_TIERS.pro.name}</h3>
                 <div className="flex items-baseline gap-2">
-                  <span className="text-5xl font-bold text-white">${PRICING_TIERS.pro.price}</span>
+                  <span className="text-4xl sm:text-5xl font-bold text-white">${PRICING_TIERS.pro.price}</span>
                   <span className="text-orange-100">/{PRICING_TIERS.pro.interval}</span>
                 </div>
               </div>
@@ -198,9 +198,9 @@ export default function PricingPage() {
             {/* Enterprise Tier */}
             <div className="bg-white rounded-2xl shadow-lg p-6 sm:p-8 border-2 border-purple-200 hover:border-purple-400 transition-all duration-300 hover:shadow-xl">
               <div className="mb-6">
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">{PRICING_TIERS.enterprise.name}</h3>
+                <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">{PRICING_TIERS.enterprise.name}</h3>
                 <div className="flex items-baseline gap-2">
-                  <span className="text-5xl font-bold text-gray-900">${PRICING_TIERS.enterprise.price}</span>
+                  <span className="text-4xl sm:text-5xl font-bold text-gray-900">${PRICING_TIERS.enterprise.price}</span>
                   <span className="text-gray-500">/{PRICING_TIERS.enterprise.interval}</span>
                 </div>
               </div>
@@ -227,7 +227,7 @@ export default function PricingPage() {
                 Get listed in our interviewer directory. Set your own session rates &mdash; platform takes 20%. Your listing tier controls visibility and features.
               </p>
             </div>
-            <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto mb-20">
+            <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto mb-20 overflow-x-hidden">
               {(Object.entries(INTERVIEWER_TIERS) as [string, typeof INTERVIEWER_TIERS[keyof typeof INTERVIEWER_TIERS]][]).map(([key, tier]) => {
                 const isPopular = 'popular' in tier && tier.popular;
                 return (
@@ -235,7 +235,7 @@ export default function PricingPage() {
                     key={key}
                     className={`rounded-2xl shadow-lg p-6 sm:p-8 border-2 transition-all duration-300 relative ${
                       isPopular
-                        ? 'bg-gradient-to-br from-orange-500 to-red-500 border-orange-600 md:transform md:scale-105 hover:shadow-3xl md:hover:scale-110'
+                        ? 'bg-gradient-to-br from-orange-500 to-red-500 border-orange-600 md:transform md:scale-105 hover:shadow-3xl md:hover:scale-[1.07]'
                         : 'bg-gray-900/80 backdrop-blur-xl border-white/10 hover:border-white/20'
                     }`}
                   >
@@ -245,9 +245,9 @@ export default function PricingPage() {
                       </div>
                     )}
                     <div className="mb-6">
-                      <h3 className={`text-2xl font-bold mb-2 ${isPopular ? 'text-white' : 'text-white'}`}>{tier.name}</h3>
+                      <h3 className={`text-xl sm:text-2xl font-bold mb-2 ${isPopular ? 'text-white' : 'text-white'}`}>{tier.name}</h3>
                       <div className="flex items-baseline gap-2">
-                        <span className={`text-5xl font-bold ${isPopular ? 'text-white' : 'text-white'}`}>${tier.price}</span>
+                        <span className={`text-4xl sm:text-5xl font-bold ${isPopular ? 'text-white' : 'text-white'}`}>${tier.price}</span>
                         <span className={isPopular ? 'text-orange-100' : 'text-gray-500'}>/{tier.interval}</span>
                       </div>
                     </div>
@@ -281,7 +281,7 @@ export default function PricingPage() {
                 Access our talent pool of interview-ready candidates. Credits let you connect with candidates directly.
               </p>
             </div>
-            <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto mb-20">
+            <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto mb-20 overflow-x-hidden">
               {(Object.entries(RECRUITER_TIERS) as [string, typeof RECRUITER_TIERS[keyof typeof RECRUITER_TIERS]][]).map(([key, tier]) => {
                 const isPopular = 'popular' in tier && tier.popular;
                 return (
@@ -289,7 +289,7 @@ export default function PricingPage() {
                     key={key}
                     className={`rounded-2xl shadow-lg p-6 sm:p-8 border-2 transition-all duration-300 relative ${
                       isPopular
-                        ? 'bg-gradient-to-br from-orange-500 to-red-500 border-orange-600 md:transform md:scale-105 hover:shadow-3xl md:hover:scale-110'
+                        ? 'bg-gradient-to-br from-orange-500 to-red-500 border-orange-600 md:transform md:scale-105 hover:shadow-3xl md:hover:scale-[1.07]'
                         : 'bg-gray-900/80 backdrop-blur-xl border-white/10 hover:border-white/20'
                     }`}
                   >
@@ -299,12 +299,12 @@ export default function PricingPage() {
                       </div>
                     )}
                     <div className="mb-6">
-                      <h3 className={`text-2xl font-bold mb-2 ${isPopular ? 'text-white' : 'text-white'}`}>{tier.name}</h3>
+                      <h3 className={`text-xl sm:text-2xl font-bold mb-2 ${isPopular ? 'text-white' : 'text-white'}`}>{tier.name}</h3>
                       <div className="flex items-baseline gap-2">
-                        <span className={`text-5xl font-bold ${isPopular ? 'text-white' : 'text-white'}`}>${tier.price}</span>
+                        <span className={`text-4xl sm:text-5xl font-bold ${isPopular ? 'text-white' : 'text-white'}`}>${tier.price}</span>
                         <span className={isPopular ? 'text-orange-100' : 'text-gray-500'}>/{tier.interval}</span>
                       </div>
-                      <p className={`text-sm mt-2 ${isPopular ? 'text-orange-100' : 'text-gray-500'}`}>
+                      <p className={`text-xs sm:text-sm mt-2 ${isPopular ? 'text-orange-100' : 'text-gray-500'}`}>
                         {tier.credits} credits/month &bull; Extra credits ${tier.extraCreditPrice}/ea
                       </p>
                     </div>
@@ -341,7 +341,7 @@ export default function PricingPage() {
                 <span className="text-orange-500 text-xl">Q:</span>
                 Can I change plans anytime?
               </h3>
-              <p className="text-gray-600 ml-8">
+              <p className="text-gray-600 ml-6 sm:ml-8">
                 Yes! You can upgrade or downgrade your plan at any time. When you upgrade, you&apos;ll get immediate access to all the features.
                 When you downgrade, changes take effect at the end of your current billing period.
               </p>
@@ -352,7 +352,7 @@ export default function PricingPage() {
                 <span className="text-orange-500 text-xl">Q:</span>
                 What happens when I hit my Free tier limits?
               </h3>
-              <p className="text-gray-600 ml-8">
+              <p className="text-gray-600 ml-6 sm:ml-8">
                 Free tier users get 3 total questions in 1 role. Once you&apos;ve used all 3 questions, you can upgrade to Pro ($19/mo) for unlimited access
                 to all roles, AI feedback, coding practice, and more.
               </p>
@@ -363,7 +363,7 @@ export default function PricingPage() {
                 <span className="text-orange-500 text-xl">Q:</span>
                 How do interviewer listing tiers work?
               </h3>
-              <p className="text-gray-600 ml-8">
+              <p className="text-gray-600 ml-6 sm:ml-8">
                 Your listing tier controls your visibility in our directory and the number of active listings you can have.
                 You still set your own per-session rates for candidates &mdash; the platform takes a 20% commission on sessions.
                 Higher tiers give you featured placement and better search ranking.
@@ -375,7 +375,7 @@ export default function PricingPage() {
                 <span className="text-orange-500 text-xl">Q:</span>
                 What are recruiter credits?
               </h3>
-              <p className="text-gray-600 ml-8">
+              <p className="text-gray-600 ml-6 sm:ml-8">
                 Each credit allows you to connect with one candidate from our talent pool. Credits are included monthly with your subscription.
                 Need more? You can purchase extra credits at your tier&apos;s rate ($10-$20 per credit depending on plan).
               </p>
@@ -386,7 +386,7 @@ export default function PricingPage() {
                 <span className="text-orange-500 text-xl">Q:</span>
                 Can I cancel my subscription anytime?
               </h3>
-              <p className="text-gray-600 ml-8">
+              <p className="text-gray-600 ml-6 sm:ml-8">
                 Absolutely! Cancel anytime from your account settings. You&apos;ll keep access until the end of your billing period.
                 We also offer a 7-day money-back guarantee on all plans.
               </p>
@@ -397,7 +397,7 @@ export default function PricingPage() {
                 <span className="text-orange-500 text-xl">Q:</span>
                 What payment methods do you accept?
               </h3>
-              <p className="text-gray-600 ml-8">
+              <p className="text-gray-600 ml-6 sm:ml-8">
                 We accept all major credit cards (Visa, Mastercard, American Express) through our secure payment processor Stripe.
                 All payments are encrypted and secure.
               </p>
@@ -406,8 +406,8 @@ export default function PricingPage() {
         </div>
 
         {/* CTA Section */}
-        <div className="mt-20 bg-gradient-to-r from-orange-500 to-red-500 rounded-3xl p-12 text-center shadow-2xl">
-          <h2 className="text-3xl font-bold text-white mb-4">
+        <div className="mt-20 bg-gradient-to-r from-orange-500 to-red-500 rounded-3xl p-6 sm:p-8 md:p-12 text-center shadow-2xl">
+          <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">
             Still have questions?
           </h2>
           <p className="text-white/90 text-lg mb-6 max-w-2xl mx-auto">
@@ -460,7 +460,7 @@ export default function PricingPage() {
             </div>
           </div>
           <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-            <p>&copy; 2025 PrepCoach. All rights reserved.</p>
+            <p>&copy; 2026 PrepCoach. All rights reserved.</p>
           </div>
         </div>
       </footer>

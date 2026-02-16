@@ -7,7 +7,7 @@ import Link from 'next/link';
 export default function Home() {
   const { data: session } = useSession();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [activeFeatureTab, setActiveFeatureTab] = useState<'seekers' | 'interviewers' | 'recruiters'>('seekers');
+  const [activeFeatureTab, setActiveFeatureTab] = useState<'seekers' | 'interviewers' | 'recruiters' | 'opportunities'>('seekers');
   const [getStartedOpen, setGetStartedOpen] = useState(false);
 
   return (
@@ -385,6 +385,16 @@ export default function Home() {
                 >
                   Recruiters
                 </button>
+                <button
+                  onClick={() => setActiveFeatureTab('opportunities')}
+                  className={`px-6 py-3 rounded-full font-semibold transition-all ${
+                    activeFeatureTab === 'opportunities'
+                      ? 'bg-gradient-to-r from-teal-500 to-cyan-500 text-white shadow-lg shadow-teal-500/30'
+                      : 'bg-white/10 text-gray-300 hover:bg-white/20'
+                  }`}
+                >
+                  Opportunities
+                </button>
               </div>
             </div>
 
@@ -625,6 +635,87 @@ export default function Home() {
                       </div>
                       <h3 className="text-xl font-bold text-white mb-2">Analytics</h3>
                       <p className="text-white/90 text-sm">Hiring Insights</p>
+                    </div>
+                  </div>
+                </Link>
+              </div>
+            )}
+
+            {/* Opportunities Features */}
+            {activeFeatureTab === 'opportunities' && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6 max-w-7xl mx-auto animate-fadeIn">
+                <Link href="/opportunities">
+                  <div className="group relative bg-gradient-to-br from-teal-500 to-cyan-600 rounded-2xl p-6 shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-2 cursor-pointer"
+                       style={{ transformStyle: 'preserve-3d', boxShadow: '0 20px 60px rgba(20, 184, 166, 0.4), 0 10px 20px rgba(0, 0, 0, 0.15)' }}>
+                    <div className="absolute inset-0 bg-gradient-to-br from-teal-400 to-cyan-500 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity blur-xl"></div>
+                    <div className="relative z-10 flex flex-col items-center text-center">
+                      <div className="w-16 h-16 bg-white/20 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform backdrop-blur-sm">
+                        <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                      </div>
+                      <h3 className="text-xl font-bold text-white mb-2">Browse Jobs</h3>
+                      <p className="text-white/90 text-sm">Search Openings</p>
+                    </div>
+                  </div>
+                </Link>
+                <Link href="/opportunities?category=software-dev">
+                  <div className="group relative bg-gradient-to-br from-cyan-500 to-blue-600 rounded-2xl p-6 shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-2 cursor-pointer"
+                       style={{ transformStyle: 'preserve-3d', boxShadow: '0 20px 60px rgba(6, 182, 212, 0.4), 0 10px 20px rgba(0, 0, 0, 0.15)' }}>
+                    <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity blur-xl"></div>
+                    <div className="relative z-10 flex flex-col items-center text-center">
+                      <div className="w-16 h-16 bg-white/20 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform backdrop-blur-sm">
+                        <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                      </div>
+                      <h3 className="text-xl font-bold text-white mb-2">Remote Roles</h3>
+                      <p className="text-white/90 text-sm">Work Anywhere</p>
+                    </div>
+                  </div>
+                </Link>
+                <Link href="/opportunities">
+                  <div className="group relative bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl p-6 shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-2 cursor-pointer"
+                       style={{ transformStyle: 'preserve-3d', boxShadow: '0 20px 60px rgba(59, 130, 246, 0.4), 0 10px 20px rgba(0, 0, 0, 0.15)' }}>
+                    <div className="absolute inset-0 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity blur-xl"></div>
+                    <div className="relative z-10 flex flex-col items-center text-center">
+                      <div className="w-16 h-16 bg-white/20 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform backdrop-blur-sm">
+                        <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                        </svg>
+                      </div>
+                      <h3 className="text-xl font-bold text-white mb-2">Company Research</h3>
+                      <p className="text-white/90 text-sm">Know Your Target</p>
+                    </div>
+                  </div>
+                </Link>
+                <Link href="/resume-builder">
+                  <div className="group relative bg-gradient-to-br from-purple-500 to-violet-600 rounded-2xl p-6 shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-2 cursor-pointer"
+                       style={{ transformStyle: 'preserve-3d', boxShadow: '0 20px 60px rgba(168, 85, 247, 0.4), 0 10px 20px rgba(0, 0, 0, 0.15)' }}>
+                    <div className="absolute inset-0 bg-gradient-to-br from-purple-400 to-violet-500 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity blur-xl"></div>
+                    <div className="relative z-10 flex flex-col items-center text-center">
+                      <div className="w-16 h-16 bg-white/20 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform backdrop-blur-sm">
+                        <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                      </div>
+                      <h3 className="text-xl font-bold text-white mb-2">Resume Tailor</h3>
+                      <p className="text-white/90 text-sm">ATS-Optimized</p>
+                    </div>
+                  </div>
+                </Link>
+                <Link href="/salary">
+                  <div className="group relative bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl p-6 shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-2 cursor-pointer"
+                       style={{ transformStyle: 'preserve-3d', boxShadow: '0 20px 60px rgba(34, 197, 94, 0.4), 0 10px 20px rgba(0, 0, 0, 0.15)' }}>
+                    <div className="absolute inset-0 bg-gradient-to-br from-green-400 to-emerald-500 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity blur-xl"></div>
+                    <div className="relative z-10 flex flex-col items-center text-center">
+                      <div className="w-16 h-16 bg-white/20 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform backdrop-blur-sm">
+                        <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                      </div>
+                      <h3 className="text-xl font-bold text-white mb-2">Salary Intel</h3>
+                      <p className="text-white/90 text-sm">Know Your Worth</p>
                     </div>
                   </div>
                 </Link>

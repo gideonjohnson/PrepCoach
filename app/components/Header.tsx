@@ -70,6 +70,7 @@ export default function Header() {
     { name: 'LinkedIn Optimizer', href: '/linkedin', icon: '💼', description: '3x profile visibility' },
     { name: 'Career Roadmap', href: '/roadmap', icon: '🗺️', description: 'Skills & timeline' },
     { name: 'Salary Negotiation', href: '/salary', icon: '💰', description: '$15K+ average increase' },
+    { name: 'Job Opportunities', href: '/opportunities', icon: '🚀', description: 'Live remote job listings' },
   ];
 
   const resourceItems = [
