@@ -7,11 +7,20 @@ import { getClientIP } from '@/lib/api-middleware';
 /**
  * POST /api/admin/grant-root
  *
- * Grants root admin access with lifetime subscription to a user
- *
- * SECURITY: Requires ADMIN_SETUP_SECRET env var to be set.
+ * DISABLED — This endpoint is disabled in production for security.
+ * The previous ADMIN_SETUP_SECRET was exposed in git history.
+ * To re-enable: rotate the secret, set ADMIN_GRANT_ROOT_ENABLED=true
+ * in environment variables, and redeploy.
  */
 export async function POST(request: NextRequest) {
+  // Hard-disabled: require explicit opt-in via env var
+  if (process.env.ADMIN_GRANT_ROOT_ENABLED !== 'true') {
+    return NextResponse.json(
+      { error: 'This endpoint is disabled' },
+      { status: 403 }
+    );
+  }
+
   try {
     // Rate limit to prevent brute force
     const identifier = getClientIP(request);
@@ -26,7 +35,7 @@ export async function POST(request: NextRequest) {
 
     const SETUP_SECRET = process.env.ADMIN_SETUP_SECRET;
 
-    if (!SETUP_SECRET) {
+    if (!SETUP_SECRET || SETUP_SECRET.length < 32) {
       return NextResponse.json(
         { error: 'Admin setup is not configured' },
         { status: 503 }
@@ -35,9 +44,13 @@ export async function POST(request: NextRequest) {
 
     const { email, secretKey } = await request.json();
 
-    if (secretKey !== SETUP_SECRET) {
+    // Use timing-safe comparison to prevent timing attacks
+    const { timingSafeEqual } = await import('crypto');
+    const a = Buffer.from(secretKey || '');
+    const b = Buffer.from(SETUP_SECRET);
+    if (a.length !== b.length || !timingSafeEqual(a, b)) {
       return NextResponse.json(
-        { error: 'Unauthorized - Invalid secret key' },
+        { error: 'Unauthorized' },
         { status: 403 }
       );
     }
@@ -49,7 +62,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Check if user exists
     const existingUser = await prisma.user.findUnique({
       where: { email },
     });
@@ -64,16 +76,15 @@ export async function POST(request: NextRequest) {
           subscriptionTier: 'lifetime',
           subscriptionStatus: 'active',
           subscriptionStart: new Date(),
-          subscriptionEnd: null, // Lifetime = no end date
+          subscriptionEnd: null,
           emailVerified: existingUser.emailVerified || new Date(),
-          interviewsThisMonth: 999999, // Unlimited
-          feedbackThisMonth: 999999, // Unlimited
+          interviewsThisMonth: 999999,
+          feedbackThisMonth: 999999,
         },
       });
-
     } else {
-      // Generate a random secure password (they'll use Google OAuth anyway)
-      const randomPassword = Math.random().toString(36).slice(-16) + Math.random().toString(36).slice(-16);
+      const { randomBytes } = await import('crypto');
+      const randomPassword = randomBytes(32).toString('hex');
       const hashedPassword = await bcrypt.hash(randomPassword, 12);
 
       user = await prisma.user.create({
@@ -86,12 +97,11 @@ export async function POST(request: NextRequest) {
           subscriptionTier: 'lifetime',
           subscriptionStatus: 'active',
           subscriptionStart: new Date(),
-          subscriptionEnd: null, // Lifetime = no end date
-          interviewsThisMonth: 999999, // Unlimited
-          feedbackThisMonth: 999999, // Unlimited
+          subscriptionEnd: null,
+          interviewsThisMonth: 999999,
+          feedbackThisMonth: 999999,
         },
       });
-
     }
 
     return NextResponse.json({
@@ -100,18 +110,13 @@ export async function POST(request: NextRequest) {
       user: {
         id: user.id,
         email: user.email,
-        name: user.name,
         isAdmin: user.isAdmin,
-        subscriptionTier: user.subscriptionTier,
-        subscriptionStatus: user.subscriptionStatus,
-        emailVerified: !!user.emailVerified,
       },
     });
-
   } catch (error) {
     console.error('Error granting root access:', error);
     return NextResponse.json(
-      { error: 'Failed to grant root access' },
+      { error: 'Internal error' },
       { status: 500 }
     );
   }

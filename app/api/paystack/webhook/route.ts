@@ -3,6 +3,22 @@ import { headers } from 'next/headers';
 import { verifyWebhookSignature, getSubscriptionTier } from '@/lib/paystack';
 import { prisma } from '@/lib/prisma';
 
+// Simple in-memory idempotency cache
+const processedEvents = new Map<string, number>();
+const IDEMPOTENCY_TTL = 24 * 60 * 60 * 1000;
+
+function isAlreadyProcessed(eventId: string): boolean {
+  const ts = processedEvents.get(eventId);
+  if (ts && Date.now() - ts < IDEMPOTENCY_TTL) return true;
+  if (processedEvents.size > 10000) {
+    const cutoff = Date.now() - IDEMPOTENCY_TTL;
+    for (const [k, v] of processedEvents) {
+      if (v < cutoff) processedEvents.delete(k);
+    }
+  }
+  return false;
+}
+
 interface PaystackMetadata {
   userId?: string;
   tier?: string;
@@ -48,6 +64,13 @@ export async function POST(req: NextRequest) {
   try {
     const event = JSON.parse(body);
 
+    // Idempotency check — skip duplicate webhook deliveries
+    const eventId = event.data?.id ? `${event.event}-${event.data.id}` : `${event.event}-${Date.now()}`;
+    if (isAlreadyProcessed(eventId)) {
+      return NextResponse.json({ received: true, deduplicated: true });
+    }
+    processedEvents.set(eventId, Date.now());
+
     switch (event.event) {
       case 'charge.success': {
         await handleChargeSuccess(event.data);
@@ -81,8 +104,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ received: true });
   } catch (error) {
     console.error('Paystack webhook handler error:', error);
-    const message = error instanceof Error ? error.message : 'Unknown error';
-    return NextResponse.json({ error: message }, { status: 500 });
+    return NextResponse.json({ error: 'Webhook handler failed' }, { status: 500 });
   }
 }
 

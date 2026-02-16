@@ -45,28 +45,22 @@ export async function POST(req: NextRequest) {
       include: { user: true },
     });
 
-    if (!resetToken) {
-      return NextResponse.json(
-        { error: 'Invalid or expired reset token' },
-        { status: 400 }
-      );
-    }
-
-    // Check if token has expired
-    if (new Date() > resetToken.expiresAt) {
-      // Delete expired token
-      await prisma.passwordResetToken.delete({
-        where: { id: resetToken.id },
-      });
+    if (!resetToken || new Date() > resetToken.expiresAt) {
+      // Delete expired token if it exists
+      if (resetToken) {
+        await prisma.passwordResetToken.delete({
+          where: { id: resetToken.id },
+        });
+      }
 
       return NextResponse.json(
-        { error: 'Reset token has expired. Please request a new one.' },
+        { error: 'Invalid or expired reset token. Please request a new one.' },
         { status: 400 }
       );
     }
 
     // Hash new password
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(password, 12);
 
     // Update user's password
     await prisma.user.update({

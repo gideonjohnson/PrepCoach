@@ -4,6 +4,23 @@ import { stripe } from '@/lib/stripe';
 import prisma from '@/lib/prisma';
 import Stripe from 'stripe';
 
+// Simple in-memory idempotency cache (event IDs processed in last 24h)
+const processedEvents = new Map<string, number>();
+const IDEMPOTENCY_TTL = 24 * 60 * 60 * 1000;
+
+function isAlreadyProcessed(eventId: string): boolean {
+  const ts = processedEvents.get(eventId);
+  if (ts && Date.now() - ts < IDEMPOTENCY_TTL) return true;
+  // Clean old entries periodically
+  if (processedEvents.size > 10000) {
+    const cutoff = Date.now() - IDEMPOTENCY_TTL;
+    for (const [k, v] of processedEvents) {
+      if (v < cutoff) processedEvents.delete(k);
+    }
+  }
+  return false;
+}
+
 export async function POST(req: NextRequest) {
   try {
     const body = await req.text();
@@ -38,6 +55,12 @@ export async function POST(req: NextRequest) {
         { status: 400 }
       );
     }
+
+    // Idempotency check — skip if already processed
+    if (isAlreadyProcessed(event.id)) {
+      return NextResponse.json({ received: true, deduplicated: true });
+    }
+    processedEvents.set(event.id, Date.now());
 
     // Handle the event
     switch (event.type) {

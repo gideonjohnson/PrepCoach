@@ -5,6 +5,15 @@ import { useParams } from 'next/navigation';
 import Header from '../../components/Header';
 import Breadcrumbs from '../../components/Breadcrumbs';
 
+// Simple HTML sanitizer — strips script tags and event handlers
+function sanitizeHtml(html: string): string {
+  return html
+    .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+    .replace(/\son\w+\s*=\s*["'][^"']*["']/gi, '')
+    .replace(/\son\w+\s*=\s*[^\s>]*/gi, '')
+    .replace(/javascript\s*:/gi, 'blocked:');
+}
+
 // Blog post content database
 const blogPostsData: Record<string, BlogPost> = {
   'faang-interview-preparation-guide-2025': {
@@ -2421,7 +2430,7 @@ export default function BlogPostPage() {
             prose-table:my-8 prose-th:bg-gray-100 prose-th:p-3 prose-td:p-3 prose-td:border-t
           "
           dangerouslySetInnerHTML={{
-            __html: post.content
+            __html: sanitizeHtml(post.content
               .replace(/\n/g, '<br>')
               .replace(/##\s(.+?)(<br>|$)/g, '<h2>$1</h2>')
               .replace(/###\s(.+?)(<br>|$)/g, '<h3>$1</h3>')
@@ -2432,7 +2441,7 @@ export default function BlogPostPage() {
               .replace(/<br><br>/g, '</p><p>')
               .replace(/^(?!<h|<ul|<li|<p|<\/)/gm, '<p>')
               .replace(/(<p><\/p>)/g, '')
-              .replace(/---/g, '<hr class="my-12 border-gray-200">')
+              .replace(/---/g, '<hr class="my-12 border-gray-200">'))
           }}
         />
 

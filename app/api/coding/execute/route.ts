@@ -9,8 +9,13 @@ import { join } from 'path';
 import { tmpdir } from 'os';
 import { randomUUID } from 'crypto';
 
+// Limit request body to 1MB
+export const config = {
+  api: { bodyParser: { sizeLimit: '1mb' } },
+};
+
 const executeSchema = z.object({
-  code: z.string().min(1),
+  code: z.string().min(1).max(50000), // 50KB max code
   language: z.enum(['javascript', 'typescript', 'python']),
   problemId: z.string().optional(),
   sessionId: z.string().optional(),
