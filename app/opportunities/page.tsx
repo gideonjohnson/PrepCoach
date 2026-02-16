@@ -317,8 +317,9 @@ function OpportunitiesContent() {
           <p className="text-gray-500 text-sm">
             Jobs provided by{' '}
             <a href="https://remotive.com" target="_blank" rel="noopener noreferrer" className="text-teal-400 hover:text-teal-300 underline transition">Remotive</a>,{' '}
-            <a href="https://www.arbeitnow.com" target="_blank" rel="noopener noreferrer" className="text-teal-400 hover:text-teal-300 underline transition">Arbeitnow</a>, &{' '}
-            <a href="https://jobicy.com" target="_blank" rel="noopener noreferrer" className="text-teal-400 hover:text-teal-300 underline transition">Jobicy</a>
+            <a href="https://www.arbeitnow.com" target="_blank" rel="noopener noreferrer" className="text-teal-400 hover:text-teal-300 underline transition">Arbeitnow</a>,{' '}
+            <a href="https://jobicy.com" target="_blank" rel="noopener noreferrer" className="text-teal-400 hover:text-teal-300 underline transition">Jobicy</a>, &{' '}
+            <a href="https://joinrise.co" target="_blank" rel="noopener noreferrer" className="text-teal-400 hover:text-teal-300 underline transition">Rise</a>
           </p>
         </div>
       </main>

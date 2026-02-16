@@ -48,6 +48,29 @@ interface JobicyJob {
   salaryPeriod: string;
 }
 
+interface JoinRiseJob {
+  _id: string;
+  title: string;
+  url: string;
+  type: string;
+  locationAddress: string;
+  department: string;
+  seniority: string;
+  createdAt: string;
+  owner: {
+    companyName: string;
+    photo: string;
+    sector: string | null;
+  };
+  descriptionBreakdown?: {
+    oneSentenceJobSummary?: string;
+    salaryRangeMinYearly?: number;
+    salaryRangeMaxYearly?: number;
+    employmentType?: string;
+    workModel?: string;
+  };
+}
+
 // ---- Normalized output ----
 
 interface NormalizedJob {
@@ -135,6 +158,29 @@ function normalizeJobicy(job: JobicyJob): NormalizedJob {
   };
 }
 
+function normalizeJoinRise(job: JoinRiseJob): NormalizedJob {
+  let salary = '';
+  const bd = job.descriptionBreakdown;
+  if (bd?.salaryRangeMinYearly && bd?.salaryRangeMaxYearly) {
+    salary = `$${bd.salaryRangeMinYearly.toLocaleString()}-$${bd.salaryRangeMaxYearly.toLocaleString()}/yr`;
+  }
+
+  return {
+    id: `rise-${job._id}`,
+    title: job.title,
+    company: job.owner?.companyName || '',
+    companyLogo: job.owner?.photo || '',
+    location: job.locationAddress || 'Remote',
+    salary,
+    url: job.url,
+    description: bd?.oneSentenceJobSummary || '',
+    category: job.department || '',
+    type: bd?.employmentType || job.type || '',
+    date: job.createdAt || '',
+    source: 'joinrise',
+  };
+}
+
 // ---- Fetchers ----
 
 async function fetchRemotive(search: string, category: string): Promise<NormalizedJob[]> {
@@ -155,8 +201,8 @@ async function fetchRemotive(search: string, category: string): Promise<Normaliz
 async function fetchArbeitnow(): Promise<NormalizedJob[]> {
   const jobs: NormalizedJob[] = [];
 
-  // Fetch first 2 pages (200 jobs max)
-  for (let page = 1; page <= 2; page++) {
+  // Fetch up to 13 pages (~1,300 jobs)
+  for (let page = 1; page <= 13; page++) {
     const res = await fetch(`https://www.arbeitnow.com/api/job-board-api?page=${page}`, {
       headers: { 'Accept': 'application/json' },
       next: { revalidate: 3600 },
@@ -164,6 +210,7 @@ async function fetchArbeitnow(): Promise<NormalizedJob[]> {
     if (!res.ok) break;
     const data = await res.json();
     const pageJobs = (data.data || []).map(normalizeArbeitnow);
+    if (pageJobs.length === 0) break;
     jobs.push(...pageJobs);
     if (!data.links?.next) break;
   }
@@ -173,7 +220,7 @@ async function fetchArbeitnow(): Promise<NormalizedJob[]> {
 
 async function fetchJobicy(search: string): Promise<NormalizedJob[]> {
   const params = new URLSearchParams();
-  params.set('count', '50');
+  params.set('count', '100');
   if (search) params.set('tag', search);
 
   const res = await fetch(`https://jobicy.com/api/v2/remote-jobs?${params.toString()}`, {
@@ -183,6 +230,35 @@ async function fetchJobicy(search: string): Promise<NormalizedJob[]> {
   if (!res.ok) throw new Error(`Jobicy API returned ${res.status}`);
   const data = await res.json();
   return (data.jobs || []).map(normalizeJobicy);
+}
+
+async function fetchJoinRise(): Promise<NormalizedJob[]> {
+  const jobs: NormalizedJob[] = [];
+
+  // Fetch 20 pages in batches of 5 for speed (2,000 jobs)
+  for (let batch = 0; batch < 4; batch++) {
+    const pages = Array.from({ length: 5 }, (_, i) => batch * 5 + i + 1);
+    const results = await Promise.allSettled(
+      pages.map((page) =>
+        fetch(`https://api.joinrise.io/api/v1/jobs/public?page=${page}&limit=100&sort=desc&sortedBy=createdAt`, {
+          headers: { 'Accept': 'application/json' },
+          next: { revalidate: 3600 },
+        }).then((res) => {
+          if (!res.ok) throw new Error(`JoinRise page ${page} returned ${res.status}`);
+          return res.json();
+        })
+      )
+    );
+
+    for (const result of results) {
+      if (result.status === 'fulfilled') {
+        const pageJobs = (result.value.result?.jobs || []).map(normalizeJoinRise);
+        jobs.push(...pageJobs);
+      }
+    }
+  }
+
+  return jobs;
 }
 
 // ---- Deduplication ----
@@ -215,18 +291,19 @@ export async function GET(request: NextRequest) {
       });
     }
 
-    // Fetch all 3 sources in parallel — each one failing won't break the others
+    // Fetch all 4 sources in parallel — each one failing won't break the others
     const results = await Promise.allSettled([
       fetchRemotive(search, category),
       fetchArbeitnow(),
       fetchJobicy(search),
+      fetchJoinRise(),
     ]);
 
     const allJobs: NormalizedJob[] = [];
     const sources: string[] = [];
 
     results.forEach((result, i) => {
-      const name = ['remotive', 'arbeitnow', 'jobicy'][i];
+      const name = ['remotive', 'arbeitnow', 'jobicy', 'joinrise'][i];
       if (result.status === 'fulfilled') {
         allJobs.push(...result.value);
         sources.push(name);
