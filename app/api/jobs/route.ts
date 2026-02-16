@@ -235,9 +235,9 @@ async function fetchJobicy(search: string): Promise<NormalizedJob[]> {
 async function fetchJoinRise(): Promise<NormalizedJob[]> {
   const jobs: NormalizedJob[] = [];
 
-  // Fetch 20 pages in batches of 5 for speed (2,000 jobs)
-  for (let batch = 0; batch < 4; batch++) {
-    const pages = Array.from({ length: 5 }, (_, i) => batch * 5 + i + 1);
+  // Fetch all 100 pages (10,000 jobs) in batches of 10 for speed
+  for (let batch = 0; batch < 10; batch++) {
+    const pages = Array.from({ length: 10 }, (_, i) => batch * 10 + i + 1);
     const results = await Promise.allSettled(
       pages.map((page) =>
         fetch(`https://api.joinrise.io/api/v1/jobs/public?page=${page}&limit=100&sort=desc&sortedBy=createdAt`, {
@@ -250,12 +250,16 @@ async function fetchJoinRise(): Promise<NormalizedJob[]> {
       )
     );
 
+    let emptyPages = 0;
     for (const result of results) {
       if (result.status === 'fulfilled') {
         const pageJobs = (result.value.result?.jobs || []).map(normalizeJoinRise);
+        if (pageJobs.length === 0) emptyPages++;
         jobs.push(...pageJobs);
       }
     }
+    // Stop if most pages in this batch were empty
+    if (emptyPages >= 8) break;
   }
 
   return jobs;
