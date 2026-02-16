@@ -261,7 +261,7 @@ export default function Home() {
           </div>
 
           {/* Role Selection Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto mb-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 max-w-6xl mx-auto mb-12">
             {/* Job Seeker Card */}
             <Link href="/auth/signup?role=candidate">
               <div className="group relative bg-gradient-to-br from-orange-500 to-red-600 rounded-2xl p-8 shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-2 cursor-pointer h-full"
@@ -343,6 +343,35 @@ export default function Home() {
                   <div className="mt-auto">
                     <span className="inline-flex items-center gap-2 px-6 py-3 bg-white/20 hover:bg-white/30 rounded-full text-white font-semibold transition-all backdrop-blur-sm">
                       Get Access
+                      <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </Link>
+            {/* Opportunities Card */}
+            <Link href="/opportunities">
+              <div className="group relative bg-gradient-to-br from-teal-500 to-cyan-600 rounded-2xl p-8 shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-2 cursor-pointer h-full"
+                   style={{
+                     transformStyle: 'preserve-3d',
+                     boxShadow: '0 20px 60px rgba(20, 184, 166, 0.4), 0 10px 20px rgba(0, 0, 0, 0.15)'
+                   }}>
+                <div className="absolute inset-0 bg-gradient-to-br from-teal-400 to-cyan-500 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity blur-xl"></div>
+                <div className="relative z-10 flex flex-col items-center text-center">
+                  <div className="w-20 h-20 bg-white/20 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform backdrop-blur-sm">
+                    <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                    </svg>
+                  </div>
+                  <h3 className="text-2xl font-bold text-white mb-3">Opportunities</h3>
+                  <p className="text-white/90 text-base mb-6 leading-relaxed">
+                    Browse live remote job listings and apply directly to top companies
+                  </p>
+                  <div className="mt-auto">
+                    <span className="inline-flex items-center gap-2 px-6 py-3 bg-white/20 hover:bg-white/30 rounded-full text-white font-semibold transition-all backdrop-blur-sm">
+                      Browse Jobs
                       <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                       </svg>
