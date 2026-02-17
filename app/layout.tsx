@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     default: "PrepCoach - AI-Powered Interview Practice | Land Your Dream Job",
     template: "%s | PrepCoach",
   },
-  description: "Practice interviews with AI, get instant feedback, and land your dream job. 45+ real interview questions, FAANG prep, salary negotiation tools. 95% success rate.",
+  description: "AI-powered interview prep, 10,000+ live job listings, salary negotiation tools, and career coaching. Practice with 45+ real questions for 500+ roles. Browse remote jobs free. 95% success rate.",
   keywords: [
     "interview practice",
     "AI interview prep",
@@ -37,6 +37,17 @@ export const metadata: Metadata = {
     "Google interview",
     "Amazon interview",
     "Meta interview",
+    "remote jobs",
+    "job listings",
+    "job opportunities",
+    "remote work",
+    "tech jobs",
+    "job board",
+    "find remote jobs",
+    "job search platform",
+    "hiring platform",
+    "recruiter tools",
+    "interviewer marketplace",
   ],
   authors: [{ name: "PrepCoach Team" }],
   creator: "PrepCoach",
@@ -55,7 +66,7 @@ export const metadata: Metadata = {
   manifest: '/manifest.json',
   openGraph: {
     title: "PrepCoach - AI-Powered Interview Practice | Land Your Dream Job",
-    description: "Practice interviews with AI, get instant feedback, and land your dream job. 45+ real interview questions for 500+ roles. 95% success rate.",
+    description: "AI interview practice, 10,000+ live remote job listings, salary negotiation, and career tools. 45+ real questions for 500+ roles. Free to start. 95% success rate.",
     url: "https://aiprep.work",
     siteName: "PrepCoach",
     images: [
@@ -72,7 +83,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "PrepCoach - AI-Powered Interview Practice",
-    description: "Practice interviews with AI, get instant feedback, and land your dream job. 95% success rate.",
+    description: "AI interview practice, 10,000+ remote job listings, salary negotiation tools, and FAANG prep. Free to start. 95% success rate.",
     images: ['/icon.png'],
     creator: "@prepcoach",
   },
@@ -108,8 +119,12 @@ const jsonLd = {
         '@type': 'ImageObject',
         url: 'https://aiprep.work/icon.png',
       },
-      sameAs: [],
-      description: 'AI-powered interview practice platform helping candidates land their dream jobs at top companies.',
+      sameAs: [
+        'https://x.com/prep_coach',
+        'https://www.linkedin.com/in/enggidpro/',
+        'https://github.com/gideonjohnson/PrepCoach',
+      ],
+      description: 'AI-powered career platform connecting job seekers, interviewers, and recruiters. Featuring interview practice, 10,000+ live remote job listings, salary negotiation tools, and career coaching.',
     },
     {
       '@type': 'WebSite',
@@ -126,10 +141,57 @@ const jsonLd = {
       },
     },
     {
+      '@type': 'FAQPage',
+      '@id': 'https://aiprep.work/#faq',
+      mainEntity: [
+        {
+          '@type': 'Question',
+          name: 'How does PrepCoach work?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'PrepCoach uses AI to simulate real interviews with 45+ questions tailored to 500+ professional roles. You practice answering, receive instant AI feedback on your responses, and track your improvement over time with detailed analytics.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'Is PrepCoach free to use?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Yes! PrepCoach offers a free tier that includes access to interview practice questions, 10,000+ live job listings, and basic career tools. Premium plans unlock advanced features like unlimited AI feedback, salary negotiation tools, and LinkedIn optimization.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'How many job listings does PrepCoach have?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'PrepCoach aggregates 10,000+ live remote job listings from 4 different APIs, covering 14 categories including software development, data science, design, marketing, and more. New jobs are added daily.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'Can PrepCoach help me prepare for FAANG interviews?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Absolutely. PrepCoach includes dedicated FAANG interview preparation with company-specific questions for Google, Amazon, Meta, Apple, Netflix, and Microsoft. Our users have an 89% FAANG interview success rate.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'Who is PrepCoach for?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'PrepCoach serves four audiences: Job Seekers practicing interviews and browsing opportunities, Expert Interviewers earning $50-500/hr conducting mock sessions, Recruiters finding pre-vetted talent, and Job Hunters browsing 10,000+ live remote job listings across 14 categories.',
+          },
+        },
+      ],
+    },
+    {
       '@type': 'SoftwareApplication',
       name: 'PrepCoach',
       applicationCategory: 'BusinessApplication',
       operatingSystem: 'Web',
+      description: 'AI-powered career platform featuring interview practice with 45+ real questions, 10,000+ live remote job listings, salary negotiation tools, LinkedIn profile optimization, and career roadmap planning.',
       offers: {
         '@type': 'Offer',
         price: '0',

@@ -252,9 +252,12 @@ export default function Home() {
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-black text-white mb-4 leading-tight" style={{textShadow: '0 0 80px rgba(255,255,255,0.3)'}}>
               The Complete{" "}
               <span className="bg-gradient-to-r from-orange-400 via-red-500 to-pink-500 bg-clip-text text-transparent">
-                Interview Platform
+                Career Platform
               </span>
             </h1>
+            <p className="text-lg sm:text-xl text-gray-300 mb-2">
+              AI interviews, 10,000+ job listings, salary tools — all in one place
+            </p>
             <p className="text-xl sm:text-2xl text-gray-300 mb-8">
               I am a...
             </p>
@@ -367,7 +370,7 @@ export default function Home() {
                   </div>
                   <h3 className="text-2xl font-bold text-white mb-3">Opportunities</h3>
                   <p className="text-white/90 text-base mb-6 leading-relaxed">
-                    Browse live remote job listings and apply directly to top companies
+                    Browse 10,000+ live remote jobs across 14 categories. Search, filter, and apply directly — always free
                   </p>
                   <div className="mt-auto">
                     <span className="inline-flex items-center gap-2 px-6 py-3 bg-white/20 hover:bg-white/30 rounded-full text-white font-semibold transition-all backdrop-blur-sm">
@@ -384,7 +387,7 @@ export default function Home() {
 
           {/* Social Proof */}
           <p className="text-center text-gray-400 font-medium mb-8">
-            Join 500,000+ professionals on PrepCoach
+            Join 500,000+ professionals — 10,000+ jobs added weekly
           </p>
 
           {/* Features Section with Role Tabs */}
@@ -768,7 +771,7 @@ export default function Home() {
           </div>
 
             {/* Stats Section */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 max-w-4xl mx-auto mt-8 mb-8">
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-6 sm:gap-8 max-w-5xl mx-auto mt-8 mb-8">
               <div className="text-center p-4 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10">
                 <div className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text text-transparent mb-2">500+</div>
                 <div className="text-gray-400 text-xs sm:text-sm">Professional Roles</div>
@@ -784,6 +787,10 @@ export default function Home() {
               <div className="text-center p-4 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10">
                 <div className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text text-transparent mb-2">24/7</div>
                 <div className="text-gray-400 text-xs sm:text-sm">AI Availability</div>
+              </div>
+              <div className="text-center p-4 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10">
+                <div className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-teal-400 to-cyan-500 bg-clip-text text-transparent mb-2">10K+</div>
+                <div className="text-gray-400 text-xs sm:text-sm">Live Job Listings</div>
               </div>
             </div>
 
@@ -810,7 +817,7 @@ export default function Home() {
               Nail the Interview. <span className="bg-gradient-to-r from-green-400 to-emerald-500 bg-clip-text text-transparent">Maximize the Offer.</span>
             </h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              Don&apos;t just get the job — get the job with the salary you deserve
+              From discovering 10,000+ opportunities to negotiating your best offer — we cover every step
             </p>
           </div>
 
@@ -1085,7 +1092,13 @@ export default function Home() {
                 <svg className="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
-                500K+ Happy Users
+                10,000+ Live Job Listings
+              </span>
+              <span className="flex items-center gap-2">
+                <svg className="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+                Enterprise-Grade Security
               </span>
             </div>
           </div>
@@ -1541,7 +1554,7 @@ export default function Home() {
               <div className="absolute inset-0 bg-gradient-to-r from-orange-500/80 to-purple-500/80 flex items-center justify-center">
                 <div className="text-center text-white px-6">
                   <p className="text-3xl md:text-4xl font-bold mb-4">&quot;I landed my dream job!&quot;</p>
-                  <p className="text-lg md:text-xl opacity-90">Join 500,000+ candidates who transformed their careers with PrepCoach</p>
+                  <p className="text-lg md:text-xl opacity-90">Join 500,000+ professionals — 10,000+ jobs added weekly</p>
                 </div>
               </div>
             </div>
@@ -1634,10 +1647,10 @@ export default function Home() {
             Your Dream Job Is Waiting
           </h2>
           <p className="text-xl sm:text-2xl text-white/95 mb-4 max-w-3xl mx-auto">
-            Join 500,000+ people who stopped winging it and started winning it
+            Join 500,000+ professionals — 10,000+ jobs added weekly
           </p>
           <p className="text-lg text-white/90 mb-10 max-w-2xl mx-auto">
-            Get instant access to real interview questions, AI feedback, and everything you need to nail your next interview
+            Real interview questions, AI feedback, 10,000+ live job listings, and salary negotiation tools — everything you need to land and maximize your next offer
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link href="/auth/signup">
@@ -1678,8 +1691,7 @@ export default function Home() {
                 </span>
               </Link>
               <p className="text-gray-400 mt-4 leading-relaxed">
-                The ultimate AI-powered interview preparation platform. Master your interviews with 45+ role-specific questions tailored to current interview standards,
-                real-time feedback, and advanced analytics.
+                The complete AI-powered career platform. Practice interviews with 45+ role-specific questions, browse 10,000+ live remote job listings, negotiate better salaries, and optimize your LinkedIn profile — all backed by enterprise-grade security.
               </p>
               <div className="flex gap-4 mt-6">
                 <a href="https://x.com/prep_coach" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-orange-500 transition">
@@ -1700,6 +1712,7 @@ export default function Home() {
                 <li><a href="#features" className="hover:text-orange-500 transition">Features</a></li>
                 <li><Link href="/pricing" className="hover:text-orange-500 transition">Pricing</Link></li>
                 <li><Link href="/resume-builder" className="hover:text-orange-500 transition">Resume Builder</Link></li>
+                <li><Link href="/opportunities" className="hover:text-orange-500 transition">Job Listings</Link></li>
                 <li><Link href="/dashboard" className="hover:text-orange-500 transition">Dashboard</Link></li>
               </ul>
             </div>
@@ -1727,7 +1740,7 @@ export default function Home() {
           <div className="border-t border-gray-800 pt-8">
             <div className="flex flex-col md:flex-row justify-between items-center gap-4">
               <p className="text-gray-400 text-sm">
-                &copy; 2025 PrepCoach<sup className="text-xs">GJ</sup>. All rights reserved.
+                &copy; 2025-2026 PrepCoach<sup className="text-xs">GJ</sup>. All rights reserved.
               </p>
               <div className="flex gap-6 text-sm text-gray-400">
                 <Link href="/privacy" className="hover:text-orange-500 transition">Privacy Policy</Link>
